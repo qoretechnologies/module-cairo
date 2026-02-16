@@ -113,23 +113,17 @@ target_include_directories(${module_name} PRIVATE $<BUILD_INTERFACE:${CMAKE_CURR
 add_custom_target(QORE_INC_FILES DEPENDS ${QORE_INC_SRC})
 add_dependencies(${module_name} QORE_INC_FILES)
 
-target_link_libraries(${module_name} ${QORE_LIBRARY})
-target_link_options(${module_name} PRIVATE "-lcairo")
+# Link using full library paths to avoid target name collision with our "cairo" module target
+# and to ensure proper DT_NEEDED entries (target_link_options would place -l flags before object
+# files, causing --as-needed to drop them)
+target_link_libraries(${module_name} ${QORE_LIBRARY} ${LIBCAIRO_LINK})
 
 if (RSVG_FOUND)
     include_directories(${RSVG_INCLUDE_DIRS})
     if (RSVG_LIBRARY_DIRS)
         link_directories(${RSVG_LIBRARY_DIRS})
     endif()
-    # Link RSVG libraries by linker flags to avoid target name collision with our "cairo" module
-    foreach(_rsvg_lib ${RSVG_LIBRARIES})
-        target_link_options(${module_name} PRIVATE "-l${_rsvg_lib}")
-    endforeach()
-    if (RSVG_LIBRARY_DIRS)
-        foreach(_rsvg_dir ${RSVG_LIBRARY_DIRS})
-            target_link_options(${module_name} PRIVATE "-L${_rsvg_dir}")
-        endforeach()
-    endif()
+    target_link_libraries(${module_name} ${RSVG_LINK_LIBRARIES})
     target_compile_definitions(${module_name} PRIVATE HAVE_RSVG=1)
 endif()
 

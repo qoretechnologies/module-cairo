@@ -18,8 +18,8 @@ if [ -z "${MODULE_SRC_DIR}" ]; then
 fi
 echo "export MODULE_SRC_DIR=${MODULE_SRC_DIR}" >> ${ENV_FILE}
 
-echo "export QORE_UID=999" >> ${ENV_FILE}
-echo "export QORE_GID=999" >> ${ENV_FILE}
+echo "export QORE_UID=1000" >> ${ENV_FILE}
+echo "export QORE_GID=1000" >> ${ENV_FILE}
 
 . ${ENV_FILE}
 
@@ -32,13 +32,17 @@ apk add --no-cache cairo-dev librsvg-dev
 echo && echo "-- building module --"
 mkdir -p ${MODULE_SRC_DIR}/build
 cd ${MODULE_SRC_DIR}/build
-cmake .. -DCMAKE_BUILD_TYPE=debug -DCMAKE_INSTALL_PREFIX=${INSTALL_PREFIX} -DENABLE_RSVG=ON
+cmake .. -DCMAKE_BUILD_TYPE=debug -DCMAKE_INSTALL_PREFIX=${INSTALL_PREFIX} -DENABLE_RSVG=ON -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 make -j${MAKE_JOBS}
 make install
 
 # add Qore user and group
-addgroup -g ${QORE_GID} qore 2>/dev/null || true
-adduser -D -h /home/qore -u ${QORE_UID} -G qore qore 2>/dev/null || true
+if ! grep -q "^qore:x:${QORE_GID}" /etc/group; then
+    addgroup -g ${QORE_GID} qore
+fi
+if ! grep -q "^qore:x:${QORE_UID}" /etc/passwd; then
+    adduser -u ${QORE_UID} -D -G qore -h /home/qore -s /bin/bash qore
+fi
 
 # own everything by the qore user
 chown -R qore:qore ${MODULE_SRC_DIR}
