@@ -30,7 +30,7 @@ public namespace CairoDataProvider {
     - @b create - Create PostScript or EPS from draw commands
 
     @par Data Provider Path
-    Access via: cairo{}/postscript/<action>
+    Access via: @verbatim cairo{}/postscript/<action> @endverbatim
 */
 public class CairoPostScriptDataProvider inherits AbstractDataProvider {
     public {

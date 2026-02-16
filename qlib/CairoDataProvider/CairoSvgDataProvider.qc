@@ -34,7 +34,7 @@ public namespace CairoDataProvider {
     - @b to-eps - Convert SVG to EPS (requires librsvg)
 
     @par Data Provider Path
-    Access via: cairo{}/svg/<action>
+    Access via: @verbatim cairo{}/svg/<action> @endverbatim
 */
 public class CairoSvgDataProvider inherits AbstractDataProvider {
     public {

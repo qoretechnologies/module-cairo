@@ -32,7 +32,7 @@ public namespace CairoDataProvider {
     - @b draw - Draw on existing PNG
 
     @par Data Provider Path
-    Access via: cairo{}/image/<action>
+    Access via: @verbatim cairo{}/image/<action> @endverbatim
 */
 public class CairoImageDataProvider inherits AbstractDataProvider {
     public {
