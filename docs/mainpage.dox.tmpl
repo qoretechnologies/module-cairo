@@ -1,0 +1,211 @@
+/** @mainpage Qore Cairo Module
+
+    @tableofcontents
+
+    @section cairointro Cairo Module Introduction
+
+    The @c cairo module provides Qore bindings for the
+    <a href="https://www.cairographics.org/">Cairo 2D graphics library</a>,
+    enabling creation and manipulation of vector graphics in SVG, PostScript,
+    and EPS formats, as well as PNG raster images.
+
+    With optional <a href="https://wiki.gnome.org/Projects/LibRsvg">librsvg</a>
+    support, the module can also load and render existing SVG files,
+    converting them to PNG, PostScript, or EPS.
+
+    @section cairofeatures Features
+
+    - Create SVG documents from drawing commands
+    - Create PostScript and EPS documents from drawing commands
+    - Create and manipulate PNG raster images
+    - Path operations: lines, curves, arcs, rectangles
+    - Text rendering with font face and size control
+    - Linear and radial gradient patterns
+    - Surface patterns for image compositing
+    - Affine transformations: translate, rotate, scale, matrix
+    - State management: save/restore, line styles, dash patterns, fill rules
+    - Multi-page PostScript output
+    - Recording surfaces for deferred rendering
+    - SVG input, rendering, and format conversion (requires librsvg)
+    - Data provider integration for Qorus workflow automation
+
+    @section cairoclasses Cairo Classes
+
+    - @ref Qore::Cairo::CairoSurface "CairoSurface" - Drawing surface for
+      SVG, PostScript, EPS, PNG, and recording output
+    - @ref Qore::Cairo::CairoContext "CairoContext" - Drawing context with
+      path, text, transform, and state operations
+    - @ref Qore::Cairo::CairoPattern "CairoPattern" - Linear/radial
+      gradients, solid colors, and surface patterns
+    - @ref Qore::Cairo::CairoSvgReader "CairoSvgReader" - SVG file reader
+      and renderer (requires librsvg)
+
+    @section cairohashdecls Hashdecls
+
+    - @ref Qore::Cairo::CairoSurfaceInfo "CairoSurfaceInfo" - Surface type,
+      dimensions, and format information
+    - @ref Qore::Cairo::CairoMatrix "CairoMatrix" - 2D affine
+      transformation matrix (xx, yx, xy, yy, x0, y0)
+    - @ref Qore::Cairo::CairoTextExtents "CairoTextExtents" - Text
+      measurement: bearings, dimensions, and advance values
+
+    @section cairodataprov CairoDataProvider Module
+
+    The @ref CairoDataProvider::CairoDataProvider "CairoDataProvider" module
+    exposes Cairo operations through Qore's DataProvider API for use in
+    Qorus workflows and the @c qdp command-line tool.
+
+    See the <a href="../../CairoDataProvider/html/index.html">CairoDataProvider
+    module documentation</a> for complete API reference.
+
+    @subsection cairodp_actions Data Provider Actions
+
+    <b>SVG actions:</b>
+    - @c svg/create - Create SVG from declarative draw commands
+    - @c svg/get-info - Get SVG dimensions and metadata (requires librsvg)
+    - @c svg/to-png - Convert SVG to PNG raster image (requires librsvg)
+    - @c svg/to-ps - Convert SVG to PostScript (requires librsvg)
+    - @c svg/to-eps - Convert SVG to EPS (requires librsvg)
+
+    <b>Image actions:</b>
+    - @c image/create - Create PNG from declarative draw commands
+    - @c image/get-info - Get PNG image dimensions and format
+    - @c image/draw - Draw on an existing PNG image
+
+    <b>PostScript actions:</b>
+    - @c postscript/create - Create PostScript or EPS from draw commands
+
+    @subsection cairodp_examples qdp Examples
+
+    @par Create an SVG with a rectangle and text
+    @code{.bash}
+qdp 'cairo{}/svg/create' width=400,height=200,output_path=label.svg,commands='({"op":"set_source_rgb","r":0,"g":0,"b":0},{"op":"set_line_width","width":2},{"op":"rectangle","x":10,"y":10,"width":380,"height":180},{"op":"stroke"},{"op":"text","text":"Shipping Label","x":20,"y":50,"family":"Helvetica","size":24,"weight":"bold"})'
+    @endcode
+
+    @par Convert SVG to PNG (requires librsvg)
+    @code{.bash}
+qdp 'cairo{}/svg/to-png' input_path=logo.svg,output_path=logo.png,width=256,height=256
+    @endcode
+
+    @par Create a PNG image
+    @code{.bash}
+qdp 'cairo{}/image/create' width=200,height=200,output_path=circle.png,commands='({"op":"set_source_rgba","r":1,"g":0,"b":0,"a":1},{"op":"arc","x":100,"y":100,"radius":80,"angle1":0,"angle2":6.283},{"op":"fill"})'
+    @endcode
+
+    @par Create a PostScript document
+    @code{.bash}
+qdp 'cairo{}/postscript/create' width=612,height=792,output_path=doc.ps,commands='({"op":"text","text":"Hello World","x":72,"y":720,"family":"Helvetica","size":24},{"op":"rectangle","x":50,"y":50,"width":512,"height":692},{"op":"stroke"})'
+    @endcode
+
+    @par Get PNG image info
+    @code{.bash}
+qdp 'cairo{}/image/get-info' input_path=photo.png
+    @endcode
+
+    @subsection cairodp_drawcmds Draw Commands Reference
+
+    All create and draw actions accept a @c commands field containing a list
+    of draw command hashes. Each hash must have an @c op key:
+
+    <table>
+    <tr><th>op</th><th>Parameters</th><th>Description</th></tr>
+    <tr><td>@c set_source_rgb</td><td>r, g, b (0.0-1.0)</td><td>Set drawing color</td></tr>
+    <tr><td>@c set_source_rgba</td><td>r, g, b, a (0.0-1.0)</td><td>Set drawing color with alpha</td></tr>
+    <tr><td>@c set_line_width</td><td>width</td><td>Set line width</td></tr>
+    <tr><td>@c set_font</td><td>family, size, *slant, *weight</td><td>Set font face and size</td></tr>
+    <tr><td>@c move_to</td><td>x, y</td><td>Move cursor</td></tr>
+    <tr><td>@c line_to</td><td>x, y</td><td>Line to point</td></tr>
+    <tr><td>@c curve_to</td><td>x1, y1, x2, y2, x3, y3</td><td>Cubic Bezier curve</td></tr>
+    <tr><td>@c arc</td><td>x, y, radius, angle1, angle2</td><td>Circular arc</td></tr>
+    <tr><td>@c rectangle</td><td>x, y, width, height</td><td>Rectangle path</td></tr>
+    <tr><td>@c close_path</td><td>&mdash;</td><td>Close current path</td></tr>
+    <tr><td>@c stroke</td><td>&mdash;</td><td>Stroke current path</td></tr>
+    <tr><td>@c fill</td><td>&mdash;</td><td>Fill current path</td></tr>
+    <tr><td>@c paint</td><td>*alpha</td><td>Paint entire surface (optional alpha)</td></tr>
+    <tr><td>@c text</td><td>text, x, y, *family, *size, *slant, *weight</td><td>Draw text at position</td></tr>
+    <tr><td>@c save</td><td>&mdash;</td><td>Save graphics state</td></tr>
+    <tr><td>@c restore</td><td>&mdash;</td><td>Restore graphics state</td></tr>
+    <tr><td>@c translate</td><td>x, y</td><td>Translate origin</td></tr>
+    <tr><td>@c rotate</td><td>angle (radians)</td><td>Rotate coordinate system</td></tr>
+    <tr><td>@c scale</td><td>x, y</td><td>Scale coordinate system</td></tr>
+    <tr><td>@c set_dash</td><td>dashes (list), *offset</td><td>Set dash pattern</td></tr>
+    <tr><td>@c set_line_cap</td><td>cap ("butt"/"round"/"square")</td><td>Line cap style</td></tr>
+    <tr><td>@c set_line_join</td><td>join ("miter"/"round"/"bevel")</td><td>Line join style</td></tr>
+    <tr><td>@c set_fill_rule</td><td>rule ("winding"/"even-odd")</td><td>Fill rule</td></tr>
+    <tr><td>@c linear_gradient</td><td>x0, y0, x1, y1, stops</td><td>Set linear gradient source</td></tr>
+    <tr><td>@c radial_gradient</td><td>cx0, cy0, r0, cx1, cy1, r1, stops</td><td>Set radial gradient source</td></tr>
+    <tr><td>@c image</td><td>*path, *data, x, y, *width, *height</td><td>Draw PNG image</td></tr>
+    <tr><td>@c show_page</td><td>&mdash;</td><td>Next page (multi-page PS)</td></tr>
+    <tr><td>@c clip</td><td>&mdash;</td><td>Clip to current path</td></tr>
+    <tr><td>@c new_path</td><td>&mdash;</td><td>Clear current path</td></tr>
+    <tr><td>@c new_sub_path</td><td>&mdash;</td><td>Start new sub-path</td></tr>
+    <tr><td>@c stroke_preserve</td><td>&mdash;</td><td>Stroke without clearing path</td></tr>
+    <tr><td>@c fill_preserve</td><td>&mdash;</td><td>Fill without clearing path</td></tr>
+    <tr><td>@c clip_preserve</td><td>&mdash;</td><td>Clip without clearing path</td></tr>
+    <tr><td>@c text_path</td><td>text</td><td>Add text outlines to path</td></tr>
+    <tr><td>@c identity_matrix</td><td>&mdash;</td><td>Reset transformation matrix</td></tr>
+    </table>
+
+    Gradient @c stops are lists of hashes with keys: @c offset (0.0-1.0),
+    @c r, @c g, @c b, and optional @c a.
+
+    @section cairodeps Dependencies
+
+    - <a href="https://www.cairographics.org/">Cairo</a> (required) - 2D
+      graphics library
+    - <a href="https://wiki.gnome.org/Projects/LibRsvg">librsvg</a>
+      (optional) - SVG input, rendering, and format conversion
+
+    @section cairopackages OS Packages
+
+    @subsection cairopackages_ubuntu Ubuntu
+
+    @code{.bash}
+sudo apt-get update
+sudo apt-get install -y cmake pkg-config libcairo2-dev
+# Optional: SVG input support
+sudo apt-get install -y librsvg2-dev
+    @endcode
+
+    @subsection cairopackages_alpine Alpine
+
+    @code{.bash}
+sudo apk add --no-cache cmake pkgconfig cairo-dev
+# Optional: SVG input support
+sudo apk add --no-cache librsvg-dev
+    @endcode
+
+    @subsection cairopackages_fedora Fedora
+
+    @code{.bash}
+sudo dnf install -y cmake pkgconf-pkg-config cairo-devel
+# Optional: SVG input support
+sudo dnf install -y librsvg2-devel
+    @endcode
+
+    @subsection cairopackages_macports MacPorts
+
+    @code{.bash}
+sudo port install cmake pkgconfig cairo
+# Optional: SVG input support
+sudo port install librsvg
+    @endcode
+
+    @section cairoreleasenotes Release Notes
+
+    @subsection cairo_1_0 cairo Module Version 1.0.0
+    - Initial release
+    - SVG, PostScript, and EPS surface output
+    - PNG image surface creation and manipulation
+    - Drawing context with path, text, and transform operations
+    - Pattern support (linear/radial gradients, solid colors, surface patterns)
+    - Recording surfaces for deferred rendering
+    - Optional SVG input via librsvg
+    - CairoDataProvider module with 9 data provider actions for Qorus integration
+
+    @section cairolicense License
+
+    This module is released under the MIT license.
+
+    Copyright (C) 2026 Qore Technologies, s.r.o.
+*/

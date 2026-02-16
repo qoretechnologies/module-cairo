@@ -1,0 +1,191 @@
+# -*- mode: qore; indent-tabs-mode: nil -*-
+#! @file CairoDataProvider.qm Qore user module providing a data provider API for Cairo vector graphics
+
+/*  CairoDataProvider.qm Copyright (C) 2026 Qore Technologies, s.r.o.
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+*/
+
+%requires qore >= 2.0
+
+%requires DataProvider
+%requires FileLocationHandler
+%requires Mime
+%requires cairo
+
+%modern
+
+module CairoDataProvider {
+    version = "1.0";
+    desc = "user module providing a data provider API for Cairo vector graphics";
+    author = "Qore Technologies, s.r.o.";
+    url = "https://github.com/qoretechnologies/module-cairo";
+    license = "MIT";
+    init = sub () {
+        # Register the data provider factory
+        DataProvider::registerFactory(new CairoDataProviderFactory());
+
+        # Register the data provider application
+        DataProviderActionCatalog::registerApp(<DataProviderAppInfo>{
+            "name": CairoDataProvider::AppName,
+            "display_name": "Cairo Vector Graphics",
+            "short_desc": "SVG, PostScript, and EPS vector graphics",
+            "desc": "Create and manipulate vector graphics in SVG, PostScript, and EPS formats",
+            "groups": (DataProvider::AppGroup::Documents, DataProvider::AppGroup::DataTransformation),
+            "logo": Priv::CairoLogo,
+            "logo_file_name": "cairo-logo.svg",
+            "logo_mime_type": MimeTypeSvg,
+        });
+
+        # SVG actions
+        DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+            "app": CairoDataProvider::AppName,
+            "path": "/svg/create",
+            "action": "svg-create",
+            "display_name": "Create SVG",
+            "short_desc": "Create SVG from draw commands",
+            "desc": "Create an SVG image from declarative draw commands",
+            "action_code": DPAT_API,
+        });
+
+        # SVG actions requiring librsvg
+        if (CairoSvgReader::isAvailable()) {
+            DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+                "app": CairoDataProvider::AppName,
+                "path": "/svg/get-info",
+                "action": "svg-get-info",
+                "display_name": "Get SVG Info",
+                "short_desc": "Get SVG dimensions and metadata",
+                "desc": "Read SVG dimensions and metadata without modifying the file",
+                "action_code": DPAT_API,
+            });
+
+            DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+                "app": CairoDataProvider::AppName,
+                "path": "/svg/to-png",
+                "action": "svg-to-png",
+                "display_name": "SVG to PNG",
+                "short_desc": "Convert SVG to PNG",
+                "desc": "Render an SVG file to a PNG raster image",
+                "action_code": DPAT_API,
+            });
+
+            DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+                "app": CairoDataProvider::AppName,
+                "path": "/svg/to-ps",
+                "action": "svg-to-ps",
+                "display_name": "SVG to PostScript",
+                "short_desc": "Convert SVG to PostScript",
+                "desc": "Convert an SVG file to PostScript format",
+                "action_code": DPAT_API,
+            });
+
+            DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+                "app": CairoDataProvider::AppName,
+                "path": "/svg/to-eps",
+                "action": "svg-to-eps",
+                "display_name": "SVG to EPS",
+                "short_desc": "Convert SVG to EPS",
+                "desc": "Convert an SVG file to Encapsulated PostScript format",
+                "action_code": DPAT_API,
+            });
+        }
+
+        # Image actions
+        DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+            "app": CairoDataProvider::AppName,
+            "path": "/image/create",
+            "action": "image-create",
+            "display_name": "Create Image",
+            "short_desc": "Create PNG from draw commands",
+            "desc": "Create a PNG raster image from declarative draw commands",
+            "action_code": DPAT_API,
+        });
+
+        DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+            "app": CairoDataProvider::AppName,
+            "path": "/image/get-info",
+            "action": "image-get-info",
+            "display_name": "Get Image Info",
+            "short_desc": "Get PNG image info",
+            "desc": "Read PNG image dimensions and format information",
+            "action_code": DPAT_API,
+        });
+
+        DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+            "app": CairoDataProvider::AppName,
+            "path": "/image/draw",
+            "action": "image-draw",
+            "display_name": "Draw on Image",
+            "short_desc": "Draw on existing PNG",
+            "desc": "Draw on an existing PNG image using declarative draw commands",
+            "action_code": DPAT_API,
+        });
+
+        # PostScript actions
+        DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+            "app": CairoDataProvider::AppName,
+            "path": "/postscript/create",
+            "action": "postscript-create",
+            "display_name": "Create PostScript",
+            "short_desc": "Create PS or EPS from draw commands",
+            "desc": "Create a PostScript or EPS document from declarative draw commands",
+            "action_code": DPAT_API,
+        });
+    };
+}
+
+/** @mainpage CairoDataProvider Module
+
+    @tableofcontents
+
+    @section cairodpintro Cairo DataProvider Introduction
+
+    The CairoDataProvider module exposes Cairo vector graphics operations through
+    the Qore DataProvider API.
+
+    Key classes:
+    - @ref CairoDataProvider::CairoDataProviderFactory "CairoDataProviderFactory" - Factory for creating Cairo data providers
+    - @ref CairoDataProvider::CairoDataProvider "CairoDataProvider" - Root data provider
+
+    @section cairodp_factory Factory Name
+
+    Factory string for DataProvider::getFactoryEx(): "cairo"
+
+    @section cairodp_examples Examples
+
+    @par Create SVG
+    @verbatim qdp 'cairo{}/svg/create' width=400,height=200,output_path=out.svg,commands='({"op":"set_source_rgb","r":0,"g":0,"b":0},{"op":"rectangle","x":10,"y":10,"width":380,"height":180},{"op":"stroke"})' @endverbatim
+
+    @par Convert SVG to PNG (requires librsvg)
+    @verbatim qdp 'cairo{}/svg/to-png' input_path=logo.svg,output_path=logo.png,width=256,height=256 @endverbatim
+
+    @par Create PostScript
+    @verbatim qdp 'cairo{}/postscript/create' width=612,height=792,output_path=doc.ps,commands='({"op":"text","text":"Hello","x":72,"y":720,"family":"Helvetica","size":24})' @endverbatim
+*/
+
+public namespace CairoDataProvider {
+    #! Application name
+    public const AppName = "Cairo";
+}
+
+namespace Priv {
+    #! Cairo logo (loaded at initialization)
+    const CairoLogo = File::readTextFile(get_script_dir() + "/cairo-logo.svg");
+}

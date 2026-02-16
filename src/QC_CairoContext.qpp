@@ -1,0 +1,387 @@
+/* -*- mode: c++; indent-tabs-mode: nil -*- */
+/** @file QC_CairoContext.cpp defines the %Qore CairoContext class */
+/*
+    Qore cairo module
+
+    Copyright (C) 2026 Qore Technologies, s.r.o.
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+*/
+
+#include "QC_CairoContext.h"
+#include "QC_CairoSurface.h"
+#include "QC_CairoPattern.h"
+#include "CairoContext.h"
+#include "CairoSurface.h"
+#include "CairoPattern.h"
+
+//! A Cairo drawing context
+/**
+    Provides methods for drawing on a CairoSurface.
+
+    @since %cairo 1.0
+*/
+qclass CairoContext [arg=QoreCairoContext* ctx; ns=Qore::Cairo];
+
+//! Creates a drawing context for a surface
+/** @param surface the target surface
+
+    @throw CAIRO-ERROR if the context cannot be created
+*/
+CairoContext::constructor(CairoSurface[QoreCairoSurface] surface) {
+    ReferenceHolder<QoreCairoContext> holder(new QoreCairoContext(surface, xsink), xsink);
+    if (*xsink) {
+        return;
+    }
+    self->setPrivate(CID_CAIROCONTEXT, holder.release());
+}
+
+//! Moves the current point to (x, y)
+/** @param x the X coordinate
+    @param y the Y coordinate
+*/
+nothing CairoContext::moveTo(float x, float y) {
+    ctx->moveTo(x, y, xsink);
+}
+
+//! Adds a line from the current point to (x, y)
+/** @param x the X coordinate
+    @param y the Y coordinate
+*/
+nothing CairoContext::lineTo(float x, float y) {
+    ctx->lineTo(x, y, xsink);
+}
+
+//! Adds a cubic Bezier curve
+/** @param x1 first control point X
+    @param y1 first control point Y
+    @param x2 second control point X
+    @param y2 second control point Y
+    @param x3 end point X
+    @param y3 end point Y
+*/
+nothing CairoContext::curveTo(float x1, float y1, float x2, float y2, float x3, float y3) {
+    ctx->curveTo(x1, y1, x2, y2, x3, y3, xsink);
+}
+
+//! Adds a circular arc
+/** @param xc center X
+    @param yc center Y
+    @param radius arc radius
+    @param angle1 start angle in radians
+    @param angle2 end angle in radians
+*/
+nothing CairoContext::arc(float xc, float yc, float radius, float angle1, float angle2) {
+    ctx->arc(xc, yc, radius, angle1, angle2, xsink);
+}
+
+//! Adds a circular arc in the negative direction
+/** @param xc center X
+    @param yc center Y
+    @param radius arc radius
+    @param angle1 start angle in radians
+    @param angle2 end angle in radians
+*/
+nothing CairoContext::arcNegative(float xc, float yc, float radius, float angle1, float angle2) {
+    ctx->arcNegative(xc, yc, radius, angle1, angle2, xsink);
+}
+
+//! Adds a rectangle to the path
+/** @param x left edge X
+    @param y top edge Y
+    @param width rectangle width
+    @param height rectangle height
+*/
+nothing CairoContext::rectangle(float x, float y, float width, float height) {
+    ctx->rectangle(x, y, width, height, xsink);
+}
+
+//! Closes the current sub-path
+/** Draws a straight line back to the start of the current sub-path.
+*/
+nothing CairoContext::closePath() {
+    ctx->closePath(xsink);
+}
+
+//! Clears the current path
+/** Clears the current path; after this call there is no path and no current point.
+*/
+nothing CairoContext::newPath() {
+    ctx->newPath(xsink);
+}
+
+//! Begins a new sub-path
+/** Begins a new sub-path without setting the current point.
+*/
+nothing CairoContext::newSubPath() {
+    ctx->newSubPath(xsink);
+}
+
+//! Strokes the current path
+/** Draws the outline of the current path using the current line width, line cap, line join, and dash settings.
+*/
+nothing CairoContext::stroke() {
+    ctx->stroke(xsink);
+}
+
+//! Strokes the current path, preserving it
+/** Like stroke() but preserves the current path for further operations.
+*/
+nothing CairoContext::strokePreserve() {
+    ctx->strokePreserve(xsink);
+}
+
+//! Fills the current path
+/** Fills the interior of the current path using the current fill rule.
+*/
+nothing CairoContext::fill() {
+    ctx->fill(xsink);
+}
+
+//! Fills the current path, preserving it
+/** Like fill() but preserves the current path for further operations.
+*/
+nothing CairoContext::fillPreserve() {
+    ctx->fillPreserve(xsink);
+}
+
+//! Paints the entire surface with the current source
+/** Paints the current source everywhere within the current clip region.
+*/
+nothing CairoContext::paint() {
+    ctx->paint(xsink);
+}
+
+//! Paints with alpha transparency
+/** @param alpha alpha value (0.0 = transparent, 1.0 = opaque)
+*/
+nothing CairoContext::paintWithAlpha(float alpha) {
+    ctx->paintWithAlpha(alpha, xsink);
+}
+
+//! Clips to the current path
+/** Establishes a new clip region by intersecting the current clip region with the current path.
+*/
+nothing CairoContext::clip() {
+    ctx->clip(xsink);
+}
+
+//! Clips to the current path, preserving it
+/** Like clip() but preserves the current path for further operations.
+*/
+nothing CairoContext::clipPreserve() {
+    ctx->clipPreserve(xsink);
+}
+
+//! Sets the source color (RGB)
+/** @param r red component (0.0-1.0)
+    @param g green component (0.0-1.0)
+    @param b blue component (0.0-1.0)
+*/
+nothing CairoContext::setSourceRgb(float r, float g, float b) {
+    ctx->setSourceRgb(r, g, b, xsink);
+}
+
+//! Sets the source color (RGBA)
+/** @param r red component (0.0-1.0)
+    @param g green component (0.0-1.0)
+    @param b blue component (0.0-1.0)
+    @param a alpha component (0.0-1.0)
+*/
+nothing CairoContext::setSourceRgba(float r, float g, float b, float a) {
+    ctx->setSourceRgba(r, g, b, a, xsink);
+}
+
+//! Sets a surface as the source
+/** @param surface the source surface
+    @param x X offset for the surface origin
+    @param y Y offset for the surface origin
+*/
+nothing CairoContext::setSourceSurface(CairoSurface[QoreCairoSurface] surface, float x, float y) {
+    ctx->setSourceSurface(surface, x, y, xsink);
+}
+
+//! Sets a pattern as the source
+/** @param pattern the source pattern
+*/
+nothing CairoContext::setSource(CairoPattern[QoreCairoPattern] pattern) {
+    ctx->setSource(pattern->getPattern(), xsink);
+}
+
+//! Saves the current graphics state
+/** Saves a copy of the current state onto the state stack, to be restored later with restore().
+*/
+nothing CairoContext::save() {
+    ctx->save(xsink);
+}
+
+//! Restores the previously saved graphics state
+/** Restores the state saved by the most recent call to save().
+*/
+nothing CairoContext::restore() {
+    ctx->restore(xsink);
+}
+
+//! Sets the line width
+/** @param width line width
+*/
+nothing CairoContext::setLineWidth(float width) {
+    ctx->setLineWidth(width, xsink);
+}
+
+//! Sets the line cap style
+/** @param cap "butt", "round", or "square"
+*/
+nothing CairoContext::setLineCap(string cap) {
+    ctx->setLineCap(cap->c_str(), xsink);
+}
+
+//! Sets the line join style
+/** @param join "miter", "round", or "bevel"
+*/
+nothing CairoContext::setLineJoin(string join) {
+    ctx->setLineJoin(join->c_str(), xsink);
+}
+
+//! Sets the dash pattern
+/** @param dashes list of dash lengths
+    @param offset offset into the dash pattern
+*/
+nothing CairoContext::setDash(list<float> dashes, float offset) {
+    ctx->setDash(dashes, offset, xsink);
+}
+
+//! Sets the fill rule
+/** @param rule "winding" or "even-odd"
+*/
+nothing CairoContext::setFillRule(string rule) {
+    ctx->setFillRule(rule->c_str(), xsink);
+}
+
+//! Sets the compositing operator
+/** @param op operator name (e.g., "over", "source", "clear", etc.)
+*/
+nothing CairoContext::setOperator(string op) {
+    ctx->setOperator(op->c_str(), xsink);
+}
+
+//! Sets the antialiasing mode
+/** @param aa "default", "none", "gray", "subpixel", "fast", "good", or "best"
+*/
+nothing CairoContext::setAntialias(string aa) {
+    ctx->setAntialias(aa->c_str(), xsink);
+}
+
+//! Translates the coordinate system
+/** @param tx X translation
+    @param ty Y translation
+*/
+nothing CairoContext::translate(float tx, float ty) {
+    ctx->translate(tx, ty, xsink);
+}
+
+//! Scales the coordinate system
+/** @param sx X scale factor
+    @param sy Y scale factor
+*/
+nothing CairoContext::scale(float sx, float sy) {
+    ctx->scale(sx, sy, xsink);
+}
+
+//! Rotates the coordinate system
+/** @param angle rotation angle in radians
+*/
+nothing CairoContext::rotate(float angle) {
+    ctx->rotate(angle, xsink);
+}
+
+//! Applies a transformation matrix
+/** @param matrix a @ref Qore::Cairo::CairoMatrix hash
+*/
+nothing CairoContext::transform(hash<CairoMatrix> matrix) {
+    ctx->transform(matrix, xsink);
+}
+
+//! Sets the transformation matrix
+/** @param matrix a @ref Qore::Cairo::CairoMatrix hash
+*/
+nothing CairoContext::setMatrix(hash<CairoMatrix> matrix) {
+    ctx->setMatrix(matrix, xsink);
+}
+
+//! Resets the transformation to the identity matrix
+/** Resets the current transformation matrix (CTM) to the identity matrix.
+*/
+nothing CairoContext::identityMatrix() {
+    ctx->identityMatrix(xsink);
+}
+
+//! Selects a font face
+/** @param family font family name (e.g., "Helvetica", "Courier")
+    @param slant "normal", "italic", or "oblique"
+    @param weight "normal" or "bold"
+*/
+nothing CairoContext::selectFontFace(string family, *string slant = "normal", *string weight = "normal") {
+    const char* s = slant ? slant->c_str() : "normal";
+    const char* w = weight ? weight->c_str() : "normal";
+    ctx->selectFontFace(family->c_str(), s, w, xsink);
+}
+
+//! Sets the font size
+/** @param size font size in user-space units
+*/
+nothing CairoContext::setFontSize(float size) {
+    ctx->setFontSize(size, xsink);
+}
+
+//! Draws text at the current point
+/** @param text the text string to draw
+*/
+nothing CairoContext::showText(string text) {
+    ctx->showText(text->c_str(), xsink);
+}
+
+//! Adds text to the current path
+/** @param text the text string to add as a path
+*/
+nothing CairoContext::textPath(string text) {
+    ctx->textPath(text->c_str(), xsink);
+}
+
+//! Returns text extents
+/** @param text the text string to measure
+    @return a @ref Qore::Cairo::CairoTextExtents hash
+*/
+hash<CairoTextExtents> CairoContext::textExtents(string text) {
+    return ctx->textExtents(text->c_str(), xsink);
+}
+
+//! Advances to the next page (emits the current page)
+/** Emits the current page and clears it, starting a new page.
+*/
+nothing CairoContext::showPage() {
+    ctx->showPage(xsink);
+}
+
+//! Copies the current page without clearing it
+/** Emits the current page but does not clear it, allowing further drawing on the same page.
+*/
+nothing CairoContext::copyPage() {
+    ctx->copyPage(xsink);
+}

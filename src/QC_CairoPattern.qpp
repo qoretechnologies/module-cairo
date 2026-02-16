@@ -1,0 +1,152 @@
+/* -*- mode: c++; indent-tabs-mode: nil -*- */
+/** @file QC_CairoPattern.cpp defines the %Qore CairoPattern class */
+/*
+    Qore cairo module
+
+    Copyright (C) 2026 Qore Technologies, s.r.o.
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+*/
+
+#include "QC_CairoPattern.h"
+#include "QC_CairoSurface.h"
+#include "CairoPattern.h"
+#include "CairoSurface.h"
+
+//! A Cairo pattern for gradients, solid colors, and surface patterns
+/**
+    Wraps a Cairo pattern used as a source for drawing operations.
+
+    @since %cairo 1.0
+*/
+qclass CairoPattern [arg=QoreCairoPattern* pattern; ns=Qore::Cairo];
+
+//! Creates a linear gradient pattern
+/** @param x0 start point X
+    @param y0 start point Y
+    @param x1 end point X
+    @param y1 end point Y
+
+    @return a new linear gradient CairoPattern
+*/
+static CairoPattern CairoPattern::createLinear(float x0, float y0, float x1, float y1) {
+    ReferenceHolder<QoreCairoPattern> holder(new QoreCairoPattern(x0, y0, x1, y1, xsink), xsink);
+    if (*xsink) {
+        return QoreValue();
+    }
+    return new QoreObject(QC_CAIROPATTERN, getProgram(), holder.release());
+}
+
+//! Creates a radial gradient pattern
+/** @param cx0 start circle center X
+    @param cy0 start circle center Y
+    @param r0 start circle radius
+    @param cx1 end circle center X
+    @param cy1 end circle center Y
+    @param r1 end circle radius
+
+    @return a new radial gradient CairoPattern
+*/
+static CairoPattern CairoPattern::createRadial(float cx0, float cy0, float r0, float cx1, float cy1, float r1) {
+    ReferenceHolder<QoreCairoPattern> holder(new QoreCairoPattern(cx0, cy0, r0, cx1, cy1, r1, xsink), xsink);
+    if (*xsink) {
+        return QoreValue();
+    }
+    return new QoreObject(QC_CAIROPATTERN, getProgram(), holder.release());
+}
+
+//! Creates a solid RGB color pattern
+/** @param r red component (0.0-1.0)
+    @param g green component (0.0-1.0)
+    @param b blue component (0.0-1.0)
+*/
+static CairoPattern CairoPattern::createRgb(float r, float g, float b) {
+    ReferenceHolder<QoreCairoPattern> holder(new QoreCairoPattern(r, g, b, xsink), xsink);
+    if (*xsink) {
+        return QoreValue();
+    }
+    return new QoreObject(QC_CAIROPATTERN, getProgram(), holder.release());
+}
+
+//! Creates a solid RGBA color pattern
+/** @param r red component (0.0-1.0)
+    @param g green component (0.0-1.0)
+    @param b blue component (0.0-1.0)
+    @param a alpha component (0.0-1.0)
+*/
+static CairoPattern CairoPattern::createRgba(float r, float g, float b, float a) {
+    ReferenceHolder<QoreCairoPattern> holder(new QoreCairoPattern(r, g, b, a, true, xsink), xsink);
+    if (*xsink) {
+        return QoreValue();
+    }
+    return new QoreObject(QC_CAIROPATTERN, getProgram(), holder.release());
+}
+
+//! Creates a pattern from a surface
+/** @param surface the source surface
+*/
+static CairoPattern CairoPattern::createForSurface(CairoSurface[QoreCairoSurface] surface) {
+    ReferenceHolder<QoreCairoPattern> holder(new QoreCairoPattern(surface, xsink), xsink);
+    if (*xsink) {
+        return QoreValue();
+    }
+    return new QoreObject(QC_CAIROPATTERN, getProgram(), holder.release());
+}
+
+//! Adds an RGB color stop to a gradient
+/** @param offset position along the gradient (0.0-1.0)
+    @param r red component (0.0-1.0)
+    @param g green component (0.0-1.0)
+    @param b blue component (0.0-1.0)
+*/
+nothing CairoPattern::addColorStopRgb(float offset, float r, float g, float b) {
+    pattern->addColorStopRgb(offset, r, g, b, xsink);
+}
+
+//! Adds an RGBA color stop to a gradient
+/** @param offset position along the gradient (0.0-1.0)
+    @param r red component (0.0-1.0)
+    @param g green component (0.0-1.0)
+    @param b blue component (0.0-1.0)
+    @param a alpha component (0.0-1.0)
+*/
+nothing CairoPattern::addColorStopRgba(float offset, float r, float g, float b, float a) {
+    pattern->addColorStopRgba(offset, r, g, b, a, xsink);
+}
+
+//! Sets the pattern extend mode
+/** @param extend "none", "repeat", "reflect", or "pad"
+*/
+nothing CairoPattern::setExtend(string extend) {
+    pattern->setExtend(extend->c_str(), xsink);
+}
+
+//! Sets the pattern filter
+/** @param filter "fast", "good", "best", "nearest", or "bilinear"
+*/
+nothing CairoPattern::setFilter(string filter) {
+    pattern->setFilter(filter->c_str(), xsink);
+}
+
+//! Sets the pattern transformation matrix
+/** @param matrix a @ref Qore::Cairo::CairoMatrix hash
+*/
+nothing CairoPattern::setMatrix(hash<CairoMatrix> matrix) {
+    pattern->setMatrix(matrix, xsink);
+}

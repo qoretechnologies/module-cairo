@@ -1,0 +1,362 @@
+/* -*- mode: c++; indent-tabs-mode: nil -*- */
+/** @file QC_CairoSurface.cpp defines the %Qore CairoSurface class and related types */
+/*
+    Qore cairo module
+
+    Copyright (C) 2026 Qore Technologies, s.r.o.
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+*/
+
+#include "QC_CairoSurface.h"
+#include "CairoSurface.h"
+
+//! Surface information
+/**
+    Contains information about a Cairo surface.
+*/
+hashdecl Qore::Cairo::CairoSurfaceInfo {
+    //! Surface type: "svg", "ps", "image", or "recording"
+    /** */
+    string type;
+
+    //! Surface width
+    /** */
+    float width;
+
+    //! Surface height
+    /** */
+    float height;
+
+    //! Image format (only for image surfaces): "ARGB32", "RGB24", "A8", "A1"
+    /** */
+    *string format;
+}
+
+//! Matrix for affine transformations
+/**
+    A 2D affine transformation matrix.
+*/
+hashdecl Qore::Cairo::CairoMatrix {
+    //! xx component
+    /** */
+    float xx;
+
+    //! yx component
+    /** */
+    float yx;
+
+    //! xy component
+    /** */
+    float xy;
+
+    //! yy component
+    /** */
+    float yy;
+
+    //! x0 (x translation) component
+    /** */
+    float x0;
+
+    //! y0 (y translation) component
+    /** */
+    float y0;
+}
+
+//! Text extents information
+/**
+    Contains the extents of a text string.
+*/
+hashdecl Qore::Cairo::CairoTextExtents {
+    //! X bearing
+    /** */
+    float x_bearing;
+
+    //! Y bearing
+    /** */
+    float y_bearing;
+
+    //! Width of the text
+    /** */
+    float width;
+
+    //! Height of the text
+    /** */
+    float height;
+
+    //! X advance
+    /** */
+    float x_advance;
+
+    //! Y advance
+    /** */
+    float y_advance;
+}
+
+//! A Cairo drawing surface
+/**
+    Wraps a Cairo surface for rendering to SVG, PostScript, EPS, PNG, and in-memory targets.
+
+    @since %cairo 1.0
+*/
+qclass CairoSurface [arg=QoreCairoSurface* surface; ns=Qore::Cairo];
+
+//! Creates an SVG surface writing to a file
+/** @param path output file path
+    @param width surface width in points
+    @param height surface height in points
+
+    @throw CAIRO-ERROR if the surface cannot be created
+*/
+static CairoSurface CairoSurface::createSvg(string path, float width, float height) [dom=FILESYSTEM] {
+    ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(path->c_str(), width, height, xsink), xsink);
+    if (*xsink) {
+        return QoreValue();
+    }
+    return new QoreObject(QC_CAIROSURFACE, getProgram(), holder.release());
+}
+
+//! Creates an SVG surface writing to memory
+/** @param width surface width in points
+    @param height surface height in points
+
+    @return a new CairoSurface; use getData() to get the SVG data after finish()
+
+    @throw CAIRO-ERROR if the surface cannot be created
+*/
+static CairoSurface CairoSurface::createSvgToData(float width, float height) {
+    ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(width, height, true, xsink), xsink);
+    if (*xsink) {
+        return QoreValue();
+    }
+    return new QoreObject(QC_CAIROSURFACE, getProgram(), holder.release());
+}
+
+//! Creates a PostScript surface writing to a file
+/** @param path output file path
+    @param width surface width in points
+    @param height surface height in points
+
+    @throw CAIRO-ERROR if the surface cannot be created
+*/
+static CairoSurface CairoSurface::createPs(string path, float width, float height) [dom=FILESYSTEM] {
+    ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(path->c_str(), width, height, true, xsink),
+        xsink);
+    if (*xsink) {
+        return QoreValue();
+    }
+    return new QoreObject(QC_CAIROSURFACE, getProgram(), holder.release());
+}
+
+//! Creates a PostScript surface writing to memory
+/** @param width surface width in points
+    @param height surface height in points
+
+    @return a new CairoSurface; use getData() to get the PS data after finish()
+
+    @throw CAIRO-ERROR if the surface cannot be created
+*/
+static CairoSurface CairoSurface::createPsToData(float width, float height) {
+    ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(width, height, xsink), xsink);
+    if (*xsink) {
+        return QoreValue();
+    }
+    return new QoreObject(QC_CAIROSURFACE, getProgram(), holder.release());
+}
+
+//! Creates an image surface
+/** @param width image width in pixels
+    @param height image height in pixels
+    @param format pixel format: "ARGB32" (default), "RGB24", "A8", "A1"
+
+    @throw CAIRO-ERROR if the surface cannot be created
+*/
+static CairoSurface CairoSurface::createImage(int width, int height, *string format = "ARGB32") {
+    cairo_format_t fmt = CAIRO_FORMAT_ARGB32;
+    if (format && !format->empty()) {
+        const char* fmt_str = format->c_str();
+        if (!strcmp(fmt_str, "ARGB32")) {
+            fmt = CAIRO_FORMAT_ARGB32;
+        } else if (!strcmp(fmt_str, "RGB24")) {
+            fmt = CAIRO_FORMAT_RGB24;
+        } else if (!strcmp(fmt_str, "A8")) {
+            fmt = CAIRO_FORMAT_A8;
+        } else if (!strcmp(fmt_str, "A1")) {
+            fmt = CAIRO_FORMAT_A1;
+        } else {
+            xsink->raiseException("CAIRO-ERROR",
+                "invalid image format '%s'; valid values: ARGB32, RGB24, A8, A1", fmt_str);
+            return QoreValue();
+        }
+    }
+    ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(width, height, fmt, xsink), xsink);
+    if (*xsink) {
+        return QoreValue();
+    }
+    return new QoreObject(QC_CAIROSURFACE, getProgram(), holder.release());
+}
+
+//! Creates an image surface from a PNG file
+/** @param path PNG file path
+
+    @throw CAIRO-ERROR if the PNG cannot be loaded
+*/
+static CairoSurface CairoSurface::createImageFromPng(string path) [dom=FILESYSTEM] {
+    ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(path->c_str(), xsink), xsink);
+    if (*xsink) {
+        return QoreValue();
+    }
+    return new QoreObject(QC_CAIROSURFACE, getProgram(), holder.release());
+}
+
+//! Creates an image surface from PNG binary data
+/** @param data PNG binary data
+
+    @throw CAIRO-ERROR if the PNG data cannot be loaded
+*/
+static CairoSurface CairoSurface::createImageFromPngData(binary data) {
+    if (!data || data->size() == 0) {
+        xsink->raiseException("CAIRO-ERROR", "PNG data is empty");
+        return QoreValue();
+    }
+    ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(data, xsink), xsink);
+    if (*xsink) {
+        return QoreValue();
+    }
+    return new QoreObject(QC_CAIROSURFACE, getProgram(), holder.release());
+}
+
+//! Creates a recording surface
+/** @param x optional x origin for the recording extents
+    @param y optional y origin for the recording extents
+    @param width optional width for the recording extents
+    @param height optional height for the recording extents
+
+    @note If all four parameters are provided, the recording surface will be bounded.
+    If none are provided, the surface is unbounded.
+*/
+static CairoSurface CairoSurface::createRecording(*float x, *float y, *float width, *float height) {
+    bool has_extents = !get_param_value(args, 0).isNothing()
+        && !get_param_value(args, 1).isNothing()
+        && !get_param_value(args, 2).isNothing()
+        && !get_param_value(args, 3).isNothing();
+    ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(x, y, width, height, has_extents, xsink), xsink);
+    if (*xsink) {
+        return QoreValue();
+    }
+    return new QoreObject(QC_CAIROSURFACE, getProgram(), holder.release());
+}
+
+//! Finalizes the surface
+/** After calling finish(), no more drawing operations should be performed on this surface.
+    For stream-based surfaces, the stream data becomes available via getData().
+
+    @throw CAIRO-ERROR if the surface is not initialized
+*/
+nothing CairoSurface::finish() {
+    surface->finish(xsink);
+}
+
+//! Flushes pending output
+/** @throw CAIRO-ERROR if the surface is not initialized
+*/
+nothing CairoSurface::flush() {
+    surface->flush(xsink);
+}
+
+//! Writes the surface to a PNG file
+/** Only available for image and recording surfaces.
+    @param path output PNG file path
+
+    @throw CAIRO-ERROR if the surface cannot be written as PNG
+*/
+nothing CairoSurface::writeToPng(string path) [dom=FILESYSTEM] {
+    surface->writeToPng(path->c_str(), xsink);
+}
+
+//! Writes the surface to PNG binary data
+/** Only available for image and recording surfaces.
+    @return binary PNG data
+
+    @throw CAIRO-ERROR if the surface cannot be written as PNG
+*/
+binary CairoSurface::writeToPngData() {
+    return surface->writeToPngData(xsink);
+}
+
+//! Gets accumulated stream data
+/** Only available for stream-based surfaces (createSvgToData, createPsToData).
+    Call finish() before calling this method to ensure all data is written.
+
+    @return binary data (SVG XML or PostScript)
+
+    @throw CAIRO-ERROR if not a stream-based surface
+*/
+binary CairoSurface::getData() {
+    return surface->getData(xsink);
+}
+
+//! Returns the surface width
+/** @return surface width in points or pixels
+*/
+int CairoSurface::getWidth() {
+    return surface->getWidth(xsink);
+}
+
+//! Returns the surface height
+/** @return surface height in points or pixels
+*/
+int CairoSurface::getHeight() {
+    return surface->getHeight(xsink);
+}
+
+//! Returns surface information
+/** @return a @ref Qore::Cairo::CairoSurfaceInfo hash
+
+    @throw CAIRO-ERROR if the surface is not initialized
+*/
+hash<CairoSurfaceInfo> CairoSurface::getInfo() {
+    return surface->getInfo(xsink);
+}
+
+//! Sets EPS mode for PostScript surfaces
+/** @param eps True to enable EPS mode
+
+    @throw CAIRO-ERROR if not a PostScript surface
+*/
+nothing CairoSurface::setEps(bool eps) {
+    surface->setEps(eps, xsink);
+}
+
+//! Sets page size for PostScript surfaces
+/** @param width new page width in points
+    @param height new page height in points
+
+    @throw CAIRO-ERROR if not a PostScript surface
+*/
+nothing CairoSurface::setPsSize(float width, float height) {
+    surface->setPsSize(width, height, xsink);
+}
+
+//! Advances to the next page
+/** For multi-page surfaces (PostScript, SVG 1.2+).
+*/
+nothing CairoSurface::showPage() {
+    surface->showPage(xsink);
+}

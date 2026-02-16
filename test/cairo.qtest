@@ -1,0 +1,918 @@
+#!/usr/bin/env qore
+# -*- mode: qore; indent-tabs-mode: nil -*-
+
+/*
+    Qore cairo module test suite
+
+    Copyright (C) 2026 Qore Technologies, s.r.o.
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+*/
+
+%modern
+
+%requires QUnit
+%requires Util
+%requires cairo
+
+%exec-class CairoTest
+
+public class CairoTest inherits QUnit::Test {
+    private {
+        string testDir;
+    }
+
+    constructor() : Test("CairoTest", "1.0") {
+        testDir = tmp_location() + "/cairo_test_" + string(getpid());
+
+        addTestCase("SVG surface tests", \svgSurfaceTest());
+        addTestCase("SVG memory surface tests", \svgMemoryTest());
+        addTestCase("PostScript surface tests", \psSurfaceTest());
+        addTestCase("PostScript memory surface tests", \psMemoryTest());
+        addTestCase("EPS surface tests", \epsSurfaceTest());
+        addTestCase("Image surface tests", \imageSurfaceTest());
+        addTestCase("PNG round-trip tests", \pngRoundTripTest());
+        addTestCase("PNG binary data tests", \pngBinaryTest());
+        addTestCase("Recording surface tests", \recordingSurfaceTest());
+        addTestCase("Path operation tests", \pathOperationTest());
+        addTestCase("Drawing operation tests", \drawingOperationTest());
+        addTestCase("Text operation tests", \textOperationTest());
+        addTestCase("State management tests", \stateManagementTest());
+        addTestCase("Transform tests", \transformTest());
+        addTestCase("Pattern tests", \patternTest());
+        addTestCase("Multi-page PS tests", \multiPageTest());
+        addTestCase("Surface info tests", \surfaceInfoTest());
+        addTestCase("SVG reader tests", \svgReaderTest());
+        addTestCase("Negative tests", \negativeTest());
+        addTestCase("Corner case tests", \cornerCaseTest());
+
+        set_return_value(main());
+    }
+
+    globalSetUp() {
+        mkdir(testDir, 0755);
+    }
+
+    globalTearDown() {
+        system("rm -rf " + testDir);
+    }
+
+    private svgSurfaceTest() {
+        string path = testDir + "/test.svg";
+        CairoSurface svg = CairoSurface::createSvg(path, 400.0, 200.0);
+        CairoContext ctx(svg);
+        ctx.setSourceRgb(0.0, 0.0, 0.0);
+        ctx.rectangle(10.0, 10.0, 380.0, 180.0);
+        ctx.stroke();
+        svg.finish();
+
+        assertEq(True, is_file(path), "SVG file created");
+        string content = ReadOnlyFile::readTextFile(path);
+        assertEq(True, content.regex("<svg"), "SVG file contains <svg tag");
+        assertEq(True, content.regex("</svg>"), "SVG file contains closing svg tag");
+    }
+
+    private svgMemoryTest() {
+        CairoSurface svg = CairoSurface::createSvgToData(300.0, 150.0);
+        CairoContext ctx(svg);
+        ctx.setSourceRgb(1.0, 0.0, 0.0);
+        ctx.rectangle(0.0, 0.0, 300.0, 150.0);
+        ctx.fill();
+        svg.finish();
+
+        binary data = svg.getData();
+        assertEq(True, data.size() > 0, "SVG memory data not empty");
+        string svgStr = data.toString();
+        assertEq(True, svgStr.regex("<svg"), "SVG memory data contains <svg tag");
+        assertEq(True, svgStr.regex("</svg>"), "SVG memory data contains closing svg tag");
+    }
+
+    private psSurfaceTest() {
+        string path = testDir + "/test.ps";
+        CairoSurface ps = CairoSurface::createPs(path, 612.0, 792.0);
+        CairoContext ctx(ps);
+        ctx.setSourceRgb(0.0, 0.0, 0.0);
+        ctx.moveTo(72.0, 720.0);
+        ctx.selectFontFace("Helvetica", "normal", "normal");
+        ctx.setFontSize(24.0);
+        ctx.showText("Hello PostScript");
+        ps.finish();
+
+        assertEq(True, is_file(path), "PS file created");
+        string content = ReadOnlyFile::readTextFile(path);
+        assertEq(True, content.regex("%!PS-Adobe"), "PS file has Adobe header");
+    }
+
+    private psMemoryTest() {
+        CairoSurface ps = CairoSurface::createPsToData(612.0, 792.0);
+        CairoContext ctx(ps);
+        ctx.setSourceRgb(0.0, 0.0, 0.0);
+        ctx.rectangle(50.0, 50.0, 512.0, 692.0);
+        ctx.stroke();
+        ps.finish();
+
+        binary data = ps.getData();
+        assertEq(True, data.size() > 0, "PS memory data not empty");
+        string psStr = data.toString();
+        assertEq(True, psStr.regex("%!PS-Adobe"), "PS memory data has Adobe header");
+    }
+
+    private epsSurfaceTest() {
+        string path = testDir + "/test.eps";
+        CairoSurface ps = CairoSurface::createPs(path, 400.0, 300.0);
+        ps.setEps(True);
+        CairoContext ctx(ps);
+        ctx.setSourceRgb(0.0, 0.5, 1.0);
+        ctx.rectangle(10.0, 10.0, 380.0, 280.0);
+        ctx.fill();
+        ps.finish();
+
+        assertEq(True, is_file(path), "EPS file created");
+        string content = ReadOnlyFile::readTextFile(path);
+        assertEq(True, content.regex("%!PS-Adobe"), "EPS file has Adobe header");
+        assertEq(True, content.regex("%%BoundingBox"), "EPS file has BoundingBox");
+    }
+
+    private imageSurfaceTest() {
+        # Test ARGB32 (default)
+        CairoSurface img = CairoSurface::createImage(100, 50);
+        assertEq(100, img.getWidth(), "image default width");
+        assertEq(50, img.getHeight(), "image default height");
+
+        # Test RGB24
+        CairoSurface imgRgb = CairoSurface::createImage(200, 100, "RGB24");
+        assertEq(200, imgRgb.getWidth(), "RGB24 image width");
+        assertEq(100, imgRgb.getHeight(), "RGB24 image height");
+
+        # Test A8
+        CairoSurface imgA8 = CairoSurface::createImage(64, 64, "A8");
+        assertEq(64, imgA8.getWidth(), "A8 image width");
+        assertEq(64, imgA8.getHeight(), "A8 image height");
+
+        # Test A1
+        CairoSurface imgA1 = CairoSurface::createImage(32, 32, "A1");
+        assertEq(32, imgA1.getWidth(), "A1 image width");
+        assertEq(32, imgA1.getHeight(), "A1 image height");
+
+        # Draw on image and verify
+        CairoContext ctx(img);
+        ctx.setSourceRgba(1.0, 0.0, 0.0, 1.0);
+        ctx.paint();
+        img.finish();
+    }
+
+    private pngRoundTripTest() {
+        # Create image and write to PNG file
+        CairoSurface img = CairoSurface::createImage(128, 96);
+        CairoContext ctx(img);
+        ctx.setSourceRgb(0.0, 0.0, 1.0);
+        ctx.paint();
+        ctx.setSourceRgb(1.0, 1.0, 1.0);
+        ctx.rectangle(10.0, 10.0, 108.0, 76.0);
+        ctx.fill();
+
+        string pngPath = testDir + "/roundtrip.png";
+        img.writeToPng(pngPath);
+        assertEq(True, is_file(pngPath), "PNG file created");
+
+        # Load from PNG file
+        CairoSurface loaded = CairoSurface::createImageFromPng(pngPath);
+        assertEq(128, loaded.getWidth(), "loaded PNG width matches");
+        assertEq(96, loaded.getHeight(), "loaded PNG height matches");
+
+        # Write loaded surface back to PNG to verify it works
+        string pngPath2 = testDir + "/roundtrip2.png";
+        loaded.writeToPng(pngPath2);
+        assertEq(True, is_file(pngPath2), "re-saved PNG file created");
+    }
+
+    private pngBinaryTest() {
+        # Create image and write to PNG binary data
+        CairoSurface img = CairoSurface::createImage(64, 48);
+        CairoContext ctx(img);
+        ctx.setSourceRgb(0.0, 1.0, 0.0);
+        ctx.paint();
+
+        binary pngData = img.writeToPngData();
+        assertEq(True, pngData.size() > 0, "PNG binary data not empty");
+        # Check PNG magic bytes: 89 50 4E 47 0D 0A 1A 0A
+        assertEq(0x89, pngData[0], "PNG magic byte 0");
+        assertEq(0x50, pngData[1], "PNG magic byte 1 (P)");
+        assertEq(0x4E, pngData[2], "PNG magic byte 2 (N)");
+        assertEq(0x47, pngData[3], "PNG magic byte 3 (G)");
+
+        # Load from PNG binary data
+        CairoSurface loaded = CairoSurface::createImageFromPngData(pngData);
+        assertEq(64, loaded.getWidth(), "loaded PNG from data width");
+        assertEq(48, loaded.getHeight(), "loaded PNG from data height");
+    }
+
+    private recordingSurfaceTest() {
+        # Unbounded recording surface
+        CairoSurface rec = CairoSurface::createRecording();
+        CairoContext ctx(rec);
+        ctx.setSourceRgb(1.0, 0.0, 0.0);
+        ctx.rectangle(0.0, 0.0, 200.0, 100.0);
+        ctx.fill();
+        ctx.setSourceRgb(0.0, 0.0, 0.0);
+        ctx.moveTo(10.0, 50.0);
+        ctx.selectFontFace("sans-serif", "normal", "normal");
+        ctx.setFontSize(16.0);
+        ctx.showText("Recording test");
+
+        # Replay recording to image surface and write to PNG
+        CairoSurface img = CairoSurface::createImage(200, 100);
+        CairoContext imgCtx(img);
+        imgCtx.setSourceSurface(rec, 0.0, 0.0);
+        imgCtx.paint();
+        binary pngData = img.writeToPngData();
+        assertEq(True, pngData.size() > 0, "recording surface replayed to PNG not empty");
+
+        # Bounded recording surface
+        CairoSurface bounded = CairoSurface::createRecording(0.0, 0.0, 300.0, 200.0);
+        CairoContext ctx2(bounded);
+        ctx2.setSourceRgb(0.5, 0.5, 0.5);
+        ctx2.paint();
+
+        # Replay bounded recording to image
+        CairoSurface img2 = CairoSurface::createImage(300, 200);
+        CairoContext imgCtx2(img2);
+        imgCtx2.setSourceSurface(bounded, 0.0, 0.0);
+        imgCtx2.paint();
+        binary boundedPng = img2.writeToPngData();
+        assertEq(True, boundedPng.size() > 0, "bounded recording surface replayed to PNG not empty");
+    }
+
+    private pathOperationTest() {
+        CairoSurface img = CairoSurface::createImage(200, 200);
+        CairoContext ctx(img);
+
+        # moveTo and lineTo
+        ctx.moveTo(10.0, 10.0);
+        ctx.lineTo(190.0, 190.0);
+        ctx.stroke();
+
+        # curveTo
+        ctx.moveTo(10.0, 100.0);
+        ctx.curveTo(50.0, 10.0, 150.0, 190.0, 190.0, 100.0);
+        ctx.stroke();
+
+        # arc
+        ctx.arc(100.0, 100.0, 50.0, 0.0, 2.0 * M_PI);
+        ctx.stroke();
+
+        # arcNegative
+        ctx.arcNegative(100.0, 100.0, 30.0, 0.0, -M_PI);
+        ctx.stroke();
+
+        # rectangle
+        ctx.rectangle(20.0, 20.0, 60.0, 40.0);
+        ctx.stroke();
+
+        # closePath
+        ctx.moveTo(10.0, 10.0);
+        ctx.lineTo(50.0, 10.0);
+        ctx.lineTo(30.0, 50.0);
+        ctx.closePath();
+        ctx.stroke();
+
+        # newPath
+        ctx.moveTo(10.0, 10.0);
+        ctx.lineTo(100.0, 100.0);
+        ctx.newPath();  # Clears the path
+
+        # newSubPath
+        ctx.newSubPath();
+        ctx.arc(50.0, 50.0, 20.0, 0.0, 2.0 * M_PI);
+        ctx.stroke();
+
+        # Verify drawing by writing to PNG
+        binary pngData = img.writeToPngData();
+        assertEq(True, pngData.size() > 0, "path operations produced output");
+    }
+
+    private drawingOperationTest() {
+        CairoSurface img = CairoSurface::createImage(200, 200);
+        CairoContext ctx(img);
+
+        # stroke
+        ctx.setSourceRgb(1.0, 0.0, 0.0);
+        ctx.setLineWidth(3.0);
+        ctx.rectangle(10.0, 10.0, 80.0, 80.0);
+        ctx.stroke();
+
+        # strokePreserve + fill
+        ctx.setSourceRgb(0.0, 1.0, 0.0);
+        ctx.rectangle(100.0, 10.0, 80.0, 80.0);
+        ctx.strokePreserve();
+        ctx.setSourceRgba(0.0, 0.0, 1.0, 0.5);
+        ctx.fill();
+
+        # fillPreserve + stroke
+        ctx.setSourceRgba(1.0, 1.0, 0.0, 0.5);
+        ctx.rectangle(10.0, 100.0, 80.0, 80.0);
+        ctx.fillPreserve();
+        ctx.setSourceRgb(0.0, 0.0, 0.0);
+        ctx.stroke();
+
+        # paint
+        CairoSurface img2 = CairoSurface::createImage(50, 50);
+        CairoContext ctx2(img2);
+        ctx2.setSourceRgb(1.0, 0.0, 0.0);
+        ctx2.paint();
+
+        # paintWithAlpha
+        CairoSurface img3 = CairoSurface::createImage(50, 50);
+        CairoContext ctx3(img3);
+        ctx3.setSourceRgb(0.0, 1.0, 0.0);
+        ctx3.paintWithAlpha(0.5);
+
+        # clip + clipPreserve
+        ctx.save();
+        ctx.rectangle(100.0, 100.0, 80.0, 80.0);
+        ctx.clip();
+        ctx.setSourceRgb(1.0, 0.0, 1.0);
+        ctx.paint();
+        ctx.restore();
+
+        binary pngData = img.writeToPngData();
+        assertEq(True, pngData.size() > 0, "drawing operations produced output");
+    }
+
+    private textOperationTest() {
+        CairoSurface img = CairoSurface::createImage(400, 200);
+        CairoContext ctx(img);
+
+        # Set white background
+        ctx.setSourceRgb(1.0, 1.0, 1.0);
+        ctx.paint();
+
+        # selectFontFace with different styles
+        ctx.selectFontFace("sans-serif", "normal", "normal");
+        ctx.setFontSize(20.0);
+        ctx.setSourceRgb(0.0, 0.0, 0.0);
+        ctx.moveTo(10.0, 30.0);
+        ctx.showText("Normal text");
+
+        ctx.selectFontFace("sans-serif", "italic", "normal");
+        ctx.moveTo(10.0, 60.0);
+        ctx.showText("Italic text");
+
+        ctx.selectFontFace("sans-serif", "normal", "bold");
+        ctx.moveTo(10.0, 90.0);
+        ctx.showText("Bold text");
+
+        ctx.selectFontFace("sans-serif", "oblique", "bold");
+        ctx.moveTo(10.0, 120.0);
+        ctx.showText("Oblique bold text");
+
+        # textExtents
+        ctx.selectFontFace("sans-serif", "normal", "normal");
+        ctx.setFontSize(24.0);
+        hash<CairoTextExtents> ext = ctx.textExtents("Hello");
+        assertEq(True, ext.width > 0.0, "text extents width positive");
+        assertEq(True, ext.height > 0.0, "text extents height positive");
+        assertEq(True, ext.x_advance > 0.0, "text extents x_advance positive");
+
+        # textPath
+        ctx.moveTo(10.0, 160.0);
+        ctx.textPath("Path text");
+        ctx.setSourceRgb(0.5, 0.0, 0.5);
+        ctx.fill();
+
+        binary pngData = img.writeToPngData();
+        assertEq(True, pngData.size() > 0, "text operations produced output");
+    }
+
+    private stateManagementTest() {
+        CairoSurface img = CairoSurface::createImage(200, 200);
+        CairoContext ctx(img);
+
+        # save / restore
+        ctx.setSourceRgb(1.0, 0.0, 0.0);
+        ctx.setLineWidth(5.0);
+        ctx.save();
+        ctx.setSourceRgb(0.0, 0.0, 1.0);
+        ctx.setLineWidth(1.0);
+        ctx.restore();
+        # After restore, source should be red and line width should be 5
+
+        # setLineCap
+        ctx.setLineCap("butt");
+        ctx.moveTo(10.0, 10.0);
+        ctx.lineTo(190.0, 10.0);
+        ctx.stroke();
+
+        ctx.setLineCap("round");
+        ctx.moveTo(10.0, 30.0);
+        ctx.lineTo(190.0, 30.0);
+        ctx.stroke();
+
+        ctx.setLineCap("square");
+        ctx.moveTo(10.0, 50.0);
+        ctx.lineTo(190.0, 50.0);
+        ctx.stroke();
+
+        # setLineJoin
+        ctx.setLineJoin("miter");
+        ctx.moveTo(10.0, 70.0);
+        ctx.lineTo(100.0, 70.0);
+        ctx.lineTo(10.0, 110.0);
+        ctx.stroke();
+
+        ctx.setLineJoin("round");
+        ctx.moveTo(10.0, 120.0);
+        ctx.lineTo(100.0, 120.0);
+        ctx.lineTo(10.0, 160.0);
+        ctx.stroke();
+
+        ctx.setLineJoin("bevel");
+        ctx.moveTo(10.0, 170.0);
+        ctx.lineTo(100.0, 170.0);
+        ctx.lineTo(10.0, 190.0);
+        ctx.stroke();
+
+        # setDash
+        ctx.setDash((10.0, 5.0), 0.0);
+        ctx.moveTo(110.0, 70.0);
+        ctx.lineTo(190.0, 70.0);
+        ctx.stroke();
+
+        # setFillRule
+        ctx.setFillRule("winding");
+        ctx.rectangle(110.0, 80.0, 40.0, 40.0);
+        ctx.fill();
+
+        ctx.setFillRule("even-odd");
+        ctx.rectangle(160.0, 80.0, 30.0, 30.0);
+        ctx.fill();
+
+        # setOperator
+        ctx.setOperator("over");
+        ctx.rectangle(110.0, 130.0, 40.0, 40.0);
+        ctx.fill();
+
+        # setAntialias
+        ctx.setAntialias("default");
+        ctx.moveTo(110.0, 180.0);
+        ctx.lineTo(190.0, 190.0);
+        ctx.stroke();
+
+        binary pngData = img.writeToPngData();
+        assertEq(True, pngData.size() > 0, "state management produced output");
+    }
+
+    private transformTest() {
+        CairoSurface img = CairoSurface::createImage(200, 200);
+        CairoContext ctx(img);
+
+        ctx.setSourceRgb(1.0, 1.0, 1.0);
+        ctx.paint();
+
+        # translate
+        ctx.save();
+        ctx.translate(50.0, 50.0);
+        ctx.setSourceRgb(1.0, 0.0, 0.0);
+        ctx.rectangle(0.0, 0.0, 50.0, 50.0);
+        ctx.fill();
+        ctx.restore();
+
+        # scale
+        ctx.save();
+        ctx.scale(2.0, 2.0);
+        ctx.setSourceRgb(0.0, 1.0, 0.0);
+        ctx.rectangle(55.0, 0.0, 20.0, 20.0);
+        ctx.fill();
+        ctx.restore();
+
+        # rotate
+        ctx.save();
+        ctx.translate(100.0, 100.0);
+        ctx.rotate(M_PI / 4.0);
+        ctx.setSourceRgb(0.0, 0.0, 1.0);
+        ctx.rectangle(-25.0, -25.0, 50.0, 50.0);
+        ctx.fill();
+        ctx.restore();
+
+        # identity matrix
+        ctx.identityMatrix();
+        ctx.setSourceRgb(0.0, 0.0, 0.0);
+        ctx.rectangle(0.0, 0.0, 10.0, 10.0);
+        ctx.fill();
+
+        # setMatrix
+        hash<CairoMatrix> m = <CairoMatrix>{
+            "xx": 1.0, "yx": 0.0,
+            "xy": 0.0, "yy": 1.0,
+            "x0": 150.0, "y0": 150.0,
+        };
+        ctx.setMatrix(m);
+        ctx.setSourceRgb(1.0, 1.0, 0.0);
+        ctx.rectangle(0.0, 0.0, 30.0, 30.0);
+        ctx.fill();
+
+        # transform (apply matrix transformation)
+        ctx.identityMatrix();
+        hash<CairoMatrix> skew = <CairoMatrix>{
+            "xx": 1.0, "yx": 0.5,
+            "xy": 0.0, "yy": 1.0,
+            "x0": 0.0, "y0": 0.0,
+        };
+        ctx.transform(skew);
+        ctx.setSourceRgb(0.5, 0.0, 0.5);
+        ctx.rectangle(10.0, 130.0, 40.0, 20.0);
+        ctx.fill();
+
+        binary pngData = img.writeToPngData();
+        assertEq(True, pngData.size() > 0, "transform operations produced output");
+    }
+
+    private patternTest() {
+        CairoSurface img = CairoSurface::createImage(300, 200);
+        CairoContext ctx(img);
+
+        ctx.setSourceRgb(1.0, 1.0, 1.0);
+        ctx.paint();
+
+        # Linear gradient
+        CairoPattern linearGrad = CairoPattern::createLinear(0.0, 0.0, 300.0, 0.0);
+        linearGrad.addColorStopRgb(0.0, 1.0, 0.0, 0.0);
+        linearGrad.addColorStopRgb(0.5, 0.0, 1.0, 0.0);
+        linearGrad.addColorStopRgb(1.0, 0.0, 0.0, 1.0);
+        ctx.setSource(linearGrad);
+        ctx.rectangle(10.0, 10.0, 280.0, 40.0);
+        ctx.fill();
+
+        # Radial gradient
+        CairoPattern radialGrad = CairoPattern::createRadial(150.0, 100.0, 10.0, 150.0, 100.0, 60.0);
+        radialGrad.addColorStopRgba(0.0, 1.0, 1.0, 0.0, 1.0);
+        radialGrad.addColorStopRgba(1.0, 0.0, 0.0, 1.0, 0.5);
+        ctx.setSource(radialGrad);
+        ctx.arc(150.0, 100.0, 60.0, 0.0, 2.0 * M_PI);
+        ctx.fill();
+
+        # Solid color pattern
+        CairoPattern solid = CairoPattern::createRgb(0.5, 0.5, 0.5);
+        ctx.setSource(solid);
+        ctx.rectangle(10.0, 160.0, 80.0, 30.0);
+        ctx.fill();
+
+        # RGBA solid pattern
+        CairoPattern solidAlpha = CairoPattern::createRgba(1.0, 0.0, 0.0, 0.3);
+        ctx.setSource(solidAlpha);
+        ctx.rectangle(100.0, 160.0, 80.0, 30.0);
+        ctx.fill();
+
+        # Surface pattern
+        CairoSurface tile = CairoSurface::createImage(20, 20);
+        {
+            CairoContext tileCtx(tile);
+            tileCtx.setSourceRgb(1.0, 0.0, 0.0);
+            tileCtx.rectangle(0.0, 0.0, 10.0, 10.0);
+            tileCtx.fill();
+            tileCtx.setSourceRgb(0.0, 0.0, 1.0);
+            tileCtx.rectangle(10.0, 10.0, 10.0, 10.0);
+            tileCtx.fill();
+        }
+        CairoPattern surfPat = CairoPattern::createForSurface(tile);
+        surfPat.setExtend("repeat");
+        ctx.setSource(surfPat);
+        ctx.rectangle(190.0, 160.0, 100.0, 30.0);
+        ctx.fill();
+
+        # Pattern extend modes
+        CairoPattern extGrad = CairoPattern::createLinear(0.0, 0.0, 50.0, 0.0);
+        extGrad.addColorStopRgb(0.0, 0.0, 0.0, 0.0);
+        extGrad.addColorStopRgb(1.0, 1.0, 1.0, 1.0);
+
+        extGrad.setExtend("none");
+        extGrad.setExtend("repeat");
+        extGrad.setExtend("reflect");
+        extGrad.setExtend("pad");
+
+        # Pattern filter modes
+        surfPat.setFilter("fast");
+        surfPat.setFilter("good");
+        surfPat.setFilter("best");
+        surfPat.setFilter("nearest");
+        surfPat.setFilter("bilinear");
+
+        # Pattern matrix
+        hash<CairoMatrix> patMat = <CairoMatrix>{
+            "xx": 2.0, "yx": 0.0,
+            "xy": 0.0, "yy": 2.0,
+            "x0": 0.0, "y0": 0.0,
+        };
+        surfPat.setMatrix(patMat);
+
+        binary pngData = img.writeToPngData();
+        assertEq(True, pngData.size() > 0, "pattern operations produced output");
+    }
+
+    private multiPageTest() {
+        # Multi-page PostScript
+        CairoSurface ps = CairoSurface::createPsToData(612.0, 792.0);
+        CairoContext ctx(ps);
+
+        # Page 1
+        ctx.setSourceRgb(0.0, 0.0, 0.0);
+        ctx.selectFontFace("Helvetica", "normal", "normal");
+        ctx.setFontSize(24.0);
+        ctx.moveTo(72.0, 720.0);
+        ctx.showText("Page 1");
+        ps.showPage();
+
+        # Page 2
+        ctx.moveTo(72.0, 720.0);
+        ctx.showText("Page 2");
+        ps.showPage();
+
+        # Page 3 with setPsSize
+        ps.setPsSize(400.0, 300.0);
+        ctx.moveTo(50.0, 250.0);
+        ctx.showText("Page 3 (landscape)");
+        ps.showPage();
+
+        ps.finish();
+
+        binary data = ps.getData();
+        assertEq(True, data.size() > 0, "multi-page PS data not empty");
+        string psStr = data.toString();
+        assertEq(True, psStr.regex("%%Pages:"), "multi-page PS has Pages marker");
+    }
+
+    private surfaceInfoTest() {
+        # SVG surface info
+        CairoSurface svg = CairoSurface::createSvgToData(400.0, 300.0);
+        hash<CairoSurfaceInfo> svgInfo = svg.getInfo();
+        assertEq("svg", svgInfo.type, "SVG surface type");
+        assertEq(400.0, svgInfo.width, "SVG surface width");
+        assertEq(300.0, svgInfo.height, "SVG surface height");
+
+        # PS surface info
+        CairoSurface ps = CairoSurface::createPsToData(612.0, 792.0);
+        hash<CairoSurfaceInfo> psInfo = ps.getInfo();
+        assertEq("ps", psInfo.type, "PS surface type");
+        assertEq(612.0, psInfo.width, "PS surface width");
+        assertEq(792.0, psInfo.height, "PS surface height");
+
+        # Image surface info
+        CairoSurface img = CairoSurface::createImage(256, 128, "ARGB32");
+        hash<CairoSurfaceInfo> imgInfo = img.getInfo();
+        assertEq("image", imgInfo.type, "image surface type");
+        assertEq(256.0, imgInfo.width, "image surface width");
+        assertEq(128.0, imgInfo.height, "image surface height");
+        assertEq("ARGB32", imgInfo.format, "image surface format");
+
+        # Image surface info with RGB24
+        CairoSurface imgRgb = CairoSurface::createImage(100, 50, "RGB24");
+        hash<CairoSurfaceInfo> imgRgbInfo = imgRgb.getInfo();
+        assertEq("RGB24", imgRgbInfo.format, "RGB24 image surface format");
+
+        # Recording surface info
+        CairoSurface rec = CairoSurface::createRecording(0.0, 0.0, 500.0, 400.0);
+        hash<CairoSurfaceInfo> recInfo = rec.getInfo();
+        assertEq("recording", recInfo.type, "recording surface type");
+    }
+
+    private svgReaderTest() {
+        if (!CairoSvgReader::isAvailable()) {
+            testSkip("librsvg not available");
+            return;
+        }
+
+        # Create a simple SVG to load
+        CairoSurface svgSurf = CairoSurface::createSvgToData(200.0, 150.0);
+        CairoContext svgCtx(svgSurf);
+        svgCtx.setSourceRgb(1.0, 0.0, 0.0);
+        svgCtx.rectangle(10.0, 10.0, 180.0, 130.0);
+        svgCtx.fill();
+        svgSurf.finish();
+        binary svgData = svgSurf.getData();
+
+        # Load SVG from binary data
+        CairoSvgReader reader(svgData);
+        float w = reader.getWidth();
+        float h = reader.getHeight();
+        assertEq(True, w > 0.0, "SVG reader width positive");
+        assertEq(True, h > 0.0, "SVG reader height positive");
+
+        # getDimensions
+        hash<auto> dims = reader.getDimensions();
+        assertEq(True, dims.hasKey("width"), "dimensions has width key");
+        assertEq(True, dims.hasKey("height"), "dimensions has height key");
+
+        # renderTo
+        CairoSurface target = CairoSurface::createImage(int(w), int(h));
+        CairoContext targetCtx(target);
+        reader.renderTo(targetCtx);
+        binary pngData = target.writeToPngData();
+        assertEq(True, pngData.size() > 0, "SVG render to image produced output");
+
+        # getMetadata
+        hash<auto> meta = reader.getMetadata();
+        assertEq(True, meta.hasKey("width"), "metadata has width key");
+        assertEq(True, meta.hasKey("height"), "metadata has height key");
+
+        # Load SVG from file
+        string svgPath = testDir + "/test_reader.svg";
+        {
+            File f();
+            f.open(svgPath, O_WRONLY | O_CREAT | O_TRUNC);
+            f.write(svgData);
+        }
+        CairoSvgReader fileReader(svgPath);
+        assertEq(True, fileReader.getWidth() > 0.0, "file SVG reader width positive");
+    }
+
+    private negativeTest() {
+        # Invalid image format
+        bool thrown = False;
+        try {
+            CairoSurface::createImage(100, 100, "INVALID");
+        } catch (hash<ExceptionInfo> ex) {
+            thrown = True;
+            assertEq("CAIRO-ERROR", ex.err, "invalid format throws CAIRO-ERROR");
+        }
+        assertTrue(thrown, "invalid image format throws exception");
+
+        # Empty PNG data
+        thrown = False;
+        try {
+            CairoSurface::createImageFromPngData(binary());
+        } catch (hash<ExceptionInfo> ex) {
+            thrown = True;
+            assertEq("CAIRO-ERROR", ex.err, "empty PNG data throws CAIRO-ERROR");
+        }
+        assertTrue(thrown, "empty PNG data throws exception");
+
+        # Corrupt PNG data
+        thrown = False;
+        try {
+            CairoSurface::createImageFromPngData(binary("not-a-png-file"));
+        } catch (hash<ExceptionInfo> ex) {
+            thrown = True;
+            assertEq("CAIRO-ERROR", ex.err, "corrupt PNG data throws CAIRO-ERROR");
+        }
+        assertTrue(thrown, "corrupt PNG data throws exception");
+
+        # Non-existent PNG file
+        thrown = False;
+        try {
+            CairoSurface::createImageFromPng("/nonexistent/path/to/file.png");
+        } catch (hash<ExceptionInfo> ex) {
+            thrown = True;
+            assertEq("CAIRO-ERROR", ex.err, "nonexistent PNG file throws CAIRO-ERROR");
+        }
+        assertTrue(thrown, "nonexistent PNG file throws exception");
+
+        # getData on non-stream surface
+        thrown = False;
+        try {
+            CairoSurface img = CairoSurface::createImage(10, 10);
+            img.getData();
+        } catch (hash<ExceptionInfo> ex) {
+            thrown = True;
+            assertEq("CAIRO-ERROR", ex.err, "getData on image surface throws CAIRO-ERROR");
+        }
+        assertTrue(thrown, "getData on non-stream surface throws exception");
+
+        # setEps on non-PS surface
+        thrown = False;
+        try {
+            CairoSurface svg = CairoSurface::createSvgToData(100.0, 100.0);
+            svg.setEps(True);
+        } catch (hash<ExceptionInfo> ex) {
+            thrown = True;
+            assertEq("CAIRO-ERROR", ex.err, "setEps on SVG surface throws CAIRO-ERROR");
+        }
+        assertTrue(thrown, "setEps on non-PS surface throws exception");
+
+        # setPsSize on non-PS surface
+        thrown = False;
+        try {
+            CairoSurface svg = CairoSurface::createSvgToData(100.0, 100.0);
+            svg.setPsSize(200.0, 300.0);
+        } catch (hash<ExceptionInfo> ex) {
+            thrown = True;
+            assertEq("CAIRO-ERROR", ex.err, "setPsSize on SVG surface throws CAIRO-ERROR");
+        }
+        assertTrue(thrown, "setPsSize on non-PS surface throws exception");
+
+        # SVG reader negative tests
+        if (CairoSvgReader::isAvailable()) {
+            # Empty SVG data
+            thrown = False;
+            try {
+                CairoSvgReader r(binary());
+            } catch (hash<ExceptionInfo> ex) {
+                thrown = True;
+                assertEq("CAIRO-ERROR", ex.err, "empty SVG data throws CAIRO-ERROR");
+            }
+            assertTrue(thrown, "empty SVG data throws exception");
+
+            # Corrupt SVG data
+            thrown = False;
+            try {
+                CairoSvgReader r(binary("not valid svg data at all"));
+            } catch (hash<ExceptionInfo> ex) {
+                thrown = True;
+                assertEq("CAIRO-ERROR", ex.err, "corrupt SVG data throws CAIRO-ERROR");
+            }
+            assertTrue(thrown, "corrupt SVG data throws exception");
+
+            # Non-existent SVG file
+            thrown = False;
+            try {
+                CairoSvgReader r("/nonexistent/path/to/file.svg");
+            } catch (hash<ExceptionInfo> ex) {
+                thrown = True;
+                assertEq("CAIRO-ERROR", ex.err, "nonexistent SVG file throws CAIRO-ERROR");
+            }
+            assertTrue(thrown, "nonexistent SVG file throws exception");
+        }
+    }
+
+    private cornerCaseTest() {
+        # Empty path stroke/fill (should be no-op, no crash)
+        CairoSurface img = CairoSurface::createImage(100, 100);
+        CairoContext ctx(img);
+        ctx.stroke();  # empty path stroke
+        ctx.fill();    # empty path fill
+
+        # Text with empty string
+        ctx.selectFontFace("sans-serif", "normal", "normal");
+        ctx.setFontSize(12.0);
+        ctx.moveTo(10.0, 50.0);
+        ctx.showText("");
+
+        # textExtents with empty string
+        hash<CairoTextExtents> ext = ctx.textExtents("");
+        assertEq(0.0, ext.width, "empty text extents width is zero");
+        assertEq(0.0, ext.x_advance, "empty text extents x_advance is zero");
+
+        # Zero-width line
+        ctx.setLineWidth(0.0);
+        ctx.moveTo(10.0, 10.0);
+        ctx.lineTo(90.0, 10.0);
+        ctx.stroke();
+
+        # setDash with empty list (resets to solid)
+        ctx.setDash(cast<list<float>>(list()), 0.0);
+        ctx.moveTo(10.0, 30.0);
+        ctx.lineTo(90.0, 30.0);
+        ctx.stroke();
+
+        # Gradient with zero color stops
+        CairoPattern grad = CairoPattern::createLinear(0.0, 0.0, 100.0, 0.0);
+        ctx.setSource(grad);
+        ctx.rectangle(10.0, 40.0, 80.0, 20.0);
+        ctx.fill();
+
+        # Single-point path
+        ctx.moveTo(50.0, 50.0);
+        ctx.stroke();
+
+        # Very large dimensions for recording surface
+        CairoSurface bigRec = CairoSurface::createRecording(0.0, 0.0, 10000.0, 10000.0);
+        CairoContext bigCtx(bigRec);
+        bigCtx.setSourceRgb(0.0, 0.0, 0.0);
+        bigCtx.rectangle(0.0, 0.0, 10.0, 10.0);
+        bigCtx.fill();
+
+        # setSourceSurface
+        CairoSurface src = CairoSurface::createImage(50, 50);
+        {
+            CairoContext srcCtx(src);
+            srcCtx.setSourceRgb(1.0, 0.0, 0.0);
+            srcCtx.paint();
+        }
+        ctx.setSourceSurface(src, 10.0, 60.0);
+        ctx.paint();
+
+        # copyPage (should not crash)
+        CairoSurface img2 = CairoSurface::createImage(50, 50);
+        CairoContext ctx2(img2);
+        ctx2.copyPage();
+        ctx2.showPage();
+
+        binary pngData = img.writeToPngData();
+        assertEq(True, pngData.size() > 0, "corner case operations produced output");
+    }
+}

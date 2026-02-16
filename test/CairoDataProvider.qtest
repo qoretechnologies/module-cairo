@@ -1,0 +1,665 @@
+#!/usr/bin/env qore
+# -*- mode: qore; indent-tabs-mode: nil -*-
+
+%modern
+%enable-all-warnings
+
+%requires QUnit
+%requires DataProvider
+%requires cairo
+%requires CairoDataProvider
+
+%exec-class CairoDataProviderTest
+
+class CairoDataProviderTest inherits QUnit::Test {
+    private {
+        AbstractDataProvider root;
+    }
+
+    constructor() : QUnit::Test("CairoDataProvider", "1.0") {
+        addTestCase("module loading", \testModuleLoading());
+        addTestCase("factory and app registration", \testRegistration());
+        addTestCase("provider hierarchy", \testHierarchy());
+        addTestCase("svg/create", \testSvgCreate());
+        addTestCase("svg/create output path", \testSvgCreateOutputPath());
+        addTestCase("svg/get-info", \testSvgGetInfo());
+        addTestCase("svg/to-png", \testSvgToPng());
+        addTestCase("svg/to-ps", \testSvgToPs());
+        addTestCase("svg/to-eps", \testSvgToEps());
+        addTestCase("image/create", \testImageCreate());
+        addTestCase("image/create formats", \testImageCreateFormats());
+        addTestCase("image/get-info", \testImageGetInfo());
+        addTestCase("image/draw", \testImageDraw());
+        addTestCase("postscript/create", \testPostScriptCreate());
+        addTestCase("postscript/create EPS", \testPostScriptCreateEps());
+        addTestCase("draw commands comprehensive", \testDrawCommands());
+        addTestCase("gradient commands", \testGradientCommands());
+        addTestCase("image command in draw", \testImageCommand());
+        addTestCase("multi-page postscript", \testMultiPagePs());
+        addTestCase("output location support", \testOutputLocation());
+        addTestCase("negative tests", \testNegative());
+        addTestCase("corner cases", \testCornerCases());
+
+        root = DataProvider::getFactoryEx("cairo").create({});
+
+        set_return_value(main());
+    }
+
+    private testModuleLoading() {
+        # Verify factory is registered
+        AbstractDataProviderFactory factory = DataProvider::getFactoryEx("cairo");
+        assertEq("cairo", factory.getName());
+    }
+
+    private testRegistration() {
+        # Verify factory info
+        hash<DataProviderFactoryInfo> info = DataProvider::getFactoryEx("cairo").getInfo();
+        assertEq("cairo", info.name);
+        assertTrue(info.children_can_support_apis);
+    }
+
+    private testHierarchy() {
+        # Root provider
+        assertEq("cairo", root.getName());
+        list<string> children = root.getChildProviderNames();
+        assertTrue(inlist("svg", children));
+        assertTrue(inlist("image", children));
+        assertTrue(inlist("postscript", children));
+
+        # SVG container
+        auto svg = root.getChildProvider("svg");
+        assertEq("svg", svg.getName());
+        list<string> svg_children = svg.getChildProviderNames();
+        assertTrue(inlist("create", svg_children));
+        # librsvg-dependent children
+        if (CairoSvgReader::isAvailable()) {
+            assertTrue(inlist("get-info", svg_children));
+            assertTrue(inlist("to-png", svg_children));
+            assertTrue(inlist("to-ps", svg_children));
+            assertTrue(inlist("to-eps", svg_children));
+        }
+
+        # Image container
+        auto img = root.getChildProvider("image");
+        list<string> img_children = img.getChildProviderNames();
+        assertTrue(inlist("create", img_children));
+        assertTrue(inlist("get-info", img_children));
+        assertTrue(inlist("draw", img_children));
+
+        # PostScript container
+        auto ps = root.getChildProvider("postscript");
+        list<string> ps_children = ps.getChildProviderNames();
+        assertTrue(inlist("create", ps_children));
+    }
+
+    private testSvgCreate() {
+        auto dp = root.getChildProvider("svg").getChildProvider("create");
+        assertTrue(dp.getInfo().supports_request);
+
+        hash<auto> result = dp.doRequest({
+            "width": 400.0,
+            "height": 200.0,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 0.0},
+                {"op": "rectangle", "x": 10.0, "y": 10.0, "width": 380.0, "height": 180.0},
+                {"op": "stroke"},
+            ),
+        });
+
+        assertTrue(result.size > 0);
+        assertTrue(exists result.data);
+        string svg_text = result.data.toString();
+        assertTrue(svg_text =~ /^<\?xml/);
+        assertTrue(svg_text =~ /svg/);
+    }
+
+    private testSvgCreateOutputPath() {
+        auto dp = root.getChildProvider("svg").getChildProvider("create");
+        string tmp = tmp_location() + "/test_svg_create.svg";
+
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+
+        hash<auto> result = dp.doRequest({
+            "width": 100.0,
+            "height": 100.0,
+            "output_path": tmp,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "rectangle", "x": 0.0, "y": 0.0, "width": 100.0, "height": 100.0},
+                {"op": "fill"},
+            ),
+        });
+
+        assertEq(tmp, result.output_path);
+        assertTrue(result.size > 0);
+        # Data not returned when output path specified (return_data not set)
+        assertFalse(exists result.data);
+        assertTrue(is_file(tmp));
+        binary file_data = ReadOnlyFile::readBinaryFile(tmp);
+        assertTrue(file_data.size() > 0);
+    }
+
+    private testSvgGetInfo() {
+        if (!CairoSvgReader::isAvailable()) {
+            testSkip("librsvg not available");
+        }
+
+        # Create an SVG first
+        auto svg_create = root.getChildProvider("svg").getChildProvider("create");
+        hash<auto> svg = svg_create.doRequest({
+            "width": 300.0,
+            "height": 150.0,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.5, "g": 0.5, "b": 0.5},
+                {"op": "paint"},
+            ),
+        });
+
+        auto dp = root.getChildProvider("svg").getChildProvider("get-info");
+        hash<auto> info = dp.doRequest({"data": svg.data});
+
+        assertEq(300.0, info.width);
+        assertEq(150.0, info.height);
+        assertTrue(info.metadata instanceof hash);
+    }
+
+    private testSvgToPng() {
+        if (!CairoSvgReader::isAvailable()) {
+            testSkip("librsvg not available");
+        }
+
+        # Create an SVG
+        auto svg_create = root.getChildProvider("svg").getChildProvider("create");
+        hash<auto> svg = svg_create.doRequest({
+            "width": 200.0,
+            "height": 100.0,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "rectangle", "x": 0.0, "y": 0.0, "width": 200.0, "height": 100.0},
+                {"op": "fill"},
+            ),
+        });
+
+        auto dp = root.getChildProvider("svg").getChildProvider("to-png");
+        hash<auto> result = dp.doRequest({
+            "data": svg.data,
+            "width": 256,
+            "height": 128,
+        });
+
+        assertEq(256, result.width);
+        assertEq(128, result.height);
+        assertTrue(result.size > 0);
+        # Verify PNG header
+        assertTrue(result.data.substr(0, 4) == <89504e47>);
+    }
+
+    private testSvgToPs() {
+        if (!CairoSvgReader::isAvailable()) {
+            testSkip("librsvg not available");
+        }
+
+        auto svg_create = root.getChildProvider("svg").getChildProvider("create");
+        hash<auto> svg = svg_create.doRequest({
+            "width": 100.0,
+            "height": 100.0,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 1.0},
+                {"op": "paint"},
+            ),
+        });
+
+        auto dp = root.getChildProvider("svg").getChildProvider("to-ps");
+        hash<auto> result = dp.doRequest({"data": svg.data});
+
+        assertTrue(result.size > 0);
+        string ps_text = result.data.toString();
+        assertTrue(ps_text =~ /^%!PS-Adobe/);
+    }
+
+    private testSvgToEps() {
+        if (!CairoSvgReader::isAvailable()) {
+            testSkip("librsvg not available");
+        }
+
+        auto svg_create = root.getChildProvider("svg").getChildProvider("create");
+        hash<auto> svg = svg_create.doRequest({
+            "width": 100.0,
+            "height": 100.0,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 1.0, "b": 0.0},
+                {"op": "paint"},
+            ),
+        });
+
+        auto dp = root.getChildProvider("svg").getChildProvider("to-eps");
+        hash<auto> result = dp.doRequest({"data": svg.data});
+
+        assertTrue(result.size > 0);
+        string eps_text = result.data.toString();
+        assertTrue(eps_text =~ /^%!PS-Adobe/);
+    }
+
+    private testImageCreate() {
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+
+        hash<auto> result = dp.doRequest({
+            "width": 128,
+            "height": 64,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 1.0},
+                {"op": "paint"},
+            ),
+        });
+
+        assertEq(128, result.width);
+        assertEq(64, result.height);
+        assertTrue(result.size > 0);
+        assertTrue(result.data.substr(0, 4) == <89504e47>);
+    }
+
+    private testImageCreateFormats() {
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+
+        list<string> formats = ("ARGB32", "RGB24", "A8", "A1");
+        foreach string fmt in (formats) {
+            hash<auto> result = dp.doRequest({
+                "width": 32,
+                "height": 32,
+                "format": fmt,
+                "commands": list({"op": "paint"}),
+            });
+            assertTrue(result.size > 0,
+                sprintf("format %s produces output", fmt));
+        }
+    }
+
+    private testImageGetInfo() {
+        # Create a PNG first
+        auto img_create = root.getChildProvider("image").getChildProvider("create");
+        hash<auto> img = img_create.doRequest({
+            "width": 256,
+            "height": 128,
+            "commands": list({"op": "paint"}),
+        });
+
+        auto dp = root.getChildProvider("image").getChildProvider("get-info");
+        hash<auto> info = dp.doRequest({"data": img.data});
+
+        assertEq(256, info.width);
+        assertEq(128, info.height);
+        assertEq("image", info.type);
+    }
+
+    private testImageDraw() {
+        # Create a white PNG
+        auto img_create = root.getChildProvider("image").getChildProvider("create");
+        hash<auto> img = img_create.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 1.0, "b": 1.0},
+                {"op": "paint"},
+            ),
+        });
+
+        # Draw a red rectangle on it
+        auto dp = root.getChildProvider("image").getChildProvider("draw");
+        hash<auto> result = dp.doRequest({
+            "data": img.data,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "rectangle", "x": 25.0, "y": 25.0, "width": 50.0, "height": 50.0},
+                {"op": "fill"},
+            ),
+        });
+
+        assertEq(100, result.width);
+        assertEq(100, result.height);
+        assertTrue(result.size > 0);
+        # Modified image should be different from original
+        assertTrue(result.data != img.data);
+    }
+
+    private testPostScriptCreate() {
+        auto dp = root.getChildProvider("postscript").getChildProvider("create");
+
+        hash<auto> result = dp.doRequest({
+            "width": 612.0,
+            "height": 792.0,
+            "commands": (
+                {"op": "text", "text": "Hello PostScript", "x": 72.0, "y": 720.0,
+                 "family": "Courier", "size": 24.0},
+            ),
+        });
+
+        assertTrue(result.size > 0);
+        string ps_text = result.data.toString();
+        assertTrue(ps_text =~ /^%!PS-Adobe/);
+    }
+
+    private testPostScriptCreateEps() {
+        auto dp = root.getChildProvider("postscript").getChildProvider("create");
+
+        hash<auto> result = dp.doRequest({
+            "width": 200.0,
+            "height": 200.0,
+            "eps": True,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.5, "b": 0.0},
+                {"op": "rectangle", "x": 10.0, "y": 10.0, "width": 180.0, "height": 180.0},
+                {"op": "fill"},
+            ),
+        });
+
+        assertTrue(result.size > 0);
+        string eps_text = result.data.toString();
+        assertTrue(eps_text =~ /^%!PS-Adobe/);
+    }
+
+    private testDrawCommands() {
+        auto dp = root.getChildProvider("svg").getChildProvider("create");
+
+        # Test all draw commands
+        hash<auto> result = dp.doRequest({
+            "width": 500.0,
+            "height": 500.0,
+            "commands": (
+                # State management
+                {"op": "save"},
+                # Source
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 0.0},
+                {"op": "set_source_rgba", "r": 1.0, "g": 0.0, "b": 0.0, "a": 0.5},
+                # Line style
+                {"op": "set_line_width", "width": 2.0},
+                {"op": "set_line_cap", "cap": "round"},
+                {"op": "set_line_join", "join": "round"},
+                {"op": "set_dash", "dashes": (5.0, 3.0), "offset": 0.0},
+                {"op": "set_fill_rule", "rule": "even-odd"},
+                # Path operations
+                {"op": "move_to", "x": 10.0, "y": 10.0},
+                {"op": "line_to", "x": 100.0, "y": 100.0},
+                {"op": "curve_to", "x1": 150.0, "y1": 50.0, "x2": 200.0, "y2": 150.0,
+                 "x3": 250.0, "y3": 100.0},
+                {"op": "arc", "x": 300.0, "y": 300.0, "radius": 50.0,
+                 "angle1": 0.0, "angle2": 3.14159},
+                {"op": "rectangle", "x": 350.0, "y": 350.0, "width": 100.0, "height": 50.0},
+                {"op": "close_path"},
+                {"op": "stroke_preserve"},
+                {"op": "fill_preserve"},
+                {"op": "new_path"},
+                {"op": "new_sub_path"},
+                {"op": "stroke"},
+                # Transforms
+                {"op": "translate", "x": 50.0, "y": 50.0},
+                {"op": "scale", "x": 1.5, "y": 1.5},
+                {"op": "rotate", "angle": 0.785},
+                {"op": "identity_matrix"},
+                # Text
+                {"op": "set_font", "family": "sans-serif", "size": 16.0},
+                {"op": "text", "text": "Test", "x": 10.0, "y": 400.0, "size": 14.0},
+                {"op": "text_path", "text": "Path"},
+                # Clip
+                {"op": "rectangle", "x": 0.0, "y": 0.0, "width": 500.0, "height": 500.0},
+                {"op": "clip_preserve"},
+                {"op": "new_path"},
+                # Paint
+                {"op": "paint"},
+                {"op": "paint", "alpha": 0.5},
+                {"op": "restore"},
+            ),
+        });
+
+        assertTrue(result.size > 0);
+    }
+
+    private testGradientCommands() {
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+
+        hash<auto> result = dp.doRequest({
+            "width": 200,
+            "height": 200,
+            "commands": (
+                # Linear gradient
+                {"op": "linear_gradient", "x0": 0.0, "y0": 0.0, "x1": 200.0, "y1": 0.0,
+                 "stops": (
+                    {"offset": 0.0, "r": 1.0, "g": 0.0, "b": 0.0},
+                    {"offset": 1.0, "r": 0.0, "g": 0.0, "b": 1.0},
+                 )},
+                {"op": "rectangle", "x": 0.0, "y": 0.0, "width": 200.0, "height": 100.0},
+                {"op": "fill"},
+                # Radial gradient with alpha stops
+                {"op": "radial_gradient", "cx0": 100.0, "cy0": 150.0, "r0": 0.0,
+                 "cx1": 100.0, "cy1": 150.0, "r1": 50.0,
+                 "stops": (
+                    {"offset": 0.0, "r": 1.0, "g": 1.0, "b": 0.0, "a": 1.0},
+                    {"offset": 1.0, "r": 1.0, "g": 0.0, "b": 0.0, "a": 0.0},
+                 )},
+                {"op": "rectangle", "x": 0.0, "y": 100.0, "width": 200.0, "height": 100.0},
+                {"op": "fill"},
+            ),
+        });
+
+        assertTrue(result.size > 0);
+        assertTrue(result.data.substr(0, 4) == <89504e47>);
+    }
+
+    private testImageCommand() {
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+
+        # Create a small PNG to embed
+        hash<auto> src = dp.doRequest({
+            "width": 32,
+            "height": 32,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "paint"},
+            ),
+        });
+
+        # Create an image that embeds the source PNG
+        hash<auto> result = dp.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 1.0, "b": 1.0},
+                {"op": "paint"},
+                {"op": "image", "data": src.data, "x": 34.0, "y": 34.0,
+                 "width": 32.0, "height": 32.0},
+            ),
+        });
+
+        assertTrue(result.size > 0);
+        assertEq(100, result.width);
+        assertEq(100, result.height);
+    }
+
+    private testMultiPagePs() {
+        auto dp = root.getChildProvider("postscript").getChildProvider("create");
+
+        hash<auto> result = dp.doRequest({
+            "width": 612.0,
+            "height": 792.0,
+            "commands": (
+                # Page 1
+                {"op": "text", "text": "Page 1", "x": 72.0, "y": 720.0, "size": 24.0},
+                {"op": "show_page"},
+                # Page 2
+                {"op": "text", "text": "Page 2", "x": 72.0, "y": 720.0, "size": 24.0},
+                {"op": "show_page"},
+            ),
+        });
+
+        assertTrue(result.size > 0);
+        string ps_text = result.data.toString();
+        assertTrue(ps_text =~ /%%Pages: 2/);
+    }
+
+    private testOutputLocation() {
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+        string tmp = tmp_location() + "/test_cairo_dp_out.png";
+
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+
+        # Test with file:// location
+        hash<auto> result = dp.doRequest({
+            "width": 32,
+            "height": 32,
+            "output_location": "file://" + tmp,
+            "commands": list({"op": "paint"}),
+        });
+
+        assertTrue(result.size > 0);
+        assertEq("file://" + tmp, result.output_location);
+        assertTrue(is_file(tmp));
+    }
+
+    private testNegative() {
+        # Missing op key
+        auto svg_dp = root.getChildProvider("svg").getChildProvider("create");
+        assertThrows("CAIRO-ERROR", "missing 'op'", sub () {
+            svg_dp.doRequest({
+                "width": 100.0,
+                "height": 100.0,
+                "commands": list({"r": 1.0}),
+            });
+        });
+
+        # Unknown op
+        assertThrows("CAIRO-ERROR", "unknown draw command", sub () {
+            svg_dp.doRequest({
+                "width": 100.0,
+                "height": 100.0,
+                "commands": list({"op": "bogus_operation"}),
+            });
+        });
+
+        # Negative dimensions for SVG create
+        assertThrows("CAIRO-ERROR", "positive", sub () {
+            svg_dp.doRequest({
+                "width": -100.0,
+                "height": 100.0,
+                "commands": list(),
+            });
+        });
+
+        # Negative dimensions for image create
+        auto img_dp = root.getChildProvider("image").getChildProvider("create");
+        assertThrows("CAIRO-ERROR", "positive", sub () {
+            img_dp.doRequest({
+                "width": -10,
+                "height": 10,
+                "commands": list(),
+            });
+        });
+
+        # Negative dimensions for PostScript create
+        auto ps_dp = root.getChildProvider("postscript").getChildProvider("create");
+        assertThrows("CAIRO-ERROR", "positive", sub () {
+            ps_dp.doRequest({
+                "width": -612.0,
+                "height": 792.0,
+                "commands": list(),
+            });
+        });
+
+        # Image command without path or data
+        assertThrows("CAIRO-ERROR", "requires 'path' or 'data'", sub () {
+            img_dp.doRequest({
+                "width": 32,
+                "height": 32,
+                "commands": list({"op": "image", "x": 0.0, "y": 0.0}),
+            });
+        });
+
+        # Image get-info with non-PNG data
+        auto info_dp = root.getChildProvider("image").getChildProvider("get-info");
+        assertThrows("CAIRO-ERROR", sub () {
+            info_dp.doRequest({"data": binary("not a png")});
+        });
+
+        # Image draw with non-PNG data
+        auto draw_dp = root.getChildProvider("image").getChildProvider("draw");
+        assertThrows("CAIRO-ERROR", sub () {
+            draw_dp.doRequest({
+                "data": binary("not a png"),
+                "commands": list({"op": "paint"}),
+            });
+        });
+    }
+
+    private testCornerCases() {
+        # Empty command list
+        auto svg_dp = root.getChildProvider("svg").getChildProvider("create");
+        hash<auto> result = svg_dp.doRequest({
+            "width": 50.0,
+            "height": 50.0,
+            "commands": list(),
+        });
+        assertTrue(result.size > 0);
+
+        # Single command
+        result = svg_dp.doRequest({
+            "width": 50.0,
+            "height": 50.0,
+            "commands": list({"op": "paint"}),
+        });
+        assertTrue(result.size > 0);
+
+        # return_data=True even with output path
+        string tmp = tmp_location() + "/test_corner_case.svg";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+        result = svg_dp.doRequest({
+            "width": 50.0,
+            "height": 50.0,
+            "output_path": tmp,
+            "return_data": True,
+            "commands": list({"op": "paint"}),
+        });
+        assertTrue(exists result.data);
+        assertEq(tmp, result.output_path);
+        assertTrue(result.size > 0);
+
+        # return_data=False without output path still returns size
+        auto img_dp = root.getChildProvider("image").getChildProvider("create");
+        result = img_dp.doRequest({
+            "width": 32,
+            "height": 32,
+            "return_data": False,
+            "commands": list({"op": "paint"}),
+        });
+        assertFalse(exists result.data);
+        assertTrue(result.size > 0);
+
+        # Text command with minimal parameters
+        result = svg_dp.doRequest({
+            "width": 100.0,
+            "height": 100.0,
+            "commands": list({"op": "text", "text": "", "x": 10.0, "y": 50.0}),
+        });
+        assertTrue(result.size > 0);
+
+        # Gradient with no stops
+        result = img_dp.doRequest({
+            "width": 32,
+            "height": 32,
+            "commands": (
+                {"op": "linear_gradient", "x0": 0.0, "y0": 0.0, "x1": 32.0, "y1": 0.0},
+                {"op": "paint"},
+            ),
+        });
+        assertTrue(result.size > 0);
+    }
+}

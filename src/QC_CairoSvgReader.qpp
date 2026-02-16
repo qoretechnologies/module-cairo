@@ -1,0 +1,113 @@
+/* -*- mode: c++; indent-tabs-mode: nil -*- */
+/** @file QC_CairoSvgReader.cpp defines the %Qore CairoSvgReader class */
+/*
+    Qore cairo module
+
+    Copyright (C) 2026 Qore Technologies, s.r.o.
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+*/
+
+#include "QC_CairoSvgReader.h"
+#include "QC_CairoContext.h"
+#include "CairoSvgReader.h"
+#include "CairoContext.h"
+
+//! Reads and renders SVG files using librsvg
+/**
+    Provides SVG loading and rendering capabilities. Requires librsvg to be
+    available at compile time (HAVE_RSVG).
+
+    @since %cairo 1.0
+*/
+qclass CairoSvgReader [arg=QoreCairoSvgReader* reader; ns=Qore::Cairo];
+
+//! Loads an SVG file from a path
+/** @param path SVG file path
+
+    @throw CAIRO-ERROR if the SVG cannot be loaded
+    @throw MISSING-FEATURE-ERROR if librsvg is not available
+*/
+CairoSvgReader::constructor(string path) [dom=FILESYSTEM] {
+    ReferenceHolder<QoreCairoSvgReader> holder(new QoreCairoSvgReader(path->c_str(), xsink), xsink);
+    if (*xsink) {
+        return;
+    }
+    self->setPrivate(CID_CAIROSVGREADER, holder.release());
+}
+
+//! Loads an SVG from binary data
+/** @param data SVG binary data
+
+    @throw CAIRO-ERROR if the SVG cannot be loaded
+    @throw MISSING-FEATURE-ERROR if librsvg is not available
+*/
+CairoSvgReader::constructor(binary data) {
+    if (!data || data->size() == 0) {
+        xsink->raiseException("CAIRO-ERROR", "SVG data is empty");
+        return;
+    }
+    ReferenceHolder<QoreCairoSvgReader> holder(new QoreCairoSvgReader(data, xsink), xsink);
+    if (*xsink) {
+        return;
+    }
+    self->setPrivate(CID_CAIROSVGREADER, holder.release());
+}
+
+//! Returns the SVG width
+/** @return the intrinsic width of the SVG
+*/
+float CairoSvgReader::getWidth() {
+    return reader->getWidth(xsink);
+}
+
+//! Returns the SVG height
+/** @return the intrinsic height of the SVG
+*/
+float CairoSvgReader::getHeight() {
+    return reader->getHeight(xsink);
+}
+
+//! Returns the SVG dimensions
+/** @return a hash with width, height keys
+*/
+hash<auto> CairoSvgReader::getDimensions() {
+    return reader->getDimensions(xsink);
+}
+
+//! Renders the SVG onto a Cairo context
+/** @param ctx the target drawing context
+*/
+nothing CairoSvgReader::renderTo(CairoContext[QoreCairoContext] ctx) {
+    reader->renderTo(ctx, xsink);
+}
+
+//! Returns SVG metadata
+/** @return a hash with metadata fields (width, height)
+*/
+hash<auto> CairoSvgReader::getMetadata() {
+    return reader->getMetadata(xsink);
+}
+
+//! Returns whether librsvg is available
+/** @return True if librsvg was compiled in
+*/
+static bool CairoSvgReader::isAvailable() {
+    return QoreCairoSvgReader::isAvailable();
+}
