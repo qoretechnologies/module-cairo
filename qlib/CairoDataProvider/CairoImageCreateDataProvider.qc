@@ -29,7 +29,8 @@ public class CairoImageCreateDataProvider inherits CairoActionBase {
     public {
         const ProviderInfo = <DataProviderInfo>{
             "name": "create",
-            "desc": "Create PNG from draw commands",
+            "desc": "Create a PNG raster image from declarative draw commands specifying "
+                "shapes, text, colors, and transformations",
             "type": "CairoImageCreateDataProvider",
             "supports_request": True,
         };

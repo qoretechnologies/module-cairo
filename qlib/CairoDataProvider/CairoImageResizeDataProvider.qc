@@ -1,7 +1,7 @@
 # -*- mode: qore; indent-tabs-mode: nil -*-
-#! Qore CairoPostScriptCreateDataProvider class definition
+#! Qore CairoImageResizeDataProvider class definition
 
-/** CairoPostScriptCreateDataProvider.qc Copyright (C) 2026 Qore Technologies, s.r.o.
+/** CairoImageResizeDataProvider.qc Copyright (C) 2026 Qore Technologies, s.r.o.
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -24,14 +24,13 @@
 
 #! Contains all public definitions in the CairoDataProvider module
 public namespace CairoDataProvider {
-#! Create PostScript or EPS data provider
-public class CairoPostScriptCreateDataProvider inherits CairoActionBase {
+#! Resize PNG image data provider
+public class CairoImageResizeDataProvider inherits CairoActionBase {
     public {
         const ProviderInfo = <DataProviderInfo>{
-            "name": "create",
-            "desc": "Create a PostScript or Encapsulated PostScript (EPS) document from "
-                "declarative draw commands for printing or embedding",
-            "type": "CairoPostScriptCreateDataProvider",
+            "name": "resize",
+            "desc": "Resize a PNG image to specified dimensions",
+            "type": "CairoImageResizeDataProvider",
             "supports_request": True,
         };
     }
@@ -53,45 +52,56 @@ public class CairoPostScriptCreateDataProvider inherits CairoActionBase {
     }
 
     private *AbstractDataProviderType getRequestTypeImpl() {
-        return new CairoPostScriptCreateRequestDataType();
+        return new CairoImageResizeRequestDataType();
     }
 
     private *AbstractDataProviderType getResponseTypeImpl() {
-        return AbstractDataProviderType::get(new Type("hash<CairoPostScriptCreateResponse>"));
+        return AbstractDataProviderType::get(new Type("hash<CairoImageResizeResponse>"));
     }
 
     private auto doRequestImpl(auto req, *hash<auto> request_options) {
         hash<auto> request = req;
 
-        float width = float(request.width);
-        float height = float(request.height);
+        int target_width = int(request.target_width);
+        int target_height = int(request.target_height);
 
-        if (width <= 0.0 || height <= 0.0) {
-            throw "CAIRO-ERROR", sprintf("PostScript dimensions must be positive (%.2f x %.2f)",
-                width, height);
+        if (target_width <= 0 || target_height <= 0) {
+            throw "CAIRO-ERROR", sprintf("target dimensions must be positive (%d x %d)",
+                target_width, target_height);
         }
 
-        # Create PS surface writing to memory
-        CairoSurface surface = CairoSurface::createPsToData(width, height);
+        # Load source image
+        binary src_data = CairoActionBase::loadBinaryData(request);
+        CairoSurface src = CairoSurface::createImageFromPngData(src_data);
 
-        # Enable EPS mode if requested
-        if (request.eps) {
-            surface.setEps(True);
+        int src_width = src.getWidth();
+        int src_height = src.getHeight();
+
+        if (src_width <= 0 || src_height <= 0) {
+            throw "CAIRO-ERROR", sprintf("source image has invalid dimensions (%d x %d)",
+                src_width, src_height);
         }
 
-        CairoContext ctx(surface);
+        # Create target surface
+        CairoSurface target = CairoSurface::createImage(target_width, target_height);
+        CairoContext ctx(target);
 
-        # Execute draw commands
-        CairoActionBase::executeDrawCommands(ctx, request.commands);
+        # Scale and draw source
+        float sx = float(target_width) / float(src_width);
+        float sy = float(target_height) / float(src_height);
+        ctx.scale(sx, sy);
+        ctx.setSourceSurface(src, 0.0, 0.0);
+        ctx.paint();
 
-        # Finalize and get data
-        surface.finish();
-        binary ps_data = surface.getData();
+        # Write to PNG
+        binary png_data = target.writeToPngData();
 
-        hash<auto> output = CairoActionBase::makeOutputResponse(ps_data, request);
+        hash<auto> output = CairoActionBase::makeOutputResponse(png_data, request);
 
-        hash<CairoPostScriptCreateResponse> response();
+        hash<CairoImageResizeResponse> response();
         response += output;
+        response.width = target_width;
+        response.height = target_height;
 
         return response;
     }

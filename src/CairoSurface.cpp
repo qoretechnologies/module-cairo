@@ -145,6 +145,37 @@ QoreCairoSurface::QoreCairoSurface(const BinaryNode* data, ExceptionSink* xsink)
     surface_height = cairo_image_surface_get_height(surface);
 }
 
+#ifdef HAVE_CAIRO_PDF
+// PDF surface to file
+QoreCairoSurface::QoreCairoSurface(const std::string& path, double width, double height,
+        PdfTag, ExceptionSink* xsink) : type(CST_PDF), surface_width(width), surface_height(height) {
+    if (width <= 0 || height <= 0) {
+        xsink->raiseException("CAIRO-ERROR", "surface dimensions must be positive (%.2f x %.2f)", width, height);
+        return;
+    }
+    QoreSandboxManagerHelper smh;
+    if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_WRITE | QSEC_CREATE, xsink)) {
+        return;
+    }
+    if (qore_check_io_interrupt(xsink, "PDF surface create")) {
+        return;
+    }
+    surface = cairo_pdf_surface_create(path.c_str(), width, height);
+    checkStatus(xsink);
+}
+
+// PDF surface to memory
+QoreCairoSurface::QoreCairoSurface(double width, double height, PdfTag, ExceptionSink* xsink)
+        : type(CST_PDF_STREAM), surface_width(width), surface_height(height) {
+    if (width <= 0 || height <= 0) {
+        xsink->raiseException("CAIRO-ERROR", "surface dimensions must be positive (%.2f x %.2f)", width, height);
+        return;
+    }
+    surface = cairo_pdf_surface_create_for_stream(writeCallback, &stream_data, width, height);
+    checkStatus(xsink);
+}
+#endif
+
 // Recording surface
 QoreCairoSurface::QoreCairoSurface(double x, double y, double width, double height, bool has_extents,
         ExceptionSink* xsink) : type(CST_RECORDING) {
@@ -237,7 +268,7 @@ BinaryNode* QoreCairoSurface::getData(ExceptionSink* xsink) {
         xsink->raiseException("CAIRO-ERROR", "surface is not initialized");
         return nullptr;
     }
-    if (type != CST_SVG_STREAM && type != CST_PS_STREAM) {
+    if (type != CST_SVG_STREAM && type != CST_PS_STREAM && type != CST_PDF_STREAM) {
         xsink->raiseException("CAIRO-ERROR", "getData is only available for stream-based surfaces");
         return nullptr;
     }
@@ -301,6 +332,10 @@ QoreHashNode* QoreCairoSurface::getInfo(ExceptionSink* xsink) {
         case CST_RECORDING:
             type_str = "recording";
             break;
+        case CST_PDF:
+        case CST_PDF_STREAM:
+            type_str = "pdf";
+            break;
         default:
             type_str = "unknown";
     }
@@ -361,6 +396,39 @@ void QoreCairoSurface::setPsSize(double width, double height, ExceptionSink* xsi
     surface_height = height;
     checkStatus(xsink);
 }
+
+#ifdef HAVE_CAIRO_PDF
+void QoreCairoSurface::setPdfSize(double width, double height, ExceptionSink* xsink) {
+    if (!surface) {
+        xsink->raiseException("CAIRO-ERROR", "surface is not initialized");
+        return;
+    }
+    if (type != CST_PDF && type != CST_PDF_STREAM) {
+        xsink->raiseException("CAIRO-ERROR", "setPdfSize is only available for PDF surfaces");
+        return;
+    }
+    if (width <= 0 || height <= 0) {
+        xsink->raiseException("CAIRO-ERROR", "PDF page dimensions must be positive (%.2f x %.2f)", width, height);
+        return;
+    }
+    cairo_pdf_surface_set_size(surface, width, height);
+    surface_width = width;
+    surface_height = height;
+    checkStatus(xsink);
+}
+
+bool QoreCairoSurface::isPdfAvailable() {
+    return true;
+}
+#else
+void QoreCairoSurface::setPdfSize(double width, double height, ExceptionSink* xsink) {
+    xsink->raiseException("CAIRO-ERROR", "PDF surface support not available");
+}
+
+bool QoreCairoSurface::isPdfAvailable() {
+    return false;
+}
+#endif
 
 void QoreCairoSurface::showPage(ExceptionSink* xsink) {
     if (!surface) {

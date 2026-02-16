@@ -29,7 +29,8 @@ public class CairoImageDrawDataProvider inherits CairoActionBase {
     public {
         const ProviderInfo = <DataProviderInfo>{
             "name": "draw",
-            "desc": "Draw on an existing PNG image",
+            "desc": "Draw shapes, text, and graphics on an existing PNG image using "
+                "declarative draw commands",
             "type": "CairoImageDrawDataProvider",
             "supports_request": True,
         };

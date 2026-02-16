@@ -42,7 +42,7 @@ static void cairo_module_delete();
 extern "C" DLLEXPORT void cairo_qore_module_desc(QoreModuleInfo& mod_info) {
     mod_info.name = "cairo";
     mod_info.version = "1.0.0";
-    mod_info.desc = "Qore Cairo module for vector graphics (SVG, PostScript, EPS)";
+    mod_info.desc = "Qore Cairo module for vector graphics (SVG, PDF, PostScript, EPS)";
     mod_info.author = "Qore Technologies, s.r.o.";
     mod_info.url = "https://github.com/qoretechnologies/module-cairo";
     mod_info.api_major = QORE_MODULE_API_MAJOR;
@@ -57,6 +57,9 @@ extern "C" DLLEXPORT void cairo_qore_module_desc(QoreModuleInfo& mod_info) {
 const TypedHashDecl* hashdeclCairoSurfaceInfo = nullptr;
 const TypedHashDecl* hashdeclCairoMatrix = nullptr;
 const TypedHashDecl* hashdeclCairoTextExtents = nullptr;
+const TypedHashDecl* hashdeclCairoFontExtents = nullptr;
+const TypedHashDecl* hashdeclCairoPoint = nullptr;
+const TypedHashDecl* hashdeclCairoPathExtents = nullptr;
 
 QoreNamespace CairoNs("Qore::Cairo");
 
@@ -64,6 +67,9 @@ static void cairo_module_init(QoreModuleInitContext& ctx, ExceptionSink& xsink) 
     hashdeclCairoSurfaceInfo = init_hashdecl_CairoSurfaceInfo(CairoNs);
     hashdeclCairoMatrix = init_hashdecl_CairoMatrix(CairoNs);
     hashdeclCairoTextExtents = init_hashdecl_CairoTextExtents(CairoNs);
+    hashdeclCairoFontExtents = init_hashdecl_CairoFontExtents(CairoNs);
+    hashdeclCairoPoint = init_hashdecl_CairoPoint(CairoNs);
+    hashdeclCairoPathExtents = init_hashdecl_CairoPathExtents(CairoNs);
 
     CairoNs.addSystemClass(initCairoSurfaceClass(CairoNs));
     CairoNs.addSystemClass(initCairoPatternClass(CairoNs));

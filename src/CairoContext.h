@@ -91,6 +91,9 @@ public:
     void showText(const std::string& text, ExceptionSink* xsink);
     void textPath(const std::string& text, ExceptionSink* xsink);
     QoreHashNode* textExtents(const std::string& text, ExceptionSink* xsink);
+    QoreHashNode* fontExtents(ExceptionSink* xsink);
+    QoreHashNode* getCurrentPoint(ExceptionSink* xsink);
+    QoreHashNode* pathExtents(ExceptionSink* xsink);
 
     // Page
     void showPage(ExceptionSink* xsink);

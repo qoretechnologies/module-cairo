@@ -1,7 +1,7 @@
 # -*- mode: qore; indent-tabs-mode: nil -*-
-#! Qore CairoPostScriptCreateDataProvider class definition
+#! Qore CairoTextMeasureDataProvider class definition
 
-/** CairoPostScriptCreateDataProvider.qc Copyright (C) 2026 Qore Technologies, s.r.o.
+/** CairoTextMeasureDataProvider.qc Copyright (C) 2026 Qore Technologies, s.r.o.
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -24,14 +24,13 @@
 
 #! Contains all public definitions in the CairoDataProvider module
 public namespace CairoDataProvider {
-#! Create PostScript or EPS data provider
-public class CairoPostScriptCreateDataProvider inherits CairoActionBase {
+#! Measure text dimensions data provider
+public class CairoTextMeasureDataProvider inherits CairoActionBase {
     public {
         const ProviderInfo = <DataProviderInfo>{
-            "name": "create",
-            "desc": "Create a PostScript or Encapsulated PostScript (EPS) document from "
-                "declarative draw commands for printing or embedding",
-            "type": "CairoPostScriptCreateDataProvider",
+            "name": "measure",
+            "desc": "Calculate the width, height, and bearing of text with a given font",
+            "type": "CairoTextMeasureDataProvider",
             "supports_request": True,
         };
     }
@@ -53,47 +52,43 @@ public class CairoPostScriptCreateDataProvider inherits CairoActionBase {
     }
 
     private *AbstractDataProviderType getRequestTypeImpl() {
-        return new CairoPostScriptCreateRequestDataType();
+        return new CairoTextMeasureRequestDataType();
     }
 
     private *AbstractDataProviderType getResponseTypeImpl() {
-        return AbstractDataProviderType::get(new Type("hash<CairoPostScriptCreateResponse>"));
+        return AbstractDataProviderType::get(new Type("hash<CairoTextMeasureResponse>"));
     }
 
     private auto doRequestImpl(auto req, *hash<auto> request_options) {
         hash<auto> request = req;
 
-        float width = float(request.width);
-        float height = float(request.height);
-
-        if (width <= 0.0 || height <= 0.0) {
-            throw "CAIRO-ERROR", sprintf("PostScript dimensions must be positive (%.2f x %.2f)",
-                width, height);
-        }
-
-        # Create PS surface writing to memory
-        CairoSurface surface = CairoSurface::createPsToData(width, height);
-
-        # Enable EPS mode if requested
-        if (request.eps) {
-            surface.setEps(True);
-        }
-
+        # Create a small image surface for measuring
+        CairoSurface surface = CairoSurface::createImage(1, 1);
         CairoContext ctx(surface);
 
-        # Execute draw commands
-        CairoActionBase::executeDrawCommands(ctx, request.commands);
+        # Set font
+        string family = request.family ?? "sans-serif";
+        string slant = request.slant ?? "normal";
+        string weight = request.weight ?? "normal";
+        float size = float(request.size ?? 12.0);
+        if (size <= 0.0) {
+            throw "CAIRO-ERROR", sprintf("font size must be positive (got %g)", size);
+        }
+        ctx.selectFontFace(family, slant, weight);
+        ctx.setFontSize(size);
 
-        # Finalize and get data
-        surface.finish();
-        binary ps_data = surface.getData();
+        # Get text extents
+        hash<CairoTextExtents> ext = ctx.textExtents(string(request.text));
 
-        hash<auto> output = CairoActionBase::makeOutputResponse(ps_data, request);
-
-        hash<CairoPostScriptCreateResponse> response();
-        response += output;
-
-        return response;
+        return <CairoTextMeasureResponse>{
+            "success": True,
+            "x_bearing": ext.x_bearing,
+            "y_bearing": ext.y_bearing,
+            "width": ext.width,
+            "height": ext.height,
+            "x_advance": ext.x_advance,
+            "y_advance": ext.y_advance,
+        };
     }
 }
 }

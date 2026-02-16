@@ -374,6 +374,27 @@ hash<CairoTextExtents> CairoContext::textExtents(string text) {
     return ctx->textExtents(text->c_str(), xsink);
 }
 
+//! Returns font extents for the currently selected font
+/** @return a @ref Qore::Cairo::CairoFontExtents hash with font metrics
+*/
+hash<CairoFontExtents> CairoContext::fontExtents() {
+    return ctx->fontExtents(xsink);
+}
+
+//! Returns the current point, or NOTHING if there is no current point
+/** @return a @ref Qore::Cairo::CairoPoint hash, or NOTHING if no current point is set
+*/
+*hash<CairoPoint> CairoContext::getCurrentPoint() {
+    return ctx->getCurrentPoint(xsink);
+}
+
+//! Returns the bounding box of the current path in user-space coordinates
+/** @return a @ref Qore::Cairo::CairoPathExtents hash
+*/
+hash<CairoPathExtents> CairoContext::pathExtents() {
+    return ctx->pathExtents(xsink);
+}
+
 //! Advances to the next page (emits the current page)
 /** Emits the current page and clears it, starting a new page.
 */

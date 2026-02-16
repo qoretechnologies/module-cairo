@@ -29,7 +29,8 @@ public class CairoSvgToEpsDataProvider inherits CairoActionBase {
     public {
         const ProviderInfo = <DataProviderInfo>{
             "name": "to-eps",
-            "desc": "Convert SVG to EPS (requires librsvg)",
+            "desc": "Convert an SVG vector image to Encapsulated PostScript (EPS) format "
+                "for embedding in documents. Requires librsvg.",
             "type": "CairoSvgToEpsDataProvider",
             "supports_request": True,
         };

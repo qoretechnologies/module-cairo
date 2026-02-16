@@ -45,8 +45,8 @@ module CairoDataProvider {
         DataProviderActionCatalog::registerApp(<DataProviderAppInfo>{
             "name": CairoDataProvider::AppName,
             "display_name": "Cairo Vector Graphics",
-            "short_desc": "SVG, PostScript, and EPS vector graphics",
-            "desc": "Create and manipulate vector graphics in SVG, PostScript, and EPS formats",
+            "short_desc": "SVG, PDF, PostScript, and EPS vector graphics",
+            "desc": "Create and manipulate vector graphics in SVG, PDF, PostScript, and EPS formats",
             "groups": (DataProvider::AppGroup::Documents, DataProvider::AppGroup::DataTransformation),
             "logo": Priv::CairoLogo,
             "logo_file_name": "cairo-logo.svg",
@@ -146,6 +146,71 @@ module CairoDataProvider {
             "display_name": "Create PostScript",
             "short_desc": "Create PS or EPS from draw commands",
             "desc": "Create a PostScript or EPS document from declarative draw commands",
+            "action_code": DPAT_API,
+        });
+
+        # PDF actions (conditional on PDF surface support)
+        if (CairoSurface::isPdfAvailable()) {
+            DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+                "app": CairoDataProvider::AppName,
+                "path": "/pdf/create",
+                "action": "pdf-create",
+                "display_name": "Create PDF",
+                "short_desc": "Create PDF from draw commands",
+                "desc": "Create a PDF document from declarative draw commands",
+                "action_code": DPAT_API,
+            });
+        }
+
+        # Text measurement actions
+        DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+            "app": CairoDataProvider::AppName,
+            "path": "/text/measure",
+            "action": "text-measure",
+            "display_name": "Measure Text",
+            "short_desc": "Measure text dimensions",
+            "desc": "Calculate the width, height, and bearing of text with a given font",
+            "action_code": DPAT_API,
+        });
+
+        DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+            "app": CairoDataProvider::AppName,
+            "path": "/text/get-font-metrics",
+            "action": "text-get-font-metrics",
+            "display_name": "Get Font Metrics",
+            "short_desc": "Get font ascent, descent, and height",
+            "desc": "Get font metrics (ascent, descent, height, max advance) for a given font",
+            "action_code": DPAT_API,
+        });
+
+        # Image utility actions
+        DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+            "app": CairoDataProvider::AppName,
+            "path": "/image/resize",
+            "action": "image-resize",
+            "display_name": "Resize Image",
+            "short_desc": "Resize a PNG image",
+            "desc": "Resize a PNG image to specified dimensions",
+            "action_code": DPAT_API,
+        });
+
+        DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+            "app": CairoDataProvider::AppName,
+            "path": "/image/crop",
+            "action": "image-crop",
+            "display_name": "Crop Image",
+            "short_desc": "Crop a PNG image",
+            "desc": "Crop a region from a PNG image",
+            "action_code": DPAT_API,
+        });
+
+        DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+            "app": CairoDataProvider::AppName,
+            "path": "/image/composite",
+            "action": "image-composite",
+            "display_name": "Composite Images",
+            "short_desc": "Overlay one image on another",
+            "desc": "Composite an overlay image onto a base image with optional alpha and positioning",
             "action_code": DPAT_API,
         });
     };

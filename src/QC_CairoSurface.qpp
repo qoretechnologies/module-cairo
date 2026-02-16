@@ -32,7 +32,7 @@
     Contains information about a Cairo surface.
 */
 hashdecl Qore::Cairo::CairoSurfaceInfo {
-    //! Surface type: "svg", "ps", "image", or "recording"
+    //! Surface type: "svg", "ps", "pdf", "image", or "recording"
     /** */
     string type;
 
@@ -107,6 +107,68 @@ hashdecl Qore::Cairo::CairoTextExtents {
     //! Y advance
     /** */
     float y_advance;
+}
+
+//! Font extents information
+/**
+    Contains metrics for the currently selected font.
+*/
+hashdecl Qore::Cairo::CairoFontExtents {
+    //! Distance the font extends above the baseline
+    /** */
+    float ascent;
+
+    //! Distance the font extends below the baseline
+    /** */
+    float descent;
+
+    //! Recommended vertical distance between baselines
+    /** */
+    float height;
+
+    //! Maximum distance in X a glyph advances
+    /** */
+    float max_x_advance;
+
+    //! Maximum distance in Y a glyph advances
+    /** */
+    float max_y_advance;
+}
+
+//! Current point coordinates
+/**
+    Contains the current point of a Cairo path.
+*/
+hashdecl Qore::Cairo::CairoPoint {
+    //! X coordinate
+    /** */
+    float x;
+
+    //! Y coordinate
+    /** */
+    float y;
+}
+
+//! Path bounding box
+/**
+    Contains the bounding box of a Cairo path in user-space coordinates.
+*/
+hashdecl Qore::Cairo::CairoPathExtents {
+    //! Left edge X coordinate
+    /** */
+    float x1;
+
+    //! Top edge Y coordinate
+    /** */
+    float y1;
+
+    //! Right edge X coordinate
+    /** */
+    float x2;
+
+    //! Bottom edge Y coordinate
+    /** */
+    float y2;
 }
 
 //! A Cairo drawing surface
@@ -308,10 +370,10 @@ binary CairoSurface::writeToPngData() {
 }
 
 //! Gets accumulated stream data
-/** Only available for stream-based surfaces (createSvgToData, createPsToData).
+/** Only available for stream-based surfaces (createSvgToData, createPsToData, createPdfToData).
     Call finish() before calling this method to ensure all data is written.
 
-    @return binary data (SVG XML or PostScript)
+    @return binary data (SVG XML, PostScript, or PDF)
 
     @throw CAIRO-ERROR if not a stream-based surface
 */
@@ -361,8 +423,72 @@ nothing CairoSurface::setPsSize(float width, float height) {
     surface->setPsSize(width, height, xsink);
 }
 
+//! Creates a PDF surface writing to a file
+/** @param path output file path
+    @param width surface width in points
+    @param height surface height in points
+
+    @throw CAIRO-ERROR if PDF support is not available or the surface cannot be created
+*/
+static CairoSurface CairoSurface::createPdf(string path, float width, float height) [dom=FILESYSTEM] {
+#ifdef HAVE_CAIRO_PDF
+    ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(path->c_str(), width, height,
+        QoreCairoSurface::PdfTag{}, xsink), xsink);
+    if (*xsink) {
+        return QoreValue();
+    }
+    return new QoreObject(QC_CAIROSURFACE, getProgram(), holder.release());
+#else
+    xsink->raiseException("CAIRO-ERROR", "PDF surface support not available");
+    return QoreValue();
+#endif
+}
+
+//! Creates a PDF surface writing to memory
+/** @param width surface width in points
+    @param height surface height in points
+
+    @return a new CairoSurface; use getData() to get the PDF data after finish()
+
+    @throw CAIRO-ERROR if PDF support is not available or the surface cannot be created
+*/
+static CairoSurface CairoSurface::createPdfToData(float width, float height) {
+#ifdef HAVE_CAIRO_PDF
+    ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(width, height,
+        QoreCairoSurface::PdfTag{}, xsink), xsink);
+    if (*xsink) {
+        return QoreValue();
+    }
+    return new QoreObject(QC_CAIROSURFACE, getProgram(), holder.release());
+#else
+    xsink->raiseException("CAIRO-ERROR", "PDF surface support not available");
+    return QoreValue();
+#endif
+}
+
+//! Sets page size for PDF surfaces
+/** @param width new page width in points
+    @param height new page height in points
+
+    @throw CAIRO-ERROR if not a PDF surface or PDF support is not available
+*/
+nothing CairoSurface::setPdfSize(float width, float height) {
+#ifdef HAVE_CAIRO_PDF
+    surface->setPdfSize(width, height, xsink);
+#else
+    xsink->raiseException("CAIRO-ERROR", "PDF surface support not available");
+#endif
+}
+
+//! Returns whether PDF surface support is available
+/** @return True if PDF surface support was compiled in
+*/
+static bool CairoSurface::isPdfAvailable() {
+    return QoreCairoSurface::isPdfAvailable();
+}
+
 //! Advances to the next page
-/** For multi-page surfaces (PostScript, SVG 1.2+).
+/** For multi-page surfaces (PostScript, PDF, SVG 1.2+).
 */
 nothing CairoSurface::showPage() {
     surface->showPage(xsink);

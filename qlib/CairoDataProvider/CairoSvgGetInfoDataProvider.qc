@@ -29,7 +29,8 @@ public class CairoSvgGetInfoDataProvider inherits CairoActionBase {
     public {
         const ProviderInfo = <DataProviderInfo>{
             "name": "get-info",
-            "desc": "Get SVG dimensions and metadata (requires librsvg)",
+            "desc": "Read the dimensions (width and height) and metadata of an SVG file without "
+                "modifying it. Requires librsvg.",
             "type": "CairoSvgGetInfoDataProvider",
             "supports_request": True,
         };
@@ -72,6 +73,7 @@ public class CairoSvgGetInfoDataProvider inherits CairoActionBase {
         response.width = reader.getWidth();
         response.height = reader.getHeight();
         response.metadata = reader.getMetadata();
+        response.success = True;
 
         return response;
     }

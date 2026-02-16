@@ -30,6 +30,9 @@ public namespace CairoDataProvider {
     - @b create - Create PNG from draw commands
     - @b get-info - Get PNG image info
     - @b draw - Draw on existing PNG
+    - @b resize - Resize a PNG image
+    - @b crop - Crop a region from a PNG image
+    - @b composite - Composite an overlay image onto a base image
 
     @par Data Provider Path
     Access via: @verbatim cairo{}/image/<action> @endverbatim
@@ -49,6 +52,9 @@ public class CairoImageDataProvider inherits AbstractDataProvider {
             "create": "CairoDataProvider::CairoImageCreateDataProvider",
             "get-info": "CairoDataProvider::CairoImageGetInfoDataProvider",
             "draw": "CairoDataProvider::CairoImageDrawDataProvider",
+            "resize": "CairoDataProvider::CairoImageResizeDataProvider",
+            "crop": "CairoDataProvider::CairoImageCropDataProvider",
+            "composite": "CairoDataProvider::CairoImageCompositeDataProvider",
         };
         *hash<auto> opts;
     }

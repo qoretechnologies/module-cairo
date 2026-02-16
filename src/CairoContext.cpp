@@ -419,6 +419,55 @@ QoreHashNode* QoreCairoContext::textExtents(const std::string& text, ExceptionSi
     return h.release();
 }
 
+QoreHashNode* QoreCairoContext::fontExtents(ExceptionSink* xsink) {
+    cairo_font_extents_t extents;
+    cairo_font_extents(cr, &extents);
+
+    ReferenceHolder<QoreHashNode> h(new QoreHashNode(hashdeclCairoFontExtents, xsink), xsink);
+    if (*xsink) {
+        return nullptr;
+    }
+
+    h->setKeyValue("ascent", extents.ascent, xsink);
+    h->setKeyValue("descent", extents.descent, xsink);
+    h->setKeyValue("height", extents.height, xsink);
+    h->setKeyValue("max_x_advance", extents.max_x_advance, xsink);
+    h->setKeyValue("max_y_advance", extents.max_y_advance, xsink);
+
+    return h.release();
+}
+
+QoreHashNode* QoreCairoContext::getCurrentPoint(ExceptionSink* xsink) {
+    if (!cairo_has_current_point(cr)) {
+        return nullptr;
+    }
+    double x, y;
+    cairo_get_current_point(cr, &x, &y);
+
+    ReferenceHolder<QoreHashNode> h(new QoreHashNode(hashdeclCairoPoint, xsink), xsink);
+    if (*xsink) {
+        return nullptr;
+    }
+    h->setKeyValue("x", x, xsink);
+    h->setKeyValue("y", y, xsink);
+    return h.release();
+}
+
+QoreHashNode* QoreCairoContext::pathExtents(ExceptionSink* xsink) {
+    double x1, y1, x2, y2;
+    cairo_path_extents(cr, &x1, &y1, &x2, &y2);
+
+    ReferenceHolder<QoreHashNode> h(new QoreHashNode(hashdeclCairoPathExtents, xsink), xsink);
+    if (*xsink) {
+        return nullptr;
+    }
+    h->setKeyValue("x1", x1, xsink);
+    h->setKeyValue("y1", y1, xsink);
+    h->setKeyValue("x2", x2, xsink);
+    h->setKeyValue("y2", y2, xsink);
+    return h.release();
+}
+
 // Page
 void QoreCairoContext::showPage(ExceptionSink* xsink) {
     cairo_show_page(cr);

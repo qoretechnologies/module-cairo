@@ -29,7 +29,8 @@ public class CairoSvgCreateDataProvider inherits CairoActionBase {
     public {
         const ProviderInfo = <DataProviderInfo>{
             "name": "create",
-            "desc": "Create SVG from draw commands",
+            "desc": "Create an SVG vector image from declarative draw commands specifying "
+                "shapes, text, colors, and transformations",
             "type": "CairoSvgCreateDataProvider",
             "supports_request": True,
         };

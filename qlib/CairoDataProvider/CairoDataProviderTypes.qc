@@ -35,6 +35,7 @@ const CairoInputFields = {
         "short_desc": "Path to input file",
         "desc": "File path to read input from. One of 'input_path', 'data', or 'location' "
             "must be provided.",
+        "example_value": "/path/to/input.svg",
     },
     "data": {
         "type": BinaryOrNothingType,
@@ -49,7 +50,9 @@ const CairoInputFields = {
         "short_desc": "Location of input file",
         "desc": "A file location string as supported by the "
             "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) "
-            "module. One of 'input_path', 'data', or 'location' must be provided.",
+            "module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). "
+            "One of 'input_path', 'data', or 'location' must be provided.",
+        "example_value": "file:///path/to/input.png",
     },
 };
 
@@ -59,8 +62,9 @@ const CairoOutputFields = {
         "type": StringOrNothingType,
         "display_name": "Output File Path",
         "short_desc": "Path to write the output to",
-        "desc": "File path to write the output to. If neither 'output_path' nor "
+        "desc": "File path to write the processed output to. If neither 'output_path' nor "
             "'output_location' is provided, the data is returned in the response only.",
+        "example_value": "/path/to/output.png",
     },
     "output_location": {
         "type": StringOrNothingType,
@@ -68,14 +72,24 @@ const CairoOutputFields = {
         "short_desc": "Location to write the output to",
         "desc": "A file location string as supported by the "
             "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) "
-            "module.",
+            "module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). "
+            "If neither 'output_path' nor 'output_location' is provided, the data is returned "
+            "in the response only.",
+        "example_value": "file:///path/to/output.png",
     },
     "return_data": {
         "type": BoolOrNothingType,
         "display_name": "Return Data",
         "short_desc": "Whether to include data in the response",
         "desc": "Whether to include binary data in the response hash. Defaults to True when "
-            "no output path or location is specified, False otherwise.",
+            "no output path or location is specified, False when an output destination is provided.",
+    },
+    "overwrite": {
+        "type": BoolOrNothingType,
+        "display_name": "Overwrite",
+        "short_desc": "Overwrite the input file",
+        "desc": "If true and output_path is not specified, the input file will be overwritten "
+            "(only applicable when input_path is used).",
     },
 };
 
@@ -106,6 +120,18 @@ const CairoOutputResponseFields = {
         "short_desc": "Output data size in bytes",
         "desc": "Size of the output data in bytes",
     },
+    "success": {
+        "type": BoolType,
+        "display_name": "Success",
+        "short_desc": "Whether the operation succeeded",
+        "desc": "True if the operation completed successfully",
+    },
+    "warnings": {
+        "type": new Type("*list<string>"),
+        "display_name": "Warnings",
+        "short_desc": "Warnings encountered during processing",
+        "desc": "List of warning messages encountered during processing, if any",
+    },
 };
 
 #! Draw commands field
@@ -115,10 +141,24 @@ const CairoDrawCommandsField = {
         "display_name": "Draw Commands",
         "short_desc": "List of draw commands",
         "desc": "List of draw command hashes. Each command has an 'op' key specifying the "
-            "operation. Supported ops: set_source_rgb, set_source_rgba, set_line_width, "
-            "set_font, move_to, line_to, curve_to, arc, rectangle, close_path, stroke, fill, "
-            "paint, text, save, restore, translate, rotate, scale, set_dash, set_line_cap, "
-            "set_line_join, linear_gradient, radial_gradient, image, show_page, clip",
+            "operation and operation-specific parameters.\n\n"
+            "Color and style: set_source_rgb (r, g, b), set_source_rgba (r, g, b, a), "
+            "set_line_width (width), set_line_cap (cap), set_line_join (join), "
+            "set_dash (dashes, offset), set_fill_rule (rule), set_operator (op_name), "
+            "set_antialias (aa)\n\n"
+            "Paths: move_to (x, y), line_to (x, y), curve_to (x1, y1, x2, y2, x3, y3), "
+            "arc (x, y, radius, angle1, angle2), arc_negative (x, y, radius, angle1, angle2), "
+            "rectangle (x, y, width, height), close_path, new_path, new_sub_path\n\n"
+            "Drawing: stroke, fill, paint (alpha), stroke_preserve, fill_preserve, "
+            "clip, clip_preserve, text_path (text)\n\n"
+            "Text: text (text, x, y, family, size, slant, weight), "
+            "set_font (family, size, slant, weight), set_font_size (size)\n\n"
+            "Transforms: translate (x, y), rotate (angle), scale (x, y), identity_matrix, "
+            "set_matrix (xx, yx, xy, yy, x0, y0), transform (xx, yx, xy, yy, x0, y0)\n\n"
+            "Gradients: linear_gradient (x0, y0, x1, y1, stops), "
+            "radial_gradient (cx0, cy0, r0, cx1, cy1, r1, stops)\n\n"
+            "Other: image (path/data, x, y, width, height), save, restore, "
+            "show_page, copy_page",
     },
 };
 
@@ -158,6 +198,12 @@ public hashdecl CairoSvgCreateResponse {
 
     #! Output size in bytes
     int size;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
 }
 
 # ========== SVG Get Info ==========
@@ -184,6 +230,12 @@ public hashdecl CairoSvgGetInfoResponse {
 
     #! SVG metadata
     hash<auto> metadata;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
 }
 
 # ========== SVG To PNG ==========
@@ -213,6 +265,9 @@ public hashdecl CairoSvgToPngRequest {
 
     #! Return data in response
     *bool return_data;
+
+    #! Overwrite the input file if true
+    *bool overwrite;
 }
 
 #! Response type for SVG to PNG conversion
@@ -234,6 +289,12 @@ public hashdecl CairoSvgToPngResponse {
 
     #! Image height in pixels
     int height;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
 }
 
 # ========== SVG To PS ==========
@@ -263,6 +324,9 @@ public hashdecl CairoSvgToPsRequest {
 
     #! Return data in response
     *bool return_data;
+
+    #! Overwrite the input file if true
+    *bool overwrite;
 }
 
 #! Response type for SVG to PostScript conversion
@@ -278,6 +342,12 @@ public hashdecl CairoSvgToPsResponse {
 
     #! Output size in bytes
     int size;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
 }
 
 # ========== SVG To EPS ==========
@@ -307,6 +377,9 @@ public hashdecl CairoSvgToEpsRequest {
 
     #! Return data in response
     *bool return_data;
+
+    #! Overwrite the input file if true
+    *bool overwrite;
 }
 
 #! Response type for SVG to EPS conversion
@@ -322,6 +395,12 @@ public hashdecl CairoSvgToEpsResponse {
 
     #! Output size in bytes
     int size;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
 }
 
 # ========== Image Create ==========
@@ -369,6 +448,12 @@ public hashdecl CairoImageCreateResponse {
 
     #! Image height in pixels
     int height;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
 }
 
 # ========== Image Get Info ==========
@@ -398,6 +483,12 @@ public hashdecl CairoImageGetInfoResponse {
 
     #! Pixel format
     *string format;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
 }
 
 # ========== Image Draw ==========
@@ -424,6 +515,9 @@ public hashdecl CairoImageDrawRequest {
 
     #! Return data in response
     *bool return_data;
+
+    #! Overwrite the input file if true
+    *bool overwrite;
 }
 
 #! Response type for drawing on an existing PNG
@@ -445,6 +539,12 @@ public hashdecl CairoImageDrawResponse {
 
     #! Image height in pixels
     int height;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
 }
 
 # ========== PostScript Create ==========
@@ -486,6 +586,342 @@ public hashdecl CairoPostScriptCreateResponse {
 
     #! Output size in bytes
     int size;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
+}
+
+# ========== PDF Create ==========
+
+#! Request type for creating a PDF document
+public hashdecl CairoPdfCreateRequest {
+    #! Page width in points
+    float width;
+
+    #! Page height in points
+    float height;
+
+    #! Draw commands
+    list<hash<auto>> commands;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Return data in response
+    *bool return_data;
+}
+
+#! Response type for creating a PDF document
+public hashdecl CairoPdfCreateResponse {
+    #! Output PDF data
+    *binary data;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Output size in bytes
+    int size;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
+}
+
+# ========== Text Measure ==========
+
+#! Request type for measuring text dimensions
+public hashdecl CairoTextMeasureRequest {
+    #! Text to measure
+    string text;
+
+    #! Font family name
+    *string family;
+
+    #! Font size in user-space units
+    *float size;
+
+    #! Font slant: "normal", "italic", or "oblique"
+    *string slant;
+
+    #! Font weight: "normal" or "bold"
+    *string weight;
+}
+
+#! Response type for text measurement
+public hashdecl CairoTextMeasureResponse {
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
+
+    #! X bearing
+    float x_bearing;
+
+    #! Y bearing
+    float y_bearing;
+
+    #! Width of the text
+    float width;
+
+    #! Height of the text
+    float height;
+
+    #! X advance
+    float x_advance;
+
+    #! Y advance
+    float y_advance;
+}
+
+# ========== Font Get Metrics ==========
+
+#! Request type for getting font metrics
+public hashdecl CairoFontGetMetricsRequest {
+    #! Font family name
+    *string family;
+
+    #! Font size in user-space units
+    *float size;
+
+    #! Font slant: "normal", "italic", or "oblique"
+    *string slant;
+
+    #! Font weight: "normal" or "bold"
+    *string weight;
+}
+
+#! Response type for font metrics
+public hashdecl CairoFontGetMetricsResponse {
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
+
+    #! Distance the font extends above the baseline
+    float ascent;
+
+    #! Distance the font extends below the baseline
+    float descent;
+
+    #! Recommended vertical distance between baselines
+    float height;
+
+    #! Maximum distance in X a glyph advances
+    float max_x_advance;
+
+    #! Maximum distance in Y a glyph advances
+    float max_y_advance;
+}
+
+# ========== Image Resize ==========
+
+#! Request type for resizing an image
+public hashdecl CairoImageResizeRequest {
+    #! Input file path
+    *string input_path;
+
+    #! Binary PNG data
+    *binary data;
+
+    #! Input location
+    *string location;
+
+    #! Target width in pixels
+    int target_width;
+
+    #! Target height in pixels
+    int target_height;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Return data in response
+    *bool return_data;
+
+    #! Overwrite the input file if true
+    *bool overwrite;
+}
+
+#! Response type for image resize
+public hashdecl CairoImageResizeResponse {
+    #! Output PNG data
+    *binary data;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Output size in bytes
+    int size;
+
+    #! Image width in pixels
+    int width;
+
+    #! Image height in pixels
+    int height;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
+}
+
+# ========== Image Crop ==========
+
+#! Request type for cropping an image
+public hashdecl CairoImageCropRequest {
+    #! Input file path
+    *string input_path;
+
+    #! Binary PNG data
+    *binary data;
+
+    #! Input location
+    *string location;
+
+    #! X offset of the crop region
+    int x;
+
+    #! Y offset of the crop region
+    int y;
+
+    #! Width of the crop region in pixels
+    int crop_width;
+
+    #! Height of the crop region in pixels
+    int crop_height;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Return data in response
+    *bool return_data;
+
+    #! Overwrite the input file if true
+    *bool overwrite;
+}
+
+#! Response type for image crop
+public hashdecl CairoImageCropResponse {
+    #! Output PNG data
+    *binary data;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Output size in bytes
+    int size;
+
+    #! Image width in pixels
+    int width;
+
+    #! Image height in pixels
+    int height;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
+}
+
+# ========== Image Composite ==========
+
+#! Request type for compositing images
+public hashdecl CairoImageCompositeRequest {
+    #! Base image file path
+    *string base_input_path;
+
+    #! Base image binary PNG data
+    *binary base_data;
+
+    #! Base image location
+    *string base_location;
+
+    #! Overlay image file path
+    *string overlay_input_path;
+
+    #! Overlay image binary PNG data
+    *binary overlay_data;
+
+    #! Overlay image location
+    *string overlay_location;
+
+    #! X position for overlay placement
+    *float x;
+
+    #! Y position for overlay placement
+    *float y;
+
+    #! Overlay alpha (0.0 = transparent, 1.0 = opaque)
+    *float alpha;
+
+    #! Optional overlay width (for scaling)
+    *int overlay_width;
+
+    #! Optional overlay height (for scaling)
+    *int overlay_height;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Return data in response
+    *bool return_data;
+}
+
+#! Response type for image composite
+public hashdecl CairoImageCompositeResponse {
+    #! Output PNG data
+    *binary data;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Output size in bytes
+    int size;
+
+    #! Image width in pixels
+    int width;
+
+    #! Image height in pixels
+    int height;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
 }
 
 # ========== HashDataType Request Classes ==========
@@ -498,17 +934,17 @@ public class CairoSvgCreateRequestDataType inherits HashDataType {
                 "type": FloatType,
                 "display_name": "Width",
                 "short_desc": "SVG width in points",
-                "desc": "Width of the SVG surface in points",
+                "desc": "Width of the SVG surface in points (72 points = 1 inch)",
             },
             "height": {
                 "type": FloatType,
                 "display_name": "Height",
                 "short_desc": "SVG height in points",
-                "desc": "Height of the SVG surface in points",
+                "desc": "Height of the SVG surface in points (72 points = 1 inch)",
             },
         });
         addQoreFields(CairoDrawCommandsField);
-        addQoreFields(CairoOutputFields);
+        addQoreFields(CairoOutputFields - "overwrite");
     }
 }
 
@@ -552,13 +988,13 @@ public class CairoSvgToPsRequestDataType inherits HashDataType {
                 "type": FloatOrNothingType,
                 "display_name": "Width",
                 "short_desc": "Output width in points",
-                "desc": "Output page width in points. Default: use SVG intrinsic width.",
+                "desc": "Output page width in points (72 points = 1 inch). Default: use SVG intrinsic width.",
             },
             "height": {
                 "type": FloatOrNothingType,
                 "display_name": "Height",
                 "short_desc": "Output height in points",
-                "desc": "Output page height in points. Default: use SVG intrinsic height.",
+                "desc": "Output page height in points (72 points = 1 inch). Default: use SVG intrinsic height.",
             },
         });
         addQoreFields(CairoOutputFields);
@@ -575,13 +1011,13 @@ public class CairoSvgToEpsRequestDataType inherits HashDataType {
                 "type": FloatOrNothingType,
                 "display_name": "Width",
                 "short_desc": "Output width in points",
-                "desc": "Output page width in points. Default: use SVG intrinsic width.",
+                "desc": "Output page width in points (72 points = 1 inch). Default: use SVG intrinsic width.",
             },
             "height": {
                 "type": FloatOrNothingType,
                 "display_name": "Height",
                 "short_desc": "Output height in points",
-                "desc": "Output page height in points. Default: use SVG intrinsic height.",
+                "desc": "Output page height in points (72 points = 1 inch). Default: use SVG intrinsic height.",
             },
         });
         addQoreFields(CairoOutputFields);
@@ -620,7 +1056,7 @@ public class CairoImageCreateRequestDataType inherits HashDataType {
             },
         });
         addQoreFields(CairoDrawCommandsField);
-        addQoreFields(CairoOutputFields);
+        addQoreFields(CairoOutputFields - "overwrite");
     }
 }
 
@@ -667,7 +1103,269 @@ public class CairoPostScriptCreateRequestDataType inherits HashDataType {
             },
         });
         addQoreFields(CairoDrawCommandsField);
+        addQoreFields(CairoOutputFields - "overwrite");
+    }
+}
+
+#! PDF create request type
+public class CairoPdfCreateRequestDataType inherits HashDataType {
+    constructor() {
+        addQoreFields({
+            "width": {
+                "type": FloatType,
+                "display_name": "Width",
+                "short_desc": "Page width in points",
+                "desc": "Width of the PDF page in points (72 points = 1 inch)",
+            },
+            "height": {
+                "type": FloatType,
+                "display_name": "Height",
+                "short_desc": "Page height in points",
+                "desc": "Height of the PDF page in points (72 points = 1 inch)",
+            },
+        });
+        addQoreFields(CairoDrawCommandsField);
+        addQoreFields(CairoOutputFields - "overwrite");
+    }
+}
+
+#! Text measure request type
+public class CairoTextMeasureRequestDataType inherits HashDataType {
+    constructor() {
+        addQoreFields({
+            "text": {
+                "type": StringType,
+                "display_name": "Text",
+                "short_desc": "Text to measure",
+                "desc": "The text string to measure dimensions for",
+            },
+            "family": {
+                "type": StringOrNothingType,
+                "display_name": "Font Family",
+                "short_desc": "Font family name",
+                "desc": "Font family name (e.g., 'sans-serif', 'Helvetica'). Default: 'sans-serif'",
+                "default_value": "sans-serif",
+            },
+            "size": {
+                "type": FloatOrNothingType,
+                "display_name": "Font Size",
+                "short_desc": "Font size",
+                "desc": "Font size in user-space units. Default: 12.0",
+                "default_value": 12.0,
+            },
+            "slant": {
+                "type": StringOrNothingType,
+                "display_name": "Font Slant",
+                "short_desc": "Font slant style",
+                "desc": "Font slant: 'normal', 'italic', or 'oblique'. Default: 'normal'",
+                "default_value": "normal",
+                "allowed_values": (
+                    <AllowedValueInfo>{"value": "normal", "desc": "Normal (upright) style"},
+                    <AllowedValueInfo>{"value": "italic", "desc": "Italic style"},
+                    <AllowedValueInfo>{"value": "oblique", "desc": "Oblique style"},
+                ),
+            },
+            "weight": {
+                "type": StringOrNothingType,
+                "display_name": "Font Weight",
+                "short_desc": "Font weight",
+                "desc": "Font weight: 'normal' or 'bold'. Default: 'normal'",
+                "default_value": "normal",
+                "allowed_values": (
+                    <AllowedValueInfo>{"value": "normal", "desc": "Normal weight"},
+                    <AllowedValueInfo>{"value": "bold", "desc": "Bold weight"},
+                ),
+            },
+        });
+    }
+}
+
+#! Font get metrics request type
+public class CairoFontGetMetricsRequestDataType inherits HashDataType {
+    constructor() {
+        addQoreFields({
+            "family": {
+                "type": StringOrNothingType,
+                "display_name": "Font Family",
+                "short_desc": "Font family name",
+                "desc": "Font family name (e.g., 'sans-serif', 'Helvetica'). Default: 'sans-serif'",
+                "default_value": "sans-serif",
+            },
+            "size": {
+                "type": FloatOrNothingType,
+                "display_name": "Font Size",
+                "short_desc": "Font size",
+                "desc": "Font size in user-space units. Default: 12.0",
+                "default_value": 12.0,
+            },
+            "slant": {
+                "type": StringOrNothingType,
+                "display_name": "Font Slant",
+                "short_desc": "Font slant style",
+                "desc": "Font slant: 'normal', 'italic', or 'oblique'. Default: 'normal'",
+                "default_value": "normal",
+                "allowed_values": (
+                    <AllowedValueInfo>{"value": "normal", "desc": "Normal (upright) style"},
+                    <AllowedValueInfo>{"value": "italic", "desc": "Italic style"},
+                    <AllowedValueInfo>{"value": "oblique", "desc": "Oblique style"},
+                ),
+            },
+            "weight": {
+                "type": StringOrNothingType,
+                "display_name": "Font Weight",
+                "short_desc": "Font weight",
+                "desc": "Font weight: 'normal' or 'bold'. Default: 'normal'",
+                "default_value": "normal",
+                "allowed_values": (
+                    <AllowedValueInfo>{"value": "normal", "desc": "Normal weight"},
+                    <AllowedValueInfo>{"value": "bold", "desc": "Bold weight"},
+                ),
+            },
+        });
+    }
+}
+
+#! Image resize request type
+public class CairoImageResizeRequestDataType inherits HashDataType {
+    constructor() {
+        addQoreFields(CairoInputFields);
+        addQoreFields({
+            "target_width": {
+                "type": IntType,
+                "display_name": "Target Width",
+                "short_desc": "Target width in pixels",
+                "desc": "Target image width in pixels",
+            },
+            "target_height": {
+                "type": IntType,
+                "display_name": "Target Height",
+                "short_desc": "Target height in pixels",
+                "desc": "Target image height in pixels",
+            },
+        });
         addQoreFields(CairoOutputFields);
+        setRequiredGroups((("input_path", "data", "location"),));
+    }
+}
+
+#! Image crop request type
+public class CairoImageCropRequestDataType inherits HashDataType {
+    constructor() {
+        addQoreFields(CairoInputFields);
+        addQoreFields({
+            "x": {
+                "type": IntType,
+                "display_name": "X Offset",
+                "short_desc": "X offset of crop region",
+                "desc": "X offset of the top-left corner of the crop region in pixels",
+            },
+            "y": {
+                "type": IntType,
+                "display_name": "Y Offset",
+                "short_desc": "Y offset of crop region",
+                "desc": "Y offset of the top-left corner of the crop region in pixels",
+            },
+            "crop_width": {
+                "type": IntType,
+                "display_name": "Crop Width",
+                "short_desc": "Width of crop region",
+                "desc": "Width of the crop region in pixels",
+            },
+            "crop_height": {
+                "type": IntType,
+                "display_name": "Crop Height",
+                "short_desc": "Height of crop region",
+                "desc": "Height of the crop region in pixels",
+            },
+        });
+        addQoreFields(CairoOutputFields);
+        setRequiredGroups((("input_path", "data", "location"),));
+    }
+}
+
+#! Image composite request type
+public class CairoImageCompositeRequestDataType inherits HashDataType {
+    constructor() {
+        addQoreFields({
+            "base_input_path": {
+                "type": StringOrNothingType,
+                "display_name": "Base Image Path",
+                "short_desc": "Path to base image file",
+                "desc": "File path to the base image. One of 'base_input_path', 'base_data', "
+                    "or 'base_location' must be provided.",
+            },
+            "base_data": {
+                "type": BinaryOrNothingType,
+                "display_name": "Base Image Data",
+                "short_desc": "Binary base image data",
+                "desc": "Binary PNG data of the base image.",
+            },
+            "base_location": {
+                "type": StringOrNothingType,
+                "display_name": "Base Image Location",
+                "short_desc": "Location of base image",
+                "desc": "A file location string for the base image.",
+            },
+            "overlay_input_path": {
+                "type": StringOrNothingType,
+                "display_name": "Overlay Image Path",
+                "short_desc": "Path to overlay image file",
+                "desc": "File path to the overlay image. One of 'overlay_input_path', 'overlay_data', "
+                    "or 'overlay_location' must be provided.",
+            },
+            "overlay_data": {
+                "type": BinaryOrNothingType,
+                "display_name": "Overlay Image Data",
+                "short_desc": "Binary overlay image data",
+                "desc": "Binary PNG data of the overlay image.",
+            },
+            "overlay_location": {
+                "type": StringOrNothingType,
+                "display_name": "Overlay Image Location",
+                "short_desc": "Location of overlay image",
+                "desc": "A file location string for the overlay image.",
+            },
+            "x": {
+                "type": FloatOrNothingType,
+                "display_name": "X Position",
+                "short_desc": "Overlay X position",
+                "desc": "X position for overlay placement. Default: 0.0",
+                "default_value": 0.0,
+            },
+            "y": {
+                "type": FloatOrNothingType,
+                "display_name": "Y Position",
+                "short_desc": "Overlay Y position",
+                "desc": "Y position for overlay placement. Default: 0.0",
+                "default_value": 0.0,
+            },
+            "alpha": {
+                "type": FloatOrNothingType,
+                "display_name": "Alpha",
+                "short_desc": "Overlay transparency",
+                "desc": "Overlay alpha value (0.0 = transparent, 1.0 = opaque). Default: 1.0",
+                "default_value": 1.0,
+            },
+            "overlay_width": {
+                "type": IntOrNothingType,
+                "display_name": "Overlay Width",
+                "short_desc": "Scale overlay to this width",
+                "desc": "Optional width to scale the overlay to (in pixels). "
+                    "Both overlay_width and overlay_height must be specified for scaling.",
+            },
+            "overlay_height": {
+                "type": IntOrNothingType,
+                "display_name": "Overlay Height",
+                "short_desc": "Scale overlay to this height",
+                "desc": "Optional height to scale the overlay to (in pixels). "
+                    "Both overlay_width and overlay_height must be specified for scaling.",
+            },
+        });
+        addQoreFields(CairoOutputFields - "overwrite");
+        setRequiredGroups((
+            ("base_input_path", "base_data", "base_location"),
+            ("overlay_input_path", "overlay_data", "overlay_location"),
+        ));
     }
 }
 }

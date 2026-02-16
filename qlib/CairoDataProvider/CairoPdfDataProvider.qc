@@ -1,7 +1,7 @@
 # -*- mode: qore; indent-tabs-mode: nil -*-
-#! @file CairoDataProvider.qc provides the CairoDataProvider class definition
+#! @file CairoPdfDataProvider.qc provides the CairoPdfDataProvider class definition
 
-/** CairoDataProvider.qc Copyright (C) 2026 Qore Technologies, s.r.o.
+/** CairoPdfDataProvider.qc Copyright (C) 2026 Qore Technologies, s.r.o.
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -24,46 +24,33 @@
 
 #! Contains all public definitions in the CairoDataProvider module
 public namespace CairoDataProvider {
-/** @brief Root data provider for Cairo operations
+/** @brief Data provider for PDF operations
 
-    This is the root data provider that provides access to Cairo operations through
-    child providers:
-    - @ref CairoSvgDataProvider "svg" - SVG creation and conversion
-    - @ref CairoImageDataProvider "image" - PNG image creation and manipulation
-    - @ref CairoPostScriptDataProvider "postscript" - PostScript/EPS creation
-    - @ref CairoPdfDataProvider "pdf" - PDF creation (when PDF support is available)
-    - @ref CairoTextDataProvider "text" - Text measurement and font metrics
+    This provider exposes PDF actions:
+    - @b create - Create PDF from draw commands
 
     @par Data Provider Path
-    Data providers are accessed through paths like: cairo{}/svg/create
+    Access via: @verbatim cairo{}/pdf/<action> @endverbatim
 */
-public class CairoDataProvider inherits AbstractDataProvider {
+public class CairoPdfDataProvider inherits AbstractDataProvider {
     public {
         const ProviderInfo = <DataProviderInfo>{
-            "name": "cairo",
-            "desc": "Cairo vector graphics data provider root",
-            "type": "CairoDataProvider",
+            "name": "pdf",
+            "desc": "PDF document creation actions",
+            "type": "CairoPdfDataProvider",
             "supports_request": False,
         };
     }
 
     private {
-        const BaseChildMap = {
-            "svg": "CairoDataProvider::CairoSvgDataProvider",
-            "image": "CairoDataProvider::CairoImageDataProvider",
-            "postscript": "CairoDataProvider::CairoPostScriptDataProvider",
-            "text": "CairoDataProvider::CairoTextDataProvider",
+        const ChildMap = {
+            "create": "CairoDataProvider::CairoPdfCreateDataProvider",
         };
         *hash<auto> opts;
-        hash<string, string> childMap;
     }
 
     constructor(*hash<auto> opts) {
         self.opts = opts;
-        childMap = BaseChildMap;
-        if (CairoSurface::isPdfAvailable()) {
-            childMap{"pdf"} = "CairoDataProvider::CairoPdfDataProvider";
-        }
     }
 
     string getName() {
@@ -75,7 +62,7 @@ public class CairoDataProvider inherits AbstractDataProvider {
     }
 
     private *AbstractDataProvider getChildProviderImpl(string name) {
-        *string cls_name = childMap{name};
+        *string cls_name = ChildMap{name};
         if (!cls_name) {
             return NOTHING;
         }
@@ -84,7 +71,7 @@ public class CairoDataProvider inherits AbstractDataProvider {
     }
 
     private *list<string> getChildProviderNamesImpl() {
-        return keys childMap;
+        return keys ChildMap;
     }
 }
 }

@@ -45,6 +45,18 @@ if (ENABLE_RSVG)
     endif()
 endif()
 
+include(CheckIncludeFileCXX)
+set(CMAKE_REQUIRED_INCLUDES ${LIBCAIRO_INCLUDE_DIRS})
+check_include_file_cxx("cairo-pdf.h" HAVE_CAIRO_PDF_H)
+unset(CMAKE_REQUIRED_INCLUDES)
+if (HAVE_CAIRO_PDF_H)
+    message(STATUS "cairo-pdf.h found: PDF surface support enabled")
+    set(CAIRO_PDF_ENABLED TRUE)
+else()
+    message(STATUS "cairo-pdf.h not found; PDF surface support disabled")
+    set(CAIRO_PDF_ENABLED FALSE)
+endif()
+
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++17" COMPILER_SUPPORTS_CXX17)
 if(COMPILER_SUPPORTS_CXX17)
@@ -121,6 +133,10 @@ if (RSVG_FOUND)
     target_compile_definitions(${module_name} PRIVATE HAVE_RSVG=1)
 endif()
 
+if (CAIRO_PDF_ENABLED)
+    target_compile_definitions(${module_name} PRIVATE HAVE_CAIRO_PDF=1)
+endif()
+
 string(REPLACE ";" " " LIBCAIRO_CFLAGS_STR "${LIBCAIRO_CFLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LIBCAIRO_CFLAGS_STR}")
 
@@ -154,7 +170,7 @@ if (DOXYGEN_FOUND)
     file(APPEND ${CMAKE_BINARY_DIR}/Doxyfile "\n# Suppress warnings for initial pass (no user module TAGFILES available)\nWARN_IF_DOC_ERROR = NO\n")
 
     # Create final-pass Doxyfile from the binary module's Doxyfile with user module tag files
-    file(COPY_FILE ${CMAKE_BINARY_DIR}/Doxyfile ${CMAKE_BINARY_DIR}/Doxyfile.final)
+    configure_file(${CMAKE_BINARY_DIR}/Doxyfile ${CMAKE_BINARY_DIR}/Doxyfile.final COPYONLY)
     file(APPEND ${CMAKE_BINARY_DIR}/Doxyfile.final
         "\n# Final pass: enable user module cross-references and re-enable doc error warnings\nTAGFILES = ${CMAKE_BINARY_DIR}/CairoDataProvider.tag=../CairoDataProvider/html\nWARN_IF_DOC_ERROR = YES\n")
 

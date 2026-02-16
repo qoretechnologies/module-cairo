@@ -29,7 +29,8 @@ public class CairoSvgToPsDataProvider inherits CairoActionBase {
     public {
         const ProviderInfo = <DataProviderInfo>{
             "name": "to-ps",
-            "desc": "Convert SVG to PostScript (requires librsvg)",
+            "desc": "Convert an SVG vector image to PostScript format for printing. "
+                "Requires librsvg.",
             "type": "CairoSvgToPsDataProvider",
             "supports_request": True,
         };

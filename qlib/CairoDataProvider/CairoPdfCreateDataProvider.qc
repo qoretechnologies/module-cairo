@@ -1,7 +1,7 @@
 # -*- mode: qore; indent-tabs-mode: nil -*-
-#! Qore CairoPostScriptCreateDataProvider class definition
+#! Qore CairoPdfCreateDataProvider class definition
 
-/** CairoPostScriptCreateDataProvider.qc Copyright (C) 2026 Qore Technologies, s.r.o.
+/** CairoPdfCreateDataProvider.qc Copyright (C) 2026 Qore Technologies, s.r.o.
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -24,14 +24,13 @@
 
 #! Contains all public definitions in the CairoDataProvider module
 public namespace CairoDataProvider {
-#! Create PostScript or EPS data provider
-public class CairoPostScriptCreateDataProvider inherits CairoActionBase {
+#! Create PDF document data provider
+public class CairoPdfCreateDataProvider inherits CairoActionBase {
     public {
         const ProviderInfo = <DataProviderInfo>{
             "name": "create",
-            "desc": "Create a PostScript or Encapsulated PostScript (EPS) document from "
-                "declarative draw commands for printing or embedding",
-            "type": "CairoPostScriptCreateDataProvider",
+            "desc": "Create a PDF document from declarative draw commands for printing or embedding",
+            "type": "CairoPdfCreateDataProvider",
             "supports_request": True,
         };
     }
@@ -53,11 +52,11 @@ public class CairoPostScriptCreateDataProvider inherits CairoActionBase {
     }
 
     private *AbstractDataProviderType getRequestTypeImpl() {
-        return new CairoPostScriptCreateRequestDataType();
+        return new CairoPdfCreateRequestDataType();
     }
 
     private *AbstractDataProviderType getResponseTypeImpl() {
-        return AbstractDataProviderType::get(new Type("hash<CairoPostScriptCreateResponse>"));
+        return AbstractDataProviderType::get(new Type("hash<CairoPdfCreateResponse>"));
     }
 
     private auto doRequestImpl(auto req, *hash<auto> request_options) {
@@ -67,17 +66,12 @@ public class CairoPostScriptCreateDataProvider inherits CairoActionBase {
         float height = float(request.height);
 
         if (width <= 0.0 || height <= 0.0) {
-            throw "CAIRO-ERROR", sprintf("PostScript dimensions must be positive (%.2f x %.2f)",
+            throw "CAIRO-ERROR", sprintf("PDF dimensions must be positive (%.2f x %.2f)",
                 width, height);
         }
 
-        # Create PS surface writing to memory
-        CairoSurface surface = CairoSurface::createPsToData(width, height);
-
-        # Enable EPS mode if requested
-        if (request.eps) {
-            surface.setEps(True);
-        }
+        # Create PDF surface writing to memory
+        CairoSurface surface = CairoSurface::createPdfToData(width, height);
 
         CairoContext ctx(surface);
 
@@ -86,11 +80,11 @@ public class CairoPostScriptCreateDataProvider inherits CairoActionBase {
 
         # Finalize and get data
         surface.finish();
-        binary ps_data = surface.getData();
+        binary pdf_data = surface.getData();
 
-        hash<auto> output = CairoActionBase::makeOutputResponse(ps_data, request);
+        hash<auto> output = CairoActionBase::makeOutputResponse(pdf_data, request);
 
-        hash<CairoPostScriptCreateResponse> response();
+        hash<CairoPdfCreateResponse> response();
         response += output;
 
         return response;

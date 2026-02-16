@@ -1,6 +1,8 @@
 #!/usr/bin/env qore
 # -*- mode: qore; indent-tabs-mode: nil -*-
 
+# CairoDataProvider.qtest Copyright (C) 2026 Qore Technologies, s.r.o.
+
 %modern
 %enable-all-warnings
 
@@ -37,7 +39,31 @@ class CairoDataProviderTest inherits QUnit::Test {
         addTestCase("image command in draw", \testImageCommand());
         addTestCase("multi-page postscript", \testMultiPagePs());
         addTestCase("output location support", \testOutputLocation());
+        addTestCase("set_operator and set_antialias", \testOperatorAndAntialias());
+        addTestCase("input_path variant", \testInputPath());
+        addTestCase("invalid enum values", \testInvalidEnumValues());
+        addTestCase("svg conversion output path", \testSvgConversionOutputPath());
+        addTestCase("missing command params", \testMissingCommandParams());
+        addTestCase("warnings field", \testWarningsField());
+        addTestCase("pdf/create", \testPdfCreate());
+        addTestCase("pdf/create output path", \testPdfCreateOutputPath());
+        addTestCase("pdf/create multi-page", \testPdfCreateMultiPage());
+        addTestCase("text/measure", \testTextMeasure());
+        addTestCase("text/measure with font", \testTextMeasureWithFont());
+        addTestCase("text/get-font-metrics", \testFontGetMetrics());
+        addTestCase("text/get-font-metrics with font", \testFontGetMetricsWithFont());
+        addTestCase("image/resize", \testImageResize());
+        addTestCase("image/crop", \testImageCrop());
+        addTestCase("image/composite", \testImageComposite());
+        addTestCase("new draw commands", \testNewDrawCommands());
         addTestCase("negative tests", \testNegative());
+        addTestCase("negative tests new features", \testNegativeNewFeatures());
+        addTestCase("negative tests validation", \testNegativeValidation());
+        addTestCase("overwrite support", \testOverwrite());
+        addTestCase("resize upscale", \testImageResizeUpscale());
+        addTestCase("composite alpha zero", \testCompositeAlphaZero());
+        addTestCase("composite partial overlay dims", \testCompositePartialOverlayDims());
+        addTestCase("output paths for new providers", \testNewProviderOutputPaths());
         addTestCase("corner cases", \testCornerCases());
 
         root = DataProvider::getFactoryEx("cairo").create({});
@@ -85,11 +111,29 @@ class CairoDataProviderTest inherits QUnit::Test {
         assertTrue(inlist("create", img_children));
         assertTrue(inlist("get-info", img_children));
         assertTrue(inlist("draw", img_children));
+        assertTrue(inlist("resize", img_children));
+        assertTrue(inlist("crop", img_children));
+        assertTrue(inlist("composite", img_children));
 
         # PostScript container
         auto ps = root.getChildProvider("postscript");
         list<string> ps_children = ps.getChildProviderNames();
         assertTrue(inlist("create", ps_children));
+
+        # PDF container (conditional)
+        if (CairoSurface::isPdfAvailable()) {
+            assertTrue(inlist("pdf", children));
+            auto pdf = root.getChildProvider("pdf");
+            list<string> pdf_children = pdf.getChildProviderNames();
+            assertTrue(inlist("create", pdf_children));
+        }
+
+        # Text container
+        assertTrue(inlist("text", children));
+        auto text = root.getChildProvider("text");
+        list<string> text_children = text.getChildProviderNames();
+        assertTrue(inlist("measure", text_children));
+        assertTrue(inlist("get-font-metrics", text_children));
     }
 
     private testSvgCreate() {
@@ -106,6 +150,7 @@ class CairoDataProviderTest inherits QUnit::Test {
             ),
         });
 
+        assertTrue(result.success);
         assertTrue(result.size > 0);
         assertTrue(exists result.data);
         string svg_text = result.data.toString();
@@ -134,6 +179,7 @@ class CairoDataProviderTest inherits QUnit::Test {
             ),
         });
 
+        assertTrue(result.success);
         assertEq(tmp, result.output_path);
         assertTrue(result.size > 0);
         # Data not returned when output path specified (return_data not set)
@@ -162,6 +208,7 @@ class CairoDataProviderTest inherits QUnit::Test {
         auto dp = root.getChildProvider("svg").getChildProvider("get-info");
         hash<auto> info = dp.doRequest({"data": svg.data});
 
+        assertTrue(info.success);
         assertEq(300.0, info.width);
         assertEq(150.0, info.height);
         assertTrue(info.metadata instanceof hash);
@@ -191,6 +238,7 @@ class CairoDataProviderTest inherits QUnit::Test {
             "height": 128,
         });
 
+        assertTrue(result.success);
         assertEq(256, result.width);
         assertEq(128, result.height);
         assertTrue(result.size > 0);
@@ -216,6 +264,7 @@ class CairoDataProviderTest inherits QUnit::Test {
         auto dp = root.getChildProvider("svg").getChildProvider("to-ps");
         hash<auto> result = dp.doRequest({"data": svg.data});
 
+        assertTrue(result.success);
         assertTrue(result.size > 0);
         string ps_text = result.data.toString();
         assertTrue(ps_text =~ /^%!PS-Adobe/);
@@ -239,6 +288,7 @@ class CairoDataProviderTest inherits QUnit::Test {
         auto dp = root.getChildProvider("svg").getChildProvider("to-eps");
         hash<auto> result = dp.doRequest({"data": svg.data});
 
+        assertTrue(result.success);
         assertTrue(result.size > 0);
         string eps_text = result.data.toString();
         assertTrue(eps_text =~ /^%!PS-Adobe/);
@@ -256,6 +306,7 @@ class CairoDataProviderTest inherits QUnit::Test {
             ),
         });
 
+        assertTrue(result.success);
         assertEq(128, result.width);
         assertEq(64, result.height);
         assertTrue(result.size > 0);
@@ -273,6 +324,8 @@ class CairoDataProviderTest inherits QUnit::Test {
                 "format": fmt,
                 "commands": list({"op": "paint"}),
             });
+            assertTrue(result.success,
+                sprintf("format %s returns success", fmt));
             assertTrue(result.size > 0,
                 sprintf("format %s produces output", fmt));
         }
@@ -290,6 +343,7 @@ class CairoDataProviderTest inherits QUnit::Test {
         auto dp = root.getChildProvider("image").getChildProvider("get-info");
         hash<auto> info = dp.doRequest({"data": img.data});
 
+        assertTrue(info.success);
         assertEq(256, info.width);
         assertEq(128, info.height);
         assertEq("image", info.type);
@@ -318,6 +372,7 @@ class CairoDataProviderTest inherits QUnit::Test {
             ),
         });
 
+        assertTrue(result.success);
         assertEq(100, result.width);
         assertEq(100, result.height);
         assertTrue(result.size > 0);
@@ -337,6 +392,7 @@ class CairoDataProviderTest inherits QUnit::Test {
             ),
         });
 
+        assertTrue(result.success);
         assertTrue(result.size > 0);
         string ps_text = result.data.toString();
         assertTrue(ps_text =~ /^%!PS-Adobe/);
@@ -356,6 +412,7 @@ class CairoDataProviderTest inherits QUnit::Test {
             ),
         });
 
+        assertTrue(result.success);
         assertTrue(result.size > 0);
         string eps_text = result.data.toString();
         assertTrue(eps_text =~ /^%!PS-Adobe/);
@@ -414,6 +471,7 @@ class CairoDataProviderTest inherits QUnit::Test {
             ),
         });
 
+        assertTrue(result.success);
         assertTrue(result.size > 0);
     }
 
@@ -444,6 +502,7 @@ class CairoDataProviderTest inherits QUnit::Test {
             ),
         });
 
+        assertTrue(result.success);
         assertTrue(result.size > 0);
         assertTrue(result.data.substr(0, 4) == <89504e47>);
     }
@@ -473,6 +532,7 @@ class CairoDataProviderTest inherits QUnit::Test {
             ),
         });
 
+        assertTrue(result.success);
         assertTrue(result.size > 0);
         assertEq(100, result.width);
         assertEq(100, result.height);
@@ -494,6 +554,7 @@ class CairoDataProviderTest inherits QUnit::Test {
             ),
         });
 
+        assertTrue(result.success);
         assertTrue(result.size > 0);
         string ps_text = result.data.toString();
         assertTrue(ps_text =~ /%%Pages: 2/);
@@ -517,9 +578,580 @@ class CairoDataProviderTest inherits QUnit::Test {
             "commands": list({"op": "paint"}),
         });
 
+        assertTrue(result.success);
         assertTrue(result.size > 0);
         assertEq("file://" + tmp, result.output_location);
         assertTrue(is_file(tmp));
+    }
+
+    private testOperatorAndAntialias() {
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+
+        # Test all valid operator values
+        list<string> operators = ("clear", "source", "over", "in", "out", "atop",
+            "dest", "dest-over", "dest-in", "dest-out", "dest-atop",
+            "xor", "add", "saturate");
+        foreach string op_name in (operators) {
+            hash<auto> result = dp.doRequest({
+                "width": 16,
+                "height": 16,
+                "commands": (
+                    {"op": "set_operator", "op_name": op_name},
+                    {"op": "paint"},
+                ),
+            });
+            assertTrue(result.success,
+                sprintf("operator %y succeeds", op_name));
+        }
+
+        # Test all valid antialias values
+        list<string> aa_values = ("default", "none", "gray", "subpixel");
+        foreach string aa in (aa_values) {
+            hash<auto> result = dp.doRequest({
+                "width": 16,
+                "height": 16,
+                "commands": (
+                    {"op": "set_antialias", "aa": aa},
+                    {"op": "paint"},
+                ),
+            });
+            assertTrue(result.success,
+                sprintf("antialias %y succeeds", aa));
+        }
+    }
+
+    private testInputPath() {
+        # Create a PNG first
+        auto img_create = root.getChildProvider("image").getChildProvider("create");
+        hash<auto> img = img_create.doRequest({
+            "width": 64,
+            "height": 48,
+            "commands": list({"op": "paint"}),
+        });
+
+        # Write to a temp file
+        string tmp = tmp_location() + "/test_input_path.png";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+        {
+            File f();
+            f.open2(tmp, O_CREAT | O_WRONLY | O_TRUNC);
+            f.write(img.data);
+        }
+
+        # Test image/get-info with input_path
+        auto dp = root.getChildProvider("image").getChildProvider("get-info");
+        hash<auto> info = dp.doRequest({"input_path": tmp});
+
+        assertTrue(info.success);
+        assertEq(64, info.width);
+        assertEq(48, info.height);
+        assertEq("image", info.type);
+
+        # Test image/get-info with location
+        hash<auto> info2 = dp.doRequest({"location": "file://" + tmp});
+
+        assertTrue(info2.success);
+        assertEq(64, info2.width);
+        assertEq(48, info2.height);
+    }
+
+    private testInvalidEnumValues() {
+        # Invalid pixel format - caught by DataProvider allowed_values validation
+        auto img_dp = root.getChildProvider("image").getChildProvider("create");
+        assertThrows("RUNTIME-TYPE-ERROR", sub () {
+            img_dp.doRequest({
+                "width": 32,
+                "height": 32,
+                "format": "INVALID",
+                "commands": list({"op": "paint"}),
+            });
+        });
+
+        # Invalid line cap
+        auto svg_dp = root.getChildProvider("svg").getChildProvider("create");
+        assertThrows("CAIRO-ERROR", sub () {
+            svg_dp.doRequest({
+                "width": 100.0,
+                "height": 100.0,
+                "commands": (
+                    {"op": "set_line_cap", "cap": "invalid"},
+                    {"op": "paint"},
+                ),
+            });
+        });
+
+        # Invalid line join
+        assertThrows("CAIRO-ERROR", sub () {
+            svg_dp.doRequest({
+                "width": 100.0,
+                "height": 100.0,
+                "commands": (
+                    {"op": "set_line_join", "join": "invalid"},
+                    {"op": "paint"},
+                ),
+            });
+        });
+
+        # Invalid operator
+        assertThrows("CAIRO-ERROR", sub () {
+            img_dp.doRequest({
+                "width": 32,
+                "height": 32,
+                "commands": (
+                    {"op": "set_operator", "op_name": "invalid"},
+                    {"op": "paint"},
+                ),
+            });
+        });
+
+        # Invalid antialias
+        assertThrows("CAIRO-ERROR", sub () {
+            img_dp.doRequest({
+                "width": 32,
+                "height": 32,
+                "commands": (
+                    {"op": "set_antialias", "aa": "invalid"},
+                    {"op": "paint"},
+                ),
+            });
+        });
+    }
+
+    private testSvgConversionOutputPath() {
+        if (!CairoSvgReader::isAvailable()) {
+            testSkip("librsvg not available");
+        }
+
+        # Create an SVG first
+        auto svg_create = root.getChildProvider("svg").getChildProvider("create");
+        hash<auto> svg = svg_create.doRequest({
+            "width": 100.0,
+            "height": 100.0,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "paint"},
+            ),
+        });
+
+        string tmp = tmp_location() + "/test_svg_to_png_out.png";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+
+        # Test svg/to-png with output_path
+        auto dp = root.getChildProvider("svg").getChildProvider("to-png");
+        hash<auto> result = dp.doRequest({
+            "data": svg.data,
+            "output_path": tmp,
+        });
+
+        assertTrue(result.success);
+        assertEq(tmp, result.output_path);
+        assertTrue(result.size > 0);
+        # Data not returned by default when output_path is set
+        assertFalse(exists result.data);
+        assertTrue(is_file(tmp));
+        # Verify the file is a valid PNG
+        binary file_data = ReadOnlyFile::readBinaryFile(tmp);
+        assertTrue(file_data.substr(0, 4) == <89504e47>);
+    }
+
+    private testMissingCommandParams() {
+        auto img_dp = root.getChildProvider("image").getChildProvider("create");
+
+        # move_to without x/y defaults to 0.0, 0.0 (succeeds)
+        hash<auto> result = img_dp.doRequest({
+            "width": 32,
+            "height": 32,
+            "commands": (
+                {"op": "move_to"},
+                {"op": "paint"},
+            ),
+        });
+        assertTrue(result.success);
+
+        # rectangle without width/height uses 0.0 (degenerate, but succeeds)
+        result = img_dp.doRequest({
+            "width": 32,
+            "height": 32,
+            "commands": (
+                {"op": "rectangle", "x": 0.0, "y": 0.0},
+                {"op": "paint"},
+            ),
+        });
+        assertTrue(result.success);
+
+        # curve_to without control points defaults to 0.0
+        result = img_dp.doRequest({
+            "width": 32,
+            "height": 32,
+            "commands": (
+                {"op": "curve_to"},
+                {"op": "paint"},
+            ),
+        });
+        assertTrue(result.success);
+    }
+
+    private testWarningsField() {
+        # Verify warnings field exists in responses (either NOTHING or a list)
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+        hash<auto> result = dp.doRequest({
+            "width": 32,
+            "height": 32,
+            "commands": list({"op": "paint"}),
+        });
+
+        assertTrue(result.success);
+        assertTrue(!exists result.warnings || result.warnings instanceof list);
+
+        # Also verify for info providers
+        auto info_dp = root.getChildProvider("image").getChildProvider("get-info");
+        hash<auto> info = info_dp.doRequest({"data": result.data});
+
+        assertTrue(info.success);
+        assertTrue(!exists info.warnings || info.warnings instanceof list);
+    }
+
+    private testPdfCreate() {
+        if (!CairoSurface::isPdfAvailable()) {
+            testSkip("PDF surface support not available");
+        }
+
+        auto dp = root.getChildProvider("pdf").getChildProvider("create");
+        assertTrue(dp.getInfo().supports_request);
+
+        hash<auto> result = dp.doRequest({
+            "width": 612.0,
+            "height": 792.0,
+            "commands": (
+                {"op": "text", "text": "Hello PDF", "x": 72.0, "y": 720.0,
+                 "family": "Courier", "size": 24.0},
+            ),
+        });
+
+        assertTrue(result.success);
+        assertTrue(result.size > 0);
+        assertTrue(exists result.data);
+        string header = result.data.substr(0, 5).toString();
+        assertEq("%PDF-", header);
+    }
+
+    private testPdfCreateOutputPath() {
+        if (!CairoSurface::isPdfAvailable()) {
+            testSkip("PDF surface support not available");
+        }
+
+        auto dp = root.getChildProvider("pdf").getChildProvider("create");
+        string tmp = tmp_location() + "/test_pdf_create.pdf";
+
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+
+        hash<auto> result = dp.doRequest({
+            "width": 200.0,
+            "height": 200.0,
+            "output_path": tmp,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 0.0},
+                {"op": "rectangle", "x": 10.0, "y": 10.0, "width": 180.0, "height": 180.0},
+                {"op": "stroke"},
+            ),
+        });
+
+        assertTrue(result.success);
+        assertEq(tmp, result.output_path);
+        assertTrue(result.size > 0);
+        assertFalse(exists result.data);
+        assertTrue(is_file(tmp));
+    }
+
+    private testPdfCreateMultiPage() {
+        if (!CairoSurface::isPdfAvailable()) {
+            testSkip("PDF surface support not available");
+        }
+
+        auto dp = root.getChildProvider("pdf").getChildProvider("create");
+
+        hash<auto> result = dp.doRequest({
+            "width": 612.0,
+            "height": 792.0,
+            "commands": (
+                # Page 1
+                {"op": "text", "text": "Page 1", "x": 72.0, "y": 720.0, "size": 24.0},
+                {"op": "show_page"},
+                # Page 2
+                {"op": "text", "text": "Page 2", "x": 72.0, "y": 720.0, "size": 24.0},
+                {"op": "show_page"},
+            ),
+        });
+
+        assertTrue(result.success);
+        assertTrue(result.size > 0);
+    }
+
+    private testTextMeasure() {
+        auto dp = root.getChildProvider("text").getChildProvider("measure");
+        assertTrue(dp.getInfo().supports_request);
+
+        hash<auto> result = dp.doRequest({
+            "text": "Hello",
+        });
+
+        assertTrue(result.success);
+        assertTrue(result.width > 0.0);
+        assertTrue(result.height > 0.0);
+        assertTrue(result.x_advance > 0.0);
+    }
+
+    private testTextMeasureWithFont() {
+        auto dp = root.getChildProvider("text").getChildProvider("measure");
+
+        hash<auto> result = dp.doRequest({
+            "text": "Test text",
+            "family": "sans-serif",
+            "size": 24.0,
+            "slant": "normal",
+            "weight": "bold",
+        });
+
+        assertTrue(result.success);
+        assertTrue(result.width > 0.0);
+        assertTrue(result.height > 0.0);
+
+        # Larger font should produce larger measurements
+        hash<auto> small = dp.doRequest({
+            "text": "Test text",
+            "size": 10.0,
+        });
+
+        assertTrue(result.width > small.width);
+    }
+
+    private testFontGetMetrics() {
+        auto dp = root.getChildProvider("text").getChildProvider("get-font-metrics");
+        assertTrue(dp.getInfo().supports_request);
+
+        hash<auto> result = dp.doRequest({});
+
+        assertTrue(result.success);
+        assertTrue(result.ascent > 0.0);
+        assertTrue(result.descent >= 0.0);
+        assertTrue(result.height > 0.0);
+        assertTrue(result.max_x_advance > 0.0);
+    }
+
+    private testFontGetMetricsWithFont() {
+        auto dp = root.getChildProvider("text").getChildProvider("get-font-metrics");
+
+        hash<auto> result = dp.doRequest({
+            "family": "sans-serif",
+            "size": 24.0,
+            "slant": "italic",
+            "weight": "bold",
+        });
+
+        assertTrue(result.success);
+        assertTrue(result.ascent > 0.0);
+        assertTrue(result.height > 0.0);
+
+        # Larger font should have greater height
+        hash<auto> small = dp.doRequest({
+            "size": 10.0,
+        });
+
+        assertTrue(result.height > small.height);
+    }
+
+    private testImageResize() {
+        # Create a 100x100 image first
+        auto img_create = root.getChildProvider("image").getChildProvider("create");
+        hash<auto> img = img_create.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "paint"},
+            ),
+        });
+
+        auto dp = root.getChildProvider("image").getChildProvider("resize");
+        assertTrue(dp.getInfo().supports_request);
+
+        hash<auto> result = dp.doRequest({
+            "data": img.data,
+            "target_width": 50,
+            "target_height": 50,
+        });
+
+        assertTrue(result.success);
+        assertEq(50, result.width);
+        assertEq(50, result.height);
+        assertTrue(result.size > 0);
+        assertTrue(result.data.substr(0, 4) == <89504e47>);
+    }
+
+    private testImageCrop() {
+        # Create a 100x100 image
+        auto img_create = root.getChildProvider("image").getChildProvider("create");
+        hash<auto> img = img_create.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 1.0},
+                {"op": "paint"},
+            ),
+        });
+
+        auto dp = root.getChildProvider("image").getChildProvider("crop");
+        assertTrue(dp.getInfo().supports_request);
+
+        hash<auto> result = dp.doRequest({
+            "data": img.data,
+            "x": 25,
+            "y": 25,
+            "crop_width": 50,
+            "crop_height": 50,
+        });
+
+        assertTrue(result.success);
+        assertEq(50, result.width);
+        assertEq(50, result.height);
+        assertTrue(result.size > 0);
+        assertTrue(result.data.substr(0, 4) == <89504e47>);
+    }
+
+    private testImageComposite() {
+        auto img_create = root.getChildProvider("image").getChildProvider("create");
+
+        # Create base image (100x100 red)
+        hash<auto> base = img_create.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "paint"},
+            ),
+        });
+
+        # Create overlay image (50x50 blue)
+        hash<auto> overlay = img_create.doRequest({
+            "width": 50,
+            "height": 50,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 1.0},
+                {"op": "paint"},
+            ),
+        });
+
+        auto dp = root.getChildProvider("image").getChildProvider("composite");
+        assertTrue(dp.getInfo().supports_request);
+
+        hash<auto> result = dp.doRequest({
+            "base_data": base.data,
+            "overlay_data": overlay.data,
+            "x": 25.0,
+            "y": 25.0,
+            "alpha": 0.5,
+        });
+
+        assertTrue(result.success);
+        assertEq(100, result.width);
+        assertEq(100, result.height);
+        assertTrue(result.size > 0);
+        assertTrue(result.data.substr(0, 4) == <89504e47>);
+
+        # Test with overlay scaling
+        hash<auto> result2 = dp.doRequest({
+            "base_data": base.data,
+            "overlay_data": overlay.data,
+            "x": 0.0,
+            "y": 0.0,
+            "overlay_width": 100,
+            "overlay_height": 100,
+        });
+
+        assertTrue(result2.success);
+        assertEq(100, result2.width);
+    }
+
+    private testNewDrawCommands() {
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+
+        # Test arc_negative
+        hash<auto> result = dp.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 0.0},
+                {"op": "arc_negative", "x": 50.0, "y": 50.0, "radius": 30.0,
+                 "angle1": 0.0, "angle2": -3.14159},
+                {"op": "stroke"},
+            ),
+        });
+        assertTrue(result.success);
+
+        # Test set_font_size standalone
+        result = dp.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "set_font_size", "size": 20.0},
+                {"op": "move_to", "x": 10.0, "y": 50.0},
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 0.0},
+                {"op": "text", "text": "Hi", "x": 10.0, "y": 50.0},
+            ),
+        });
+        assertTrue(result.success);
+
+        # Test set_matrix with identity matrix
+        result = dp.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "set_matrix", "xx": 1.0, "yx": 0.0, "xy": 0.0, "yy": 1.0,
+                 "x0": 0.0, "y0": 0.0},
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "paint"},
+            ),
+        });
+        assertTrue(result.success);
+
+        # Test transform command
+        result = dp.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "transform", "xx": 1.0, "yx": 0.0, "xy": 0.5, "yy": 1.0,
+                 "x0": 0.0, "y0": 0.0},
+                {"op": "set_source_rgb", "r": 0.0, "g": 1.0, "b": 0.0},
+                {"op": "rectangle", "x": 10.0, "y": 10.0, "width": 30.0, "height": 30.0},
+                {"op": "fill"},
+            ),
+        });
+        assertTrue(result.success);
+
+        # Test copy_page (on PS surface via postscript provider)
+        auto ps_dp = root.getChildProvider("postscript").getChildProvider("create");
+        result = ps_dp.doRequest({
+            "width": 612.0,
+            "height": 792.0,
+            "commands": (
+                {"op": "text", "text": "Page", "x": 72.0, "y": 720.0, "size": 24.0},
+                {"op": "copy_page"},
+                {"op": "show_page"},
+            ),
+        });
+        assertTrue(result.success);
     }
 
     private testNegative() {
@@ -596,6 +1228,440 @@ class CairoDataProviderTest inherits QUnit::Test {
         });
     }
 
+    private testNegativeNewFeatures() {
+        # Invalid PDF dimensions
+        if (CairoSurface::isPdfAvailable()) {
+            auto pdf_dp = root.getChildProvider("pdf").getChildProvider("create");
+            assertThrows("CAIRO-ERROR", "positive", sub () {
+                pdf_dp.doRequest({
+                    "width": 0.0,
+                    "height": 792.0,
+                    "commands": list(),
+                });
+            });
+        }
+
+        # Resize to zero dimensions
+        auto img_create = root.getChildProvider("image").getChildProvider("create");
+        hash<auto> img = img_create.doRequest({
+            "width": 32,
+            "height": 32,
+            "commands": list({"op": "paint"}),
+        });
+
+        auto resize_dp = root.getChildProvider("image").getChildProvider("resize");
+        assertThrows("CAIRO-ERROR", "positive", sub () {
+            resize_dp.doRequest({
+                "data": img.data,
+                "target_width": 0,
+                "target_height": 50,
+            });
+        });
+
+        # Crop dimensions exceeding image bounds
+        auto crop_dp = root.getChildProvider("image").getChildProvider("crop");
+        assertThrows("CAIRO-ERROR", "exceeds", sub () {
+            crop_dp.doRequest({
+                "data": img.data,
+                "x": 20,
+                "y": 20,
+                "crop_width": 50,
+                "crop_height": 50,
+            });
+        });
+
+        # Crop with zero dimensions
+        assertThrows("CAIRO-ERROR", "positive", sub () {
+            crop_dp.doRequest({
+                "data": img.data,
+                "x": 0,
+                "y": 0,
+                "crop_width": 0,
+                "crop_height": 10,
+            });
+        });
+    }
+
+    private testOverwrite() {
+        # Test overwrite with image/draw
+        string tmp_draw = tmp_location() + "/test_overwrite_draw.png";
+        on_exit {
+            if (is_file(tmp_draw)) {
+                unlink(tmp_draw);
+            }
+        }
+
+        # Create an initial image file
+        auto img_create = root.getChildProvider("image").getChildProvider("create");
+        hash<auto> img = img_create.doRequest({
+            "width": 50,
+            "height": 50,
+            "output_path": tmp_draw,
+            "commands": list({"op": "paint"}),
+        });
+        assertTrue(img.success);
+        assertTrue(is_file(tmp_draw));
+
+        # Draw on it using input_path + overwrite (no output_path)
+        auto img_draw = root.getChildProvider("image").getChildProvider("draw");
+        hash<auto> draw_result = img_draw.doRequest({
+            "input_path": tmp_draw,
+            "overwrite": True,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "rectangle", "x": 10.0, "y": 10.0, "width": 30.0, "height": 30.0},
+                {"op": "fill"},
+            ),
+        });
+        assertTrue(draw_result.success);
+        assertEq(tmp_draw, draw_result.output_path);
+        # With overwrite + no return_data, data should not be in response
+        assertFalse(exists draw_result.data);
+        # File should still exist and have data
+        assertTrue(is_file(tmp_draw));
+        assertTrue(hstat(tmp_draw).size > 0);
+
+        # Test overwrite with image/resize
+        string tmp_resize = tmp_location() + "/test_overwrite_resize.png";
+        on_exit {
+            if (is_file(tmp_resize)) {
+                unlink(tmp_resize);
+            }
+        }
+
+        img_create.doRequest({
+            "width": 100,
+            "height": 100,
+            "output_path": tmp_resize,
+            "commands": list({"op": "paint"}),
+        });
+        assertTrue(is_file(tmp_resize));
+
+        auto resize_dp = root.getChildProvider("image").getChildProvider("resize");
+        hash<auto> resize_result = resize_dp.doRequest({
+            "input_path": tmp_resize,
+            "overwrite": True,
+            "target_width": 50,
+            "target_height": 50,
+        });
+        assertTrue(resize_result.success);
+        assertEq(tmp_resize, resize_result.output_path);
+        assertEq(50, resize_result.width);
+        assertEq(50, resize_result.height);
+        assertFalse(exists resize_result.data);
+
+        # Test overwrite with image/crop
+        string tmp_crop = tmp_location() + "/test_overwrite_crop.png";
+        on_exit {
+            if (is_file(tmp_crop)) {
+                unlink(tmp_crop);
+            }
+        }
+
+        img_create.doRequest({
+            "width": 100,
+            "height": 100,
+            "output_path": tmp_crop,
+            "commands": list({"op": "paint"}),
+        });
+        assertTrue(is_file(tmp_crop));
+
+        auto crop_dp = root.getChildProvider("image").getChildProvider("crop");
+        hash<auto> crop_result = crop_dp.doRequest({
+            "input_path": tmp_crop,
+            "overwrite": True,
+            "x": 10,
+            "y": 10,
+            "crop_width": 50,
+            "crop_height": 50,
+        });
+        assertTrue(crop_result.success);
+        assertEq(tmp_crop, crop_result.output_path);
+        assertEq(50, crop_result.width);
+        assertEq(50, crop_result.height);
+        assertFalse(exists crop_result.data);
+
+        # Test overwrite with return_data=True
+        string tmp_both = tmp_location() + "/test_overwrite_both.png";
+        on_exit {
+            if (is_file(tmp_both)) {
+                unlink(tmp_both);
+            }
+        }
+
+        img_create.doRequest({
+            "width": 64,
+            "height": 64,
+            "output_path": tmp_both,
+            "commands": list({"op": "paint"}),
+        });
+
+        hash<auto> both_result = img_draw.doRequest({
+            "input_path": tmp_both,
+            "overwrite": True,
+            "return_data": True,
+            "commands": list({"op": "paint"}),
+        });
+        assertTrue(both_result.success);
+        assertEq(tmp_both, both_result.output_path);
+        assertTrue(exists both_result.data);
+        assertTrue(both_result.size > 0);
+    }
+
+    private testNegativeValidation() {
+        # Invalid slant value for text measurement - caught by DataProvider allowed_values
+        auto text_dp = root.getChildProvider("text").getChildProvider("measure");
+        assertThrows("RUNTIME-TYPE-ERROR", sub () {
+            text_dp.doRequest({
+                "text": "Hello",
+                "slant": "invalid_slant",
+            });
+        });
+
+        # Invalid weight value for text measurement
+        assertThrows("RUNTIME-TYPE-ERROR", sub () {
+            text_dp.doRequest({
+                "text": "Hello",
+                "weight": "invalid_weight",
+            });
+        });
+
+        # Invalid slant for font metrics
+        auto font_dp = root.getChildProvider("text").getChildProvider("get-font-metrics");
+        assertThrows("RUNTIME-TYPE-ERROR", sub () {
+            font_dp.doRequest({
+                "slant": "invalid_slant",
+            });
+        });
+
+        # Negative font size for text measurement
+        assertThrows("CAIRO-ERROR", "positive", sub () {
+            text_dp.doRequest({
+                "text": "Hello",
+                "size": -5.0,
+            });
+        });
+
+        # Zero font size for font metrics
+        assertThrows("CAIRO-ERROR", "positive", sub () {
+            font_dp.doRequest({
+                "size": 0.0,
+            });
+        });
+
+        # Composite with invalid alpha
+        auto img_create = root.getChildProvider("image").getChildProvider("create");
+        hash<auto> img = img_create.doRequest({
+            "width": 32,
+            "height": 32,
+            "commands": list({"op": "paint"}),
+        });
+
+        auto comp_dp = root.getChildProvider("image").getChildProvider("composite");
+        assertThrows("CAIRO-ERROR", "alpha", sub () {
+            comp_dp.doRequest({
+                "base_data": img.data,
+                "overlay_data": img.data,
+                "alpha": 1.5,
+            });
+        });
+
+        assertThrows("CAIRO-ERROR", "alpha", sub () {
+            comp_dp.doRequest({
+                "base_data": img.data,
+                "overlay_data": img.data,
+                "alpha": -0.1,
+            });
+        });
+
+        # Resize with corrupt data
+        auto resize_dp = root.getChildProvider("image").getChildProvider("resize");
+        assertThrows("CAIRO-ERROR", sub () {
+            resize_dp.doRequest({
+                "data": binary("not a png"),
+                "target_width": 50,
+                "target_height": 50,
+            });
+        });
+
+        # Crop with corrupt data
+        auto crop_dp = root.getChildProvider("image").getChildProvider("crop");
+        assertThrows("CAIRO-ERROR", sub () {
+            crop_dp.doRequest({
+                "data": binary("not a png"),
+                "x": 0,
+                "y": 0,
+                "crop_width": 10,
+                "crop_height": 10,
+            });
+        });
+
+        # Crop with negative x/y
+        assertThrows("CAIRO-ERROR", "exceeds", sub () {
+            crop_dp.doRequest({
+                "data": img.data,
+                "x": -5,
+                "y": 0,
+                "crop_width": 10,
+                "crop_height": 10,
+            });
+        });
+    }
+
+    private testImageResizeUpscale() {
+        # Create a small image and upscale it
+        auto img_create = root.getChildProvider("image").getChildProvider("create");
+        hash<auto> img = img_create.doRequest({
+            "width": 32,
+            "height": 32,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "paint"},
+            ),
+        });
+
+        auto resize_dp = root.getChildProvider("image").getChildProvider("resize");
+        hash<auto> result = resize_dp.doRequest({
+            "data": img.data,
+            "target_width": 128,
+            "target_height": 128,
+        });
+
+        assertTrue(result.success);
+        assertEq(128, result.width);
+        assertEq(128, result.height);
+        assertTrue(result.size > 0);
+        # Upscaled image should be larger than original
+        assertTrue(result.size > img.size);
+    }
+
+    private testCompositeAlphaZero() {
+        auto img_create = root.getChildProvider("image").getChildProvider("create");
+
+        # Create base (red) and overlay (blue)
+        hash<auto> base = img_create.doRequest({
+            "width": 32,
+            "height": 32,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "paint"},
+            ),
+        });
+        hash<auto> overlay = img_create.doRequest({
+            "width": 32,
+            "height": 32,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 1.0},
+                {"op": "paint"},
+            ),
+        });
+
+        auto comp_dp = root.getChildProvider("image").getChildProvider("composite");
+        hash<auto> result = comp_dp.doRequest({
+            "base_data": base.data,
+            "overlay_data": overlay.data,
+            "alpha": 0.0,
+        });
+
+        assertTrue(result.success);
+        assertEq(32, result.width);
+        assertEq(32, result.height);
+        # With alpha=0, result should be same size as base (overlay invisible)
+        assertTrue(result.size > 0);
+    }
+
+    private testCompositePartialOverlayDims() {
+        auto img_create = root.getChildProvider("image").getChildProvider("create");
+        hash<auto> img = img_create.doRequest({
+            "width": 32,
+            "height": 32,
+            "commands": list({"op": "paint"}),
+        });
+
+        auto comp_dp = root.getChildProvider("image").getChildProvider("composite");
+        # Only overlay_width, no overlay_height — should produce a warning
+        hash<auto> result = comp_dp.doRequest({
+            "base_data": img.data,
+            "overlay_data": img.data,
+            "overlay_width": 16,
+        });
+
+        assertTrue(result.success);
+        assertTrue(exists result.warnings);
+        assertTrue(result.warnings.size() > 0);
+        assertTrue(result.warnings[0] =~ /overlay_width/);
+    }
+
+    private testNewProviderOutputPaths() {
+        auto img_create = root.getChildProvider("image").getChildProvider("create");
+        hash<auto> img = img_create.doRequest({
+            "width": 64,
+            "height": 64,
+            "commands": list({"op": "paint"}),
+        });
+
+        # Resize with output_path
+        string tmp_resize = tmp_location() + "/test_resize_output.png";
+        on_exit {
+            if (is_file(tmp_resize)) {
+                unlink(tmp_resize);
+            }
+        }
+
+        auto resize_dp = root.getChildProvider("image").getChildProvider("resize");
+        hash<auto> result = resize_dp.doRequest({
+            "data": img.data,
+            "target_width": 32,
+            "target_height": 32,
+            "output_path": tmp_resize,
+        });
+        assertTrue(result.success);
+        assertEq(tmp_resize, result.output_path);
+        assertFalse(exists result.data);
+        assertTrue(is_file(tmp_resize));
+
+        # Crop with output_path
+        string tmp_crop = tmp_location() + "/test_crop_output.png";
+        on_exit {
+            if (is_file(tmp_crop)) {
+                unlink(tmp_crop);
+            }
+        }
+
+        auto crop_dp = root.getChildProvider("image").getChildProvider("crop");
+        result = crop_dp.doRequest({
+            "data": img.data,
+            "x": 0,
+            "y": 0,
+            "crop_width": 32,
+            "crop_height": 32,
+            "output_path": tmp_crop,
+        });
+        assertTrue(result.success);
+        assertEq(tmp_crop, result.output_path);
+        assertFalse(exists result.data);
+        assertTrue(is_file(tmp_crop));
+
+        # Composite with output_path
+        string tmp_comp = tmp_location() + "/test_composite_output.png";
+        on_exit {
+            if (is_file(tmp_comp)) {
+                unlink(tmp_comp);
+            }
+        }
+
+        auto comp_dp = root.getChildProvider("image").getChildProvider("composite");
+        result = comp_dp.doRequest({
+            "base_data": img.data,
+            "overlay_data": img.data,
+            "output_path": tmp_comp,
+        });
+        assertTrue(result.success);
+        assertEq(tmp_comp, result.output_path);
+        assertFalse(exists result.data);
+        assertTrue(is_file(tmp_comp));
+    }
+
     private testCornerCases() {
         # Empty command list
         auto svg_dp = root.getChildProvider("svg").getChildProvider("create");
@@ -604,6 +1670,7 @@ class CairoDataProviderTest inherits QUnit::Test {
             "height": 50.0,
             "commands": list(),
         });
+        assertTrue(result.success);
         assertTrue(result.size > 0);
 
         # Single command
@@ -612,6 +1679,7 @@ class CairoDataProviderTest inherits QUnit::Test {
             "height": 50.0,
             "commands": list({"op": "paint"}),
         });
+        assertTrue(result.success);
         assertTrue(result.size > 0);
 
         # return_data=True even with output path
@@ -628,6 +1696,7 @@ class CairoDataProviderTest inherits QUnit::Test {
             "return_data": True,
             "commands": list({"op": "paint"}),
         });
+        assertTrue(result.success);
         assertTrue(exists result.data);
         assertEq(tmp, result.output_path);
         assertTrue(result.size > 0);
@@ -640,6 +1709,7 @@ class CairoDataProviderTest inherits QUnit::Test {
             "return_data": False,
             "commands": list({"op": "paint"}),
         });
+        assertTrue(result.success);
         assertFalse(exists result.data);
         assertTrue(result.size > 0);
 
@@ -649,6 +1719,7 @@ class CairoDataProviderTest inherits QUnit::Test {
             "height": 100.0,
             "commands": list({"op": "text", "text": "", "x": 10.0, "y": 50.0}),
         });
+        assertTrue(result.success);
         assertTrue(result.size > 0);
 
         # Gradient with no stops
@@ -660,6 +1731,7 @@ class CairoDataProviderTest inherits QUnit::Test {
                 {"op": "paint"},
             ),
         });
+        assertTrue(result.success);
         assertTrue(result.size > 0);
     }
 }

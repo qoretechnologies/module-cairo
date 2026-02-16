@@ -1,7 +1,7 @@
 # -*- mode: qore; indent-tabs-mode: nil -*-
-#! Qore CairoPostScriptCreateDataProvider class definition
+#! Qore CairoFontGetMetricsDataProvider class definition
 
-/** CairoPostScriptCreateDataProvider.qc Copyright (C) 2026 Qore Technologies, s.r.o.
+/** CairoFontGetMetricsDataProvider.qc Copyright (C) 2026 Qore Technologies, s.r.o.
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -24,14 +24,13 @@
 
 #! Contains all public definitions in the CairoDataProvider module
 public namespace CairoDataProvider {
-#! Create PostScript or EPS data provider
-public class CairoPostScriptCreateDataProvider inherits CairoActionBase {
+#! Get font metrics data provider
+public class CairoFontGetMetricsDataProvider inherits CairoActionBase {
     public {
         const ProviderInfo = <DataProviderInfo>{
-            "name": "create",
-            "desc": "Create a PostScript or Encapsulated PostScript (EPS) document from "
-                "declarative draw commands for printing or embedding",
-            "type": "CairoPostScriptCreateDataProvider",
+            "name": "get-font-metrics",
+            "desc": "Get font metrics (ascent, descent, height, max advance) for a given font",
+            "type": "CairoFontGetMetricsDataProvider",
             "supports_request": True,
         };
     }
@@ -53,47 +52,42 @@ public class CairoPostScriptCreateDataProvider inherits CairoActionBase {
     }
 
     private *AbstractDataProviderType getRequestTypeImpl() {
-        return new CairoPostScriptCreateRequestDataType();
+        return new CairoFontGetMetricsRequestDataType();
     }
 
     private *AbstractDataProviderType getResponseTypeImpl() {
-        return AbstractDataProviderType::get(new Type("hash<CairoPostScriptCreateResponse>"));
+        return AbstractDataProviderType::get(new Type("hash<CairoFontGetMetricsResponse>"));
     }
 
     private auto doRequestImpl(auto req, *hash<auto> request_options) {
         hash<auto> request = req;
 
-        float width = float(request.width);
-        float height = float(request.height);
-
-        if (width <= 0.0 || height <= 0.0) {
-            throw "CAIRO-ERROR", sprintf("PostScript dimensions must be positive (%.2f x %.2f)",
-                width, height);
-        }
-
-        # Create PS surface writing to memory
-        CairoSurface surface = CairoSurface::createPsToData(width, height);
-
-        # Enable EPS mode if requested
-        if (request.eps) {
-            surface.setEps(True);
-        }
-
+        # Create a small image surface for measuring
+        CairoSurface surface = CairoSurface::createImage(1, 1);
         CairoContext ctx(surface);
 
-        # Execute draw commands
-        CairoActionBase::executeDrawCommands(ctx, request.commands);
+        # Set font
+        string family = request.family ?? "sans-serif";
+        string slant = request.slant ?? "normal";
+        string weight = request.weight ?? "normal";
+        float size = float(request.size ?? 12.0);
+        if (size <= 0.0) {
+            throw "CAIRO-ERROR", sprintf("font size must be positive (got %g)", size);
+        }
+        ctx.selectFontFace(family, slant, weight);
+        ctx.setFontSize(size);
 
-        # Finalize and get data
-        surface.finish();
-        binary ps_data = surface.getData();
+        # Get font extents
+        hash<CairoFontExtents> ext = ctx.fontExtents();
 
-        hash<auto> output = CairoActionBase::makeOutputResponse(ps_data, request);
-
-        hash<CairoPostScriptCreateResponse> response();
-        response += output;
-
-        return response;
+        return <CairoFontGetMetricsResponse>{
+            "success": True,
+            "ascent": ext.ascent,
+            "descent": ext.descent,
+            "height": ext.height,
+            "max_x_advance": ext.max_x_advance,
+            "max_y_advance": ext.max_y_advance,
+        };
     }
 }
 }

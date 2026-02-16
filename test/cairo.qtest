@@ -59,6 +59,12 @@ public class CairoTest inherits QUnit::Test {
         addTestCase("Multi-page PS tests", \multiPageTest());
         addTestCase("Surface info tests", \surfaceInfoTest());
         addTestCase("SVG reader tests", \svgReaderTest());
+        addTestCase("PDF surface tests", \pdfSurfaceTest());
+        addTestCase("PDF memory surface tests", \pdfMemoryTest());
+        addTestCase("PDF multi-page tests", \pdfMultiPageTest());
+        addTestCase("Font extents tests", \fontExtentsTest());
+        addTestCase("Current point tests", \currentPointTest());
+        addTestCase("Path extents tests", \pathExtentsTest());
         addTestCase("Negative tests", \negativeTest());
         addTestCase("Corner case tests", \cornerCaseTest());
 
@@ -741,6 +747,137 @@ public class CairoTest inherits QUnit::Test {
         assertEq(True, fileReader.getWidth() > 0.0, "file SVG reader width positive");
     }
 
+    private pdfSurfaceTest() {
+        if (!CairoSurface::isPdfAvailable()) {
+            testSkip("PDF surface support not available");
+            return;
+        }
+
+        string path = testDir + "/test.pdf";
+        CairoSurface pdf = CairoSurface::createPdf(path, 612.0, 792.0);
+        CairoContext ctx(pdf);
+        ctx.setSourceRgb(0.0, 0.0, 0.0);
+        ctx.selectFontFace("Helvetica", "normal", "normal");
+        ctx.setFontSize(24.0);
+        ctx.moveTo(72.0, 720.0);
+        ctx.showText("Hello PDF");
+        pdf.finish();
+
+        assertEq(True, is_file(path), "PDF file created");
+        binary content = ReadOnlyFile::readBinaryFile(path);
+        assertEq(True, content.size() > 0, "PDF file not empty");
+        string header = content.substr(0, 5).toString();
+        assertEq("%PDF-", header, "PDF file has PDF header");
+    }
+
+    private pdfMemoryTest() {
+        if (!CairoSurface::isPdfAvailable()) {
+            testSkip("PDF surface support not available");
+            return;
+        }
+
+        CairoSurface pdf = CairoSurface::createPdfToData(612.0, 792.0);
+        CairoContext ctx(pdf);
+        ctx.setSourceRgb(0.0, 0.0, 0.0);
+        ctx.rectangle(50.0, 50.0, 512.0, 692.0);
+        ctx.stroke();
+        pdf.finish();
+
+        binary data = pdf.getData();
+        assertEq(True, data.size() > 0, "PDF memory data not empty");
+        string header = data.substr(0, 5).toString();
+        assertEq("%PDF-", header, "PDF memory data has PDF header");
+
+        # Verify surface info
+        hash<CairoSurfaceInfo> info = pdf.getInfo();
+        assertEq("pdf", info.type, "PDF surface type");
+        assertEq(612.0, info.width, "PDF surface width");
+        assertEq(792.0, info.height, "PDF surface height");
+    }
+
+    private pdfMultiPageTest() {
+        if (!CairoSurface::isPdfAvailable()) {
+            testSkip("PDF surface support not available");
+            return;
+        }
+
+        CairoSurface pdf = CairoSurface::createPdfToData(612.0, 792.0);
+        CairoContext ctx(pdf);
+
+        # Page 1
+        ctx.setSourceRgb(0.0, 0.0, 0.0);
+        ctx.selectFontFace("Helvetica", "normal", "normal");
+        ctx.setFontSize(24.0);
+        ctx.moveTo(72.0, 720.0);
+        ctx.showText("Page 1");
+        ctx.showPage();
+
+        # Page 2 with different page size
+        pdf.setPdfSize(400.0, 300.0);
+        ctx.moveTo(50.0, 250.0);
+        ctx.showText("Page 2");
+        ctx.showPage();
+
+        pdf.finish();
+
+        binary data = pdf.getData();
+        assertEq(True, data.size() > 0, "multi-page PDF data not empty");
+    }
+
+    private fontExtentsTest() {
+        CairoSurface img = CairoSurface::createImage(100, 100);
+        CairoContext ctx(img);
+
+        ctx.selectFontFace("sans-serif", "normal", "normal");
+        ctx.setFontSize(24.0);
+
+        hash<CairoFontExtents> ext = ctx.fontExtents();
+        assertEq(True, ext.ascent > 0.0, "font ascent positive");
+        assertEq(True, ext.descent >= 0.0, "font descent non-negative");
+        assertEq(True, ext.height > 0.0, "font height positive");
+        assertEq(True, ext.max_x_advance > 0.0, "font max_x_advance positive");
+
+        # Different font size should change extents
+        ctx.setFontSize(48.0);
+        hash<CairoFontExtents> ext2 = ctx.fontExtents();
+        assertEq(True, ext2.height > ext.height, "larger font has greater height");
+    }
+
+    private currentPointTest() {
+        CairoSurface img = CairoSurface::createImage(100, 100);
+        CairoContext ctx(img);
+
+        # No current point initially
+        *hash<auto> pt = ctx.getCurrentPoint();
+        assertEq(NOTHING, pt, "no current point initially");
+
+        # After moveTo, current point should be set
+        ctx.moveTo(42.0, 73.0);
+        pt = ctx.getCurrentPoint();
+        assertEq(True, exists pt, "current point exists after moveTo");
+        assertEq(42.0, pt.x, "current point x");
+        assertEq(73.0, pt.y, "current point y");
+
+        # After newPath, current point should be gone
+        ctx.newPath();
+        pt = ctx.getCurrentPoint();
+        assertEq(NOTHING, pt, "no current point after newPath");
+    }
+
+    private pathExtentsTest() {
+        CairoSurface img = CairoSurface::createImage(200, 200);
+        CairoContext ctx(img);
+
+        # Draw a rectangle
+        ctx.rectangle(10.0, 20.0, 100.0, 50.0);
+
+        hash<auto> ext = ctx.pathExtents();
+        assertEq(True, abs(ext.x1 - 10.0) < 0.1, "path extents x1");
+        assertEq(True, abs(ext.y1 - 20.0) < 0.1, "path extents y1");
+        assertEq(True, abs(ext.x2 - 110.0) < 0.1, "path extents x2");
+        assertEq(True, abs(ext.y2 - 70.0) < 0.1, "path extents y2");
+    }
+
     private negativeTest() {
         # Invalid image format
         bool thrown = False;
@@ -814,6 +951,19 @@ public class CairoTest inherits QUnit::Test {
             assertEq("CAIRO-ERROR", ex.err, "setPsSize on SVG surface throws CAIRO-ERROR");
         }
         assertTrue(thrown, "setPsSize on non-PS surface throws exception");
+
+        # setPdfSize on non-PDF surface
+        if (CairoSurface::isPdfAvailable()) {
+            thrown = False;
+            try {
+                CairoSurface svg = CairoSurface::createSvgToData(100.0, 100.0);
+                svg.setPdfSize(200.0, 300.0);
+            } catch (hash<ExceptionInfo> ex) {
+                thrown = True;
+                assertEq("CAIRO-ERROR", ex.err, "setPdfSize on SVG surface throws CAIRO-ERROR");
+            }
+            assertTrue(thrown, "setPdfSize on non-PDF surface throws exception");
+        }
 
         # SVG reader negative tests
         if (CairoSvgReader::isAvailable()) {

@@ -31,6 +31,9 @@
 #include <cairo.h>
 #include <cairo-svg.h>
 #include <cairo-ps.h>
+#ifdef HAVE_CAIRO_PDF
+#include <cairo-pdf.h>
+#endif
 
 #include <string>
 #include <vector>
@@ -43,6 +46,8 @@ enum CairoSurfaceType {
     CST_PS_STREAM,
     CST_IMAGE,
     CST_RECORDING,
+    CST_PDF,
+    CST_PDF_STREAM,
 };
 
 class QoreCairoSurface : public AbstractPrivateData {
@@ -71,6 +76,17 @@ public:
     //! Create recording surface
     QoreCairoSurface(double x, double y, double width, double height, bool has_extents, ExceptionSink* xsink);
 
+#ifdef HAVE_CAIRO_PDF
+    //! Tag struct to differentiate PDF constructors from PS constructors
+    struct PdfTag {};
+
+    //! Create PDF surface writing to file
+    QoreCairoSurface(const std::string& path, double width, double height, PdfTag, ExceptionSink* xsink);
+
+    //! Create PDF surface writing to memory
+    QoreCairoSurface(double width, double height, PdfTag, ExceptionSink* xsink);
+#endif
+
     ~QoreCairoSurface();
 
     void finish(ExceptionSink* xsink);
@@ -86,7 +102,12 @@ public:
 
     void setEps(bool eps, ExceptionSink* xsink);
     void setPsSize(double width, double height, ExceptionSink* xsink);
+#ifdef HAVE_CAIRO_PDF
+    void setPdfSize(double width, double height, ExceptionSink* xsink);
+#endif
     void showPage(ExceptionSink* xsink);
+
+    static bool isPdfAvailable();
 
     cairo_surface_t* getSurface() const { return surface; }
     CairoSurfaceType getType() const { return type; }

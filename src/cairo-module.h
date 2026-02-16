@@ -32,9 +32,15 @@
 extern const TypedHashDecl* hashdeclCairoSurfaceInfo;
 extern const TypedHashDecl* hashdeclCairoMatrix;
 extern const TypedHashDecl* hashdeclCairoTextExtents;
+extern const TypedHashDecl* hashdeclCairoFontExtents;
+extern const TypedHashDecl* hashdeclCairoPoint;
+extern const TypedHashDecl* hashdeclCairoPathExtents;
 
 DLLLOCAL TypedHashDecl* init_hashdecl_CairoSurfaceInfo(QoreNamespace& ns);
 DLLLOCAL TypedHashDecl* init_hashdecl_CairoMatrix(QoreNamespace& ns);
 DLLLOCAL TypedHashDecl* init_hashdecl_CairoTextExtents(QoreNamespace& ns);
+DLLLOCAL TypedHashDecl* init_hashdecl_CairoFontExtents(QoreNamespace& ns);
+DLLLOCAL TypedHashDecl* init_hashdecl_CairoPoint(QoreNamespace& ns);
+DLLLOCAL TypedHashDecl* init_hashdecl_CairoPathExtents(QoreNamespace& ns);
 
 #endif

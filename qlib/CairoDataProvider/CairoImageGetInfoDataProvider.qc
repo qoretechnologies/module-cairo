@@ -29,7 +29,8 @@ public class CairoImageGetInfoDataProvider inherits CairoActionBase {
     public {
         const ProviderInfo = <DataProviderInfo>{
             "name": "get-info",
-            "desc": "Get PNG image dimensions and format",
+            "desc": "Read the dimensions, surface type, and pixel format of a PNG image without "
+                "modifying it",
             "type": "CairoImageGetInfoDataProvider",
             "supports_request": True,
         };
@@ -75,6 +76,7 @@ public class CairoImageGetInfoDataProvider inherits CairoActionBase {
         response.height = surface.getHeight();
         response.type = info.type;
         response.format = info.format;
+        response.success = True;
 
         return response;
     }

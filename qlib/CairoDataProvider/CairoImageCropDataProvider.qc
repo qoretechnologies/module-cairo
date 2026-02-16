@@ -1,7 +1,7 @@
 # -*- mode: qore; indent-tabs-mode: nil -*-
-#! Qore CairoSvgToPngDataProvider class definition
+#! Qore CairoImageCropDataProvider class definition
 
-/** CairoSvgToPngDataProvider.qc Copyright (C) 2026 Qore Technologies, s.r.o.
+/** CairoImageCropDataProvider.qc Copyright (C) 2026 Qore Technologies, s.r.o.
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -24,14 +24,13 @@
 
 #! Contains all public definitions in the CairoDataProvider module
 public namespace CairoDataProvider {
-#! Convert SVG to PNG data provider (requires librsvg)
-public class CairoSvgToPngDataProvider inherits CairoActionBase {
+#! Crop PNG image data provider
+public class CairoImageCropDataProvider inherits CairoActionBase {
     public {
         const ProviderInfo = <DataProviderInfo>{
-            "name": "to-png",
-            "desc": "Convert an SVG vector image to a PNG raster image with optional "
-                "resizing. Requires librsvg.",
-            "type": "CairoSvgToPngDataProvider",
+            "name": "crop",
+            "desc": "Crop a region from a PNG image",
+            "type": "CairoImageCropDataProvider",
             "supports_request": True,
         };
     }
@@ -53,55 +52,56 @@ public class CairoSvgToPngDataProvider inherits CairoActionBase {
     }
 
     private *AbstractDataProviderType getRequestTypeImpl() {
-        return new CairoSvgToPngRequestDataType();
+        return new CairoImageCropRequestDataType();
     }
 
     private *AbstractDataProviderType getResponseTypeImpl() {
-        return AbstractDataProviderType::get(new Type("hash<CairoSvgToPngResponse>"));
+        return AbstractDataProviderType::get(new Type("hash<CairoImageCropResponse>"));
     }
 
     private auto doRequestImpl(auto req, *hash<auto> request_options) {
         hash<auto> request = req;
 
-        # Load SVG data
-        binary svg_data = CairoActionBase::loadBinaryData(request);
+        int x = int(request.x);
+        int y = int(request.y);
+        int crop_width = int(request.crop_width);
+        int crop_height = int(request.crop_height);
 
-        # Parse with librsvg
-        CairoSvgReader reader(svg_data);
-
-        # Determine output dimensions
-        float svg_w = reader.getWidth();
-        float svg_h = reader.getHeight();
-        int out_w = exists request.width ? int(request.width) : int(svg_w);
-        int out_h = exists request.height ? int(request.height) : int(svg_h);
-
-        if (out_w <= 0 || out_h <= 0) {
-            throw "CAIRO-ERROR", sprintf("output dimensions must be positive (%d x %d)",
-                out_w, out_h);
+        if (crop_width <= 0 || crop_height <= 0) {
+            throw "CAIRO-ERROR", sprintf("crop dimensions must be positive (%d x %d)",
+                crop_width, crop_height);
         }
 
-        # Create image surface and render SVG
-        CairoSurface surface = CairoSurface::createImage(out_w, out_h, "ARGB32");
-        CairoContext ctx(surface);
+        # Load source image
+        binary src_data = CairoActionBase::loadBinaryData(request);
+        CairoSurface src = CairoSurface::createImageFromPngData(src_data);
 
-        # Scale to fit output dimensions if different from SVG intrinsic size
-        if (svg_w > 0.0 && svg_h > 0.0) {
-            float scale_x = float(out_w) / svg_w;
-            float scale_y = float(out_h) / svg_h;
-            ctx.scale(scale_x, scale_y);
+        int src_width = src.getWidth();
+        int src_height = src.getHeight();
+
+        if (x < 0 || y < 0 || x + crop_width > src_width || y + crop_height > src_height) {
+            throw "CAIRO-ERROR", sprintf("crop region (%d, %d, %d, %d) exceeds image bounds (%d x %d)",
+                x, y, crop_width, crop_height, src_width, src_height);
         }
 
-        reader.renderTo(ctx);
+        # Create target surface at crop dimensions
+        CairoSurface target = CairoSurface::createImage(crop_width, crop_height);
+        CairoContext ctx(target);
 
-        # Get PNG data
-        binary png_data = surface.writeToPngData();
+        # Translate to offset the source and paint
+        ctx.translate(float(-x), float(-y));
+        ctx.setSourceSurface(src, 0.0, 0.0);
+        ctx.paint();
+
+        # Write to PNG
+        binary png_data = target.writeToPngData();
 
         hash<auto> output = CairoActionBase::makeOutputResponse(png_data, request);
 
-        hash<CairoSvgToPngResponse> response();
+        hash<CairoImageCropResponse> response();
         response += output;
-        response.width = out_w;
-        response.height = out_h;
+        response.width = crop_width;
+        response.height = crop_height;
 
         return response;
     }

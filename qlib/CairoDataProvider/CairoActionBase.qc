@@ -43,8 +43,13 @@ public class CairoActionBase inherits AbstractDataProvider {
         throw "CAIRO-ERROR", "one of 'input_path', 'data', or 'location' must be provided";
     }
 
+    #! Determines if the request uses a file path input
+    static bool hasFilePathInput(hash<auto> req) {
+        return exists req.input_path && req.input_path.val();
+    }
+
     #! Returns the output response hash for data-producing actions
-    /** Handles writing to output_path, output_location, and returning data.
+    /** Handles writing to output_path, output_location, overwrite, and returning data.
 
         @param out_data the output binary data
         @param req the original request hash
@@ -57,6 +62,16 @@ public class CairoActionBase inherits AbstractDataProvider {
         if (req.output_path) {
             CairoActionBase::writeBinaryFile(req.output_path, out_data);
             response."output_path" = req.output_path;
+        } else if (req.overwrite && CairoActionBase::hasFilePathInput(req)) {
+            # Overwrite input file with atomic temp + rename
+            string output_path = req.input_path;
+            string temp_path = output_path + ".tmp";
+            on_error {
+                unlink(temp_path);
+            }
+            CairoActionBase::writeBinaryFile(temp_path, out_data);
+            rename(temp_path, output_path);
+            response."output_path" = output_path;
         }
 
         # Write to output_location if specified
@@ -66,13 +81,15 @@ public class CairoActionBase inherits AbstractDataProvider {
         }
 
         # Determine if we should return data in the response
-        bool has_output = exists req.output_path || exists req.output_location;
+        bool has_output = exists req.output_path || exists req.output_location
+            || (req.overwrite && CairoActionBase::hasFilePathInput(req));
         bool do_return_data = exists req.return_data ? req.return_data : !has_output;
         if (do_return_data) {
             response."data" = out_data;
         }
 
         response."size" = out_data.size();
+        response."success" = True;
         return response;
     }
 
@@ -304,6 +321,35 @@ public class CairoActionBase inherits AbstractDataProvider {
                 }
                 case "identity_matrix": {
                     ctx.identityMatrix();
+                    break;
+                }
+                case "arc_negative": {
+                    ctx.arcNegative(float(cmd.x), float(cmd.y), float(cmd.radius),
+                        float(cmd.angle1), float(cmd.angle2));
+                    break;
+                }
+                case "copy_page": {
+                    ctx.copyPage();
+                    break;
+                }
+                case "set_font_size": {
+                    ctx.setFontSize(float(cmd.size));
+                    break;
+                }
+                case "set_matrix": {
+                    ctx.setMatrix(<CairoMatrix>{
+                        "xx": float(cmd.xx), "yx": float(cmd.yx),
+                        "xy": float(cmd.xy), "yy": float(cmd.yy),
+                        "x0": float(cmd.x0), "y0": float(cmd.y0),
+                    });
+                    break;
+                }
+                case "transform": {
+                    ctx.transform(<CairoMatrix>{
+                        "xx": float(cmd.xx), "yx": float(cmd.yx),
+                        "xy": float(cmd.xy), "yy": float(cmd.yy),
+                        "x0": float(cmd.x0), "y0": float(cmd.y0),
+                    });
                     break;
                 }
                 default: {
