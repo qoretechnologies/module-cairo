@@ -117,6 +117,13 @@ hashdecl Qore::Cairo::CairoTextExtents {
 */
 qclass CairoSurface [arg=QoreCairoSurface* surface; ns=Qore::Cairo];
 
+//! Private constructor - use static factory methods instead
+/** @throw CAIRO-ERROR always; CairoSurface objects must be created using static factory methods
+*/
+private CairoSurface::constructor() {
+    xsink->raiseException("CAIRO-ERROR", "CairoSurface cannot be constructed directly; use static factory methods");
+}
+
 //! Creates an SVG surface writing to a file
 /** @param path output file path
     @param width surface width in points

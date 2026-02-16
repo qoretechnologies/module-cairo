@@ -214,6 +214,7 @@ nothing CairoContext::setSourceRgba(float r, float g, float b, float a) {
     @param y Y offset for the surface origin
 */
 nothing CairoContext::setSourceSurface(CairoSurface[QoreCairoSurface] surface, float x, float y) {
+    ReferenceHolder<QoreCairoSurface> holder(surface, xsink);
     ctx->setSourceSurface(surface, x, y, xsink);
 }
 
@@ -221,6 +222,7 @@ nothing CairoContext::setSourceSurface(CairoSurface[QoreCairoSurface] surface, f
 /** @param pattern the source pattern
 */
 nothing CairoContext::setSource(CairoPattern[QoreCairoPattern] pattern) {
+    ReferenceHolder<QoreCairoPattern> holder(pattern, xsink);
     ctx->setSource(pattern->getPattern(), xsink);
 }
 

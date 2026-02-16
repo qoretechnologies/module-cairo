@@ -37,6 +37,13 @@ QoreCairoSurface::QoreCairoSurface(const std::string& path, double width, double
         xsink->raiseException("CAIRO-ERROR", "surface dimensions must be positive (%.2f x %.2f)", width, height);
         return;
     }
+    QoreSandboxManagerHelper smh;
+    if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_WRITE | QSEC_CREATE, xsink)) {
+        return;
+    }
+    if (qore_check_io_interrupt(xsink, "SVG surface create")) {
+        return;
+    }
     surface = cairo_svg_surface_create(path.c_str(), width, height);
     checkStatus(xsink);
 }
@@ -57,6 +64,13 @@ QoreCairoSurface::QoreCairoSurface(const std::string& path, double width, double
         ExceptionSink* xsink) : type(CST_PS), surface_width(width), surface_height(height) {
     if (width <= 0 || height <= 0) {
         xsink->raiseException("CAIRO-ERROR", "surface dimensions must be positive (%.2f x %.2f)", width, height);
+        return;
+    }
+    QoreSandboxManagerHelper smh;
+    if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_WRITE | QSEC_CREATE, xsink)) {
+        return;
+    }
+    if (qore_check_io_interrupt(xsink, "PostScript surface create")) {
         return;
     }
     surface = cairo_ps_surface_create(path.c_str(), width, height);
@@ -87,6 +101,13 @@ QoreCairoSurface::QoreCairoSurface(int width, int height, cairo_format_t format,
 
 // Image surface from PNG file
 QoreCairoSurface::QoreCairoSurface(const std::string& path, ExceptionSink* xsink) : type(CST_IMAGE) {
+    QoreSandboxManagerHelper smh;
+    if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_READ, xsink)) {
+        return;
+    }
+    if (qore_check_io_interrupt(xsink, "PNG file load")) {
+        return;
+    }
     surface = cairo_image_surface_create_from_png(path.c_str());
     cairo_status_t status = cairo_surface_status(surface);
     if (status != CAIRO_STATUS_SUCCESS) {
@@ -170,6 +191,13 @@ void QoreCairoSurface::writeToPng(const std::string& path, ExceptionSink* xsink)
     }
     if (type != CST_IMAGE && type != CST_RECORDING) {
         xsink->raiseException("CAIRO-ERROR", "writeToPng is only available for image and recording surfaces");
+        return;
+    }
+    QoreSandboxManagerHelper smh;
+    if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_WRITE | QSEC_CREATE, xsink)) {
+        return;
+    }
+    if (qore_check_io_interrupt(xsink, "PNG file write")) {
         return;
     }
     cairo_status_t status = cairo_surface_write_to_png(surface, path.c_str());

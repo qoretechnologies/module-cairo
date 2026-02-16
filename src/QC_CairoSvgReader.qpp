@@ -95,6 +95,7 @@ hash<auto> CairoSvgReader::getDimensions() {
 /** @param ctx the target drawing context
 */
 nothing CairoSvgReader::renderTo(CairoContext[QoreCairoContext] ctx) {
+    ReferenceHolder<QoreCairoContext> holder(ctx, xsink);
     reader->renderTo(ctx, xsink);
 }
 

@@ -31,6 +31,13 @@
 #ifdef HAVE_RSVG
 
 QoreCairoSvgReader::QoreCairoSvgReader(const std::string& path, ExceptionSink* xsink) {
+    QoreSandboxManagerHelper smh;
+    if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_READ, xsink)) {
+        return;
+    }
+    if (qore_check_io_interrupt(xsink, "SVG file load")) {
+        return;
+    }
     GError* error = nullptr;
     GFile* file = g_file_new_for_path(path.c_str());
     handle = rsvg_handle_new_from_gfile_sync(file, RSVG_HANDLE_FLAGS_NONE, nullptr, &error);

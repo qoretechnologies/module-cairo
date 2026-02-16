@@ -37,6 +37,13 @@
 */
 qclass CairoPattern [arg=QoreCairoPattern* pattern; ns=Qore::Cairo];
 
+//! Private constructor - use static factory methods instead
+/** @throw CAIRO-ERROR always; CairoPattern objects must be created using static factory methods
+*/
+private CairoPattern::constructor() {
+    xsink->raiseException("CAIRO-ERROR", "CairoPattern cannot be constructed directly; use static factory methods");
+}
+
 //! Creates a linear gradient pattern
 /** @param x0 start point X
     @param y0 start point Y
@@ -102,6 +109,7 @@ static CairoPattern CairoPattern::createRgba(float r, float g, float b, float a)
 /** @param surface the source surface
 */
 static CairoPattern CairoPattern::createForSurface(CairoSurface[QoreCairoSurface] surface) {
+    ReferenceHolder<QoreCairoSurface> surface_holder(surface, xsink);
     ReferenceHolder<QoreCairoPattern> holder(new QoreCairoPattern(surface, xsink), xsink);
     if (*xsink) {
         return QoreValue();

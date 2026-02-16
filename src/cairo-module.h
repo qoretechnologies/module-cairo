@@ -27,6 +27,7 @@
 #define QORE_CAIRO_MODULE_H
 
 #include <qore/Qore.h>
+#include <qore/QoreSandboxManager.h>
 
 extern const TypedHashDecl* hashdeclCairoSurfaceInfo;
 extern const TypedHashDecl* hashdeclCairoMatrix;

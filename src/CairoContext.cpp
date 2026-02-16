@@ -32,7 +32,8 @@
 
 QoreCairoContext::QoreCairoContext(QoreCairoSurface* surface, ExceptionSink* xsink) : surface_ref(surface) {
     assert(surface);
-    surface->ref();
+    // NOTE: caller (QPP-generated code via HARD_QORE_VALUE_OBJ_DATA) already holds a reference
+    // from getReferencedPrivateData(); we take ownership of that reference here
     cr = cairo_create(surface->getSurface());
     checkStatus(xsink);
 }
