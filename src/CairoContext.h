@@ -42,6 +42,9 @@ public:
     void moveTo(double x, double y, ExceptionSink* xsink);
     void lineTo(double x, double y, ExceptionSink* xsink);
     void curveTo(double x1, double y1, double x2, double y2, double x3, double y3, ExceptionSink* xsink);
+    void relMoveTo(double dx, double dy, ExceptionSink* xsink);
+    void relLineTo(double dx, double dy, ExceptionSink* xsink);
+    void relCurveTo(double dx1, double dy1, double dx2, double dy2, double dx3, double dy3, ExceptionSink* xsink);
     void arc(double xc, double yc, double radius, double angle1, double angle2, ExceptionSink* xsink);
     void arcNegative(double xc, double yc, double radius, double angle1, double angle2, ExceptionSink* xsink);
     void rectangle(double x, double y, double width, double height, ExceptionSink* xsink);
@@ -58,12 +61,15 @@ public:
     void paintWithAlpha(double alpha, ExceptionSink* xsink);
     void clip(ExceptionSink* xsink);
     void clipPreserve(ExceptionSink* xsink);
+    void resetClip(ExceptionSink* xsink);
 
     // Source
     void setSourceRgb(double r, double g, double b, ExceptionSink* xsink);
     void setSourceRgba(double r, double g, double b, double a, ExceptionSink* xsink);
     void setSourceSurface(QoreCairoSurface* surface, double x, double y, ExceptionSink* xsink);
     void setSource(cairo_pattern_t* pattern, ExceptionSink* xsink);
+    void mask(cairo_pattern_t* pattern, ExceptionSink* xsink);
+    void maskSurface(QoreCairoSurface* surface, double x, double y, ExceptionSink* xsink);
 
     // State
     void save(ExceptionSink* xsink);
@@ -72,9 +78,15 @@ public:
     void setLineCap(const std::string& cap, ExceptionSink* xsink);
     void setLineJoin(const std::string& join, ExceptionSink* xsink);
     void setDash(const QoreListNode* dashes, double offset, ExceptionSink* xsink);
+    void setMiterLimit(double limit, ExceptionSink* xsink);
+    void setTolerance(double tolerance, ExceptionSink* xsink);
     void setFillRule(const std::string& rule, ExceptionSink* xsink);
     void setOperator(const std::string& op, ExceptionSink* xsink);
     void setAntialias(const std::string& aa, ExceptionSink* xsink);
+
+    // Group operations
+    void pushGroup(ExceptionSink* xsink);
+    void popGroupToSource(ExceptionSink* xsink);
 
     // Transforms
     void translate(double tx, double ty, ExceptionSink* xsink);

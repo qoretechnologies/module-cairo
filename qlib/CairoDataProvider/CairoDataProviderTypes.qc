@@ -134,6 +134,47 @@ const CairoOutputResponseFields = {
     },
 };
 
+#! Common font fields for text and font metric operations
+const CairoFontFields = {
+    "family": {
+        "type": StringOrNothingType,
+        "display_name": "Font Family",
+        "short_desc": "Font family name",
+        "desc": "Font family name (e.g., 'sans-serif', 'Helvetica'). Default: 'sans-serif'",
+        "default_value": "sans-serif",
+    },
+    "size": {
+        "type": FloatOrNothingType,
+        "display_name": "Font Size",
+        "short_desc": "Font size",
+        "desc": "Font size in user-space units. Default: 12.0",
+        "default_value": 12.0,
+    },
+    "slant": {
+        "type": StringOrNothingType,
+        "display_name": "Font Slant",
+        "short_desc": "Font slant style",
+        "desc": "Font slant: 'normal', 'italic', or 'oblique'. Default: 'normal'",
+        "default_value": "normal",
+        "allowed_values": (
+            <AllowedValueInfo>{"value": "normal", "desc": "Normal (upright) style"},
+            <AllowedValueInfo>{"value": "italic", "desc": "Italic style"},
+            <AllowedValueInfo>{"value": "oblique", "desc": "Oblique style"},
+        ),
+    },
+    "weight": {
+        "type": StringOrNothingType,
+        "display_name": "Font Weight",
+        "short_desc": "Font weight",
+        "desc": "Font weight: 'normal' or 'bold'. Default: 'normal'",
+        "default_value": "normal",
+        "allowed_values": (
+            <AllowedValueInfo>{"value": "normal", "desc": "Normal weight"},
+            <AllowedValueInfo>{"value": "bold", "desc": "Bold weight"},
+        ),
+    },
+};
+
 #! Draw commands field
 const CairoDrawCommandsField = {
     "commands": {
@@ -142,23 +183,39 @@ const CairoDrawCommandsField = {
         "short_desc": "List of draw commands",
         "desc": "List of draw command hashes. Each command has an 'op' key specifying the "
             "operation and operation-specific parameters.\n\n"
-            "Color and style: set_source_rgb (r, g, b), set_source_rgba (r, g, b, a), "
-            "set_line_width (width), set_line_cap (cap), set_line_join (join), "
-            "set_dash (dashes, offset), set_fill_rule (rule), set_operator (op_name), "
-            "set_antialias (aa)\n\n"
+            "Coordinate system: dimensions are in points (1 point = 1/72 inch). "
+            "US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n"
+            "Color and style: set_source_rgb (r, g, b), set_source_rgba (r, g, b, a) — "
+            "color values are floats in range 0.0–1.0 (e.g. r=1.0 is full red). "
+            "set_line_width (width), set_line_cap (cap: butt, round, square), "
+            "set_line_join (join: miter, round, bevel), "
+            "set_dash (dashes, offset), set_miter_limit (limit), set_tolerance (tolerance), "
+            "set_fill_rule (rule: winding, even-odd), "
+            "set_operator (op_name), set_antialias (aa: default, none, gray, subpixel)\n\n"
             "Paths: move_to (x, y), line_to (x, y), curve_to (x1, y1, x2, y2, x3, y3), "
-            "arc (x, y, radius, angle1, angle2), arc_negative (x, y, radius, angle1, angle2), "
+            "rel_move_to (dx, dy), rel_line_to (dx, dy), "
+            "rel_curve_to (dx1, dy1, dx2, dy2, dx3, dy3), "
+            "arc (x, y, radius, angle1, angle2), arc_negative (x, y, radius, angle1, angle2) "
+            "— angles are in radians (0 = 3 o'clock, pi/2 = 6 o'clock), "
             "rectangle (x, y, width, height), close_path, new_path, new_sub_path\n\n"
             "Drawing: stroke, fill, paint (alpha), stroke_preserve, fill_preserve, "
-            "clip, clip_preserve, text_path (text)\n\n"
+            "clip, clip_preserve, reset_clip, text_path (text)\n\n"
             "Text: text (text, x, y, family, size, slant, weight), "
             "set_font (family, size, slant, weight), set_font_size (size)\n\n"
-            "Transforms: translate (x, y), rotate (angle), scale (x, y), identity_matrix, "
+            "Transforms: translate (x, y), rotate (angle — radians), scale (x, y), "
+            "identity_matrix, "
             "set_matrix (xx, yx, xy, yy, x0, y0), transform (xx, yx, xy, yy, x0, y0)\n\n"
-            "Gradients: linear_gradient (x0, y0, x1, y1, stops), "
-            "radial_gradient (cx0, cy0, r0, cx1, cy1, r1, stops)\n\n"
-            "Other: image (path/data, x, y, width, height), save, restore, "
-            "show_page, copy_page",
+            "Gradients: linear_gradient (x0, y0, x1, y1, stops, extend, filter), "
+            "radial_gradient (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter). "
+            "Stops: list of hashes with offset (0.0–1.0), r, g, b, and optional a "
+            "(e.g. [{\"offset\": 0.0, \"r\": 1.0, \"g\": 0.0, \"b\": 0.0}, ...]). "
+            "Extend: none (transparent outside gradient), repeat (tile), reflect (mirror), "
+            "pad (extend edge color). "
+            "Filter: fast, good, best, nearest, bilinear.\n\n"
+            "Other: image (path/data/location, x, y, width, height) — loads PNG files only; "
+            "mask_surface (path/data/location, x, y) — uses current source color masked by "
+            "a PNG surface's alpha channel; "
+            "save, restore, push_group, pop_group_to_source, show_page, copy_page",
     },
 };
 
@@ -166,10 +223,10 @@ const CairoDrawCommandsField = {
 
 #! Request type for creating an SVG
 public hashdecl CairoSvgCreateRequest {
-    #! Surface width in points
+    #! Surface width in points (1 point = 1/72 inch; US Letter = 612)
     float width;
 
-    #! Surface height in points
+    #! Surface height in points (1 point = 1/72 inch; US Letter = 792)
     float height;
 
     #! Draw commands
@@ -228,7 +285,7 @@ public hashdecl CairoSvgGetInfoResponse {
     #! SVG height
     float height;
 
-    #! SVG metadata
+    #! SVG metadata as key-value pairs (currently contains width and height)
     hash<auto> metadata;
 
     #! True if the operation completed successfully
@@ -310,10 +367,10 @@ public hashdecl CairoSvgToPsRequest {
     #! Input location
     *string location;
 
-    #! Output width in points (default: use SVG intrinsic width)
+    #! Output width in points (1 point = 1/72 inch; default: use SVG intrinsic width)
     *float width;
 
-    #! Output height in points (default: use SVG intrinsic height)
+    #! Output height in points (1 point = 1/72 inch; default: use SVG intrinsic height)
     *float height;
 
     #! Output file path
@@ -363,10 +420,10 @@ public hashdecl CairoSvgToEpsRequest {
     #! Input location
     *string location;
 
-    #! Output width in points (default: use SVG intrinsic width)
+    #! Output width in points (1 point = 1/72 inch; default: use SVG intrinsic width)
     *float width;
 
-    #! Output height in points (default: use SVG intrinsic height)
+    #! Output height in points (1 point = 1/72 inch; default: use SVG intrinsic height)
     *float height;
 
     #! Output file path
@@ -385,6 +442,59 @@ public hashdecl CairoSvgToEpsRequest {
 #! Response type for SVG to EPS conversion
 public hashdecl CairoSvgToEpsResponse {
     #! Output EPS data
+    *binary data;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Output size in bytes
+    int size;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
+}
+
+# ========== SVG To PDF ==========
+
+#! Request type for converting SVG to PDF
+public hashdecl CairoSvgToPdfRequest {
+    #! Input file path
+    *string input_path;
+
+    #! Binary SVG data
+    *binary data;
+
+    #! Input location
+    *string location;
+
+    #! Output width in points (1 point = 1/72 inch; default: use SVG intrinsic width)
+    *float width;
+
+    #! Output height in points (1 point = 1/72 inch; default: use SVG intrinsic height)
+    *float height;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Return data in response
+    *bool return_data;
+
+    #! Overwrite the input file if true
+    *bool overwrite;
+}
+
+#! Response type for SVG to PDF conversion
+public hashdecl CairoSvgToPdfResponse {
+    #! Output PDF data
     *binary data;
 
     #! Output file path
@@ -551,10 +661,10 @@ public hashdecl CairoImageDrawResponse {
 
 #! Request type for creating a PostScript document
 public hashdecl CairoPostScriptCreateRequest {
-    #! Page width in points
+    #! Page width in points (1 point = 1/72 inch; US Letter = 612)
     float width;
 
-    #! Page height in points
+    #! Page height in points (1 point = 1/72 inch; US Letter = 792)
     float height;
 
     #! Enable EPS mode
@@ -598,10 +708,10 @@ public hashdecl CairoPostScriptCreateResponse {
 
 #! Request type for creating a PDF document
 public hashdecl CairoPdfCreateRequest {
-    #! Page width in points
+    #! Page width in points (1 point = 1/72 inch; US Letter = 612)
     float width;
 
-    #! Page height in points
+    #! Page height in points (1 point = 1/72 inch; US Letter = 792)
     float height;
 
     #! Draw commands
@@ -928,39 +1038,46 @@ public hashdecl CairoImageCompositeResponse {
 
 #! SVG create request type
 public class CairoSvgCreateRequestDataType inherits HashDataType {
-    constructor() {
-        addQoreFields({
+    public {
+        const Fields = {
             "width": {
                 "type": FloatType,
                 "display_name": "Width",
                 "short_desc": "SVG width in points",
                 "desc": "Width of the SVG surface in points (72 points = 1 inch)",
+                "example_value": 612.0,
             },
             "height": {
                 "type": FloatType,
                 "display_name": "Height",
                 "short_desc": "SVG height in points",
                 "desc": "Height of the SVG surface in points (72 points = 1 inch)",
+                "example_value": 792.0,
             },
-        });
-        addQoreFields(CairoDrawCommandsField);
-        addQoreFields(CairoOutputFields - "overwrite");
+        } + CairoDrawCommandsField + (CairoOutputFields - "overwrite");
+    }
+
+    constructor() {
+        addQoreFields(Fields);
     }
 }
 
 #! SVG get info request type
 public class CairoSvgGetInfoRequestDataType inherits HashDataType {
+    public {
+        const Fields = CairoInputFields;
+    }
+
     constructor() {
-        addQoreFields(CairoInputFields);
+        addQoreFields(Fields);
         setRequiredGroups((("input_path", "data", "location"),));
     }
 }
 
 #! SVG to PNG request type
 public class CairoSvgToPngRequestDataType inherits HashDataType {
-    constructor() {
-        addQoreFields(CairoInputFields);
-        addQoreFields({
+    public {
+        const Fields = CairoInputFields + {
             "width": {
                 "type": IntOrNothingType,
                 "display_name": "Width",
@@ -973,17 +1090,19 @@ public class CairoSvgToPngRequestDataType inherits HashDataType {
                 "short_desc": "Output height in pixels",
                 "desc": "Output image height in pixels. Default: use SVG intrinsic height.",
             },
-        });
-        addQoreFields(CairoOutputFields);
+        } + CairoOutputFields;
+    }
+
+    constructor() {
+        addQoreFields(Fields);
         setRequiredGroups((("input_path", "data", "location"),));
     }
 }
 
 #! SVG to PS request type
 public class CairoSvgToPsRequestDataType inherits HashDataType {
-    constructor() {
-        addQoreFields(CairoInputFields);
-        addQoreFields({
+    public {
+        const Fields = CairoInputFields + {
             "width": {
                 "type": FloatOrNothingType,
                 "display_name": "Width",
@@ -996,17 +1115,19 @@ public class CairoSvgToPsRequestDataType inherits HashDataType {
                 "short_desc": "Output height in points",
                 "desc": "Output page height in points (72 points = 1 inch). Default: use SVG intrinsic height.",
             },
-        });
-        addQoreFields(CairoOutputFields);
+        } + CairoOutputFields;
+    }
+
+    constructor() {
+        addQoreFields(Fields);
         setRequiredGroups((("input_path", "data", "location"),));
     }
 }
 
 #! SVG to EPS request type
 public class CairoSvgToEpsRequestDataType inherits HashDataType {
-    constructor() {
-        addQoreFields(CairoInputFields);
-        addQoreFields({
+    public {
+        const Fields = CairoInputFields + {
             "width": {
                 "type": FloatOrNothingType,
                 "display_name": "Width",
@@ -1019,30 +1140,62 @@ public class CairoSvgToEpsRequestDataType inherits HashDataType {
                 "short_desc": "Output height in points",
                 "desc": "Output page height in points (72 points = 1 inch). Default: use SVG intrinsic height.",
             },
-        });
-        addQoreFields(CairoOutputFields);
+        } + CairoOutputFields;
+    }
+
+    constructor() {
+        addQoreFields(Fields);
+        setRequiredGroups((("input_path", "data", "location"),));
+    }
+}
+
+#! SVG to PDF request type
+public class CairoSvgToPdfRequestDataType inherits HashDataType {
+    public {
+        const Fields = CairoInputFields + {
+            "width": {
+                "type": FloatOrNothingType,
+                "display_name": "Width",
+                "short_desc": "Output width in points",
+                "desc": "Output page width in points (1 point = 1/72 inch; US Letter = 612). "
+                    "Default: use SVG intrinsic width.",
+            },
+            "height": {
+                "type": FloatOrNothingType,
+                "display_name": "Height",
+                "short_desc": "Output height in points",
+                "desc": "Output page height in points (1 point = 1/72 inch; US Letter = 792). "
+                    "Default: use SVG intrinsic height.",
+            },
+        } + CairoOutputFields;
+    }
+
+    constructor() {
+        addQoreFields(Fields);
         setRequiredGroups((("input_path", "data", "location"),));
     }
 }
 
 #! Image create request type
 public class CairoImageCreateRequestDataType inherits HashDataType {
-    constructor() {
-        addQoreFields({
+    public {
+        const Fields = {
             "width": {
                 "type": IntType,
                 "display_name": "Width",
                 "short_desc": "Image width in pixels",
                 "desc": "Width of the image in pixels",
+                "example_value": 800,
             },
             "height": {
                 "type": IntType,
                 "display_name": "Height",
                 "short_desc": "Image height in pixels",
                 "desc": "Height of the image in pixels",
+                "example_value": 600,
             },
             "format": {
-                "type": StringType,
+                "type": StringOrNothingType,
                 "display_name": "Format",
                 "short_desc": "Pixel format",
                 "desc": "Pixel format for the image surface",
@@ -1054,45 +1207,55 @@ public class CairoImageCreateRequestDataType inherits HashDataType {
                     <AllowedValueInfo>{"value": "A1", "desc": "1-bit alpha mask"},
                 ),
             },
-        });
-        addQoreFields(CairoDrawCommandsField);
-        addQoreFields(CairoOutputFields - "overwrite");
+        } + CairoDrawCommandsField + (CairoOutputFields - "overwrite");
+    }
+
+    constructor() {
+        addQoreFields(Fields);
     }
 }
 
 #! Image get info request type
 public class CairoImageGetInfoRequestDataType inherits HashDataType {
+    public {
+        const Fields = CairoInputFields;
+    }
+
     constructor() {
-        addQoreFields(CairoInputFields);
+        addQoreFields(Fields);
         setRequiredGroups((("input_path", "data", "location"),));
     }
 }
 
 #! Image draw request type
 public class CairoImageDrawRequestDataType inherits HashDataType {
+    public {
+        const Fields = CairoInputFields + CairoDrawCommandsField + CairoOutputFields;
+    }
+
     constructor() {
-        addQoreFields(CairoInputFields);
-        addQoreFields(CairoDrawCommandsField);
-        addQoreFields(CairoOutputFields);
+        addQoreFields(Fields);
         setRequiredGroups((("input_path", "data", "location"),));
     }
 }
 
 #! PostScript create request type
 public class CairoPostScriptCreateRequestDataType inherits HashDataType {
-    constructor() {
-        addQoreFields({
+    public {
+        const Fields = {
             "width": {
                 "type": FloatType,
                 "display_name": "Width",
                 "short_desc": "Page width in points",
                 "desc": "Width of the PostScript page in points (72 points = 1 inch)",
+                "example_value": 612.0,
             },
             "height": {
                 "type": FloatType,
                 "display_name": "Height",
                 "short_desc": "Page height in points",
                 "desc": "Height of the PostScript page in points (72 points = 1 inch)",
+                "example_value": 792.0,
             },
             "eps": {
                 "type": BoolOrNothingType,
@@ -1101,192 +1264,142 @@ public class CairoPostScriptCreateRequestDataType inherits HashDataType {
                 "desc": "If True, create Encapsulated PostScript (EPS) output",
                 "default_value": False,
             },
-        });
-        addQoreFields(CairoDrawCommandsField);
-        addQoreFields(CairoOutputFields - "overwrite");
+        } + CairoDrawCommandsField + (CairoOutputFields - "overwrite");
+    }
+
+    constructor() {
+        addQoreFields(Fields);
     }
 }
 
 #! PDF create request type
 public class CairoPdfCreateRequestDataType inherits HashDataType {
-    constructor() {
-        addQoreFields({
+    public {
+        const Fields = {
             "width": {
                 "type": FloatType,
                 "display_name": "Width",
                 "short_desc": "Page width in points",
                 "desc": "Width of the PDF page in points (72 points = 1 inch)",
+                "example_value": 612.0,
             },
             "height": {
                 "type": FloatType,
                 "display_name": "Height",
                 "short_desc": "Page height in points",
                 "desc": "Height of the PDF page in points (72 points = 1 inch)",
+                "example_value": 792.0,
             },
-        });
-        addQoreFields(CairoDrawCommandsField);
-        addQoreFields(CairoOutputFields - "overwrite");
+        } + CairoDrawCommandsField + (CairoOutputFields - "overwrite");
+    }
+
+    constructor() {
+        addQoreFields(Fields);
     }
 }
 
 #! Text measure request type
 public class CairoTextMeasureRequestDataType inherits HashDataType {
-    constructor() {
-        addQoreFields({
+    public {
+        const Fields = {
             "text": {
                 "type": StringType,
                 "display_name": "Text",
                 "short_desc": "Text to measure",
                 "desc": "The text string to measure dimensions for",
+                "example_value": "Hello, World!",
             },
-            "family": {
-                "type": StringOrNothingType,
-                "display_name": "Font Family",
-                "short_desc": "Font family name",
-                "desc": "Font family name (e.g., 'sans-serif', 'Helvetica'). Default: 'sans-serif'",
-                "default_value": "sans-serif",
-            },
-            "size": {
-                "type": FloatOrNothingType,
-                "display_name": "Font Size",
-                "short_desc": "Font size",
-                "desc": "Font size in user-space units. Default: 12.0",
-                "default_value": 12.0,
-            },
-            "slant": {
-                "type": StringOrNothingType,
-                "display_name": "Font Slant",
-                "short_desc": "Font slant style",
-                "desc": "Font slant: 'normal', 'italic', or 'oblique'. Default: 'normal'",
-                "default_value": "normal",
-                "allowed_values": (
-                    <AllowedValueInfo>{"value": "normal", "desc": "Normal (upright) style"},
-                    <AllowedValueInfo>{"value": "italic", "desc": "Italic style"},
-                    <AllowedValueInfo>{"value": "oblique", "desc": "Oblique style"},
-                ),
-            },
-            "weight": {
-                "type": StringOrNothingType,
-                "display_name": "Font Weight",
-                "short_desc": "Font weight",
-                "desc": "Font weight: 'normal' or 'bold'. Default: 'normal'",
-                "default_value": "normal",
-                "allowed_values": (
-                    <AllowedValueInfo>{"value": "normal", "desc": "Normal weight"},
-                    <AllowedValueInfo>{"value": "bold", "desc": "Bold weight"},
-                ),
-            },
-        });
+        } + CairoFontFields;
+    }
+
+    constructor() {
+        addQoreFields(Fields);
     }
 }
 
 #! Font get metrics request type
 public class CairoFontGetMetricsRequestDataType inherits HashDataType {
+    public {
+        const Fields = CairoFontFields;
+    }
+
     constructor() {
-        addQoreFields({
-            "family": {
-                "type": StringOrNothingType,
-                "display_name": "Font Family",
-                "short_desc": "Font family name",
-                "desc": "Font family name (e.g., 'sans-serif', 'Helvetica'). Default: 'sans-serif'",
-                "default_value": "sans-serif",
-            },
-            "size": {
-                "type": FloatOrNothingType,
-                "display_name": "Font Size",
-                "short_desc": "Font size",
-                "desc": "Font size in user-space units. Default: 12.0",
-                "default_value": 12.0,
-            },
-            "slant": {
-                "type": StringOrNothingType,
-                "display_name": "Font Slant",
-                "short_desc": "Font slant style",
-                "desc": "Font slant: 'normal', 'italic', or 'oblique'. Default: 'normal'",
-                "default_value": "normal",
-                "allowed_values": (
-                    <AllowedValueInfo>{"value": "normal", "desc": "Normal (upright) style"},
-                    <AllowedValueInfo>{"value": "italic", "desc": "Italic style"},
-                    <AllowedValueInfo>{"value": "oblique", "desc": "Oblique style"},
-                ),
-            },
-            "weight": {
-                "type": StringOrNothingType,
-                "display_name": "Font Weight",
-                "short_desc": "Font weight",
-                "desc": "Font weight: 'normal' or 'bold'. Default: 'normal'",
-                "default_value": "normal",
-                "allowed_values": (
-                    <AllowedValueInfo>{"value": "normal", "desc": "Normal weight"},
-                    <AllowedValueInfo>{"value": "bold", "desc": "Bold weight"},
-                ),
-            },
-        });
+        addQoreFields(Fields);
     }
 }
 
 #! Image resize request type
 public class CairoImageResizeRequestDataType inherits HashDataType {
-    constructor() {
-        addQoreFields(CairoInputFields);
-        addQoreFields({
+    public {
+        const Fields = CairoInputFields + {
             "target_width": {
                 "type": IntType,
                 "display_name": "Target Width",
                 "short_desc": "Target width in pixels",
                 "desc": "Target image width in pixels",
+                "example_value": 800,
             },
             "target_height": {
                 "type": IntType,
                 "display_name": "Target Height",
                 "short_desc": "Target height in pixels",
                 "desc": "Target image height in pixels",
+                "example_value": 600,
             },
-        });
-        addQoreFields(CairoOutputFields);
+        } + CairoOutputFields;
+    }
+
+    constructor() {
+        addQoreFields(Fields);
         setRequiredGroups((("input_path", "data", "location"),));
     }
 }
 
 #! Image crop request type
 public class CairoImageCropRequestDataType inherits HashDataType {
-    constructor() {
-        addQoreFields(CairoInputFields);
-        addQoreFields({
+    public {
+        const Fields = CairoInputFields + {
             "x": {
                 "type": IntType,
                 "display_name": "X Offset",
                 "short_desc": "X offset of crop region",
                 "desc": "X offset of the top-left corner of the crop region in pixels",
+                "example_value": 0,
             },
             "y": {
                 "type": IntType,
                 "display_name": "Y Offset",
                 "short_desc": "Y offset of crop region",
                 "desc": "Y offset of the top-left corner of the crop region in pixels",
+                "example_value": 0,
             },
             "crop_width": {
                 "type": IntType,
                 "display_name": "Crop Width",
                 "short_desc": "Width of crop region",
                 "desc": "Width of the crop region in pixels",
+                "example_value": 100,
             },
             "crop_height": {
                 "type": IntType,
                 "display_name": "Crop Height",
                 "short_desc": "Height of crop region",
                 "desc": "Height of the crop region in pixels",
+                "example_value": 100,
             },
-        });
-        addQoreFields(CairoOutputFields);
+        } + CairoOutputFields;
+    }
+
+    constructor() {
+        addQoreFields(Fields);
         setRequiredGroups((("input_path", "data", "location"),));
     }
 }
 
 #! Image composite request type
 public class CairoImageCompositeRequestDataType inherits HashDataType {
-    constructor() {
-        addQoreFields({
+    public {
+        const Fields = {
             "base_input_path": {
                 "type": StringOrNothingType,
                 "display_name": "Base Image Path",
@@ -1360,8 +1473,11 @@ public class CairoImageCompositeRequestDataType inherits HashDataType {
                 "desc": "Optional height to scale the overlay to (in pixels). "
                     "Both overlay_width and overlay_height must be specified for scaling.",
             },
-        });
-        addQoreFields(CairoOutputFields - "overwrite");
+        } + (CairoOutputFields - "overwrite");
+    }
+
+    constructor() {
+        addQoreFields(Fields);
         setRequiredGroups((
             ("base_input_path", "base_data", "base_location"),
             ("overlay_input_path", "overlay_data", "overlay_location"),

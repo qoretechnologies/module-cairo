@@ -32,6 +32,7 @@ public namespace CairoDataProvider {
     - @b to-png - Convert SVG to PNG (requires librsvg)
     - @b to-ps - Convert SVG to PostScript (requires librsvg)
     - @b to-eps - Convert SVG to EPS (requires librsvg)
+    - @b to-pdf - Convert SVG to PDF (requires librsvg and PDF support)
 
     @par Data Provider Path
     Access via: @verbatim cairo{}/svg/<action> @endverbatim
@@ -67,6 +68,9 @@ public class CairoSvgDataProvider inherits AbstractDataProvider {
         childMap = BaseChildMap;
         if (CairoSvgReader::isAvailable()) {
             childMap += RsvgChildMap;
+            if (CairoSurface::isPdfAvailable()) {
+                childMap{"to-pdf"} = "CairoDataProvider::CairoSvgToPdfDataProvider";
+            }
         }
     }
 

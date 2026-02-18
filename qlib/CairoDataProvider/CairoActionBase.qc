@@ -146,6 +146,20 @@ public class CairoActionBase inherits AbstractDataProvider {
                         float(cmd.width), float(cmd.height));
                     break;
                 }
+                case "rel_move_to": {
+                    ctx.relMoveTo(float(cmd.dx), float(cmd.dy));
+                    break;
+                }
+                case "rel_line_to": {
+                    ctx.relLineTo(float(cmd.dx), float(cmd.dy));
+                    break;
+                }
+                case "rel_curve_to": {
+                    ctx.relCurveTo(float(cmd.dx1), float(cmd.dy1),
+                        float(cmd.dx2), float(cmd.dy2),
+                        float(cmd.dx3), float(cmd.dy3));
+                    break;
+                }
                 case "close_path": {
                     ctx.closePath();
                     break;
@@ -214,6 +228,14 @@ public class CairoActionBase inherits AbstractDataProvider {
                     ctx.setLineJoin(string(cmd.join));
                     break;
                 }
+                case "set_miter_limit": {
+                    ctx.setMiterLimit(float(cmd.limit));
+                    break;
+                }
+                case "set_tolerance": {
+                    ctx.setTolerance(float(cmd.tolerance));
+                    break;
+                }
                 case "set_fill_rule": {
                     ctx.setFillRule(string(cmd.rule));
                     break;
@@ -230,18 +252,7 @@ public class CairoActionBase inherits AbstractDataProvider {
                     CairoPattern pat = CairoPattern::createLinear(
                         float(cmd.x0), float(cmd.y0),
                         float(cmd.x1), float(cmd.y1));
-                    if (cmd.stops) {
-                        foreach hash<auto> stop in (cmd.stops) {
-                            if (exists stop.a) {
-                                pat.addColorStopRgba(float(stop.offset),
-                                    float(stop.r), float(stop.g), float(stop.b),
-                                    float(stop.a));
-                            } else {
-                                pat.addColorStopRgb(float(stop.offset),
-                                    float(stop.r), float(stop.g), float(stop.b));
-                            }
-                        }
-                    }
+                    CairoActionBase::configureGradientPattern(pat, cmd);
                     ctx.setSource(pat);
                     break;
                 }
@@ -249,18 +260,7 @@ public class CairoActionBase inherits AbstractDataProvider {
                     CairoPattern pat = CairoPattern::createRadial(
                         float(cmd.cx0), float(cmd.cy0), float(cmd.r0),
                         float(cmd.cx1), float(cmd.cy1), float(cmd.r1));
-                    if (cmd.stops) {
-                        foreach hash<auto> stop in (cmd.stops) {
-                            if (exists stop.a) {
-                                pat.addColorStopRgba(float(stop.offset),
-                                    float(stop.r), float(stop.g), float(stop.b),
-                                    float(stop.a));
-                            } else {
-                                pat.addColorStopRgb(float(stop.offset),
-                                    float(stop.r), float(stop.g), float(stop.b));
-                            }
-                        }
-                    }
+                    CairoActionBase::configureGradientPattern(pat, cmd);
                     ctx.setSource(pat);
                     break;
                 }
@@ -270,8 +270,12 @@ public class CairoActionBase inherits AbstractDataProvider {
                         img = CairoSurface::createImageFromPng(string(cmd.path));
                     } else if (cmd.data) {
                         img = CairoSurface::createImageFromPngData(binary(cmd.data));
+                    } else if (cmd.location) {
+                        binary img_data = FileLocationHandler::getBinaryFileFromLocation(
+                            string(cmd.location));
+                        img = CairoSurface::createImageFromPngData(img_data);
                     } else {
-                        throw "CAIRO-ERROR", "image command requires 'path' or 'data'";
+                        throw "CAIRO-ERROR", "image command requires 'path', 'data', or 'location'";
                     }
                     ctx.save();
                     float x = exists cmd.x ? float(cmd.x) : 0.0;
@@ -315,6 +319,18 @@ public class CairoActionBase inherits AbstractDataProvider {
                     ctx.clipPreserve();
                     break;
                 }
+                case "reset_clip": {
+                    ctx.resetClip();
+                    break;
+                }
+                case "push_group": {
+                    ctx.pushGroup();
+                    break;
+                }
+                case "pop_group_to_source": {
+                    ctx.popGroupToSource();
+                    break;
+                }
                 case "text_path": {
                     ctx.textPath(string(cmd.text));
                     break;
@@ -330,6 +346,25 @@ public class CairoActionBase inherits AbstractDataProvider {
                 }
                 case "copy_page": {
                     ctx.copyPage();
+                    break;
+                }
+                case "mask_surface": {
+                    CairoSurface mask_img;
+                    if (cmd.path) {
+                        mask_img = CairoSurface::createImageFromPng(string(cmd.path));
+                    } else if (cmd.data) {
+                        mask_img = CairoSurface::createImageFromPngData(binary(cmd.data));
+                    } else if (cmd.location) {
+                        binary mask_data = FileLocationHandler::getBinaryFileFromLocation(
+                            string(cmd.location));
+                        mask_img = CairoSurface::createImageFromPngData(mask_data);
+                    } else {
+                        throw "CAIRO-ERROR",
+                            "mask_surface command requires 'path', 'data', or 'location'";
+                    }
+                    float x = exists cmd.x ? float(cmd.x) : 0.0;
+                    float y = exists cmd.y ? float(cmd.y) : 0.0;
+                    ctx.maskSurface(mask_img, x, y);
                     break;
                 }
                 case "set_font_size": {
@@ -356,6 +391,31 @@ public class CairoActionBase inherits AbstractDataProvider {
                     throw "CAIRO-ERROR", sprintf("unknown draw command op: %y", op);
                 }
             }
+        }
+    }
+
+    #! Configures a gradient pattern with stops, extend, and filter from a draw command hash
+    /** @param pat the gradient pattern to configure
+        @param cmd the draw command hash containing optional stops, extend, and filter keys
+    */
+    static configureGradientPattern(CairoPattern pat, hash<auto> cmd) {
+        if (cmd.stops) {
+            foreach hash<auto> stop in (cmd.stops) {
+                if (exists stop.a) {
+                    pat.addColorStopRgba(float(stop.offset),
+                        float(stop.r), float(stop.g), float(stop.b),
+                        float(stop.a));
+                } else {
+                    pat.addColorStopRgb(float(stop.offset),
+                        float(stop.r), float(stop.g), float(stop.b));
+                }
+            }
+        }
+        if (cmd.extend) {
+            pat.setExtend(string(cmd.extend));
+        }
+        if (cmd.filter) {
+            pat.setFilter(string(cmd.filter));
         }
     }
 

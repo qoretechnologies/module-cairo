@@ -80,6 +80,40 @@ nothing CairoContext::curveTo(float x1, float y1, float x2, float y2, float x3, 
     ctx->curveTo(x1, y1, x2, y2, x3, y3, xsink);
 }
 
+//! Moves the current point by a relative offset
+/** @param dx relative X offset
+    @param dy relative Y offset
+
+    @note There must be a current point set before calling this method
+*/
+nothing CairoContext::relMoveTo(float dx, float dy) {
+    ctx->relMoveTo(dx, dy, xsink);
+}
+
+//! Adds a line from the current point by a relative offset
+/** @param dx relative X offset
+    @param dy relative Y offset
+
+    @note There must be a current point set before calling this method
+*/
+nothing CairoContext::relLineTo(float dx, float dy) {
+    ctx->relLineTo(dx, dy, xsink);
+}
+
+//! Adds a cubic Bezier curve using relative offsets
+/** @param dx1 first control point relative X
+    @param dy1 first control point relative Y
+    @param dx2 second control point relative X
+    @param dy2 second control point relative Y
+    @param dx3 end point relative X
+    @param dy3 end point relative Y
+
+    @note There must be a current point set before calling this method
+*/
+nothing CairoContext::relCurveTo(float dx1, float dy1, float dx2, float dy2, float dx3, float dy3) {
+    ctx->relCurveTo(dx1, dy1, dx2, dy2, dx3, dy3, xsink);
+}
+
 //! Adds a circular arc
 /** @param xc center X
     @param yc center Y
@@ -189,6 +223,13 @@ nothing CairoContext::clipPreserve() {
     ctx->clipPreserve(xsink);
 }
 
+//! Resets the clip region to cover the entire surface
+/** Resets the current clip region to its original, unrestricted state.
+*/
+nothing CairoContext::resetClip() {
+    ctx->resetClip(xsink);
+}
+
 //! Sets the source color (RGB)
 /** @param r red component (0.0-1.0)
     @param g green component (0.0-1.0)
@@ -224,6 +265,24 @@ nothing CairoContext::setSourceSurface(CairoSurface[QoreCairoSurface] surface, f
 nothing CairoContext::setSource(CairoPattern[QoreCairoPattern] pattern) {
     ReferenceHolder<QoreCairoPattern> holder(pattern, xsink);
     ctx->setSource(pattern->getPattern(), xsink);
+}
+
+//! Uses a pattern as the mask for painting the current source
+/** @param pattern the mask pattern
+*/
+nothing CairoContext::mask(CairoPattern[QoreCairoPattern] pattern) {
+    ReferenceHolder<QoreCairoPattern> holder(pattern, xsink);
+    ctx->mask(pattern->getPattern(), xsink);
+}
+
+//! Uses a surface as the mask for painting the current source
+/** @param surface the mask surface
+    @param x X offset for the surface origin
+    @param y Y offset for the surface origin
+*/
+nothing CairoContext::maskSurface(CairoSurface[QoreCairoSurface] surface, float x, float y) {
+    ReferenceHolder<QoreCairoSurface> holder(surface, xsink);
+    ctx->maskSurface(surface, x, y, xsink);
 }
 
 //! Saves the current graphics state
@@ -269,6 +328,20 @@ nothing CairoContext::setDash(list<float> dashes, float offset) {
     ctx->setDash(dashes, offset, xsink);
 }
 
+//! Sets the miter limit for the context
+/** @param limit the miter limit value; when the miter exceeds this, the join is rendered as a bevel
+*/
+nothing CairoContext::setMiterLimit(float limit) {
+    ctx->setMiterLimit(limit, xsink);
+}
+
+//! Sets the tolerance used for flattening curves
+/** @param tolerance the tolerance value in device-space units (default 0.1)
+*/
+nothing CairoContext::setTolerance(float tolerance) {
+    ctx->setTolerance(tolerance, xsink);
+}
+
 //! Sets the fill rule
 /** @param rule "winding" or "even-odd"
 */
@@ -288,6 +361,21 @@ nothing CairoContext::setOperator(string op) {
 */
 nothing CairoContext::setAntialias(string aa) {
     ctx->setAntialias(aa->c_str(), xsink);
+}
+
+//! Pushes a temporary drawing group
+/** Redirects all drawing to an intermediate surface (a group). Call popGroupToSource() to use
+    the group as a source pattern.
+*/
+nothing CairoContext::pushGroup() {
+    ctx->pushGroup(xsink);
+}
+
+//! Pops the drawing group and sets it as the source
+/** Terminates the group started by pushGroup() and sets the resulting pattern as the source.
+*/
+nothing CairoContext::popGroupToSource() {
+    ctx->popGroupToSource(xsink);
 }
 
 //! Translates the coordinate system

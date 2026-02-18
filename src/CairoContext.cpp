@@ -66,6 +66,22 @@ void QoreCairoContext::curveTo(double x1, double y1, double x2, double y2, doubl
     checkStatus(xsink);
 }
 
+void QoreCairoContext::relMoveTo(double dx, double dy, ExceptionSink* xsink) {
+    cairo_rel_move_to(cr, dx, dy);
+    checkStatus(xsink);
+}
+
+void QoreCairoContext::relLineTo(double dx, double dy, ExceptionSink* xsink) {
+    cairo_rel_line_to(cr, dx, dy);
+    checkStatus(xsink);
+}
+
+void QoreCairoContext::relCurveTo(double dx1, double dy1, double dx2, double dy2, double dx3, double dy3,
+        ExceptionSink* xsink) {
+    cairo_rel_curve_to(cr, dx1, dy1, dx2, dy2, dx3, dy3);
+    checkStatus(xsink);
+}
+
 void QoreCairoContext::arc(double xc, double yc, double radius, double angle1, double angle2,
         ExceptionSink* xsink) {
     cairo_arc(cr, xc, yc, radius, angle1, angle2);
@@ -139,6 +155,11 @@ void QoreCairoContext::clipPreserve(ExceptionSink* xsink) {
     checkStatus(xsink);
 }
 
+void QoreCairoContext::resetClip(ExceptionSink* xsink) {
+    cairo_reset_clip(cr);
+    checkStatus(xsink);
+}
+
 // Source
 void QoreCairoContext::setSourceRgb(double r, double g, double b, ExceptionSink* xsink) {
     cairo_set_source_rgb(cr, r, g, b);
@@ -157,6 +178,16 @@ void QoreCairoContext::setSourceSurface(QoreCairoSurface* surface, double x, dou
 
 void QoreCairoContext::setSource(cairo_pattern_t* pattern, ExceptionSink* xsink) {
     cairo_set_source(cr, pattern);
+    checkStatus(xsink);
+}
+
+void QoreCairoContext::mask(cairo_pattern_t* pattern, ExceptionSink* xsink) {
+    cairo_mask(cr, pattern);
+    checkStatus(xsink);
+}
+
+void QoreCairoContext::maskSurface(QoreCairoSurface* surface, double x, double y, ExceptionSink* xsink) {
+    cairo_mask_surface(cr, surface->getSurface(), x, y);
     checkStatus(xsink);
 }
 
@@ -207,6 +238,16 @@ void QoreCairoContext::setLineJoin(const std::string& join, ExceptionSink* xsink
         return;
     }
     cairo_set_line_join(cr, j);
+    checkStatus(xsink);
+}
+
+void QoreCairoContext::setMiterLimit(double limit, ExceptionSink* xsink) {
+    cairo_set_miter_limit(cr, limit);
+    checkStatus(xsink);
+}
+
+void QoreCairoContext::setTolerance(double tolerance, ExceptionSink* xsink) {
+    cairo_set_tolerance(cr, tolerance);
     checkStatus(xsink);
 }
 
@@ -275,6 +316,17 @@ void QoreCairoContext::setOperator(const std::string& op, ExceptionSink* xsink) 
         return;
     }
     cairo_set_operator(cr, o);
+    checkStatus(xsink);
+}
+
+// Group operations
+void QoreCairoContext::pushGroup(ExceptionSink* xsink) {
+    cairo_push_group(cr);
+    checkStatus(xsink);
+}
+
+void QoreCairoContext::popGroupToSource(ExceptionSink* xsink) {
+    cairo_pop_group_to_source(cr);
     checkStatus(xsink);
 }
 

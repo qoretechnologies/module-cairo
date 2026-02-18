@@ -65,6 +65,26 @@ class CairoDataProviderTest inherits QUnit::Test {
         addTestCase("composite partial overlay dims", \testCompositePartialOverlayDims());
         addTestCase("output paths for new providers", \testNewProviderOutputPaths());
         addTestCase("corner cases", \testCornerCases());
+        addTestCase("action catalog options", \testActionCatalogOptions());
+        addTestCase("new draw commands phase2", \testNewDrawCommandsPhase2());
+        addTestCase("gradient extend and filter", \testGradientExtendFilter());
+        addTestCase("image command with location", \testImageCommandLocation());
+        addTestCase("svg/to-pdf", \testSvgToPdf());
+        addTestCase("mask_surface draw command", \testMaskSurface());
+        addTestCase("image command path variant", \testImageCommandPath());
+        addTestCase("svg conversion errors", \testSvgConversionErrors());
+        addTestCase("svg metadata structure", \testSvgMetadataStructure());
+        addTestCase("action catalog completeness", \testActionCatalogCompleteness());
+        addTestCase("negative tests new draw commands", \testNegativeNewDrawCommands());
+        addTestCase("svg/to-ps comprehensive", \testSvgToPsComprehensive());
+        addTestCase("svg/to-eps comprehensive", \testSvgToEpsComprehensive());
+        addTestCase("composite comprehensive", \testCompositeComprehensive());
+        addTestCase("image/draw output_location", \testImageDrawOutputLocation());
+        addTestCase("postscript/create output_path", \testPostScriptCreateOutputPath());
+        addTestCase("text/measure empty text", \testTextMeasureEmptyText());
+        addTestCase("gradient multiple stops", \testGradientMultipleStops());
+        addTestCase("image/resize non-square", \testImageResizeNonSquare());
+        addTestCase("mask_surface path variant", \testMaskSurfacePathVariant());
 
         root = DataProvider::getFactoryEx("cairo").create({});
 
@@ -103,6 +123,9 @@ class CairoDataProviderTest inherits QUnit::Test {
             assertTrue(inlist("to-png", svg_children));
             assertTrue(inlist("to-ps", svg_children));
             assertTrue(inlist("to-eps", svg_children));
+            if (CairoSurface::isPdfAvailable()) {
+                assertTrue(inlist("to-pdf", svg_children));
+            }
         }
 
         # Image container
@@ -1204,7 +1227,7 @@ class CairoDataProviderTest inherits QUnit::Test {
         });
 
         # Image command without path or data
-        assertThrows("CAIRO-ERROR", "requires 'path' or 'data'", sub () {
+        assertThrows("CAIRO-ERROR", "requires 'path', 'data', or 'location'", sub () {
             img_dp.doRequest({
                 "width": 32,
                 "height": 32,
@@ -1660,6 +1683,982 @@ class CairoDataProviderTest inherits QUnit::Test {
         assertEq(tmp_comp, result.output_path);
         assertFalse(exists result.data);
         assertTrue(is_file(tmp_comp));
+    }
+
+    private testActionCatalogOptions() {
+        # Verify actions have options registered
+        list<hash<auto>> actions = DataProviderActionCatalog::getActions("Cairo");
+        assertTrue(actions.size() > 0, "Cairo actions are registered");
+        foreach hash<auto> action in (actions) {
+            assertTrue(action.options.size() > 0,
+                sprintf("action %y has options", action.action));
+            assertTrue(exists action.output_type,
+                sprintf("action %y has output_type", action.action));
+        }
+    }
+
+    private testNewDrawCommandsPhase2() {
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+
+        # Test rel_move_to and rel_line_to
+        hash<auto> result = dp.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 0.0},
+                {"op": "set_line_width", "width": 2.0},
+                {"op": "move_to", "x": 10.0, "y": 10.0},
+                {"op": "rel_line_to", "dx": 50.0, "dy": 0.0},
+                {"op": "rel_line_to", "dx": 0.0, "dy": 50.0},
+                {"op": "stroke"},
+            ),
+        });
+        assertTrue(result.success, "rel_line_to succeeds");
+
+        # Test rel_move_to
+        result = dp.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 0.0},
+                {"op": "move_to", "x": 10.0, "y": 10.0},
+                {"op": "rel_move_to", "dx": 20.0, "dy": 20.0},
+                {"op": "line_to", "x": 80.0, "y": 80.0},
+                {"op": "stroke"},
+            ),
+        });
+        assertTrue(result.success, "rel_move_to succeeds");
+
+        # Test rel_curve_to
+        result = dp.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 0.0},
+                {"op": "move_to", "x": 10.0, "y": 50.0},
+                {"op": "rel_curve_to", "dx1": 20.0, "dy1": -40.0,
+                 "dx2": 60.0, "dy2": -40.0, "dx3": 80.0, "dy3": 0.0},
+                {"op": "stroke"},
+            ),
+        });
+        assertTrue(result.success, "rel_curve_to succeeds");
+
+        # Test set_miter_limit
+        result = dp.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "set_line_width", "width": 10.0},
+                {"op": "set_line_join", "join": "miter"},
+                {"op": "set_miter_limit", "limit": 5.0},
+                {"op": "move_to", "x": 10.0, "y": 50.0},
+                {"op": "line_to", "x": 50.0, "y": 10.0},
+                {"op": "line_to", "x": 90.0, "y": 50.0},
+                {"op": "stroke"},
+            ),
+        });
+        assertTrue(result.success, "set_miter_limit succeeds");
+
+        # Test set_tolerance
+        result = dp.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "set_tolerance", "tolerance": 0.5},
+                {"op": "arc", "x": 50.0, "y": 50.0, "radius": 30.0,
+                 "angle1": 0.0, "angle2": 6.28318},
+                {"op": "stroke"},
+            ),
+        });
+        assertTrue(result.success, "set_tolerance succeeds");
+
+        # Test push_group and pop_group_to_source
+        result = dp.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 1.0, "b": 1.0},
+                {"op": "paint"},
+                {"op": "push_group"},
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "rectangle", "x": 10.0, "y": 10.0, "width": 80.0, "height": 80.0},
+                {"op": "fill"},
+                {"op": "pop_group_to_source"},
+                {"op": "paint", "alpha": 0.5},
+            ),
+        });
+        assertTrue(result.success, "push_group/pop_group_to_source succeeds");
+
+        # Test reset_clip
+        result = dp.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "rectangle", "x": 10.0, "y": 10.0, "width": 50.0, "height": 50.0},
+                {"op": "clip"},
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "paint"},
+                {"op": "reset_clip"},
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 1.0},
+                {"op": "rectangle", "x": 60.0, "y": 60.0, "width": 30.0, "height": 30.0},
+                {"op": "fill"},
+            ),
+        });
+        assertTrue(result.success, "reset_clip succeeds");
+    }
+
+    private testGradientExtendFilter() {
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+
+        # Test linear gradient with extend and filter
+        hash<auto> result = dp.doRequest({
+            "width": 200,
+            "height": 200,
+            "commands": (
+                {"op": "linear_gradient", "x0": 0.0, "y0": 0.0, "x1": 50.0, "y1": 0.0,
+                 "stops": (
+                    {"offset": 0.0, "r": 1.0, "g": 0.0, "b": 0.0},
+                    {"offset": 1.0, "r": 0.0, "g": 0.0, "b": 1.0},
+                 ),
+                 "extend": "repeat",
+                 "filter": "bilinear",
+                },
+                {"op": "rectangle", "x": 0.0, "y": 0.0, "width": 200.0, "height": 100.0},
+                {"op": "fill"},
+            ),
+        });
+        assertTrue(result.success, "linear gradient with extend/filter succeeds");
+
+        # Test radial gradient with extend
+        result = dp.doRequest({
+            "width": 200,
+            "height": 200,
+            "commands": (
+                {"op": "radial_gradient", "cx0": 100.0, "cy0": 100.0, "r0": 10.0,
+                 "cx1": 100.0, "cy1": 100.0, "r1": 50.0,
+                 "stops": (
+                    {"offset": 0.0, "r": 1.0, "g": 1.0, "b": 0.0},
+                    {"offset": 1.0, "r": 0.0, "g": 0.5, "b": 0.0},
+                 ),
+                 "extend": "reflect",
+                },
+                {"op": "rectangle", "x": 0.0, "y": 0.0, "width": 200.0, "height": 200.0},
+                {"op": "fill"},
+            ),
+        });
+        assertTrue(result.success, "radial gradient with extend succeeds");
+
+        # Test all valid extend values
+        list<string> extends = ("none", "repeat", "reflect", "pad");
+        foreach string ext in (extends) {
+            result = dp.doRequest({
+                "width": 32,
+                "height": 32,
+                "commands": (
+                    {"op": "linear_gradient", "x0": 0.0, "y0": 0.0, "x1": 16.0, "y1": 0.0,
+                     "stops": (
+                        {"offset": 0.0, "r": 1.0, "g": 0.0, "b": 0.0},
+                        {"offset": 1.0, "r": 0.0, "g": 0.0, "b": 1.0},
+                     ),
+                     "extend": ext,
+                    },
+                    {"op": "paint"},
+                ),
+            });
+            assertTrue(result.success, sprintf("extend %y succeeds", ext));
+        }
+
+        # Test all valid filter values
+        list<string> filters = ("fast", "good", "best", "nearest", "bilinear");
+        foreach string flt in (filters) {
+            result = dp.doRequest({
+                "width": 32,
+                "height": 32,
+                "commands": (
+                    {"op": "linear_gradient", "x0": 0.0, "y0": 0.0, "x1": 32.0, "y1": 0.0,
+                     "stops": (
+                        {"offset": 0.0, "r": 1.0, "g": 0.0, "b": 0.0},
+                        {"offset": 1.0, "r": 0.0, "g": 0.0, "b": 1.0},
+                     ),
+                     "filter": flt,
+                    },
+                    {"op": "paint"},
+                ),
+            });
+            assertTrue(result.success, sprintf("filter %y succeeds", flt));
+        }
+    }
+
+    private testImageCommandLocation() {
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+
+        # Create a small PNG to use as embedded image
+        hash<auto> src = dp.doRequest({
+            "width": 16,
+            "height": 16,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 1.0, "b": 0.0},
+                {"op": "paint"},
+            ),
+        });
+
+        # Write to a temp file
+        string tmp = tmp_location() + "/test_img_location.png";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+        {
+            File f();
+            f.open2(tmp, O_CREAT | O_WRONLY | O_TRUNC);
+            f.write(src.data);
+        }
+
+        # Test image command with location
+        hash<auto> result = dp.doRequest({
+            "width": 64,
+            "height": 64,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 1.0, "b": 1.0},
+                {"op": "paint"},
+                {"op": "image", "location": "file://" + tmp, "x": 24.0, "y": 24.0},
+            ),
+        });
+        assertTrue(result.success, "image command with location succeeds");
+        assertEq(64, result.width);
+        assertEq(64, result.height);
+    }
+
+    private testSvgToPdf() {
+        if (!CairoSvgReader::isAvailable()) {
+            testSkip("librsvg not available");
+        }
+        if (!CairoSurface::isPdfAvailable()) {
+            testSkip("PDF surface support not available");
+        }
+
+        # Verify to-pdf child is registered
+        auto svg = root.getChildProvider("svg");
+        assertTrue(inlist("to-pdf", svg.getChildProviderNames()));
+
+        # Create an SVG first
+        auto svg_create = root.getChildProvider("svg").getChildProvider("create");
+        hash<auto> svg_data = svg_create.doRequest({
+            "width": 200.0,
+            "height": 100.0,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "rectangle", "x": 0.0, "y": 0.0, "width": 200.0, "height": 100.0},
+                {"op": "fill"},
+            ),
+        });
+
+        # Convert to PDF
+        auto dp = root.getChildProvider("svg").getChildProvider("to-pdf");
+        assertTrue(dp.getInfo().supports_request);
+        hash<auto> result = dp.doRequest({"data": svg_data.data});
+
+        assertTrue(result.success);
+        assertTrue(result.size > 0);
+        assertTrue(exists result.data);
+        # Verify PDF magic bytes
+        string header = result.data.substr(0, 5).toString();
+        assertEq("%PDF-", header);
+
+        # Test with custom width/height
+        hash<auto> result2 = dp.doRequest({
+            "data": svg_data.data,
+            "width": 612.0,
+            "height": 792.0,
+        });
+        assertTrue(result2.success);
+        assertTrue(result2.size > 0);
+        string header2 = result2.data.substr(0, 5).toString();
+        assertEq("%PDF-", header2);
+
+        # Test with output_path
+        string tmp = tmp_location() + "/test_svg_to_pdf.pdf";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+        hash<auto> result3 = dp.doRequest({
+            "data": svg_data.data,
+            "output_path": tmp,
+        });
+        assertTrue(result3.success);
+        assertEq(tmp, result3.output_path);
+        assertTrue(is_file(tmp));
+
+        # Test negative dimensions
+        assertThrows("CAIRO-ERROR", "positive", sub () {
+            dp.doRequest({
+                "data": svg_data.data,
+                "width": -100.0,
+                "height": 100.0,
+            });
+        });
+    }
+
+    private testMaskSurface() {
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+
+        # Create a mask image (white with alpha gradient effect)
+        hash<auto> mask = dp.doRequest({
+            "width": 32,
+            "height": 32,
+            "format": "ARGB32",
+            "commands": (
+                {"op": "set_source_rgba", "r": 1.0, "g": 1.0, "b": 1.0, "a": 0.5},
+                {"op": "paint"},
+            ),
+        });
+
+        # Use mask_surface with data
+        hash<auto> result = dp.doRequest({
+            "width": 64,
+            "height": 64,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "mask_surface", "data": mask.data, "x": 16.0, "y": 16.0},
+            ),
+        });
+        assertTrue(result.success);
+        assertTrue(result.size > 0);
+        assertTrue(result.data.substr(0, 4) == <89504e47>);
+
+        # Test mask_surface with location
+        string tmp = tmp_location() + "/test_mask.png";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+        {
+            File f();
+            f.open2(tmp, O_CREAT | O_WRONLY | O_TRUNC);
+            f.write(mask.data);
+        }
+
+        hash<auto> result2 = dp.doRequest({
+            "width": 64,
+            "height": 64,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 1.0},
+                {"op": "mask_surface", "location": "file://" + tmp},
+            ),
+        });
+        assertTrue(result2.success);
+        assertTrue(result2.size > 0);
+
+        # Negative: mask_surface without path/data/location
+        assertThrows("CAIRO-ERROR", "mask_surface command requires", sub () {
+            dp.doRequest({
+                "width": 32,
+                "height": 32,
+                "commands": list({"op": "mask_surface", "x": 0.0, "y": 0.0}),
+            });
+        });
+    }
+
+    private testImageCommandPath() {
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+
+        # Create a small PNG source image
+        hash<auto> src = dp.doRequest({
+            "width": 16,
+            "height": 16,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 1.0, "b": 0.0},
+                {"op": "paint"},
+            ),
+        });
+
+        # Write to temp file
+        string tmp = tmp_location() + "/test_image_path.png";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+        {
+            File f();
+            f.open2(tmp, O_CREAT | O_WRONLY | O_TRUNC);
+            f.write(src.data);
+        }
+
+        # Use image command with path parameter
+        hash<auto> result = dp.doRequest({
+            "width": 64,
+            "height": 64,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 1.0, "b": 1.0},
+                {"op": "paint"},
+                {"op": "image", "path": tmp, "x": 24.0, "y": 24.0},
+            ),
+        });
+        assertTrue(result.success);
+        assertEq(64, result.width);
+        assertEq(64, result.height);
+        assertTrue(result.size > 0);
+        assertTrue(result.data.substr(0, 4) == <89504e47>);
+    }
+
+    private testSvgConversionErrors() {
+        if (!CairoSvgReader::isAvailable()) {
+            testSkip("librsvg not available");
+        }
+
+        binary invalid_svg = binary("not valid svg data");
+
+        # SVG-to-PNG with invalid data
+        auto to_png = root.getChildProvider("svg").getChildProvider("to-png");
+        assertThrows("CAIRO-ERROR", sub () {
+            to_png.doRequest({"data": invalid_svg});
+        });
+
+        # SVG-to-PS with invalid data
+        auto to_ps = root.getChildProvider("svg").getChildProvider("to-ps");
+        assertThrows("CAIRO-ERROR", sub () {
+            to_ps.doRequest({"data": invalid_svg});
+        });
+
+        # SVG-to-EPS with invalid data
+        auto to_eps = root.getChildProvider("svg").getChildProvider("to-eps");
+        assertThrows("CAIRO-ERROR", sub () {
+            to_eps.doRequest({"data": invalid_svg});
+        });
+
+        # SVG-to-PDF with invalid data (if available)
+        if (CairoSurface::isPdfAvailable()) {
+            auto to_pdf = root.getChildProvider("svg").getChildProvider("to-pdf");
+            assertThrows("CAIRO-ERROR", sub () {
+                to_pdf.doRequest({"data": invalid_svg});
+            });
+        }
+    }
+
+    private testSvgMetadataStructure() {
+        if (!CairoSvgReader::isAvailable()) {
+            testSkip("librsvg not available");
+        }
+
+        # Create an SVG
+        auto svg_create = root.getChildProvider("svg").getChildProvider("create");
+        hash<auto> svg = svg_create.doRequest({
+            "width": 400.0,
+            "height": 300.0,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.5, "g": 0.5, "b": 0.5},
+                {"op": "paint"},
+            ),
+        });
+
+        # Get info and validate metadata structure
+        auto dp = root.getChildProvider("svg").getChildProvider("get-info");
+        hash<auto> info = dp.doRequest({"data": svg.data});
+
+        assertTrue(info.success);
+        assertTrue(info.metadata instanceof hash);
+        assertTrue(exists info.metadata.width, "metadata contains width");
+        assertTrue(exists info.metadata.height, "metadata contains height");
+    }
+
+    private testActionCatalogCompleteness() {
+        list<hash<auto>> actions = DataProviderActionCatalog::getActions("Cairo");
+        assertTrue(actions.size() > 0, "Cairo actions are registered");
+
+        foreach hash<auto> action in (actions) {
+            assertTrue(action.options.size() > 0,
+                sprintf("action %y has at least one option", action.action));
+            assertTrue(exists action.output_type,
+                sprintf("action %y has output_type set", action.action));
+            assertTrue(action.display_name.val(),
+                sprintf("action %y has display_name", action.action));
+            assertTrue(action.short_desc.val(),
+                sprintf("action %y has short_desc", action.action));
+            assertTrue(action.desc.val(),
+                sprintf("action %y has desc", action.action));
+        }
+    }
+
+    private testNegativeNewDrawCommands() {
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+
+        # Invalid extend value on gradient
+        assertThrows("CAIRO-ERROR", "invalid extend", sub () {
+            dp.doRequest({
+                "width": 32,
+                "height": 32,
+                "commands": (
+                    {"op": "linear_gradient", "x0": 0.0, "y0": 0.0, "x1": 32.0, "y1": 0.0,
+                     "stops": (
+                        {"offset": 0.0, "r": 1.0, "g": 0.0, "b": 0.0},
+                        {"offset": 1.0, "r": 0.0, "g": 0.0, "b": 1.0},
+                     ),
+                     "extend": "invalid_extend",
+                    },
+                    {"op": "paint"},
+                ),
+            });
+        });
+
+        # Invalid filter value on gradient
+        assertThrows("CAIRO-ERROR", "invalid filter", sub () {
+            dp.doRequest({
+                "width": 32,
+                "height": 32,
+                "commands": (
+                    {"op": "linear_gradient", "x0": 0.0, "y0": 0.0, "x1": 32.0, "y1": 0.0,
+                     "stops": (
+                        {"offset": 0.0, "r": 1.0, "g": 0.0, "b": 0.0},
+                        {"offset": 1.0, "r": 0.0, "g": 0.0, "b": 1.0},
+                     ),
+                     "filter": "invalid_filter",
+                    },
+                    {"op": "paint"},
+                ),
+            });
+        });
+
+        # Image command with location pointing to non-existent file
+        assertThrows("FILE-OPEN2-ERROR", sub () {
+            dp.doRequest({
+                "width": 32,
+                "height": 32,
+                "commands": (
+                    {"op": "image", "location": "file:///nonexistent_path_12345.png"},
+                ),
+            });
+        });
+
+        # Image command without path, data, or location
+        assertThrows("CAIRO-ERROR", "requires 'path', 'data', or 'location'", sub () {
+            dp.doRequest({
+                "width": 32,
+                "height": 32,
+                "commands": list({"op": "image", "x": 0.0, "y": 0.0}),
+            });
+        });
+    }
+
+    private testSvgToPsComprehensive() {
+        if (!CairoSvgReader::isAvailable()) {
+            testSkip("librsvg not available");
+        }
+
+        auto svg_create = root.getChildProvider("svg").getChildProvider("create");
+        hash<auto> svg = svg_create.doRequest({
+            "width": 200.0,
+            "height": 100.0,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.5, "b": 0.0},
+                {"op": "paint"},
+            ),
+        });
+
+        auto dp = root.getChildProvider("svg").getChildProvider("to-ps");
+
+        # Test with custom width/height (scale to US Letter)
+        hash<auto> result = dp.doRequest({
+            "data": svg.data,
+            "width": 612.0,
+            "height": 792.0,
+        });
+        assertTrue(result.success);
+        assertTrue(result.size > 0);
+        string ps_text = result.data.toString();
+        assertTrue(ps_text =~ /^%!PS-Adobe/);
+
+        # Test with output_path
+        string tmp = tmp_location() + "/test_svg_to_ps_out.ps";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+        hash<auto> result2 = dp.doRequest({
+            "data": svg.data,
+            "output_path": tmp,
+        });
+        assertTrue(result2.success);
+        assertEq(tmp, result2.output_path);
+        assertFalse(exists result2.data);
+        assertTrue(is_file(tmp));
+        assertTrue(hstat(tmp).size > 0);
+
+        # Test with output_path + return_data=True
+        string tmp2 = tmp_location() + "/test_svg_to_ps_out2.ps";
+        on_exit {
+            if (is_file(tmp2)) {
+                unlink(tmp2);
+            }
+        }
+        hash<auto> result3 = dp.doRequest({
+            "data": svg.data,
+            "output_path": tmp2,
+            "return_data": True,
+        });
+        assertTrue(result3.success);
+        assertEq(tmp2, result3.output_path);
+        assertTrue(exists result3.data);
+        assertTrue(is_file(tmp2));
+
+        # Negative: zero/negative dimensions
+        assertThrows("CAIRO-ERROR", "positive", sub () {
+            dp.doRequest({
+                "data": svg.data,
+                "width": 0.0,
+                "height": 100.0,
+            });
+        });
+
+        assertThrows("CAIRO-ERROR", "positive", sub () {
+            dp.doRequest({
+                "data": svg.data,
+                "width": 100.0,
+                "height": -50.0,
+            });
+        });
+    }
+
+    private testSvgToEpsComprehensive() {
+        if (!CairoSvgReader::isAvailable()) {
+            testSkip("librsvg not available");
+        }
+
+        auto svg_create = root.getChildProvider("svg").getChildProvider("create");
+        hash<auto> svg = svg_create.doRequest({
+            "width": 150.0,
+            "height": 150.0,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 0.8},
+                {"op": "paint"},
+            ),
+        });
+
+        auto dp = root.getChildProvider("svg").getChildProvider("to-eps");
+
+        # Test with custom dimensions
+        hash<auto> result = dp.doRequest({
+            "data": svg.data,
+            "width": 400.0,
+            "height": 300.0,
+        });
+        assertTrue(result.success);
+        assertTrue(result.size > 0);
+        string eps_text = result.data.toString();
+        assertTrue(eps_text =~ /^%!PS-Adobe/);
+
+        # Test with output_path
+        string tmp = tmp_location() + "/test_svg_to_eps_out.eps";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+        hash<auto> result2 = dp.doRequest({
+            "data": svg.data,
+            "output_path": tmp,
+        });
+        assertTrue(result2.success);
+        assertEq(tmp, result2.output_path);
+        assertFalse(exists result2.data);
+        assertTrue(is_file(tmp));
+
+        # Negative: negative dimensions
+        assertThrows("CAIRO-ERROR", "positive", sub () {
+            dp.doRequest({
+                "data": svg.data,
+                "width": -100.0,
+                "height": 100.0,
+            });
+        });
+    }
+
+    private testCompositeComprehensive() {
+        auto img_create = root.getChildProvider("image").getChildProvider("create");
+
+        # Create base image (80x60 red)
+        hash<auto> base = img_create.doRequest({
+            "width": 80,
+            "height": 60,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "paint"},
+            ),
+        });
+
+        # Create overlay image (40x30 blue)
+        hash<auto> overlay = img_create.doRequest({
+            "width": 40,
+            "height": 30,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.0, "b": 1.0},
+                {"op": "paint"},
+            ),
+        });
+
+        auto comp_dp = root.getChildProvider("image").getChildProvider("composite");
+
+        # Test with input_path variants
+        string base_tmp = tmp_location() + "/test_comp_base.png";
+        string overlay_tmp = tmp_location() + "/test_comp_overlay.png";
+        on_exit {
+            if (is_file(base_tmp)) {
+                unlink(base_tmp);
+            }
+            if (is_file(overlay_tmp)) {
+                unlink(overlay_tmp);
+            }
+        }
+        {
+            File f();
+            f.open2(base_tmp, O_CREAT | O_WRONLY | O_TRUNC);
+            f.write(base.data);
+        }
+        {
+            File f();
+            f.open2(overlay_tmp, O_CREAT | O_WRONLY | O_TRUNC);
+            f.write(overlay.data);
+        }
+
+        hash<auto> result = comp_dp.doRequest({
+            "base_input_path": base_tmp,
+            "overlay_input_path": overlay_tmp,
+            "x": 10.0,
+            "y": 10.0,
+        });
+        assertTrue(result.success);
+        assertEq(80, result.width);
+        assertEq(60, result.height);
+        assertTrue(result.data.substr(0, 4) == <89504e47>);
+
+        # Test with base_location and overlay_data
+        hash<auto> result2 = comp_dp.doRequest({
+            "base_location": "file://" + base_tmp,
+            "overlay_data": overlay.data,
+        });
+        assertTrue(result2.success);
+        assertEq(80, result2.width);
+
+        # Negative: invalid/corrupt base data
+        assertThrows("CAIRO-ERROR", sub () {
+            comp_dp.doRequest({
+                "base_data": binary("not a png"),
+                "overlay_data": overlay.data,
+            });
+        });
+
+        # Negative: invalid/corrupt overlay data
+        assertThrows("CAIRO-ERROR", sub () {
+            comp_dp.doRequest({
+                "base_data": base.data,
+                "overlay_data": binary("not a png"),
+            });
+        });
+    }
+
+    private testImageDrawOutputLocation() {
+        auto img_create = root.getChildProvider("image").getChildProvider("create");
+        hash<auto> img = img_create.doRequest({
+            "width": 64,
+            "height": 64,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 1.0, "b": 1.0},
+                {"op": "paint"},
+            ),
+        });
+
+        string tmp = tmp_location() + "/test_draw_output_location.png";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+
+        auto draw_dp = root.getChildProvider("image").getChildProvider("draw");
+        hash<auto> result = draw_dp.doRequest({
+            "data": img.data,
+            "output_location": "file://" + tmp,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "rectangle", "x": 10.0, "y": 10.0, "width": 44.0, "height": 44.0},
+                {"op": "fill"},
+            ),
+        });
+
+        assertTrue(result.success);
+        assertEq("file://" + tmp, result.output_location);
+        assertTrue(result.size > 0);
+        assertTrue(is_file(tmp));
+        # Data not returned by default when output_location is set
+        assertFalse(exists result.data);
+    }
+
+    private testPostScriptCreateOutputPath() {
+        auto dp = root.getChildProvider("postscript").getChildProvider("create");
+
+        string tmp = tmp_location() + "/test_ps_create_out.ps";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+
+        hash<auto> result = dp.doRequest({
+            "width": 612.0,
+            "height": 792.0,
+            "output_path": tmp,
+            "commands": (
+                {"op": "text", "text": "PS output path test", "x": 72.0, "y": 720.0, "size": 18.0},
+            ),
+        });
+
+        assertTrue(result.success);
+        assertEq(tmp, result.output_path);
+        assertTrue(result.size > 0);
+        assertFalse(exists result.data);
+        assertTrue(is_file(tmp));
+        # Verify file content starts with PS header
+        binary file_data = ReadOnlyFile::readBinaryFile(tmp);
+        string header = file_data.substr(0, 11).toString();
+        assertTrue(header =~ /^%!PS-Adobe/);
+    }
+
+    private testTextMeasureEmptyText() {
+        auto dp = root.getChildProvider("text").getChildProvider("measure");
+
+        # Empty string should succeed with zero or near-zero dimensions
+        hash<auto> result = dp.doRequest({
+            "text": "",
+        });
+        assertTrue(result.success);
+        assertEq(0.0, result.width);
+        assertEq(0.0, result.height);
+        assertEq(0.0, result.x_advance);
+    }
+
+    private testGradientMultipleStops() {
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+
+        # Linear gradient with 4 stops (rainbow-like)
+        hash<auto> result = dp.doRequest({
+            "width": 200,
+            "height": 50,
+            "commands": (
+                {"op": "linear_gradient", "x0": 0.0, "y0": 0.0, "x1": 200.0, "y1": 0.0,
+                 "stops": (
+                    {"offset": 0.0, "r": 1.0, "g": 0.0, "b": 0.0},
+                    {"offset": 0.33, "r": 1.0, "g": 1.0, "b": 0.0},
+                    {"offset": 0.66, "r": 0.0, "g": 1.0, "b": 0.0},
+                    {"offset": 1.0, "r": 0.0, "g": 0.0, "b": 1.0},
+                 )},
+                {"op": "paint"},
+            ),
+        });
+        assertTrue(result.success);
+        assertTrue(result.size > 0);
+        assertTrue(result.data.substr(0, 4) == <89504e47>);
+
+        # Radial gradient with 3 stops including alpha
+        hash<auto> result2 = dp.doRequest({
+            "width": 100,
+            "height": 100,
+            "commands": (
+                {"op": "radial_gradient", "cx0": 50.0, "cy0": 50.0, "r0": 0.0,
+                 "cx1": 50.0, "cy1": 50.0, "r1": 50.0,
+                 "stops": (
+                    {"offset": 0.0, "r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
+                    {"offset": 0.5, "r": 1.0, "g": 0.0, "b": 0.0, "a": 0.7},
+                    {"offset": 1.0, "r": 0.0, "g": 0.0, "b": 0.0, "a": 0.0},
+                 )},
+                {"op": "paint"},
+            ),
+        });
+        assertTrue(result2.success);
+        assertTrue(result2.size > 0);
+    }
+
+    private testImageResizeNonSquare() {
+        auto img_create = root.getChildProvider("image").getChildProvider("create");
+
+        # Create a 200x100 image (2:1 aspect ratio)
+        hash<auto> img = img_create.doRequest({
+            "width": 200,
+            "height": 100,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 0.5, "b": 0.5},
+                {"op": "paint"},
+            ),
+        });
+
+        auto resize_dp = root.getChildProvider("image").getChildProvider("resize");
+
+        # Resize to different aspect ratio (square)
+        hash<auto> result = resize_dp.doRequest({
+            "data": img.data,
+            "target_width": 150,
+            "target_height": 150,
+        });
+        assertTrue(result.success);
+        assertEq(150, result.width);
+        assertEq(150, result.height);
+        assertTrue(result.size > 0);
+
+        # Resize to tall (reverse aspect)
+        hash<auto> result2 = resize_dp.doRequest({
+            "data": img.data,
+            "target_width": 50,
+            "target_height": 200,
+        });
+        assertTrue(result2.success);
+        assertEq(50, result2.width);
+        assertEq(200, result2.height);
+        assertTrue(result2.size > 0);
+    }
+
+    private testMaskSurfacePathVariant() {
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+
+        # Create a mask PNG
+        hash<auto> mask = dp.doRequest({
+            "width": 32,
+            "height": 32,
+            "format": "ARGB32",
+            "commands": (
+                {"op": "set_source_rgba", "r": 1.0, "g": 1.0, "b": 1.0, "a": 0.8},
+                {"op": "paint"},
+            ),
+        });
+
+        # Write mask to temp file
+        string tmp = tmp_location() + "/test_mask_path.png";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+        {
+            File f();
+            f.open2(tmp, O_CREAT | O_WRONLY | O_TRUNC);
+            f.write(mask.data);
+        }
+
+        # Use mask_surface with path parameter
+        hash<auto> result = dp.doRequest({
+            "width": 64,
+            "height": 64,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 1.0, "b": 0.0},
+                {"op": "mask_surface", "path": tmp, "x": 16.0, "y": 16.0},
+            ),
+        });
+        assertTrue(result.success);
+        assertTrue(result.size > 0);
+        assertTrue(result.data.substr(0, 4) == <89504e47>);
     }
 
     private testCornerCases() {

@@ -62,6 +62,16 @@ module CairoDataProvider {
             "short_desc": "Create SVG from draw commands",
             "desc": "Create an SVG image from declarative draw commands",
             "action_code": DPAT_API,
+            "options": DataProviderActionCatalog::getActionOptionFromFields(
+                CairoSvgCreateRequestDataType::Fields{"width", "height", "commands"}, {
+                    "preselected": True,
+                    "required": True,
+                }
+            ) + DataProviderActionCatalog::getActionOptionFromFields(
+                CairoSvgCreateRequestDataType::Fields - ("width", "height", "commands")
+            ),
+            "output_type": AbstractDataProviderType::get(
+                new Type("hash<CairoSvgCreateResponse>")),
         });
 
         # SVG actions requiring librsvg
@@ -74,6 +84,11 @@ module CairoDataProvider {
                 "short_desc": "Get SVG dimensions and metadata",
                 "desc": "Read SVG dimensions and metadata without modifying the file",
                 "action_code": DPAT_API,
+                "options": DataProviderActionCatalog::getActionOptionFromFields(
+                    CairoSvgGetInfoRequestDataType::Fields
+                ),
+                "output_type": AbstractDataProviderType::get(
+                    new Type("hash<CairoSvgGetInfoResponse>")),
             });
 
             DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
@@ -84,6 +99,11 @@ module CairoDataProvider {
                 "short_desc": "Convert SVG to PNG",
                 "desc": "Render an SVG file to a PNG raster image",
                 "action_code": DPAT_API,
+                "options": DataProviderActionCatalog::getActionOptionFromFields(
+                    CairoSvgToPngRequestDataType::Fields
+                ),
+                "output_type": AbstractDataProviderType::get(
+                    new Type("hash<CairoSvgToPngResponse>")),
             });
 
             DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
@@ -94,6 +114,11 @@ module CairoDataProvider {
                 "short_desc": "Convert SVG to PostScript",
                 "desc": "Convert an SVG file to PostScript format",
                 "action_code": DPAT_API,
+                "options": DataProviderActionCatalog::getActionOptionFromFields(
+                    CairoSvgToPsRequestDataType::Fields
+                ),
+                "output_type": AbstractDataProviderType::get(
+                    new Type("hash<CairoSvgToPsResponse>")),
             });
 
             DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
@@ -104,7 +129,29 @@ module CairoDataProvider {
                 "short_desc": "Convert SVG to EPS",
                 "desc": "Convert an SVG file to Encapsulated PostScript format",
                 "action_code": DPAT_API,
+                "options": DataProviderActionCatalog::getActionOptionFromFields(
+                    CairoSvgToEpsRequestDataType::Fields
+                ),
+                "output_type": AbstractDataProviderType::get(
+                    new Type("hash<CairoSvgToEpsResponse>")),
             });
+
+            if (CairoSurface::isPdfAvailable()) {
+                DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+                    "app": CairoDataProvider::AppName,
+                    "path": "/svg/to-pdf",
+                    "action": "svg-to-pdf",
+                    "display_name": "SVG to PDF",
+                    "short_desc": "Convert SVG to PDF",
+                    "desc": "Convert an SVG file to PDF format",
+                    "action_code": DPAT_API,
+                    "options": DataProviderActionCatalog::getActionOptionFromFields(
+                        CairoSvgToPdfRequestDataType::Fields
+                    ),
+                    "output_type": AbstractDataProviderType::get(
+                        new Type("hash<CairoSvgToPdfResponse>")),
+                });
+            }
         }
 
         # Image actions
@@ -116,6 +163,16 @@ module CairoDataProvider {
             "short_desc": "Create PNG from draw commands",
             "desc": "Create a PNG raster image from declarative draw commands",
             "action_code": DPAT_API,
+            "options": DataProviderActionCatalog::getActionOptionFromFields(
+                CairoImageCreateRequestDataType::Fields{"width", "height", "commands"}, {
+                    "preselected": True,
+                    "required": True,
+                }
+            ) + DataProviderActionCatalog::getActionOptionFromFields(
+                CairoImageCreateRequestDataType::Fields - ("width", "height", "commands")
+            ),
+            "output_type": AbstractDataProviderType::get(
+                new Type("hash<CairoImageCreateResponse>")),
         });
 
         DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
@@ -126,6 +183,11 @@ module CairoDataProvider {
             "short_desc": "Get PNG image info",
             "desc": "Read PNG image dimensions and format information",
             "action_code": DPAT_API,
+            "options": DataProviderActionCatalog::getActionOptionFromFields(
+                CairoImageGetInfoRequestDataType::Fields
+            ),
+            "output_type": AbstractDataProviderType::get(
+                new Type("hash<CairoImageGetInfoResponse>")),
         });
 
         DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
@@ -136,6 +198,16 @@ module CairoDataProvider {
             "short_desc": "Draw on existing PNG",
             "desc": "Draw on an existing PNG image using declarative draw commands",
             "action_code": DPAT_API,
+            "options": DataProviderActionCatalog::getActionOptionFromFields(
+                CairoImageDrawRequestDataType::Fields{"commands",}, {
+                    "preselected": True,
+                    "required": True,
+                }
+            ) + DataProviderActionCatalog::getActionOptionFromFields(
+                CairoImageDrawRequestDataType::Fields - "commands"
+            ),
+            "output_type": AbstractDataProviderType::get(
+                new Type("hash<CairoImageDrawResponse>")),
         });
 
         # PostScript actions
@@ -147,6 +219,16 @@ module CairoDataProvider {
             "short_desc": "Create PS or EPS from draw commands",
             "desc": "Create a PostScript or EPS document from declarative draw commands",
             "action_code": DPAT_API,
+            "options": DataProviderActionCatalog::getActionOptionFromFields(
+                CairoPostScriptCreateRequestDataType::Fields{"width", "height", "commands"}, {
+                    "preselected": True,
+                    "required": True,
+                }
+            ) + DataProviderActionCatalog::getActionOptionFromFields(
+                CairoPostScriptCreateRequestDataType::Fields - ("width", "height", "commands")
+            ),
+            "output_type": AbstractDataProviderType::get(
+                new Type("hash<CairoPostScriptCreateResponse>")),
         });
 
         # PDF actions (conditional on PDF surface support)
@@ -159,6 +241,16 @@ module CairoDataProvider {
                 "short_desc": "Create PDF from draw commands",
                 "desc": "Create a PDF document from declarative draw commands",
                 "action_code": DPAT_API,
+                "options": DataProviderActionCatalog::getActionOptionFromFields(
+                    CairoPdfCreateRequestDataType::Fields{"width", "height", "commands"}, {
+                        "preselected": True,
+                        "required": True,
+                    }
+                ) + DataProviderActionCatalog::getActionOptionFromFields(
+                    CairoPdfCreateRequestDataType::Fields - ("width", "height", "commands")
+                ),
+                "output_type": AbstractDataProviderType::get(
+                    new Type("hash<CairoPdfCreateResponse>")),
             });
         }
 
@@ -171,6 +263,16 @@ module CairoDataProvider {
             "short_desc": "Measure text dimensions",
             "desc": "Calculate the width, height, and bearing of text with a given font",
             "action_code": DPAT_API,
+            "options": DataProviderActionCatalog::getActionOptionFromFields(
+                CairoTextMeasureRequestDataType::Fields{"text",}, {
+                    "preselected": True,
+                    "required": True,
+                }
+            ) + DataProviderActionCatalog::getActionOptionFromFields(
+                CairoTextMeasureRequestDataType::Fields - "text"
+            ),
+            "output_type": AbstractDataProviderType::get(
+                new Type("hash<CairoTextMeasureResponse>")),
         });
 
         DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
@@ -181,6 +283,11 @@ module CairoDataProvider {
             "short_desc": "Get font ascent, descent, and height",
             "desc": "Get font metrics (ascent, descent, height, max advance) for a given font",
             "action_code": DPAT_API,
+            "options": DataProviderActionCatalog::getActionOptionFromFields(
+                CairoFontGetMetricsRequestDataType::Fields
+            ),
+            "output_type": AbstractDataProviderType::get(
+                new Type("hash<CairoFontGetMetricsResponse>")),
         });
 
         # Image utility actions
@@ -192,6 +299,16 @@ module CairoDataProvider {
             "short_desc": "Resize a PNG image",
             "desc": "Resize a PNG image to specified dimensions",
             "action_code": DPAT_API,
+            "options": DataProviderActionCatalog::getActionOptionFromFields(
+                CairoImageResizeRequestDataType::Fields{"target_width", "target_height"}, {
+                    "preselected": True,
+                    "required": True,
+                }
+            ) + DataProviderActionCatalog::getActionOptionFromFields(
+                CairoImageResizeRequestDataType::Fields - ("target_width", "target_height")
+            ),
+            "output_type": AbstractDataProviderType::get(
+                new Type("hash<CairoImageResizeResponse>")),
         });
 
         DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
@@ -202,6 +319,16 @@ module CairoDataProvider {
             "short_desc": "Crop a PNG image",
             "desc": "Crop a region from a PNG image",
             "action_code": DPAT_API,
+            "options": DataProviderActionCatalog::getActionOptionFromFields(
+                CairoImageCropRequestDataType::Fields{"x", "y", "crop_width", "crop_height"}, {
+                    "preselected": True,
+                    "required": True,
+                }
+            ) + DataProviderActionCatalog::getActionOptionFromFields(
+                CairoImageCropRequestDataType::Fields - ("x", "y", "crop_width", "crop_height")
+            ),
+            "output_type": AbstractDataProviderType::get(
+                new Type("hash<CairoImageCropResponse>")),
         });
 
         DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
@@ -212,6 +339,16 @@ module CairoDataProvider {
             "short_desc": "Overlay one image on another",
             "desc": "Composite an overlay image onto a base image with optional alpha and positioning",
             "action_code": DPAT_API,
+            "options": DataProviderActionCatalog::getActionOptionFromFields(
+                CairoImageCompositeRequestDataType::Fields{"base_data", "overlay_data"}, {
+                    "preselected": True,
+                    "required": True,
+                }
+            ) + DataProviderActionCatalog::getActionOptionFromFields(
+                CairoImageCompositeRequestDataType::Fields - ("base_data", "overlay_data")
+            ),
+            "output_type": AbstractDataProviderType::get(
+                new Type("hash<CairoImageCompositeResponse>")),
         });
     };
 }
