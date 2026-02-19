@@ -33,7 +33,7 @@ const CairoInputFields = {
         "type": StringOrNothingType,
         "display_name": "Input File Path",
         "short_desc": "Path to input file",
-        "desc": "File path to read input from. One of 'input_path', 'data', or 'location' "
+        "desc": "File path to read input from. One of `input_path`, `data`, or `location` "
             "must be provided.",
         "example_value": "/path/to/input.svg",
     },
@@ -41,7 +41,7 @@ const CairoInputFields = {
         "type": BinaryOrNothingType,
         "display_name": "Input Data",
         "short_desc": "Binary input data",
-        "desc": "Binary data of the input. One of 'input_path', 'data', or 'location' "
+        "desc": "Binary data of the input. One of `input_path`, `data`, or `location` "
             "must be provided.",
     },
     "location": {
@@ -51,7 +51,7 @@ const CairoInputFields = {
         "desc": "A file location string as supported by the "
             "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) "
             "module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). "
-            "One of 'input_path', 'data', or 'location' must be provided.",
+            "One of `input_path`, `data`, or `location` must be provided.",
         "example_value": "file:///path/to/input.png",
     },
 };
@@ -62,8 +62,8 @@ const CairoOutputFields = {
         "type": StringOrNothingType,
         "display_name": "Output File Path",
         "short_desc": "Path to write the output to",
-        "desc": "File path to write the processed output to. If neither 'output_path' nor "
-            "'output_location' is provided, the data is returned in the response only.",
+        "desc": "File path to write the processed output to. If neither `output_path` nor "
+            "`output_location` is provided, the data is returned in the response only.",
         "example_value": "/path/to/output.png",
     },
     "output_location": {
@@ -73,7 +73,7 @@ const CairoOutputFields = {
         "desc": "A file location string as supported by the "
             "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) "
             "module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). "
-            "If neither 'output_path' nor 'output_location' is provided, the data is returned "
+            "If neither `output_path` nor `output_location` is provided, the data is returned "
             "in the response only.",
         "example_value": "file:///path/to/output.png",
     },
@@ -81,15 +81,15 @@ const CairoOutputFields = {
         "type": BoolOrNothingType,
         "display_name": "Return Data",
         "short_desc": "Whether to include data in the response",
-        "desc": "Whether to include binary data in the response hash. Defaults to True when "
-            "no output path or location is specified, False when an output destination is provided.",
+        "desc": "Whether to include binary data in the response hash. Defaults to `True` when "
+            "no output path or location is specified, `False` when an output destination is provided.",
     },
     "overwrite": {
         "type": BoolOrNothingType,
         "display_name": "Overwrite",
         "short_desc": "Overwrite the input file",
-        "desc": "If true and output_path is not specified, the input file will be overwritten "
-            "(only applicable when input_path is used).",
+        "desc": "If `true` and `output_path` is not specified, the input file will be overwritten "
+            "(only applicable when `input_path` is used).",
     },
 };
 
@@ -99,7 +99,7 @@ const CairoOutputResponseFields = {
         "type": BinaryOrNothingType,
         "display_name": "Output Data",
         "short_desc": "The output binary data",
-        "desc": "Binary output data. Only included when 'return_data' is true "
+        "desc": "Binary output data. Only included when `return_data` is `true` "
             "(default when no output destination is specified).",
     },
     "output_path": {
@@ -124,7 +124,7 @@ const CairoOutputResponseFields = {
         "type": BoolType,
         "display_name": "Success",
         "short_desc": "Whether the operation succeeded",
-        "desc": "True if the operation completed successfully",
+        "desc": "`True` if the operation completed successfully",
     },
     "warnings": {
         "type": new Type("*list<string>"),
@@ -181,41 +181,57 @@ const CairoDrawCommandsField = {
         "type": new Type("list<hash<auto>>"),
         "display_name": "Draw Commands",
         "short_desc": "List of draw commands",
-        "desc": "List of draw command hashes. Each command has an 'op' key specifying the "
+        "desc": "List of draw command hashes. Each command has an `op` key specifying the "
             "operation and operation-specific parameters.\n\n"
-            "Coordinate system: dimensions are in points (1 point = 1/72 inch). "
+            "**Coordinate system**: dimensions are in points (1 point = 1/72 inch). "
             "US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n"
-            "Color and style: set_source_rgb (r, g, b), set_source_rgba (r, g, b, a) — "
-            "color values are floats in range 0.0–1.0 (e.g. r=1.0 is full red). "
-            "set_line_width (width), set_line_cap (cap: butt, round, square), "
-            "set_line_join (join: miter, round, bevel), "
-            "set_dash (dashes, offset), set_miter_limit (limit), set_tolerance (tolerance), "
-            "set_fill_rule (rule: winding, even-odd), "
-            "set_operator (op_name), set_antialias (aa: default, none, gray, subpixel)\n\n"
-            "Paths: move_to (x, y), line_to (x, y), curve_to (x1, y1, x2, y2, x3, y3), "
-            "rel_move_to (dx, dy), rel_line_to (dx, dy), "
-            "rel_curve_to (dx1, dy1, dx2, dy2, dx3, dy3), "
-            "arc (x, y, radius, angle1, angle2), arc_negative (x, y, radius, angle1, angle2) "
-            "— angles are in radians (0 = 3 o'clock, pi/2 = 6 o'clock), "
-            "rectangle (x, y, width, height), close_path, new_path, new_sub_path\n\n"
-            "Drawing: stroke, fill, paint (alpha), stroke_preserve, fill_preserve, "
-            "clip, clip_preserve, reset_clip, text_path (text)\n\n"
-            "Text: text (text, x, y, family, size, slant, weight), "
-            "set_font (family, size, slant, weight), set_font_size (size)\n\n"
-            "Transforms: translate (x, y), rotate (angle — radians), scale (x, y), "
-            "identity_matrix, "
-            "set_matrix (xx, yx, xy, yy, x0, y0), transform (xx, yx, xy, yy, x0, y0)\n\n"
-            "Gradients: linear_gradient (x0, y0, x1, y1, stops, extend, filter), "
-            "radial_gradient (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter). "
-            "Stops: list of hashes with offset (0.0–1.0), r, g, b, and optional a "
-            "(e.g. [{\"offset\": 0.0, \"r\": 1.0, \"g\": 0.0, \"b\": 0.0}, ...]). "
-            "Extend: none (transparent outside gradient), repeat (tile), reflect (mirror), "
-            "pad (extend edge color). "
-            "Filter: fast, good, best, nearest, bilinear.\n\n"
-            "Other: image (path/data/location, x, y, width, height) — loads PNG files only; "
-            "mask_surface (path/data/location, x, y) — uses current source color masked by "
-            "a PNG surface's alpha channel; "
-            "save, restore, push_group, pop_group_to_source, show_page, copy_page",
+            "**Color and Style**:\n"
+            "- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 "
+            "(e.g. r=1.0 is full red)\n"
+            "- `set_source_rgba` (r, g, b, a)\n"
+            "- `set_line_width` (width)\n"
+            "- `set_line_cap` (cap: `butt`, `round`, `square`)\n"
+            "- `set_line_join` (join: `miter`, `round`, `bevel`)\n"
+            "- `set_dash` (dashes, offset), `set_miter_limit` (limit), "
+            "`set_tolerance` (tolerance)\n"
+            "- `set_fill_rule` (rule: `winding`, `even-odd`)\n"
+            "- `set_operator` (op_name)\n"
+            "- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n"
+            "**Paths**:\n"
+            "- `move_to` (x, y), `line_to` (x, y)\n"
+            "- `curve_to` (x1, y1, x2, y2, x3, y3)\n"
+            "- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n"
+            "- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n"
+            "- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in "
+            "radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n"
+            "- `rectangle` (x, y, width, height)\n"
+            "- `close_path`, `new_path`, `new_sub_path`\n\n"
+            "**Drawing**:\n"
+            "- `stroke`, `fill`, `paint` (alpha)\n"
+            "- `stroke_preserve`, `fill_preserve`\n"
+            "- `clip`, `clip_preserve`, `reset_clip`\n"
+            "- `text_path` (text)\n\n"
+            "**Text**:\n"
+            "- `text` (text, x, y, family, size, slant, weight)\n"
+            "- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n"
+            "**Transforms**:\n"
+            "- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n"
+            "- `identity_matrix`\n"
+            "- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n"
+            "**Gradients**:\n"
+            "- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n"
+            "- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n"
+            "- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and "
+            "optional `a`\n"
+            "- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), "
+            "`pad` (extend edge color)\n"
+            "- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n"
+            "**Other**:\n"
+            "- `image` (path/data/location, x, y, width, height) — PNG files only\n"
+            "- `mask_surface` (path/data/location, x, y) — uses current source color "
+            "masked by a PNG surface's alpha channel\n"
+            "- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, "
+            "`copy_page`",
     },
 };
 
@@ -1261,7 +1277,7 @@ public class CairoPostScriptCreateRequestDataType inherits HashDataType {
                 "type": BoolOrNothingType,
                 "display_name": "EPS Mode",
                 "short_desc": "Enable EPS mode",
-                "desc": "If True, create Encapsulated PostScript (EPS) output",
+                "desc": "If `True`, create Encapsulated PostScript (EPS) output",
                 "default_value": False,
             },
         } + CairoDrawCommandsField + (CairoOutputFields - "overwrite");
@@ -1404,8 +1420,8 @@ public class CairoImageCompositeRequestDataType inherits HashDataType {
                 "type": StringOrNothingType,
                 "display_name": "Base Image Path",
                 "short_desc": "Path to base image file",
-                "desc": "File path to the base image. One of 'base_input_path', 'base_data', "
-                    "or 'base_location' must be provided.",
+                "desc": "File path to the base image. One of `base_input_path`, `base_data`, "
+                    "or `base_location` must be provided.",
             },
             "base_data": {
                 "type": BinaryOrNothingType,
@@ -1423,8 +1439,8 @@ public class CairoImageCompositeRequestDataType inherits HashDataType {
                 "type": StringOrNothingType,
                 "display_name": "Overlay Image Path",
                 "short_desc": "Path to overlay image file",
-                "desc": "File path to the overlay image. One of 'overlay_input_path', 'overlay_data', "
-                    "or 'overlay_location' must be provided.",
+                "desc": "File path to the overlay image. One of `overlay_input_path`, `overlay_data`, "
+                    "or `overlay_location` must be provided.",
             },
             "overlay_data": {
                 "type": BinaryOrNothingType,
