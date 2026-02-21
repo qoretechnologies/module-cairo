@@ -35,7 +35,7 @@ QoreCairoSvgReader::QoreCairoSvgReader(const std::string& path, ExceptionSink* x
     if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_READ, xsink)) {
         return;
     }
-    if (qore_check_io_interrupt(xsink, "SVG file load")) {
+    if (qore_check_cancel(xsink, "SVG file load")) {
         return;
     }
     GError* error = nullptr;

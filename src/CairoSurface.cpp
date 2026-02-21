@@ -41,7 +41,7 @@ QoreCairoSurface::QoreCairoSurface(const std::string& path, double width, double
     if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_WRITE | QSEC_CREATE, xsink)) {
         return;
     }
-    if (qore_check_io_interrupt(xsink, "SVG surface create")) {
+    if (qore_check_cancel(xsink, "SVG surface create")) {
         return;
     }
     surface = cairo_svg_surface_create(path.c_str(), width, height);
@@ -70,7 +70,7 @@ QoreCairoSurface::QoreCairoSurface(const std::string& path, double width, double
     if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_WRITE | QSEC_CREATE, xsink)) {
         return;
     }
-    if (qore_check_io_interrupt(xsink, "PostScript surface create")) {
+    if (qore_check_cancel(xsink, "PostScript surface create")) {
         return;
     }
     surface = cairo_ps_surface_create(path.c_str(), width, height);
@@ -105,7 +105,7 @@ QoreCairoSurface::QoreCairoSurface(const std::string& path, ExceptionSink* xsink
     if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_READ, xsink)) {
         return;
     }
-    if (qore_check_io_interrupt(xsink, "PNG file load")) {
+    if (qore_check_cancel(xsink, "PNG file load")) {
         return;
     }
     surface = cairo_image_surface_create_from_png(path.c_str());
@@ -157,7 +157,7 @@ QoreCairoSurface::QoreCairoSurface(const std::string& path, double width, double
     if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_WRITE | QSEC_CREATE, xsink)) {
         return;
     }
-    if (qore_check_io_interrupt(xsink, "PDF surface create")) {
+    if (qore_check_cancel(xsink, "PDF surface create")) {
         return;
     }
     surface = cairo_pdf_surface_create(path.c_str(), width, height);
@@ -228,7 +228,7 @@ void QoreCairoSurface::writeToPng(const std::string& path, ExceptionSink* xsink)
     if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_WRITE | QSEC_CREATE, xsink)) {
         return;
     }
-    if (qore_check_io_interrupt(xsink, "PNG file write")) {
+    if (qore_check_cancel(xsink, "PNG file write")) {
         return;
     }
     cairo_status_t status = cairo_surface_write_to_png(surface, path.c_str());
