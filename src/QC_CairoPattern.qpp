@@ -109,8 +109,7 @@ static CairoPattern CairoPattern::createRgba(float r, float g, float b, float a)
 /** @param surface the source surface
 */
 static CairoPattern CairoPattern::createForSurface(CairoSurface[QoreCairoSurface] surface) {
-    ReferenceHolder<QoreCairoSurface> surface_holder(surface, xsink);
-    ReferenceHolder<QoreCairoPattern> holder(new QoreCairoPattern(surface, xsink), xsink);
+    ReferenceHolder<QoreCairoPattern> holder(new QoreCairoPattern(*surface, xsink), xsink);
     if (*xsink) {
         return QoreValue();
     }

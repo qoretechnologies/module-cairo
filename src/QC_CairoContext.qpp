@@ -45,7 +45,7 @@ qclass CairoContext [arg=QoreCairoContext* ctx; ns=Qore::Cairo];
     @throw CAIRO-ERROR if the context cannot be created
 */
 CairoContext::constructor(CairoSurface[QoreCairoSurface] surface) {
-    ReferenceHolder<QoreCairoContext> holder(new QoreCairoContext(surface, xsink), xsink);
+    ReferenceHolder<QoreCairoContext> holder(new QoreCairoContext(*surface, xsink), xsink);
     if (*xsink) {
         return;
     }
@@ -255,15 +255,13 @@ nothing CairoContext::setSourceRgba(float r, float g, float b, float a) {
     @param y Y offset for the surface origin
 */
 nothing CairoContext::setSourceSurface(CairoSurface[QoreCairoSurface] surface, float x, float y) {
-    ReferenceHolder<QoreCairoSurface> holder(surface, xsink);
-    ctx->setSourceSurface(surface, x, y, xsink);
+    ctx->setSourceSurface(*surface, x, y, xsink);
 }
 
 //! Sets a pattern as the source
 /** @param pattern the source pattern
 */
 nothing CairoContext::setSource(CairoPattern[QoreCairoPattern] pattern) {
-    ReferenceHolder<QoreCairoPattern> holder(pattern, xsink);
     ctx->setSource(pattern->getPattern(), xsink);
 }
 
@@ -271,7 +269,6 @@ nothing CairoContext::setSource(CairoPattern[QoreCairoPattern] pattern) {
 /** @param pattern the mask pattern
 */
 nothing CairoContext::mask(CairoPattern[QoreCairoPattern] pattern) {
-    ReferenceHolder<QoreCairoPattern> holder(pattern, xsink);
     ctx->mask(pattern->getPattern(), xsink);
 }
 
@@ -281,8 +278,7 @@ nothing CairoContext::mask(CairoPattern[QoreCairoPattern] pattern) {
     @param y Y offset for the surface origin
 */
 nothing CairoContext::maskSurface(CairoSurface[QoreCairoSurface] surface, float x, float y) {
-    ReferenceHolder<QoreCairoSurface> holder(surface, xsink);
-    ctx->maskSurface(surface, x, y, xsink);
+    ctx->maskSurface(*surface, x, y, xsink);
 }
 
 //! Saves the current graphics state
