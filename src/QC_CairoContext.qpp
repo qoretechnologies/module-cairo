@@ -45,7 +45,7 @@ qclass CairoContext [arg=QoreCairoContext* ctx; ns=Qore::Cairo];
     @throw CAIRO-ERROR if the context cannot be created
 */
 CairoContext::constructor(CairoSurface[QoreCairoSurface] surface) {
-    ReferenceHolder<QoreCairoContext> holder(new QoreCairoContext(*surface, xsink), xsink);
+    ReferenceHolder<QoreCairoContext> holder(new QoreCairoContext(surface.release(), xsink), xsink);
     if (*xsink) {
         return;
     }
