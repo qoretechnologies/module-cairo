@@ -24,11 +24,12 @@
 
 #! Contains all public definitions in the CairoDataProvider module
 public namespace CairoDataProvider {
-/** @brief Data provider for text measurement operations
+/** @brief Data provider for text operations
 
     This provider exposes text actions:
     - @b measure - Measure text dimensions
     - @b get-font-metrics - Get font metrics
+    - @b render - Render text to a PNG image
 
     @par Data Provider Path
     Access via: @verbatim cairo{}/text/<action> @endverbatim
@@ -47,6 +48,7 @@ public class CairoTextDataProvider inherits AbstractDataProvider {
         const ChildMap = {
             "measure": "CairoDataProvider::CairoTextMeasureDataProvider",
             "get-font-metrics": "CairoDataProvider::CairoFontGetMetricsDataProvider",
+            "render": "CairoDataProvider::CairoTextRenderDataProvider",
         };
         *hash<auto> opts;
     }

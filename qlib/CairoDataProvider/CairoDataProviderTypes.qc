@@ -140,7 +140,7 @@ const CairoFontFields = {
         "type": StringOrNothingType,
         "display_name": "Font Family",
         "short_desc": "Font family name",
-        "desc": "Font family name (e.g., 'sans-serif', 'Helvetica'). Default: 'sans-serif'",
+        "desc": "Font family name (e.g., `sans-serif`, `Helvetica`). Default: `sans-serif`",
         "default_value": "sans-serif",
     },
     "size": {
@@ -157,9 +157,9 @@ const CairoFontFields = {
         "desc": "Font slant: 'normal', 'italic', or 'oblique'. Default: 'normal'",
         "default_value": "normal",
         "allowed_values": (
-            <AllowedValueInfo>{"value": "normal", "desc": "Normal (upright) style"},
-            <AllowedValueInfo>{"value": "italic", "desc": "Italic style"},
-            <AllowedValueInfo>{"value": "oblique", "desc": "Oblique style"},
+            <AllowedValueInfo>{"value": "normal", "display_name": "Normal", "desc": "Normal (upright) style"},
+            <AllowedValueInfo>{"value": "italic", "display_name": "Italic", "desc": "Italic style"},
+            <AllowedValueInfo>{"value": "oblique", "display_name": "Oblique", "desc": "Oblique style"},
         ),
     },
     "weight": {
@@ -169,8 +169,8 @@ const CairoFontFields = {
         "desc": "Font weight: 'normal' or 'bold'. Default: 'normal'",
         "default_value": "normal",
         "allowed_values": (
-            <AllowedValueInfo>{"value": "normal", "desc": "Normal weight"},
-            <AllowedValueInfo>{"value": "bold", "desc": "Bold weight"},
+            <AllowedValueInfo>{"value": "normal", "display_name": "Normal", "desc": "Normal weight"},
+            <AllowedValueInfo>{"value": "bold", "display_name": "Bold", "desc": "Bold weight"},
         ),
     },
 };
@@ -1217,10 +1217,10 @@ public class CairoImageCreateRequestDataType inherits HashDataType {
                 "desc": "Pixel format for the image surface",
                 "default_value": "ARGB32",
                 "allowed_values": (
-                    <AllowedValueInfo>{"value": "ARGB32", "desc": "32-bit ARGB (default)"},
-                    <AllowedValueInfo>{"value": "RGB24", "desc": "32-bit RGB (no alpha)"},
-                    <AllowedValueInfo>{"value": "A8", "desc": "8-bit alpha mask"},
-                    <AllowedValueInfo>{"value": "A1", "desc": "1-bit alpha mask"},
+                    <AllowedValueInfo>{"value": "ARGB32", "display_name": "ARGB32", "desc": "32-bit ARGB (default)"},
+                    <AllowedValueInfo>{"value": "RGB24", "display_name": "RGB24", "desc": "32-bit RGB (no alpha)"},
+                    <AllowedValueInfo>{"value": "A8", "display_name": "A8", "desc": "8-bit alpha mask"},
+                    <AllowedValueInfo>{"value": "A1", "display_name": "A1", "desc": "1-bit alpha mask"},
                 ),
             },
         } + CairoDrawCommandsField + (CairoOutputFields - "overwrite");
@@ -1498,6 +1498,488 @@ public class CairoImageCompositeRequestDataType inherits HashDataType {
             ("base_input_path", "base_data", "base_location"),
             ("overlay_input_path", "overlay_data", "overlay_location"),
         ));
+    }
+}
+
+# ========== Image To PDF ==========
+
+#! Request type for converting a PNG image to PDF
+public hashdecl CairoImageToPdfRequest {
+    #! Input file path
+    *string input_path;
+
+    #! Binary PNG data
+    *binary data;
+
+    #! Input location
+    *string location;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Return data in response
+    *bool return_data;
+
+    #! Overwrite the input file if true
+    *bool overwrite;
+}
+
+#! Response type for image to PDF conversion
+public hashdecl CairoImageToPdfResponse {
+    #! Output PDF data
+    *binary data;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Output size in bytes
+    int size;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
+}
+
+# ========== Image To SVG ==========
+
+#! Request type for converting a PNG image to SVG
+public hashdecl CairoImageToSvgRequest {
+    #! Input file path
+    *string input_path;
+
+    #! Binary PNG data
+    *binary data;
+
+    #! Input location
+    *string location;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Return data in response
+    *bool return_data;
+
+    #! Overwrite the input file if true
+    *bool overwrite;
+}
+
+#! Response type for image to SVG conversion
+public hashdecl CairoImageToSvgResponse {
+    #! Output SVG data
+    *binary data;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Output size in bytes
+    int size;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
+}
+
+# ========== Image To PS ==========
+
+#! Request type for converting a PNG image to PostScript
+public hashdecl CairoImageToPsRequest {
+    #! Input file path
+    *string input_path;
+
+    #! Binary PNG data
+    *binary data;
+
+    #! Input location
+    *string location;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Return data in response
+    *bool return_data;
+
+    #! Overwrite the input file if true
+    *bool overwrite;
+}
+
+#! Response type for image to PostScript conversion
+public hashdecl CairoImageToPsResponse {
+    #! Output PS data
+    *binary data;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Output size in bytes
+    int size;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
+}
+
+# ========== Image To EPS ==========
+
+#! Request type for converting a PNG image to EPS
+public hashdecl CairoImageToEpsRequest {
+    #! Input file path
+    *string input_path;
+
+    #! Binary PNG data
+    *binary data;
+
+    #! Input location
+    *string location;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Return data in response
+    *bool return_data;
+
+    #! Overwrite the input file if true
+    *bool overwrite;
+}
+
+#! Response type for image to EPS conversion
+public hashdecl CairoImageToEpsResponse {
+    #! Output EPS data
+    *binary data;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Output size in bytes
+    int size;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
+}
+
+# ========== Image Rotate ==========
+
+#! Request type for rotating a PNG image
+public hashdecl CairoImageRotateRequest {
+    #! Input file path
+    *string input_path;
+
+    #! Binary PNG data
+    *binary data;
+
+    #! Input location
+    *string location;
+
+    #! Rotation angle in degrees (positive = clockwise)
+    float angle;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Return data in response
+    *bool return_data;
+
+    #! Overwrite the input file if true
+    *bool overwrite;
+}
+
+#! Response type for image rotation
+public hashdecl CairoImageRotateResponse {
+    #! Output PNG data
+    *binary data;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Output size in bytes
+    int size;
+
+    #! Image width in pixels
+    int width;
+
+    #! Image height in pixels
+    int height;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
+}
+
+# ========== Text Render ==========
+
+#! Request type for rendering text to a PNG image
+public hashdecl CairoTextRenderRequest {
+    #! Text to render
+    string text;
+
+    #! Font family name
+    *string family;
+
+    #! Font size in user-space units
+    *float size;
+
+    #! Font slant: "normal", "italic", or "oblique"
+    *string slant;
+
+    #! Font weight: "normal" or "bold"
+    *string weight;
+
+    #! Text color red component (0.0-1.0)
+    *float r;
+
+    #! Text color green component (0.0-1.0)
+    *float g;
+
+    #! Text color blue component (0.0-1.0)
+    *float b;
+
+    #! Text color alpha component (0.0-1.0)
+    *float a;
+
+    #! Background color red component (0.0-1.0)
+    *float bg_r;
+
+    #! Background color green component (0.0-1.0)
+    *float bg_g;
+
+    #! Background color blue component (0.0-1.0)
+    *float bg_b;
+
+    #! Background color alpha (0.0 = transparent, 1.0 = opaque)
+    *float bg_a;
+
+    #! Padding in pixels around the text
+    *int padding;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Return data in response
+    *bool return_data;
+}
+
+#! Response type for text rendering
+public hashdecl CairoTextRenderResponse {
+    #! Output PNG data
+    *binary data;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Output size in bytes
+    int size;
+
+    #! Image width in pixels
+    int width;
+
+    #! Image height in pixels
+    int height;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
+}
+
+# ========== New HashDataType Request Classes ==========
+
+#! Image to PDF request type
+public class CairoImageToPdfRequestDataType inherits HashDataType {
+    public {
+        const Fields = CairoInputFields + CairoOutputFields;
+    }
+
+    constructor() {
+        addQoreFields(Fields);
+        setRequiredGroups((("input_path", "data", "location"),));
+    }
+}
+
+#! Image to SVG request type
+public class CairoImageToSvgRequestDataType inherits HashDataType {
+    public {
+        const Fields = CairoInputFields + CairoOutputFields;
+    }
+
+    constructor() {
+        addQoreFields(Fields);
+        setRequiredGroups((("input_path", "data", "location"),));
+    }
+}
+
+#! Image to PS request type
+public class CairoImageToPsRequestDataType inherits HashDataType {
+    public {
+        const Fields = CairoInputFields + CairoOutputFields;
+    }
+
+    constructor() {
+        addQoreFields(Fields);
+        setRequiredGroups((("input_path", "data", "location"),));
+    }
+}
+
+#! Image to EPS request type
+public class CairoImageToEpsRequestDataType inherits HashDataType {
+    public {
+        const Fields = CairoInputFields + CairoOutputFields;
+    }
+
+    constructor() {
+        addQoreFields(Fields);
+        setRequiredGroups((("input_path", "data", "location"),));
+    }
+}
+
+#! Image rotate request type
+public class CairoImageRotateRequestDataType inherits HashDataType {
+    public {
+        const Fields = CairoInputFields + {
+            "angle": {
+                "type": FloatType,
+                "display_name": "Angle",
+                "short_desc": "Rotation angle in degrees",
+                "desc": "Rotation angle in degrees (positive = clockwise). "
+                    "Common values: `90`, `180`, `270`.",
+                "example_value": 90.0,
+            },
+        } + CairoOutputFields;
+    }
+
+    constructor() {
+        addQoreFields(Fields);
+        setRequiredGroups((("input_path", "data", "location"),));
+    }
+}
+
+#! Text render request type
+public class CairoTextRenderRequestDataType inherits HashDataType {
+    public {
+        const Fields = {
+            "text": {
+                "type": StringType,
+                "display_name": "Text",
+                "short_desc": "Text to render",
+                "desc": "The text string to render to a PNG image",
+                "example_value": "Hello, World!",
+            },
+        } + CairoFontFields + {
+            "r": {
+                "type": FloatOrNothingType,
+                "display_name": "Text Red",
+                "short_desc": "Text color red component",
+                "desc": "Text color red component (0.0-1.0). Default: `0.0` (black)",
+                "default_value": 0.0,
+            },
+            "g": {
+                "type": FloatOrNothingType,
+                "display_name": "Text Green",
+                "short_desc": "Text color green component",
+                "desc": "Text color green component (0.0-1.0). Default: `0.0`",
+                "default_value": 0.0,
+            },
+            "b": {
+                "type": FloatOrNothingType,
+                "display_name": "Text Blue",
+                "short_desc": "Text color blue component",
+                "desc": "Text color blue component (0.0-1.0). Default: `0.0`",
+                "default_value": 0.0,
+            },
+            "a": {
+                "type": FloatOrNothingType,
+                "display_name": "Text Alpha",
+                "short_desc": "Text color alpha",
+                "desc": "Text color alpha (0.0 = transparent, 1.0 = opaque). Default: `1.0`",
+                "default_value": 1.0,
+            },
+            "bg_r": {
+                "type": FloatOrNothingType,
+                "display_name": "Background Red",
+                "short_desc": "Background color red component",
+                "desc": "Background color red component (0.0-1.0). Default: `1.0` (white)",
+                "default_value": 1.0,
+            },
+            "bg_g": {
+                "type": FloatOrNothingType,
+                "display_name": "Background Green",
+                "short_desc": "Background color green component",
+                "desc": "Background color green component (0.0-1.0). Default: `1.0`",
+                "default_value": 1.0,
+            },
+            "bg_b": {
+                "type": FloatOrNothingType,
+                "display_name": "Background Blue",
+                "short_desc": "Background color blue component",
+                "desc": "Background color blue component (0.0-1.0). Default: `1.0`",
+                "default_value": 1.0,
+            },
+            "bg_a": {
+                "type": FloatOrNothingType,
+                "display_name": "Background Alpha",
+                "short_desc": "Background color alpha",
+                "desc": "Background color alpha (0.0 = transparent, 1.0 = opaque). "
+                    "Default: `0.0` (transparent)",
+                "default_value": 0.0,
+            },
+            "padding": {
+                "type": IntOrNothingType,
+                "display_name": "Padding",
+                "short_desc": "Padding around text in pixels",
+                "desc": "Padding in pixels around the rendered text. Default: `0`",
+                "default_value": 0,
+            },
+        } + (CairoOutputFields - "overwrite");
+    }
+
+    constructor() {
+        addQoreFields(Fields);
     }
 }
 }

@@ -85,6 +85,15 @@ class CairoDataProviderTest inherits QUnit::Test {
         addTestCase("gradient multiple stops", \testGradientMultipleStops());
         addTestCase("image/resize non-square", \testImageResizeNonSquare());
         addTestCase("mask_surface path variant", \testMaskSurfacePathVariant());
+        addTestCase("image/to-pdf", \testImageToPdf());
+        addTestCase("image/to-svg", \testImageToSvg());
+        addTestCase("image/to-ps", \testImageToPs());
+        addTestCase("image/to-eps", \testImageToEps());
+        addTestCase("image/rotate", \testImageRotate());
+        addTestCase("text/render", \testTextRender());
+        addTestCase("new providers hierarchy", \testNewProvidersHierarchy());
+        addTestCase("new providers negative", \testNewProvidersNegative());
+        addTestCase("new providers output paths", \testNewProvidersOutputPaths());
 
         root = DataProvider::getFactoryEx("cairo").create({});
 
@@ -2732,5 +2741,331 @@ class CairoDataProviderTest inherits QUnit::Test {
         });
         assertTrue(result.success);
         assertTrue(result.size > 0);
+    }
+
+    #! Helper: create a simple 64x64 PNG and return binary data
+    private binary createTestPng(int w = 64, int h = 64) {
+        auto dp = root.getChildProvider("image").getChildProvider("create");
+        hash<auto> result = dp.doRequest({
+            "width": w,
+            "height": h,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "rectangle", "x": 0.0, "y": 0.0, "width": float(w), "height": float(h)},
+                {"op": "fill"},
+            ),
+        });
+        return result.data;
+    }
+
+    private testImageToPdf() {
+        if (!CairoSurface::isPdfAvailable()) {
+            testSkip("PDF not available");
+        }
+        auto dp = root.getChildProvider("image").getChildProvider("to-pdf");
+        assertTrue(dp.getInfo().supports_request);
+
+        binary png_data = createTestPng();
+
+        # Basic conversion
+        hash<auto> result = dp.doRequest({"data": png_data});
+        assertTrue(result.success);
+        assertTrue(result.size > 0);
+        assertTrue(exists result.data);
+        # PDF magic bytes
+        string header = result.data.substr(0, 5).toString();
+        assertEq("%PDF-", header);
+
+        # With output_path
+        string tmp = tmp_location() + "/test_img_to_pdf.pdf";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+        result = dp.doRequest({"data": png_data, "output_path": tmp});
+        assertTrue(result.success);
+        assertTrue(is_file(tmp));
+        assertFalse(exists result.data);
+    }
+
+    private testImageToSvg() {
+        auto dp = root.getChildProvider("image").getChildProvider("to-svg");
+        assertTrue(dp.getInfo().supports_request);
+
+        binary png_data = createTestPng();
+
+        hash<auto> result = dp.doRequest({"data": png_data});
+        assertTrue(result.success);
+        assertTrue(result.size > 0);
+        assertTrue(exists result.data);
+        string svg_str = result.data.toString();
+        assertTrue(svg_str =~ /svg/);
+
+        # With output_path
+        string tmp = tmp_location() + "/test_img_to_svg.svg";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+        result = dp.doRequest({"data": png_data, "output_path": tmp});
+        assertTrue(result.success);
+        assertTrue(is_file(tmp));
+        assertFalse(exists result.data);
+    }
+
+    private testImageToPs() {
+        auto dp = root.getChildProvider("image").getChildProvider("to-ps");
+        assertTrue(dp.getInfo().supports_request);
+
+        binary png_data = createTestPng();
+
+        hash<auto> result = dp.doRequest({"data": png_data});
+        assertTrue(result.success);
+        assertTrue(result.size > 0);
+        assertTrue(exists result.data);
+        string ps_str = result.data.toString();
+        assertTrue(ps_str =~ /^%!PS-Adobe/);
+
+        # With output_path
+        string tmp = tmp_location() + "/test_img_to_ps.ps";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+        result = dp.doRequest({"data": png_data, "output_path": tmp});
+        assertTrue(result.success);
+        assertTrue(is_file(tmp));
+        assertFalse(exists result.data);
+    }
+
+    private testImageToEps() {
+        auto dp = root.getChildProvider("image").getChildProvider("to-eps");
+        assertTrue(dp.getInfo().supports_request);
+
+        binary png_data = createTestPng();
+
+        hash<auto> result = dp.doRequest({"data": png_data});
+        assertTrue(result.success);
+        assertTrue(result.size > 0);
+        assertTrue(exists result.data);
+        string eps_str = result.data.toString();
+        assertTrue(eps_str =~ /^%!PS-Adobe/);
+
+        # With output_path
+        string tmp = tmp_location() + "/test_img_to_eps.eps";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+        result = dp.doRequest({"data": png_data, "output_path": tmp});
+        assertTrue(result.success);
+        assertTrue(is_file(tmp));
+        assertFalse(exists result.data);
+    }
+
+    private testImageRotate() {
+        auto dp = root.getChildProvider("image").getChildProvider("rotate");
+        assertTrue(dp.getInfo().supports_request);
+
+        # Create a 100x50 test image
+        binary png_data = createTestPng(100, 50);
+
+        # Rotate 90 degrees: output should be ~50x100
+        hash<auto> result = dp.doRequest({"data": png_data, "angle": 90.0});
+        assertTrue(result.success);
+        assertTrue(result.size > 0);
+        assertTrue(exists result.data);
+        assertEq(50, result.width);
+        assertEq(100, result.height);
+
+        # Rotate 180 degrees: output should be 100x50
+        result = dp.doRequest({"data": png_data, "angle": 180.0});
+        assertTrue(result.success);
+        assertEq(100, result.width);
+        assertEq(50, result.height);
+
+        # Rotate 45 degrees: output should be larger than original
+        result = dp.doRequest({"data": png_data, "angle": 45.0});
+        assertTrue(result.success);
+        assertTrue(result.width > 100);
+        assertTrue(result.height > 50);
+
+        # Rotate 0 degrees: output should be same as original
+        result = dp.doRequest({"data": png_data, "angle": 0.0});
+        assertTrue(result.success);
+        assertEq(100, result.width);
+        assertEq(50, result.height);
+
+        # Rotate 360 degrees: output should be same as original
+        result = dp.doRequest({"data": png_data, "angle": 360.0});
+        assertTrue(result.success);
+        assertEq(100, result.width);
+        assertEq(50, result.height);
+
+        # With output_path
+        string tmp = tmp_location() + "/test_rotate.png";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+        result = dp.doRequest({"data": png_data, "angle": 90.0, "output_path": tmp});
+        assertTrue(result.success);
+        assertTrue(is_file(tmp));
+    }
+
+    private testTextRender() {
+        auto dp = root.getChildProvider("text").getChildProvider("render");
+        assertTrue(dp.getInfo().supports_request);
+
+        # Basic render with defaults
+        hash<auto> result = dp.doRequest({"text": "Hello, World!"});
+        assertTrue(result.success);
+        assertTrue(result.size > 0);
+        assertTrue(exists result.data);
+        assertTrue(result.width > 0);
+        assertTrue(result.height > 0);
+
+        # Render with explicit font and color
+        result = dp.doRequest({
+            "text": "Test",
+            "family": "sans-serif",
+            "size": 24.0,
+            "weight": "bold",
+            "r": 1.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0,
+        });
+        assertTrue(result.success);
+        assertTrue(result.width > 0);
+        assertTrue(result.height > 0);
+
+        # Render with background
+        result = dp.doRequest({
+            "text": "BG Test",
+            "bg_r": 0.0,
+            "bg_g": 0.0,
+            "bg_b": 1.0,
+            "bg_a": 1.0,
+        });
+        assertTrue(result.success);
+        assertTrue(result.width > 0);
+
+        # Render with padding - should produce larger image
+        hash<auto> no_pad = dp.doRequest({"text": "Pad", "size": 20.0});
+        hash<auto> with_pad = dp.doRequest({"text": "Pad", "size": 20.0, "padding": 20});
+        assertTrue(with_pad.success);
+        assertTrue(with_pad.width > no_pad.width);
+        assertTrue(with_pad.height > no_pad.height);
+
+        # With output_path
+        string tmp = tmp_location() + "/test_text_render.png";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+        result = dp.doRequest({"text": "Output test", "output_path": tmp});
+        assertTrue(result.success);
+        assertTrue(is_file(tmp));
+        assertFalse(exists result.data);
+    }
+
+    private testNewProvidersHierarchy() {
+        # Image container should have new children
+        auto img = root.getChildProvider("image");
+        list<string> img_children = img.getChildProviderNames();
+        assertTrue(inlist("rotate", img_children));
+        assertTrue(inlist("to-svg", img_children));
+        assertTrue(inlist("to-ps", img_children));
+        assertTrue(inlist("to-eps", img_children));
+        if (CairoSurface::isPdfAvailable()) {
+            assertTrue(inlist("to-pdf", img_children));
+        }
+
+        # Text container should have render
+        auto text = root.getChildProvider("text");
+        list<string> text_children = text.getChildProviderNames();
+        assertTrue(inlist("render", text_children));
+    }
+
+    private testNewProvidersNegative() {
+        # Invalid PNG data for conversions
+        binary bad_data = binary("not a png");
+
+        # to-svg with bad data
+        auto dp = root.getChildProvider("image").getChildProvider("to-svg");
+        assertThrows("CAIRO-ERROR", sub () {
+            dp.doRequest({"data": bad_data});
+        });
+
+        # to-ps with bad data
+        dp = root.getChildProvider("image").getChildProvider("to-ps");
+        assertThrows("CAIRO-ERROR", sub () {
+            dp.doRequest({"data": bad_data});
+        });
+
+        # to-eps with bad data
+        dp = root.getChildProvider("image").getChildProvider("to-eps");
+        assertThrows("CAIRO-ERROR", sub () {
+            dp.doRequest({"data": bad_data});
+        });
+
+        # rotate with bad data
+        dp = root.getChildProvider("image").getChildProvider("rotate");
+        assertThrows("CAIRO-ERROR", sub () {
+            dp.doRequest({"data": bad_data, "angle": 90.0});
+        });
+
+        # to-pdf with bad data (if available)
+        if (CairoSurface::isPdfAvailable()) {
+            dp = root.getChildProvider("image").getChildProvider("to-pdf");
+            assertThrows("CAIRO-ERROR", sub () {
+                dp.doRequest({"data": bad_data});
+            });
+        }
+    }
+
+    private testNewProvidersOutputPaths() {
+        binary png_data = createTestPng();
+
+        # Test overwrite for image/rotate
+        string tmp = tmp_location() + "/test_overwrite_rotate.png";
+        on_exit {
+            if (is_file(tmp)) {
+                unlink(tmp);
+            }
+        }
+        CairoActionBase::writeBinaryFile(tmp, png_data);
+        auto dp = root.getChildProvider("image").getChildProvider("rotate");
+        hash<auto> result = dp.doRequest({
+            "input_path": tmp,
+            "angle": 90.0,
+            "overwrite": True,
+        });
+        assertTrue(result.success);
+        assertEq(tmp, result.output_path);
+
+        # Test return_data=True with output_path for to-svg
+        string tmp2 = tmp_location() + "/test_return_data.svg";
+        on_exit {
+            if (is_file(tmp2)) {
+                unlink(tmp2);
+            }
+        }
+        dp = root.getChildProvider("image").getChildProvider("to-svg");
+        result = dp.doRequest({
+            "data": png_data,
+            "output_path": tmp2,
+            "return_data": True,
+        });
+        assertTrue(result.success);
+        assertTrue(is_file(tmp2));
+        assertTrue(exists result.data);
     }
 }

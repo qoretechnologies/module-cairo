@@ -47,7 +47,8 @@ module CairoDataProvider {
             "display_name": "Cairo Vector Graphics",
             "short_desc": "SVG, PDF, PostScript, and EPS vector graphics",
             "desc": "Create and manipulate vector graphics in SVG, PDF, PostScript, and EPS formats",
-            "groups": (DataProvider::AppGroup::Documents, DataProvider::AppGroup::DataTransformation),
+            "groups": (DataProvider::AppGroup::Documents, DataProvider::AppGroup::DataTransformation,
+                DataProvider::AppGroup::DesignCreative),
             "logo": Priv::CairoLogo,
             "logo_file_name": "cairo-logo.svg",
             "logo_mime_type": MimeTypeSvg,
@@ -58,9 +59,11 @@ module CairoDataProvider {
             "app": CairoDataProvider::AppName,
             "path": "/svg/create",
             "action": "svg-create",
+            "groups": "SVG",
             "display_name": "Create SVG",
             "short_desc": "Create SVG from draw commands",
-            "desc": "Create an SVG image from declarative draw commands",
+            "desc": "Create an SVG vector image from declarative draw commands specifying shapes, "
+                "text, colors, and transformations",
             "action_code": DPAT_API,
             "options": DataProviderActionCatalog::getActionOptionFromFields(
                 CairoSvgCreateRequestDataType::Fields{"width", "height", "commands"}, {
@@ -80,9 +83,11 @@ module CairoDataProvider {
                 "app": CairoDataProvider::AppName,
                 "path": "/svg/get-info",
                 "action": "svg-get-info",
+                "groups": "SVG",
                 "display_name": "Get SVG Info",
                 "short_desc": "Get SVG dimensions and metadata",
-                "desc": "Read SVG dimensions and metadata without modifying the file",
+                "desc": "Read SVG `width`, `height`, and metadata without modifying the file. "
+                    "Requires librsvg.",
                 "action_code": DPAT_API,
                 "options": DataProviderActionCatalog::getActionOptionFromFields(
                     CairoSvgGetInfoRequestDataType::Fields
@@ -95,12 +100,18 @@ module CairoDataProvider {
                 "app": CairoDataProvider::AppName,
                 "path": "/svg/to-png",
                 "action": "svg-to-png",
+                "groups": "SVG",
                 "display_name": "SVG to PNG",
                 "short_desc": "Convert SVG to PNG",
-                "desc": "Render an SVG file to a PNG raster image",
+                "desc": "Render an SVG file to a PNG raster image with optional resizing. "
+                    "Specify `width` and `height` to scale the output. Requires librsvg.",
                 "action_code": DPAT_API,
                 "options": DataProviderActionCatalog::getActionOptionFromFields(
-                    CairoSvgToPngRequestDataType::Fields
+                    CairoSvgToPngRequestDataType::Fields{"width", "height"}, {
+                        "preselected": True,
+                    }
+                ) + DataProviderActionCatalog::getActionOptionFromFields(
+                    CairoSvgToPngRequestDataType::Fields - ("width", "height")
                 ),
                 "output_type": AbstractDataProviderType::get(
                     new Type("hash<CairoSvgToPngResponse>")),
@@ -110,12 +121,18 @@ module CairoDataProvider {
                 "app": CairoDataProvider::AppName,
                 "path": "/svg/to-ps",
                 "action": "svg-to-ps",
+                "groups": "SVG",
                 "display_name": "SVG to PostScript",
                 "short_desc": "Convert SVG to PostScript",
-                "desc": "Convert an SVG file to PostScript format",
+                "desc": "Convert an SVG file to PostScript format. Specify `width` and `height` "
+                    "in points to control the output page size. Requires librsvg.",
                 "action_code": DPAT_API,
                 "options": DataProviderActionCatalog::getActionOptionFromFields(
-                    CairoSvgToPsRequestDataType::Fields
+                    CairoSvgToPsRequestDataType::Fields{"width", "height"}, {
+                        "preselected": True,
+                    }
+                ) + DataProviderActionCatalog::getActionOptionFromFields(
+                    CairoSvgToPsRequestDataType::Fields - ("width", "height")
                 ),
                 "output_type": AbstractDataProviderType::get(
                     new Type("hash<CairoSvgToPsResponse>")),
@@ -125,12 +142,18 @@ module CairoDataProvider {
                 "app": CairoDataProvider::AppName,
                 "path": "/svg/to-eps",
                 "action": "svg-to-eps",
+                "groups": "SVG",
                 "display_name": "SVG to EPS",
                 "short_desc": "Convert SVG to EPS",
-                "desc": "Convert an SVG file to Encapsulated PostScript format",
+                "desc": "Convert an SVG file to Encapsulated PostScript (EPS) format. Specify "
+                    "`width` and `height` in points to control the output page size. Requires librsvg.",
                 "action_code": DPAT_API,
                 "options": DataProviderActionCatalog::getActionOptionFromFields(
-                    CairoSvgToEpsRequestDataType::Fields
+                    CairoSvgToEpsRequestDataType::Fields{"width", "height"}, {
+                        "preselected": True,
+                    }
+                ) + DataProviderActionCatalog::getActionOptionFromFields(
+                    CairoSvgToEpsRequestDataType::Fields - ("width", "height")
                 ),
                 "output_type": AbstractDataProviderType::get(
                     new Type("hash<CairoSvgToEpsResponse>")),
@@ -141,12 +164,19 @@ module CairoDataProvider {
                     "app": CairoDataProvider::AppName,
                     "path": "/svg/to-pdf",
                     "action": "svg-to-pdf",
+                    "groups": "SVG",
                     "display_name": "SVG to PDF",
                     "short_desc": "Convert SVG to PDF",
-                    "desc": "Convert an SVG file to PDF format",
+                    "desc": "Convert an SVG file to PDF format. Specify `width` and `height` "
+                        "in points to control the output page size. Requires librsvg and PDF "
+                        "surface support.",
                     "action_code": DPAT_API,
                     "options": DataProviderActionCatalog::getActionOptionFromFields(
-                        CairoSvgToPdfRequestDataType::Fields
+                        CairoSvgToPdfRequestDataType::Fields{"width", "height"}, {
+                            "preselected": True,
+                        }
+                    ) + DataProviderActionCatalog::getActionOptionFromFields(
+                        CairoSvgToPdfRequestDataType::Fields - ("width", "height")
                     ),
                     "output_type": AbstractDataProviderType::get(
                         new Type("hash<CairoSvgToPdfResponse>")),
@@ -159,9 +189,11 @@ module CairoDataProvider {
             "app": CairoDataProvider::AppName,
             "path": "/image/create",
             "action": "image-create",
+            "groups": "Image",
             "display_name": "Create Image",
             "short_desc": "Create PNG from draw commands",
-            "desc": "Create a PNG raster image from declarative draw commands",
+            "desc": "Create a PNG raster image from declarative draw commands. Supports "
+                "`ARGB32`, `RGB24`, `A8`, and `A1` pixel formats.",
             "action_code": DPAT_API,
             "options": DataProviderActionCatalog::getActionOptionFromFields(
                 CairoImageCreateRequestDataType::Fields{"width", "height", "commands"}, {
@@ -179,9 +211,11 @@ module CairoDataProvider {
             "app": CairoDataProvider::AppName,
             "path": "/image/get-info",
             "action": "image-get-info",
+            "groups": "Image",
             "display_name": "Get Image Info",
             "short_desc": "Get PNG image info",
-            "desc": "Read PNG image dimensions and format information",
+            "desc": "Read PNG image `width`, `height`, `format`, and surface `type` without "
+                "modifying the file.",
             "action_code": DPAT_API,
             "options": DataProviderActionCatalog::getActionOptionFromFields(
                 CairoImageGetInfoRequestDataType::Fields
@@ -194,9 +228,11 @@ module CairoDataProvider {
             "app": CairoDataProvider::AppName,
             "path": "/image/draw",
             "action": "image-draw",
+            "groups": "Image",
             "display_name": "Draw on Image",
             "short_desc": "Draw on existing PNG",
-            "desc": "Draw on an existing PNG image using declarative draw commands",
+            "desc": "Draw on an existing PNG image using declarative draw commands. The input "
+                "image is loaded and the draw commands are applied on top of it.",
             "action_code": DPAT_API,
             "options": DataProviderActionCatalog::getActionOptionFromFields(
                 CairoImageDrawRequestDataType::Fields{"commands",}, {
@@ -215,9 +251,11 @@ module CairoDataProvider {
             "app": CairoDataProvider::AppName,
             "path": "/postscript/create",
             "action": "postscript-create",
+            "groups": "PostScript",
             "display_name": "Create PostScript",
             "short_desc": "Create PS or EPS from draw commands",
-            "desc": "Create a PostScript or EPS document from declarative draw commands",
+            "desc": "Create a PostScript or Encapsulated PostScript (EPS) document from "
+                "declarative draw commands. Set `eps` to `True` for EPS output.",
             "action_code": DPAT_API,
             "options": DataProviderActionCatalog::getActionOptionFromFields(
                 CairoPostScriptCreateRequestDataType::Fields{"width", "height", "commands"}, {
@@ -237,9 +275,11 @@ module CairoDataProvider {
                 "app": CairoDataProvider::AppName,
                 "path": "/pdf/create",
                 "action": "pdf-create",
+                "groups": "PDF",
                 "display_name": "Create PDF",
                 "short_desc": "Create PDF from draw commands",
-                "desc": "Create a PDF document from declarative draw commands",
+                "desc": "Create a PDF document from declarative draw commands. Dimensions are "
+                    "in points (72 points = 1 inch).",
                 "action_code": DPAT_API,
                 "options": DataProviderActionCatalog::getActionOptionFromFields(
                     CairoPdfCreateRequestDataType::Fields{"width", "height", "commands"}, {
@@ -259,9 +299,11 @@ module CairoDataProvider {
             "app": CairoDataProvider::AppName,
             "path": "/text/measure",
             "action": "text-measure",
+            "groups": "Text",
             "display_name": "Measure Text",
             "short_desc": "Measure text dimensions",
-            "desc": "Calculate the width, height, and bearing of text with a given font",
+            "desc": "Calculate the `width`, `height`, bearing, and advance of a text string "
+                "for a given font `family`, `size`, `slant`, and `weight`.",
             "action_code": DPAT_API,
             "options": DataProviderActionCatalog::getActionOptionFromFields(
                 CairoTextMeasureRequestDataType::Fields{"text",}, {
@@ -279,9 +321,11 @@ module CairoDataProvider {
             "app": CairoDataProvider::AppName,
             "path": "/text/get-font-metrics",
             "action": "text-get-font-metrics",
+            "groups": "Text",
             "display_name": "Get Font Metrics",
             "short_desc": "Get font ascent, descent, and height",
-            "desc": "Get font metrics (ascent, descent, height, max advance) for a given font",
+            "desc": "Get font metrics (`ascent`, `descent`, `height`, `max_x_advance`, "
+                "`max_y_advance`) for a given font configuration.",
             "action_code": DPAT_API,
             "options": DataProviderActionCatalog::getActionOptionFromFields(
                 CairoFontGetMetricsRequestDataType::Fields
@@ -295,9 +339,11 @@ module CairoDataProvider {
             "app": CairoDataProvider::AppName,
             "path": "/image/resize",
             "action": "image-resize",
+            "groups": "Image",
             "display_name": "Resize Image",
             "short_desc": "Resize a PNG image",
-            "desc": "Resize a PNG image to specified dimensions",
+            "desc": "Resize a PNG image to the specified `target_width` and `target_height` "
+                "in pixels using Cairo surface scaling.",
             "action_code": DPAT_API,
             "options": DataProviderActionCatalog::getActionOptionFromFields(
                 CairoImageResizeRequestDataType::Fields{"target_width", "target_height"}, {
@@ -315,9 +361,11 @@ module CairoDataProvider {
             "app": CairoDataProvider::AppName,
             "path": "/image/crop",
             "action": "image-crop",
+            "groups": "Image",
             "display_name": "Crop Image",
             "short_desc": "Crop a PNG image",
-            "desc": "Crop a region from a PNG image",
+            "desc": "Crop a rectangular region from a PNG image at a given `x`, `y` offset "
+                "with specified `crop_width` and `crop_height`.",
             "action_code": DPAT_API,
             "options": DataProviderActionCatalog::getActionOptionFromFields(
                 CairoImageCropRequestDataType::Fields{"x", "y", "crop_width", "crop_height"}, {
@@ -335,9 +383,12 @@ module CairoDataProvider {
             "app": CairoDataProvider::AppName,
             "path": "/image/composite",
             "action": "image-composite",
+            "groups": "Image",
             "display_name": "Composite Images",
             "short_desc": "Overlay one image on another",
-            "desc": "Composite an overlay image onto a base image with optional alpha and positioning",
+            "desc": "Composite an overlay PNG image onto a base PNG image with optional "
+                "`alpha` blending, positioning (`x`, `y`), and overlay scaling "
+                "(`overlay_width`, `overlay_height`).",
             "action_code": DPAT_API,
             "options": DataProviderActionCatalog::getActionOptionFromFields(
                 CairoImageCompositeRequestDataType::Fields{"base_data", "overlay_data"}, {
@@ -349,6 +400,123 @@ module CairoDataProvider {
             ),
             "output_type": AbstractDataProviderType::get(
                 new Type("hash<CairoImageCompositeResponse>")),
+        });
+
+        # Image format conversion actions
+        DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+            "app": CairoDataProvider::AppName,
+            "path": "/image/to-svg",
+            "action": "image-to-svg",
+            "groups": "Image",
+            "display_name": "Image to SVG",
+            "short_desc": "Convert PNG to SVG",
+            "desc": "Convert a PNG image to SVG format by embedding the raster data "
+                "in an SVG surface.",
+            "action_code": DPAT_API,
+            "options": DataProviderActionCatalog::getActionOptionFromFields(
+                CairoImageToSvgRequestDataType::Fields
+            ),
+            "output_type": AbstractDataProviderType::get(
+                new Type("hash<CairoImageToSvgResponse>")),
+        });
+
+        DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+            "app": CairoDataProvider::AppName,
+            "path": "/image/to-ps",
+            "action": "image-to-ps",
+            "groups": "Image",
+            "display_name": "Image to PostScript",
+            "short_desc": "Convert PNG to PostScript",
+            "desc": "Convert a PNG image to PostScript format. The page dimensions match "
+                "the image pixel dimensions (in points).",
+            "action_code": DPAT_API,
+            "options": DataProviderActionCatalog::getActionOptionFromFields(
+                CairoImageToPsRequestDataType::Fields
+            ),
+            "output_type": AbstractDataProviderType::get(
+                new Type("hash<CairoImageToPsResponse>")),
+        });
+
+        DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+            "app": CairoDataProvider::AppName,
+            "path": "/image/to-eps",
+            "action": "image-to-eps",
+            "groups": "Image",
+            "display_name": "Image to EPS",
+            "short_desc": "Convert PNG to EPS",
+            "desc": "Convert a PNG image to Encapsulated PostScript (EPS) format. The page "
+                "dimensions match the image pixel dimensions (in points).",
+            "action_code": DPAT_API,
+            "options": DataProviderActionCatalog::getActionOptionFromFields(
+                CairoImageToEpsRequestDataType::Fields
+            ),
+            "output_type": AbstractDataProviderType::get(
+                new Type("hash<CairoImageToEpsResponse>")),
+        });
+
+        if (CairoSurface::isPdfAvailable()) {
+            DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+                "app": CairoDataProvider::AppName,
+                "path": "/image/to-pdf",
+                "action": "image-to-pdf",
+                "groups": "Image",
+                "display_name": "Image to PDF",
+                "short_desc": "Convert PNG to PDF",
+                "desc": "Convert a PNG image to a single-page PDF document. The page "
+                    "dimensions match the image pixel dimensions (in points).",
+                "action_code": DPAT_API,
+                "options": DataProviderActionCatalog::getActionOptionFromFields(
+                    CairoImageToPdfRequestDataType::Fields
+                ),
+                "output_type": AbstractDataProviderType::get(
+                    new Type("hash<CairoImageToPdfResponse>")),
+            });
+        }
+
+        # Image rotation
+        DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+            "app": CairoDataProvider::AppName,
+            "path": "/image/rotate",
+            "action": "image-rotate",
+            "groups": "Image",
+            "display_name": "Rotate Image",
+            "short_desc": "Rotate a PNG image",
+            "desc": "Rotate a PNG image by a specified `angle` in degrees. The output canvas "
+                "is automatically sized to contain the full rotated image.",
+            "action_code": DPAT_API,
+            "options": DataProviderActionCatalog::getActionOptionFromFields(
+                CairoImageRotateRequestDataType::Fields{"angle",}, {
+                    "preselected": True,
+                    "required": True,
+                }
+            ) + DataProviderActionCatalog::getActionOptionFromFields(
+                CairoImageRotateRequestDataType::Fields - "angle"
+            ),
+            "output_type": AbstractDataProviderType::get(
+                new Type("hash<CairoImageRotateResponse>")),
+        });
+
+        # Text render action
+        DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+            "app": CairoDataProvider::AppName,
+            "path": "/text/render",
+            "action": "text-render",
+            "groups": "Text",
+            "display_name": "Render Text",
+            "short_desc": "Render text to PNG image",
+            "desc": "Render text to a PNG image with specified font, color, and optional "
+                "background. The image is automatically sized to fit the text.",
+            "action_code": DPAT_API,
+            "options": DataProviderActionCatalog::getActionOptionFromFields(
+                CairoTextRenderRequestDataType::Fields{"text",}, {
+                    "preselected": True,
+                    "required": True,
+                }
+            ) + DataProviderActionCatalog::getActionOptionFromFields(
+                CairoTextRenderRequestDataType::Fields - "text"
+            ),
+            "output_type": AbstractDataProviderType::get(
+                new Type("hash<CairoTextRenderResponse>")),
         });
     };
 }
@@ -380,6 +548,15 @@ module CairoDataProvider {
 
     @par Create PostScript
     @verbatim qdp 'cairo{}/postscript/create' width=612,height=792,output_path=doc.ps,commands='({"op":"text","text":"Hello","x":72,"y":720,"family":"Helvetica","size":24})' @endverbatim
+
+    @par Convert PNG to PDF
+    @verbatim qdp 'cairo{}/image/to-pdf' input_path=image.png,output_path=image.pdf @endverbatim
+
+    @par Rotate an image 90 degrees
+    @verbatim qdp 'cairo{}/image/rotate' input_path=photo.png,angle=90,output_path=rotated.png @endverbatim
+
+    @par Render text to PNG
+    @verbatim qdp 'cairo{}/text/render' text="Hello World",size=48,weight=bold,output_path=hello.png @endverbatim
 */
 
 public namespace CairoDataProvider {

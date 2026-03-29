@@ -11,7 +11,7 @@
 
     With optional <a href="https://wiki.gnome.org/Projects/LibRsvg">librsvg</a>
     support, the module can also load and render existing SVG files,
-    converting them to PNG, PostScript, or EPS.
+    converting them to PNG, PostScript, EPS, or PDF.
 
     @section cairofeatures Features
 
@@ -66,14 +66,31 @@
     - @c svg/to-png - Convert SVG to PNG raster image (requires librsvg)
     - @c svg/to-ps - Convert SVG to PostScript (requires librsvg)
     - @c svg/to-eps - Convert SVG to EPS (requires librsvg)
+    - @c svg/to-pdf - Convert SVG to PDF (requires librsvg and PDF support)
 
     <b>Image actions:</b>
     - @c image/create - Create PNG from declarative draw commands
     - @c image/get-info - Get PNG image dimensions and format
     - @c image/draw - Draw on an existing PNG image
+    - @c image/resize - Resize a PNG image
+    - @c image/crop - Crop a region from a PNG image
+    - @c image/composite - Composite an overlay image onto a base image
+    - @c image/rotate - Rotate a PNG image by a specified angle
+    - @c image/to-svg - Convert PNG to SVG
+    - @c image/to-ps - Convert PNG to PostScript
+    - @c image/to-eps - Convert PNG to EPS
+    - @c image/to-pdf - Convert PNG to PDF (requires PDF support)
 
     <b>PostScript actions:</b>
     - @c postscript/create - Create PostScript or EPS from draw commands
+
+    <b>PDF actions:</b> (requires PDF support)
+    - @c pdf/create - Create PDF from declarative draw commands
+
+    <b>Text actions:</b>
+    - @c text/measure - Measure text dimensions and bearing
+    - @c text/get-font-metrics - Get font metrics (ascent, descent, height)
+    - @c text/render - Render text to a PNG image
 
     @subsection cairodp_examples qdp Examples
 
@@ -195,13 +212,20 @@ sudo port install librsvg
 
     @subsection cairo_1_0 cairo Module Version 1.0.0
     - Initial release
-    - SVG, PostScript, and EPS surface output
+    - SVG, PostScript, EPS, and PDF surface output
     - PNG image surface creation and manipulation
     - Drawing context with path, text, and transform operations
     - Pattern support (linear/radial gradients, solid colors, surface patterns)
+    - Masking operations (pattern and surface masks)
     - Recording surfaces for deferred rendering
-    - Optional SVG input via librsvg
-    - CairoDataProvider module with 9 data provider actions for Qorus integration
+    - Optional SVG input via librsvg (get-info, to-png, to-ps, to-eps, to-pdf)
+    - CairoDataProvider module with 23 data provider actions for Qorus integration:
+      - SVG: create, get-info, to-png, to-ps, to-eps, to-pdf
+      - Image: create, get-info, draw, resize, crop, composite, rotate, to-svg,
+        to-ps, to-eps, to-pdf
+      - PostScript: create
+      - PDF: create
+      - Text: measure, get-font-metrics, render
 
     @section cairolicense License
 

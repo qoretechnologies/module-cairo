@@ -33,6 +33,11 @@ public namespace CairoDataProvider {
     - @b resize - Resize a PNG image
     - @b crop - Crop a region from a PNG image
     - @b composite - Composite an overlay image onto a base image
+    - @b rotate - Rotate a PNG image by a specified angle
+    - @b to-svg - Convert PNG to SVG
+    - @b to-ps - Convert PNG to PostScript
+    - @b to-eps - Convert PNG to EPS
+    - @b to-pdf - Convert PNG to PDF (requires PDF support)
 
     @par Data Provider Path
     Access via: @verbatim cairo{}/image/<action> @endverbatim
@@ -48,19 +53,29 @@ public class CairoImageDataProvider inherits AbstractDataProvider {
     }
 
     private {
-        const ChildMap = {
+        #! Base child map (always available)
+        const BaseChildMap = {
             "create": "CairoDataProvider::CairoImageCreateDataProvider",
             "get-info": "CairoDataProvider::CairoImageGetInfoDataProvider",
             "draw": "CairoDataProvider::CairoImageDrawDataProvider",
             "resize": "CairoDataProvider::CairoImageResizeDataProvider",
             "crop": "CairoDataProvider::CairoImageCropDataProvider",
             "composite": "CairoDataProvider::CairoImageCompositeDataProvider",
+            "rotate": "CairoDataProvider::CairoImageRotateDataProvider",
+            "to-svg": "CairoDataProvider::CairoImageToSvgDataProvider",
+            "to-ps": "CairoDataProvider::CairoImageToPsDataProvider",
+            "to-eps": "CairoDataProvider::CairoImageToEpsDataProvider",
         };
         *hash<auto> opts;
+        hash<string, string> childMap;
     }
 
     constructor(*hash<auto> opts) {
         self.opts = opts;
+        childMap = BaseChildMap;
+        if (CairoSurface::isPdfAvailable()) {
+            childMap{"to-pdf"} = "CairoDataProvider::CairoImageToPdfDataProvider";
+        }
     }
 
     string getName() {
@@ -72,7 +87,7 @@ public class CairoImageDataProvider inherits AbstractDataProvider {
     }
 
     private *AbstractDataProvider getChildProviderImpl(string name) {
-        *string cls_name = ChildMap{name};
+        *string cls_name = childMap{name};
         if (!cls_name) {
             return NOTHING;
         }
@@ -81,7 +96,7 @@ public class CairoImageDataProvider inherits AbstractDataProvider {
     }
 
     private *list<string> getChildProviderNamesImpl() {
-        return keys ChildMap;
+        return keys childMap;
     }
 }
 }
