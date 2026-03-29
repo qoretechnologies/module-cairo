@@ -543,7 +543,7 @@ module CairoDataProvider {
 
     @tableofcontents
 
-    @section cairodpintro Cairo DataProvider Introduction
+    @section cairodataproviderintro CairoDataProvider Module Introduction
 
     The CairoDataProvider module exposes Cairo vector graphics operations through
     the Qore DataProvider API.
@@ -552,11 +552,11 @@ module CairoDataProvider {
     - @ref CairoDataProvider::CairoDataProviderFactory "CairoDataProviderFactory" - Factory for creating Cairo data providers
     - @ref CairoDataProvider::CairoDataProvider "CairoDataProvider" - Root data provider
 
-    @section cairodp_factory Factory Name
+    @section cairodataproviderfactory Factory Name
 
     Factory string for DataProvider::getFactoryEx(): "cairo"
 
-    @section cairodp_examples Examples
+    @section cairodataproviderexamples Examples
 
     @par Create SVG
     @verbatim qdp 'cairo{}/svg/create' width=400,height=200,output_path=out.svg,commands='({"op":"set_source_rgb","r":0,"g":0,"b":0},{"op":"rectangle","x":10,"y":10,"width":380,"height":180},{"op":"stroke"})' @endverbatim
