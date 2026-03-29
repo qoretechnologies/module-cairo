@@ -107,6 +107,8 @@ public:
 #endif
     void showPage(ExceptionSink* xsink);
 
+    QoreHashNode* inkExtents(ExceptionSink* xsink);
+
     static bool isPdfAvailable();
 
     cairo_surface_t* getSurface() const { return surface; }

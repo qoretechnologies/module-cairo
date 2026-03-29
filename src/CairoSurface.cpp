@@ -369,6 +369,30 @@ QoreHashNode* QoreCairoSurface::getInfo(ExceptionSink* xsink) {
     return h.release();
 }
 
+QoreHashNode* QoreCairoSurface::inkExtents(ExceptionSink* xsink) {
+    if (!surface) {
+        xsink->raiseException("CAIRO-ERROR", "surface is not initialized");
+        return nullptr;
+    }
+    if (type != CST_RECORDING) {
+        xsink->raiseException("CAIRO-ERROR", "inkExtents is only available for recording surfaces");
+        return nullptr;
+    }
+
+    double x0, y0, w, h;
+    cairo_recording_surface_ink_extents(surface, &x0, &y0, &w, &h);
+
+    ReferenceHolder<QoreHashNode> rv(new QoreHashNode(hashdeclCairoPathExtents, xsink), xsink);
+    if (*xsink) {
+        return nullptr;
+    }
+    rv->setKeyValue("x1", x0, xsink);
+    rv->setKeyValue("y1", y0, xsink);
+    rv->setKeyValue("x2", x0 + w, xsink);
+    rv->setKeyValue("y2", y0 + h, xsink);
+    return rv.release();
+}
+
 void QoreCairoSurface::setEps(bool eps, ExceptionSink* xsink) {
     if (!surface) {
         xsink->raiseException("CAIRO-ERROR", "surface is not initialized");

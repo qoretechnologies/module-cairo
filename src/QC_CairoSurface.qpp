@@ -493,3 +493,15 @@ static bool CairoSurface::isPdfAvailable() {
 nothing CairoSurface::showPage() {
     surface->showPage(xsink);
 }
+
+//! Returns the ink extents of a recording surface
+/** Returns the bounding box of actual drawn content on a recording surface as a
+    @ref CairoPathExtents hash with @c x1, @c y1, @c x2, @c y2.
+
+    @return a @ref CairoPathExtents hash with the ink extents
+
+    @throw CAIRO-ERROR if the surface is not a recording surface
+*/
+hash<CairoPathExtents> CairoSurface::inkExtents() {
+    return surface->inkExtents(xsink);
+}

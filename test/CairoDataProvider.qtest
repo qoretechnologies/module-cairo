@@ -90,6 +90,7 @@ class CairoDataProviderTest inherits QUnit::Test {
         addTestCase("image/to-ps", \testImageToPs());
         addTestCase("image/to-eps", \testImageToEps());
         addTestCase("image/rotate", \testImageRotate());
+        addTestCase("svg/center", \testSvgCenter());
         addTestCase("text/render", \testTextRender());
         addTestCase("new providers hierarchy", \testNewProvidersHierarchy());
         addTestCase("new providers negative", \testNewProvidersNegative());
@@ -2916,6 +2917,67 @@ class CairoDataProviderTest inherits QUnit::Test {
         result = dp.doRequest({"data": png_data, "angle": 90.0, "output_path": tmp});
         assertTrue(result.success);
         assertTrue(is_file(tmp));
+    }
+
+    private testSvgCenter() {
+        auto dp = root.getChildProvider("svg").getChildProvider("center");
+        assertTrue(dp.getInfo().supports_request);
+
+        # Create an SVG with content in the top-left corner of a large canvas
+        auto create_dp = root.getChildProvider("svg").getChildProvider("create");
+        hash<auto> svg_result = create_dp.doRequest({
+            "width": 200.0,
+            "height": 200.0,
+            "commands": (
+                {"op": "set_source_rgb", "r": 1.0, "g": 0.0, "b": 0.0},
+                {"op": "rectangle", "x": 10.0, "y": 10.0, "width": 40.0, "height": 80.0},
+                {"op": "fill"},
+            ),
+            "return_data": True,
+        });
+        assertTrue(svg_result.success);
+        assertTrue(exists svg_result.data);
+
+        # Center it - content is 40x80 at (10,10), so canvas should be 80x80
+        hash<auto> result = dp.doRequest({
+            "data": svg_result.data,
+            "return_data": True,
+        });
+        assertTrue(result.success);
+        assertEq(200.0, result.original_width, "original width");
+        assertEq(200.0, result.original_height, "original height");
+        assertEq(80.0, result.canvas_size, "square canvas = max(ink_w, ink_h)");
+        assertTrue(exists result.data);
+        assertTrue(result.size > 0);
+
+        # Verify the centered SVG is actually 80x80
+        auto info_dp = root.getChildProvider("svg").getChildProvider("get-info");
+        hash<auto> info = info_dp.doRequest({"data": result.data});
+        assertEq(80.0, info.width, "centered SVG width");
+        assertEq(80.0, info.height, "centered SVG height");
+
+        # Already-square content should still center on content bounds
+        hash<auto> sq_svg = create_dp.doRequest({
+            "width": 100.0,
+            "height": 100.0,
+            "commands": (
+                {"op": "set_source_rgb", "r": 0.0, "g": 1.0, "b": 0.0},
+                {"op": "rectangle", "x": 0.0, "y": 0.0, "width": 50.0, "height": 50.0},
+                {"op": "fill"},
+            ),
+            "return_data": True,
+        });
+        hash<auto> sq_result = dp.doRequest({
+            "data": sq_svg.data,
+            "return_data": True,
+        });
+        assertTrue(sq_result.success);
+        assertEq(50.0, sq_result.canvas_size, "square content -> 50x50 canvas");
+
+        # Negative test: no input provided
+        assertThrows("REQUIRED-FIELD-GROUP-ERROR", sub () {
+            dp.doRequest({});
+        });
     }
 
     private testTextRender() {

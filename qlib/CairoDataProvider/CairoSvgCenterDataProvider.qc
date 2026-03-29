@@ -76,7 +76,7 @@ public class CairoSvgCenterDataProvider inherits CairoActionBase {
         # Load SVG data
         binary svg_data = CairoActionBase::loadBinaryData(request);
 
-        # Parse with librsvg to get dimensions
+        # Parse with librsvg
         CairoSvgReader reader(svg_data);
         float svg_w = reader.getWidth();
         float svg_h = reader.getHeight();
@@ -86,12 +86,25 @@ public class CairoSvgCenterDataProvider inherits CairoActionBase {
                 svg_w, svg_h);
         }
 
-        # Compute square canvas size
-        float side = svg_w > svg_h ? svg_w : svg_h;
+        # Render to an unbounded recording surface to find actual ink extents
+        CairoSurface rec = CairoSurface::createRecording();
+        CairoContext rec_ctx(rec);
+        reader.renderTo(rec_ctx);
+        hash<CairoPathExtents> ink = rec.inkExtents();
 
-        # Compute centering offsets
-        float dx = (side - svg_w) / 2.0;
-        float dy = (side - svg_h) / 2.0;
+        float ink_w = ink.x2 - ink.x1;
+        float ink_h = ink.y2 - ink.y1;
+
+        if (ink_w <= 0.0 || ink_h <= 0.0) {
+            throw "CAIRO-ERROR", "SVG has no visible content to center";
+        }
+
+        # Compute square canvas from actual content size
+        float side = ink_w > ink_h ? ink_w : ink_h;
+
+        # Compute translation to center the ink content in the square canvas
+        float dx = (side - ink_w) / 2.0 - ink.x1;
+        float dy = (side - ink_h) / 2.0 - ink.y1;
 
         # Create new SVG surface, translate to center, and render
         CairoSurface surface = CairoSurface::createSvgToData(side, side);

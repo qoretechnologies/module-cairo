@@ -66,6 +66,7 @@ public class CairoTest inherits QUnit::Test {
         addTestCase("Current point tests", \currentPointTest());
         addTestCase("Path extents tests", \pathExtentsTest());
         addTestCase("Negative tests", \negativeTest());
+        addTestCase("Ink extents tests", \inkExtentsTest());
         addTestCase("Corner case tests", \cornerCaseTest());
 
         set_return_value(main());
@@ -997,6 +998,30 @@ public class CairoTest inherits QUnit::Test {
             }
             assertTrue(thrown, "nonexistent SVG file throws exception");
         }
+    }
+
+    private inkExtentsTest() {
+        # Draw a rectangle at a known position on an unbounded recording surface
+        CairoSurface rec = CairoSurface::createRecording();
+        CairoContext ctx(rec);
+        ctx.rectangle(50.0, 30.0, 100.0, 60.0);
+        ctx.fill();
+
+        hash<CairoPathExtents> ink = rec.inkExtents();
+        assertEq(50.0, ink.x1, "ink extents x1");
+        assertEq(30.0, ink.y1, "ink extents y1");
+        assertEq(150.0, ink.x2, "ink extents x2");
+        assertEq(90.0, ink.y2, "ink extents y2");
+
+        # Empty recording surface should have zero-area ink extents
+        CairoSurface empty = CairoSurface::createRecording();
+        hash<CairoPathExtents> empty_ink = empty.inkExtents();
+        assertEq(0.0, empty_ink.x2 - empty_ink.x1, "empty recording ink width");
+        assertEq(0.0, empty_ink.y2 - empty_ink.y1, "empty recording ink height");
+
+        # inkExtents on non-recording surface should throw
+        CairoSurface img = CairoSurface::createImage(100, 100);
+        assertThrows("CAIRO-ERROR", \img.inkExtents(),);
     }
 
     private cornerCaseTest() {
