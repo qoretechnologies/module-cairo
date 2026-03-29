@@ -81,6 +81,24 @@ module CairoDataProvider {
         if (CairoSvgReader::isAvailable()) {
             DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
                 "app": CairoDataProvider::AppName,
+                "path": "/svg/center",
+                "action": "svg-center",
+                "groups": "SVG",
+                "display_name": "Center SVG",
+                "short_desc": "Center SVG content on a square canvas",
+                "desc": "Reads an SVG, makes the canvas square (using the larger of width/height), "
+                    "and centers the content on both axes. By default the output overwrites the "
+                    "input file. Requires librsvg.",
+                "action_code": DPAT_API,
+                "options": DataProviderActionCatalog::getActionOptionFromFields(
+                    CairoSvgCenterRequestDataType::Fields
+                ),
+                "output_type": AbstractDataProviderType::get(
+                    new Type("hash<CairoSvgCenterResponse>")),
+            });
+
+            DataProviderActionCatalog::registerAction(<DataProviderActionInfo>{
+                "app": CairoDataProvider::AppName,
                 "path": "/svg/get-info",
                 "action": "svg-get-info",
                 "groups": "SVG",

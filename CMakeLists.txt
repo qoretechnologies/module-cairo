@@ -147,6 +147,11 @@ qore_dist(${PROJECT_VERSION})
 qore_user_modules("${QMOD}")
 qore_external_user_module("qlib/CairoDataProvider" "")
 
+# Install CLI script
+include(GNUInstallDirs)
+install(PROGRAMS bin/qsvg
+        DESTINATION ${CMAKE_INSTALL_BINDIR})
+
 # install qpp metadata files
 if (COMMAND qore_install_qpp_metadata)
     qore_install_qpp_metadata(${module_name} ${QPP_META_SRC})

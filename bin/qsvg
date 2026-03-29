@@ -1,0 +1,1491 @@
+#!/usr/bin/env qore
+# -*- mode: qore; indent-tabs-mode: nil -*-
+
+# @file qsvg CLI tool for Cairo vector graphics operations
+
+/*  Copyright 2026 Qore Technologies, s.r.o.
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+*/
+
+%modern
+
+%requires cairo
+%requires CairoDataProvider
+%requires DataProvider
+%requires Util
+
+%try-module yaml
+%define NoYaml
+%endtry
+
+%try-module json
+%define NoJson
+%endtry
+
+%exec-class QSvgMain
+
+const VERSION = "1.0";
+
+class QSvgMain {
+    private {
+        hash<auto> opts;
+        *string category;
+        *string action;
+        Util::TerminalColor color;
+    }
+
+    public {
+        const Opts = {
+            # General
+            "nocolor":        "C,no-color",
+            "verbose":        "v,verbose:i+",
+            "output":         "o,output=s",
+            "overwrite":      "overwrite",
+            "help":           "h,help",
+            "version":        "V,version",
+
+            # Dimensions
+            "width":          "W,width=f",
+            "height":         "H,height=f",
+
+            # Draw commands
+            "commands_file":  "commands-file=s",
+            "commands":       "commands=s",
+
+            # Image-specific
+            "format":         "format=s",
+            "angle":          "angle=f",
+            "x":              "x=f",
+            "y":              "y=f",
+            "crop_width":     "crop-width=i",
+            "crop_height":    "crop-height=i",
+            "target_width":   "target-width=i",
+            "target_height":  "target-height=i",
+
+            # Composite
+            "base":           "base=s",
+            "overlay":        "overlay=s",
+            "alpha":          "alpha=f",
+            "overlay_width":  "overlay-width=i",
+            "overlay_height": "overlay-height=i",
+
+            # Text
+            "family":         "family=s",
+            "size":           "size=f",
+            "slant":          "slant=s",
+            "weight":         "weight=s",
+            "color_opt":      "color=s",
+            "bg_color":       "bg-color=s",
+            "padding":        "padding=i",
+
+            # PostScript
+            "eps":            "eps",
+        };
+    }
+
+    constructor() {
+        GetOpt getopt(Opts);
+        opts = getopt.parse3(\ARGV);
+
+        color = new Util::TerminalColor(!opts.nocolor);
+
+        if (opts.version) {
+            printf("qsvg v%s\n", VERSION);
+            exit(0);
+        }
+
+        if (opts.help && !ARGV) {
+            doHelp(0);
+        }
+
+        if (!ARGV) {
+            doHelp();
+        }
+
+        category = shift ARGV;
+
+        if (category == "info") {
+            doModuleInfo();
+            return;
+        }
+
+        if (opts.help && !ARGV) {
+            doCategoryHelp(category);
+        }
+
+        if (!ARGV) {
+            doCategoryHelp(category);
+        }
+
+        action = shift ARGV;
+
+        if (opts.help) {
+            doCommandHelp(category, action);
+        }
+
+        dispatch();
+    }
+
+    private dispatch() {
+        switch (category) {
+            case "svg":
+                dispatchSvg();
+                break;
+            case "image":
+            case "img":
+                dispatchImage();
+                break;
+            case "ps":
+            case "postscript":
+                dispatchPs();
+                break;
+            case "pdf":
+                dispatchPdf();
+                break;
+            case "text":
+                dispatchText();
+                break;
+            default:
+                die("unknown category %y; valid categories: svg, image, ps, pdf, text, info", category);
+        }
+    }
+
+    private dispatchSvg() {
+        switch (action) {
+            case "create":
+                doSvgCreate();
+                break;
+            case "center":
+                doSvgCenter();
+                break;
+            case "info":
+                doSvgInfo();
+                break;
+            case "to-png":
+                doSvgToPng();
+                break;
+            case "to-ps":
+                doSvgToPs();
+                break;
+            case "to-eps":
+                doSvgToEps();
+                break;
+            case "to-pdf":
+                doSvgToPdf();
+                break;
+            default:
+                die("unknown svg action %y; valid actions: create, center, info, to-png, "
+                    "to-ps, to-eps, to-pdf", action);
+        }
+    }
+
+    private dispatchImage() {
+        switch (action) {
+            case "create":
+                doImageCreate();
+                break;
+            case "info":
+                doImageInfo();
+                break;
+            case "draw":
+                doImageDraw();
+                break;
+            case "resize":
+                doImageResize();
+                break;
+            case "crop":
+                doImageCrop();
+                break;
+            case "composite":
+                doImageComposite();
+                break;
+            case "rotate":
+                doImageRotate();
+                break;
+            case "to-svg":
+                doImageToSvg();
+                break;
+            case "to-ps":
+                doImageToPs();
+                break;
+            case "to-eps":
+                doImageToEps();
+                break;
+            case "to-pdf":
+                doImageToPdf();
+                break;
+            default:
+                die("unknown image action %y; valid actions: create, info, draw, resize, crop, "
+                    "composite, rotate, to-svg, to-ps, to-eps, to-pdf", action);
+        }
+    }
+
+    private dispatchPs() {
+        switch (action) {
+            case "create":
+                doPsCreate();
+                break;
+            default:
+                die("unknown ps action %y; valid actions: create", action);
+        }
+    }
+
+    private dispatchPdf() {
+        switch (action) {
+            case "create":
+                doPdfCreate();
+                break;
+            default:
+                die("unknown pdf action %y; valid actions: create", action);
+        }
+    }
+
+    private dispatchText() {
+        switch (action) {
+            case "measure":
+                doTextMeasure();
+                break;
+            case "metrics":
+                doTextMetrics();
+                break;
+            case "render":
+                doTextRender();
+                break;
+            default:
+                die("unknown text action %y; valid actions: measure, metrics, render", action);
+        }
+    }
+
+    # ---- SVG commands ----
+
+    private doSvgCreate() {
+        if (!opts.output) {
+            die("svg create requires -o <output-file>");
+        }
+        requireDimensions("svg create");
+        list<hash<auto>> commands = loadCommands();
+
+        hash<auto> request = {
+            "width": opts.width,
+            "height": opts.height,
+            "commands": commands,
+            "output_path": opts.output,
+        };
+
+        hash<auto> response = invokeProvider("svg", "create", request);
+        outputSuccess("Created SVG", response);
+    }
+
+    private doSvgCenter() {
+        requireSvgReader("svg center");
+        string input_path = getInputFile();
+
+        hash<auto> request = {
+            "input_path": input_path,
+            "overwrite": True,
+        };
+        # If -o is given, write there instead of overwriting
+        if (opts.output) {
+            delete request.overwrite;
+            request.output_path = opts.output;
+        }
+
+        hash<auto> response = invokeProvider("svg", "center", request);
+
+        string target = response.output_path ?? input_path;
+        printf("%s %s (%s bytes)\n", color.success("Centered"), color.key(target),
+            color.number(sprintf("%d", response.size)));
+        printf("  %s %s -> %s pt\n",
+            color.key(sprintf("%-10s", "Width:")),
+            color.number(sprintf("%.1f", response.original_width)),
+            color.number(sprintf("%.1f", response.canvas_size)));
+        printf("  %s %s -> %s pt\n",
+            color.key(sprintf("%-10s", "Height:")),
+            color.number(sprintf("%.1f", response.original_height)),
+            color.number(sprintf("%.1f", response.canvas_size)));
+        if (response.warnings) {
+            foreach string w in (response.warnings) {
+                printf("%s %s\n", color.warning("WARNING:"), w);
+            }
+        }
+        if ((opts.verbose ?? 0) > 0) {
+            printf("\n%s\n", color.bold("Full response:"));
+            printf("%s\n", color.formatValue(response, "  "));
+        }
+    }
+
+    private doSvgInfo() {
+        requireSvgReader("svg info");
+        string input_path = getInputFile();
+
+        hash<auto> response = invokeProvider("svg", "get-info", {
+            "input_path": input_path,
+        });
+
+        printf("%s %s\n", color.bold("File:"), color.key(input_path));
+        printf("  %s  %s pt\n", color.key(sprintf("%-8s", "Width:")),
+            color.number(sprintf("%.1f", response.width)));
+        printf("  %s  %s pt\n", color.key(sprintf("%-8s", "Height:")),
+            color.number(sprintf("%.1f", response.height)));
+        if (response.metadata) {
+            printf("  %s\n", color.key("Metadata:"));
+            foreach hash<auto> pair in (response.metadata.pairIterator()) {
+                printf("    %s: %s\n", color.dim(pair.key), color.value(sprintf("%y", pair.value)));
+            }
+        }
+        if ((opts.verbose ?? 0) > 0) {
+            printf("\n%s\n", color.bold("Full response:"));
+            printf("%s\n", color.formatValue(response, "  "));
+        }
+    }
+
+    private doSvgToPng() {
+        requireSvgReader("svg to-png");
+        string input_path = getInputFile();
+        string output_path = getOutputPath(input_path, "png");
+
+        hash<auto> request = {
+            "input_path": input_path,
+            "output_path": output_path,
+            "width": exists opts.width ? int(opts.width) : NOTHING,
+            "height": exists opts.height ? int(opts.height) : NOTHING,
+        };
+
+        hash<auto> response = invokeProvider("svg", "to-png", request);
+        outputSuccess("Converted to PNG", response);
+    }
+
+    private doSvgToPs() {
+        requireSvgReader("svg to-ps");
+        string input_path = getInputFile();
+        string output_path = getOutputPath(input_path, "ps");
+
+        hash<auto> request = {
+            "input_path": input_path,
+            "output_path": output_path,
+            "width": opts.width,
+            "height": opts.height,
+        };
+
+        hash<auto> response = invokeProvider("svg", "to-ps", request);
+        outputSuccess("Converted to PostScript", response);
+    }
+
+    private doSvgToEps() {
+        requireSvgReader("svg to-eps");
+        string input_path = getInputFile();
+        string output_path = getOutputPath(input_path, "eps");
+
+        hash<auto> request = {
+            "input_path": input_path,
+            "output_path": output_path,
+            "width": opts.width,
+            "height": opts.height,
+        };
+
+        hash<auto> response = invokeProvider("svg", "to-eps", request);
+        outputSuccess("Converted to EPS", response);
+    }
+
+    private doSvgToPdf() {
+        requireSvgReader("svg to-pdf");
+        requirePdfSupport("svg to-pdf");
+        string input_path = getInputFile();
+        string output_path = getOutputPath(input_path, "pdf");
+
+        hash<auto> request = {
+            "input_path": input_path,
+            "output_path": output_path,
+            "width": opts.width,
+            "height": opts.height,
+        };
+
+        hash<auto> response = invokeProvider("svg", "to-pdf", request);
+        outputSuccess("Converted to PDF", response);
+    }
+
+    # ---- Image commands ----
+
+    private doImageCreate() {
+        if (!opts.output) {
+            die("image create requires -o <output-file>");
+        }
+        requireDimensions("image create");
+        list<hash<auto>> commands = loadCommands();
+
+        hash<auto> request = {
+            "width": int(opts.width),
+            "height": int(opts.height),
+            "commands": commands,
+            "output_path": opts.output,
+        };
+        if (exists opts.format) {
+            request.format = opts.format;
+        }
+
+        hash<auto> response = invokeProvider("image", "create", request);
+        outputSuccess("Created image", response);
+    }
+
+    private doImageInfo() {
+        string input_path = getInputFile();
+
+        hash<auto> response = invokeProvider("image", "get-info", {
+            "input_path": input_path,
+        });
+
+        printf("%s %s\n", color.bold("File:"), color.key(input_path));
+        printf("  %s  %s px\n", color.key(sprintf("%-8s", "Width:")),
+            color.number(sprintf("%d", response.width)));
+        printf("  %s  %s px\n", color.key(sprintf("%-8s", "Height:")),
+            color.number(sprintf("%d", response.height)));
+        printf("  %s  %s\n", color.key(sprintf("%-8s", "Type:")),
+            color.type(response.type));
+        if (response.format) {
+            printf("  %s  %s\n", color.key(sprintf("%-8s", "Format:")),
+                color.type(response.format));
+        }
+        if ((opts.verbose ?? 0) > 0) {
+            printf("\n%s\n", color.bold("Full response:"));
+            printf("%s\n", color.formatValue(response, "  "));
+        }
+    }
+
+    private doImageDraw() {
+        string input_path = getInputFile();
+        list<hash<auto>> commands = loadCommands();
+
+        hash<auto> request = {
+            "input_path": input_path,
+            "commands": commands,
+        };
+        if (opts.overwrite) {
+            request.overwrite = True;
+        } else {
+            request.output_path = getOutputPath(input_path, "png");
+        }
+
+        hash<auto> response = invokeProvider("image", "draw", request);
+        outputSuccess("Drew on image", response);
+    }
+
+    private doImageResize() {
+        string input_path = getInputFile();
+
+        if (!exists opts.target_width || !exists opts.target_height) {
+            die("image resize requires --target-width and --target-height");
+        }
+
+        hash<auto> request = {
+            "input_path": input_path,
+            "target_width": opts.target_width,
+            "target_height": opts.target_height,
+        };
+        if (opts.overwrite) {
+            request.overwrite = True;
+        } else {
+            request.output_path = getOutputPath(input_path, "png");
+        }
+
+        hash<auto> response = invokeProvider("image", "resize", request);
+        outputSuccess("Resized image", response);
+    }
+
+    private doImageCrop() {
+        string input_path = getInputFile();
+
+        if (!exists opts.x || !exists opts.y || !exists opts.crop_width
+                || !exists opts.crop_height) {
+            die("image crop requires -x, -y, --crop-width, and --crop-height");
+        }
+
+        hash<auto> request = {
+            "input_path": input_path,
+            "x": int(opts.x),
+            "y": int(opts.y),
+            "crop_width": opts.crop_width,
+            "crop_height": opts.crop_height,
+        };
+        if (opts.overwrite) {
+            request.overwrite = True;
+        } else {
+            request.output_path = getOutputPath(input_path, "png");
+        }
+
+        hash<auto> response = invokeProvider("image", "crop", request);
+        outputSuccess("Cropped image", response);
+    }
+
+    private doImageComposite() {
+        if (!opts.base) {
+            die("image composite requires --base <base-image>");
+        }
+        if (!opts.overlay) {
+            die("image composite requires --overlay <overlay-image>");
+        }
+        if (!opts.output) {
+            die("image composite requires -o <output-file>");
+        }
+
+        hash<auto> request = {
+            "base_input_path": opts.base,
+            "overlay_input_path": opts.overlay,
+            "output_path": opts.output,
+            "return_data": False,
+            "x": opts.x,
+            "y": opts.y,
+            "alpha": opts.alpha,
+            "overlay_width": opts.overlay_width,
+            "overlay_height": opts.overlay_height,
+        };
+
+        hash<auto> response = invokeProvider("image", "composite", request);
+        outputSuccess("Composited image", response);
+    }
+
+    private doImageRotate() {
+        string input_path = getInputFile();
+
+        if (!exists opts.angle) {
+            die("image rotate requires --angle <degrees>");
+        }
+
+        hash<auto> request = {
+            "input_path": input_path,
+            "angle": opts.angle,
+        };
+        if (opts.overwrite) {
+            request.overwrite = True;
+        } else {
+            request.output_path = getOutputPath(input_path, "png");
+        }
+
+        hash<auto> response = invokeProvider("image", "rotate", request);
+        outputSuccess("Rotated image", response);
+    }
+
+    private doImageToSvg() {
+        string input_path = getInputFile();
+        string output_path = getOutputPath(input_path, "svg");
+
+        hash<auto> request = {
+            "input_path": input_path,
+            "output_path": output_path,
+        };
+
+        hash<auto> response = invokeProvider("image", "to-svg", request);
+        outputSuccess("Converted to SVG", response);
+    }
+
+    private doImageToPs() {
+        string input_path = getInputFile();
+        string output_path = getOutputPath(input_path, "ps");
+
+        hash<auto> response = invokeProvider("image", "to-ps", {
+            "input_path": input_path,
+            "output_path": output_path,
+        });
+        outputSuccess("Converted to PostScript", response);
+    }
+
+    private doImageToEps() {
+        string input_path = getInputFile();
+        string output_path = getOutputPath(input_path, "eps");
+
+        hash<auto> response = invokeProvider("image", "to-eps", {
+            "input_path": input_path,
+            "output_path": output_path,
+        });
+        outputSuccess("Converted to EPS", response);
+    }
+
+    private doImageToPdf() {
+        requirePdfSupport("image to-pdf");
+        string input_path = getInputFile();
+        string output_path = getOutputPath(input_path, "pdf");
+
+        hash<auto> response = invokeProvider("image", "to-pdf", {
+            "input_path": input_path,
+            "output_path": output_path,
+        });
+        outputSuccess("Converted to PDF", response);
+    }
+
+    # ---- PostScript commands ----
+
+    private doPsCreate() {
+        if (!opts.output) {
+            die("ps create requires -o <output-file>");
+        }
+        requireDimensions("ps create");
+        list<hash<auto>> commands = loadCommands();
+
+        hash<auto> request = {
+            "width": opts.width,
+            "height": opts.height,
+            "commands": commands,
+            "output_path": opts.output,
+        };
+        if (opts.eps) {
+            request.eps = True;
+        }
+
+        hash<auto> response = invokeProvider("postscript", "create", request);
+        outputSuccess(opts.eps ? "Created EPS" : "Created PostScript", response);
+    }
+
+    # ---- PDF commands ----
+
+    private doPdfCreate() {
+        requirePdfSupport("pdf create");
+        if (!opts.output) {
+            die("pdf create requires -o <output-file>");
+        }
+        requireDimensions("pdf create");
+        list<hash<auto>> commands = loadCommands();
+
+        hash<auto> request = {
+            "width": opts.width,
+            "height": opts.height,
+            "commands": commands,
+            "output_path": opts.output,
+        };
+
+        hash<auto> response = invokeProvider("pdf", "create", request);
+        outputSuccess("Created PDF", response);
+    }
+
+    # ---- Text commands ----
+
+    private doTextMeasure() {
+        string text = getTextArg();
+
+        hash<auto> request = {
+            "text": text,
+            "family": opts.family,
+            "size": opts.size,
+            "slant": opts.slant,
+            "weight": opts.weight,
+        };
+
+        hash<auto> response = invokeProvider("text", "measure", request);
+
+        printf("%s %s\n", color.bold("Text:"), color.str(sprintf("%y", text)));
+        printFontInfo(request);
+        printf("  %s  %s\n", color.key(sprintf("%-12s", "Width:")),
+            color.number(sprintf("%.2f", response.width)));
+        printf("  %s  %s\n", color.key(sprintf("%-12s", "Height:")),
+            color.number(sprintf("%.2f", response.height)));
+        printf("  %s  %s\n", color.key(sprintf("%-12s", "X bearing:")),
+            color.number(sprintf("%.2f", response.x_bearing)));
+        printf("  %s  %s\n", color.key(sprintf("%-12s", "Y bearing:")),
+            color.number(sprintf("%.2f", response.y_bearing)));
+        printf("  %s  %s\n", color.key(sprintf("%-12s", "X advance:")),
+            color.number(sprintf("%.2f", response.x_advance)));
+        printf("  %s  %s\n", color.key(sprintf("%-12s", "Y advance:")),
+            color.number(sprintf("%.2f", response.y_advance)));
+        if ((opts.verbose ?? 0) > 0) {
+            printf("\n%s\n", color.bold("Full response:"));
+            printf("%s\n", color.formatValue(response, "  "));
+        }
+    }
+
+    private doTextMetrics() {
+        hash<auto> request = {
+            "family": opts.family,
+            "size": opts.size,
+            "slant": opts.slant,
+            "weight": opts.weight,
+        };
+
+        hash<auto> response = invokeProvider("text", "get-font-metrics", request);
+
+        printf("%s\n", color.bold("Font Metrics:"));
+        printFontInfo(request);
+        printf("  %s  %s\n", color.key(sprintf("%-16s", "Ascent:")),
+            color.number(sprintf("%.2f", response.ascent)));
+        printf("  %s  %s\n", color.key(sprintf("%-16s", "Descent:")),
+            color.number(sprintf("%.2f", response.descent)));
+        printf("  %s  %s\n", color.key(sprintf("%-16s", "Height:")),
+            color.number(sprintf("%.2f", response.height)));
+        printf("  %s  %s\n", color.key(sprintf("%-16s", "Max X advance:")),
+            color.number(sprintf("%.2f", response.max_x_advance)));
+        printf("  %s  %s\n", color.key(sprintf("%-16s", "Max Y advance:")),
+            color.number(sprintf("%.2f", response.max_y_advance)));
+        if ((opts.verbose ?? 0) > 0) {
+            printf("\n%s\n", color.bold("Full response:"));
+            printf("%s\n", color.formatValue(response, "  "));
+        }
+    }
+
+    private doTextRender() {
+        string text = getTextArg();
+        if (!opts.output) {
+            die("text render requires -o <output-file>");
+        }
+
+        hash<auto> request = {
+            "text": text,
+            "output_path": opts.output,
+            "family": opts.family,
+            "size": opts.size,
+            "slant": opts.slant,
+            "weight": opts.weight,
+        };
+
+        if (exists opts.color_opt) {
+            hash<auto> rgba = parseColor(opts.color_opt);
+            request += rgba;
+        }
+        if (exists opts.bg_color) {
+            hash<auto> bg = parseColor(opts.bg_color);
+            request.bg_r = bg.r;
+            request.bg_g = bg.g;
+            request.bg_b = bg.b;
+            if (exists bg.a) {
+                request.bg_a = bg.a;
+            }
+        }
+        if (exists opts.padding) {
+            request.padding = opts.padding;
+        }
+
+        hash<auto> response = invokeProvider("text", "render", request);
+        outputSuccess("Rendered text", response);
+    }
+
+    # ---- Module info ----
+
+    private doModuleInfo() {
+        printf("%s v%s\n\n", color.bold("qsvg"), VERSION);
+
+        printf("%s\n", color.bold("Cairo Module Capabilities:"));
+        bool svg_reader = CairoSvgReader::isAvailable();
+        bool pdf_support = CairoSurface::isPdfAvailable();
+        printf("  %s  %s\n", color.key(sprintf("%-14s", "librsvg:")),
+            svg_reader ? color.success("available")
+                : color.error("not available") + color.dim(" (SVG input/conversion disabled)"));
+        printf("  %s  %s\n", color.key(sprintf("%-14s", "PDF support:")),
+            pdf_support ? color.success("available")
+                : color.error("not available") + color.dim(" (PDF creation disabled)"));
+
+        printf("\n%s\n", color.bold("Available Commands:"));
+        printf("  %s  create, center%s, info%s, to-png%s, to-ps%s, to-eps%s, to-pdf%s\n",
+            color.key(sprintf("%-10s", "svg")),
+            svg_reader ? "" : color.dim("*"),
+            svg_reader ? "" : color.dim("*"),
+            svg_reader ? "" : color.dim("*"),
+            svg_reader ? "" : color.dim("*"),
+            svg_reader ? "" : color.dim("*"),
+            svg_reader && pdf_support ? "" : color.dim("*"));
+        printf("  %s  create, info, draw, resize, crop, composite, rotate,\n",
+            color.key(sprintf("%-10s", "image")));
+        printf("  %s  to-svg, to-ps, to-eps, to-pdf%s\n",
+            sprintf("%-10s", ""),
+            pdf_support ? "" : color.dim("*"));
+        printf("  %s  create\n", color.key(sprintf("%-10s", "ps")));
+        if (pdf_support) {
+            printf("  %s  create\n", color.key(sprintf("%-10s", "pdf")));
+        } else {
+            printf("  %s  create%s\n", color.key(sprintf("%-10s", "pdf")), color.dim("*"));
+        }
+        printf("  %s  measure, metrics, render\n", color.key(sprintf("%-10s", "text")));
+
+        if (!svg_reader || !pdf_support) {
+            printf("\n  %s requires a feature not available in this build\n", color.dim("*"));
+        }
+    }
+
+    # ---- Help system ----
+
+    private doHelp(int exit_code = 1) {
+        printf("%s v%s - Cairo vector graphics CLI\n\n", color.bold("qsvg"), VERSION);
+
+        printf("%s\n", color.bold("Usage:"));
+        printf("  qsvg <category> <action> [input-file] [options]\n");
+
+        printf("\n%s\n", color.bold("Categories:"));
+        printf("  %s  SVG creation and conversion\n", color.key(sprintf("%-10s", "svg")));
+        printf("  %s  PNG image creation and manipulation\n",
+            color.key(sprintf("%-10s", "image")));
+        printf("  %s  PostScript/EPS creation\n", color.key(sprintf("%-10s", "ps")));
+        printf("  %s  PDF document creation\n", color.key(sprintf("%-10s", "pdf")));
+        printf("  %s  Text measurement and rendering\n", color.key(sprintf("%-10s", "text")));
+
+        printf("\n%s\n", color.bold("Global Commands:"));
+        printf("  %s  Show Cairo module capabilities\n", color.key(sprintf("%-10s", "info")));
+
+        printf("\n%s\n", color.bold("Common Options:"));
+        printf("  %s                Output file path\n", color.key("-o, --output <file>"));
+        printf("  %s                     Overwrite input file\n", color.key("    --overwrite"));
+        printf("  %s               Width (pixels or points)\n", color.key("-W, --width <value>"));
+        printf("  %s              Height (pixels or points)\n", color.key("-H, --height <value>"));
+        printf("  %s    Read draw commands from YAML/JSON file\n", color.key("    --commands-file <f>"));
+        printf("  %s                    Disable color output\n", color.key("-C, --no-color"));
+        printf("  %s                     Increase verbosity\n", color.key("-v, --verbose"));
+        printf("  %s                        Show this help\n", color.key("-h, --help"));
+        printf("  %s                     Show version\n", color.key("-V, --version"));
+
+        printf("\n%s\n", color.bold("Examples:"));
+        printf("  %s\n", color.dim("# Convert SVG to PNG:"));
+        printf("  qsvg svg to-png logo.svg -o logo.png\n");
+        printf("  %s\n", color.dim("# Resize an image:"));
+        printf("  qsvg image resize photo.png --target-width 400 --target-height 300 -o thumb.png\n");
+        printf("  %s\n", color.dim("# Measure text:"));
+        printf("  qsvg text measure \"Hello World\" --family Helvetica --size 24\n");
+        printf("  %s\n", color.dim("# Create SVG from draw commands:"));
+        printf("  qsvg svg create -W 200 -H 200 --commands-file drawing.json -o out.svg\n");
+
+        printf("\nRun %s for category-specific help.\n",
+            color.key("qsvg <category> --help"));
+        exit(exit_code);
+    }
+
+    private doCategoryHelp(string cat) {
+        switch (cat) {
+            case "svg":
+                doSvgHelp();
+                break;
+            case "image":
+            case "img":
+                doImageHelp();
+                break;
+            case "ps":
+            case "postscript":
+                doPsHelp();
+                break;
+            case "pdf":
+                doPdfHelp();
+                break;
+            case "text":
+                doTextHelp();
+                break;
+            default:
+                die("unknown category %y; valid categories: svg, image, ps, pdf, text, info",
+                    cat);
+        }
+    }
+
+    private doSvgHelp() {
+        printf("%s - SVG operations\n\n", color.bold("qsvg svg"));
+
+        printf("%s\n", color.bold("Actions:"));
+        printf("  %s  Create SVG from draw commands\n", color.key(sprintf("%-10s", "create")));
+        printf("  %s  Center content on square canvas %s\n",
+            color.key(sprintf("%-10s", "center")),
+            color.dim("(requires librsvg)"));
+        printf("  %s  Get SVG metadata %s\n", color.key(sprintf("%-10s", "info")),
+            color.dim("(requires librsvg)"));
+        printf("  %s  Convert SVG to PNG %s\n", color.key(sprintf("%-10s", "to-png")),
+            color.dim("(requires librsvg)"));
+        printf("  %s  Convert SVG to PostScript %s\n", color.key(sprintf("%-10s", "to-ps")),
+            color.dim("(requires librsvg)"));
+        printf("  %s  Convert SVG to EPS %s\n", color.key(sprintf("%-10s", "to-eps")),
+            color.dim("(requires librsvg)"));
+        printf("  %s  Convert SVG to PDF %s\n", color.key(sprintf("%-10s", "to-pdf")),
+            color.dim("(requires librsvg + PDF support)"));
+
+        printf("\n%s\n", color.bold("Examples:"));
+        printf("  %s\n", color.dim("# Create SVG from draw commands:"));
+        printf("  qsvg svg create -W 800 -H 600 --commands-file cmds.json -o output.svg\n");
+        printf("  %s\n", color.dim("# Center an SVG on a square canvas (overwrites in place):"));
+        printf("  qsvg svg center logo.svg\n");
+        printf("  %s\n", color.dim("# Center an SVG and write to a new file:"));
+        printf("  qsvg svg center logo.svg -o logo-centered.svg\n");
+        printf("  %s\n", color.dim("# Get SVG info:"));
+        printf("  qsvg svg info logo.svg\n");
+        printf("  %s\n", color.dim("# Convert SVG to PNG with specific dimensions:"));
+        printf("  qsvg svg to-png logo.svg -o logo.png -W 256 -H 256\n");
+        printf("  %s\n", color.dim("# Convert SVG to PDF:"));
+        printf("  qsvg svg to-pdf document.svg -o document.pdf\n");
+
+        printf("\nRun %s for action-specific help.\n",
+            color.key("qsvg svg <action> --help"));
+        exit(0);
+    }
+
+    private doImageHelp() {
+        printf("%s - Image (PNG) operations\n\n", color.bold("qsvg image"));
+
+        printf("%s\n", color.bold("Actions:"));
+        printf("  %s     Create PNG from draw commands\n", color.key(sprintf("%-12s", "create")));
+        printf("  %s     Get PNG image info\n", color.key(sprintf("%-12s", "info")));
+        printf("  %s     Draw on existing PNG\n", color.key(sprintf("%-12s", "draw")));
+        printf("  %s     Resize PNG image\n", color.key(sprintf("%-12s", "resize")));
+        printf("  %s     Crop region from PNG\n", color.key(sprintf("%-12s", "crop")));
+        printf("  %s     Composite overlay onto base image\n",
+            color.key(sprintf("%-12s", "composite")));
+        printf("  %s     Rotate PNG image\n", color.key(sprintf("%-12s", "rotate")));
+        printf("  %s     Convert PNG to SVG\n", color.key(sprintf("%-12s", "to-svg")));
+        printf("  %s     Convert PNG to PostScript\n", color.key(sprintf("%-12s", "to-ps")));
+        printf("  %s     Convert PNG to EPS\n", color.key(sprintf("%-12s", "to-eps")));
+        printf("  %s     Convert PNG to PDF %s\n", color.key(sprintf("%-12s", "to-pdf")),
+            color.dim("(requires PDF support)"));
+
+        printf("\n%s\n", color.bold("Examples:"));
+        printf("  %s\n", color.dim("# Get image info:"));
+        printf("  qsvg image info photo.png\n");
+        printf("  %s\n", color.dim("# Resize an image:"));
+        printf("  qsvg image resize photo.png --target-width 400 --target-height 300 -o thumb.png\n");
+        printf("  %s\n", color.dim("# Crop a region:"));
+        printf("  qsvg image crop photo.png -x 10 -y 10 --crop-width 100 --crop-height 100 -o cropped.png\n");
+        printf("  %s\n", color.dim("# Rotate 90 degrees:"));
+        printf("  qsvg image rotate photo.png --angle 90 -o rotated.png\n");
+        printf("  %s\n", color.dim("# Composite images:"));
+        printf("  qsvg image composite --base bg.png --overlay logo.png -x 10 -y 10 -o result.png\n");
+
+        printf("\nRun %s for action-specific help.\n",
+            color.key("qsvg image <action> --help"));
+        exit(0);
+    }
+
+    private doPsHelp() {
+        printf("%s - PostScript/EPS operations\n\n", color.bold("qsvg ps"));
+
+        printf("%s\n", color.bold("Actions:"));
+        printf("  %s  Create PostScript or EPS from draw commands\n",
+            color.key(sprintf("%-10s", "create")));
+
+        printf("\n%s\n", color.bold("Options:"));
+        printf("  %s               Page width in points (72pt = 1in)\n",
+            color.key("-W, --width <pts>"));
+        printf("  %s              Page height in points\n",
+            color.key("-H, --height <pts>"));
+        printf("  %s                      Enable EPS (Encapsulated PostScript) mode\n",
+            color.key("    --eps"));
+
+        printf("\n%s\n", color.bold("Common Page Sizes (width x height in points):"));
+        printf("  %s  612 x 792\n", color.dim(sprintf("%-12s", "US Letter")));
+        printf("  %s  595 x 842\n", color.dim(sprintf("%-12s", "A4")));
+        printf("  %s  612 x 1008\n", color.dim(sprintf("%-12s", "US Legal")));
+
+        printf("\n%s\n", color.bold("Examples:"));
+        printf("  qsvg ps create -W 612 -H 792 --commands-file doc.json -o output.ps\n");
+        printf("  qsvg ps create -W 612 -H 792 --eps --commands-file logo.json -o logo.eps\n");
+        exit(0);
+    }
+
+    private doPdfHelp() {
+        printf("%s - PDF operations\n\n", color.bold("qsvg pdf"));
+
+        printf("%s\n", color.bold("Actions:"));
+        printf("  %s  Create PDF from draw commands %s\n",
+            color.key(sprintf("%-10s", "create")),
+            color.dim("(requires PDF support)"));
+
+        printf("\n%s\n", color.bold("Options:"));
+        printf("  %s               Page width in points (72pt = 1in)\n",
+            color.key("-W, --width <pts>"));
+        printf("  %s              Page height in points\n",
+            color.key("-H, --height <pts>"));
+
+        printf("\n%s\n", color.bold("Examples:"));
+        printf("  qsvg pdf create -W 612 -H 792 --commands-file doc.json -o output.pdf\n");
+        exit(0);
+    }
+
+    private doTextHelp() {
+        printf("%s - Text measurement and rendering\n\n", color.bold("qsvg text"));
+
+        printf("%s\n", color.bold("Actions:"));
+        printf("  %s   Measure text dimensions\n", color.key(sprintf("%-10s", "measure")));
+        printf("  %s   Get font metrics\n", color.key(sprintf("%-10s", "metrics")));
+        printf("  %s   Render text to PNG image\n", color.key(sprintf("%-10s", "render")));
+
+        printf("\n%s\n", color.bold("Font Options:"));
+        printf("  %s          Font family name %s\n",
+            color.key("    --family <name>"), color.dim("(default: sans-serif)"));
+        printf("  %s           Font size %s\n",
+            color.key("    --size <points>"), color.dim("(default: 12.0)"));
+        printf("  %s  Font slant %s\n",
+            color.key("    --slant <style>"),
+            color.dim("normal|italic|oblique (default: normal)"));
+        printf("  %s  Font weight %s\n",
+            color.key("    --weight <style>"),
+            color.dim("normal|bold (default: normal)"));
+
+        printf("\n%s %s\n", color.bold("Color Options"), color.dim("(for render):"));
+        printf("  %s        Text color as %s\n",
+            color.key("    --color <r,g,b[,a]>"),
+            color.dim("floats 0.0-1.0 (default: 0,0,0)"));
+        printf("  %s     Background color %s\n",
+            color.key("    --bg-color <r,g,b,a>"),
+            color.dim("(default: 1,1,1,0 transparent)"));
+        printf("  %s         Padding in pixels\n",
+            color.key("    --padding <px>"));
+
+        printf("\n%s\n", color.bold("Examples:"));
+        printf("  qsvg text measure \"Hello World\" --family Helvetica --size 24\n");
+        printf("  qsvg text metrics --family \"Times New Roman\" --size 16 --weight bold\n");
+        printf("  qsvg text render \"Hello\" -o hello.png --size 48 --color \"1.0,0,0\"\n");
+        exit(0);
+    }
+
+    private doCommandHelp(string cat, string cmd) {
+        switch (cat) {
+            case "svg":
+                doSvgCommandHelp(cmd);
+                break;
+            case "image":
+            case "img":
+                doImageCommandHelp(cmd);
+                break;
+            case "ps":
+            case "postscript":
+                doPsCommandHelp(cmd);
+                break;
+            case "pdf":
+                doPdfCommandHelp(cmd);
+                break;
+            case "text":
+                doTextCommandHelp(cmd);
+                break;
+            default:
+                die("unknown category %y", cat);
+        }
+    }
+
+    private doSvgCommandHelp(string cmd) {
+        switch (cmd) {
+            case "create":
+                printf("%s\n\n", color.bold("qsvg svg create - Create SVG from draw commands"));
+                printf("%s  qsvg svg create -W <width> -H <height> --commands-file <file> -o <output>\n",
+                    color.bold("Usage:\n"));
+                printf("\n%s\n", color.bold("Required:"));
+                printf("  %s               SVG width in points\n", color.key("-W, --width <pts>"));
+                printf("  %s              SVG height in points\n", color.key("-H, --height <pts>"));
+                printf("  %s    YAML/JSON file with draw commands\n",
+                    color.key("    --commands-file <f>"));
+                printf("  %s                Output file\n", color.key("-o, --output <file>"));
+                break;
+            case "center":
+                printf("%s\n\n",
+                    color.bold("qsvg svg center - Center SVG on a square canvas"));
+                printf("%s  qsvg svg center <input.svg> [-o <output.svg>]\n",
+                    color.bold("Usage:\n"));
+                printf("\nReads an SVG, makes the canvas square (using the larger of width/height),\n");
+                printf("and centers the content on both axes.\n");
+                printf("\n%s the input file is overwritten unless %s is given.\n",
+                    color.bold("By default"), color.key("-o"));
+                printf("\nRequires %s\n", color.dim("librsvg"));
+                break;
+            case "info":
+                printf("%s\n\n", color.bold("qsvg svg info - Get SVG metadata"));
+                printf("%s  qsvg svg info <input.svg>\n", color.bold("Usage:\n"));
+                printf("\nRequires %s\n", color.dim("librsvg"));
+                break;
+            case "to-png":
+                printf("%s\n\n", color.bold("qsvg svg to-png - Convert SVG to PNG"));
+                printf("%s  qsvg svg to-png <input.svg> [-o <output.png>] [-W <width>] [-H <height>]\n",
+                    color.bold("Usage:\n"));
+                printf("\n%s\n", color.bold("Options:"));
+                printf("  %s                Output file %s\n",
+                    color.key("-o, --output <file>"), color.dim("(default: <input>.png)"));
+                printf("  %s               Output width in pixels\n",
+                    color.key("-W, --width <px>"));
+                printf("  %s              Output height in pixels\n",
+                    color.key("-H, --height <px>"));
+                printf("\nRequires %s\n", color.dim("librsvg"));
+                break;
+            case "to-ps":
+                printf("%s\n\n", color.bold("qsvg svg to-ps - Convert SVG to PostScript"));
+                printf("%s  qsvg svg to-ps <input.svg> [-o <output.ps>]\n", color.bold("Usage:\n"));
+                printf("\nRequires %s\n", color.dim("librsvg"));
+                break;
+            case "to-eps":
+                printf("%s\n\n", color.bold("qsvg svg to-eps - Convert SVG to EPS"));
+                printf("%s  qsvg svg to-eps <input.svg> [-o <output.eps>]\n", color.bold("Usage:\n"));
+                printf("\nRequires %s\n", color.dim("librsvg"));
+                break;
+            case "to-pdf":
+                printf("%s\n\n", color.bold("qsvg svg to-pdf - Convert SVG to PDF"));
+                printf("%s  qsvg svg to-pdf <input.svg> [-o <output.pdf>]\n", color.bold("Usage:\n"));
+                printf("\nRequires %s\n", color.dim("librsvg + PDF support"));
+                break;
+            default:
+                die("unknown svg action %y", cmd);
+        }
+        exit(0);
+    }
+
+    private doImageCommandHelp(string cmd) {
+        switch (cmd) {
+            case "create":
+                printf("%s\n\n", color.bold("qsvg image create - Create PNG from draw commands"));
+                printf("%s  qsvg image create -W <width> -H <height> --commands-file <file> -o <output>\n",
+                    color.bold("Usage:\n"));
+                printf("\n%s\n", color.bold("Options:"));
+                printf("  %s       Pixel format %s\n",
+                    color.key("    --format <fmt>"),
+                    color.dim("ARGB32|RGB24|A8|A1 (default: ARGB32)"));
+                break;
+            case "info":
+                printf("%s\n\n", color.bold("qsvg image info - Get PNG image info"));
+                printf("%s  qsvg image info <input.png>\n", color.bold("Usage:\n"));
+                break;
+            case "draw":
+                printf("%s\n\n", color.bold("qsvg image draw - Draw on existing PNG"));
+                printf("%s  qsvg image draw <input.png> --commands-file <file> [-o <output> | --overwrite]\n",
+                    color.bold("Usage:\n"));
+                break;
+            case "resize":
+                printf("%s\n\n", color.bold("qsvg image resize - Resize PNG image"));
+                printf("%s  qsvg image resize <input.png> --target-width <w> --target-height <h> [-o <output>]\n",
+                    color.bold("Usage:\n"));
+                break;
+            case "crop":
+                printf("%s\n\n", color.bold("qsvg image crop - Crop region from PNG"));
+                printf("%s  qsvg image crop <input.png> -x <x> -y <y> --crop-width <w> --crop-height <h> [-o <output>]\n",
+                    color.bold("Usage:\n"));
+                break;
+            case "composite":
+                printf("%s\n\n", color.bold("qsvg image composite - Composite overlay onto base"));
+                printf("%s  qsvg image composite --base <base.png> --overlay <overlay.png> -o <output>\n",
+                    color.bold("Usage:\n"));
+                printf("\n%s\n", color.bold("Options:"));
+                printf("  %s                  X position for overlay %s\n",
+                    color.key("    -x <float>"), color.dim("(default: 0)"));
+                printf("  %s                  Y position for overlay %s\n",
+                    color.key("    -y <float>"), color.dim("(default: 0)"));
+                printf("  %s              Overlay alpha 0.0-1.0 %s\n",
+                    color.key("    --alpha <float>"), color.dim("(default: 1.0)"));
+                printf("  %s     Scale overlay width\n",
+                    color.key("    --overlay-width <px>"));
+                printf("  %s    Scale overlay height\n",
+                    color.key("    --overlay-height <px>"));
+                break;
+            case "rotate":
+                printf("%s\n\n", color.bold("qsvg image rotate - Rotate PNG image"));
+                printf("%s  qsvg image rotate <input.png> --angle <degrees> [-o <output>]\n",
+                    color.bold("Usage:\n"));
+                printf("\n  Positive angle = clockwise rotation\n");
+                break;
+            case "to-svg":
+                printf("%s\n\n", color.bold("qsvg image to-svg - Convert PNG to SVG"));
+                printf("%s  qsvg image to-svg <input.png> [-o <output.svg>]\n", color.bold("Usage:\n"));
+                break;
+            case "to-ps":
+                printf("%s\n\n", color.bold("qsvg image to-ps - Convert PNG to PostScript"));
+                printf("%s  qsvg image to-ps <input.png> [-o <output.ps>]\n", color.bold("Usage:\n"));
+                break;
+            case "to-eps":
+                printf("%s\n\n", color.bold("qsvg image to-eps - Convert PNG to EPS"));
+                printf("%s  qsvg image to-eps <input.png> [-o <output.eps>]\n", color.bold("Usage:\n"));
+                break;
+            case "to-pdf":
+                printf("%s\n\n", color.bold("qsvg image to-pdf - Convert PNG to PDF"));
+                printf("%s  qsvg image to-pdf <input.png> [-o <output.pdf>]\n", color.bold("Usage:\n"));
+                printf("\nRequires %s\n", color.dim("PDF support"));
+                break;
+            default:
+                die("unknown image action %y", cmd);
+        }
+        exit(0);
+    }
+
+    private doPsCommandHelp(string cmd) {
+        switch (cmd) {
+            case "create":
+                printf("%s\n\n", color.bold("qsvg ps create - Create PostScript/EPS"));
+                printf("%s  qsvg ps create -W <width> -H <height> --commands-file <file> -o <output>\n",
+                    color.bold("Usage:\n"));
+                printf("\n%s\n", color.bold("Options:"));
+                printf("  %s  Enable EPS mode\n", color.key("    --eps"));
+                printf("\nDimensions are in points (72pt = 1 inch)\n");
+                break;
+            default:
+                die("unknown ps action %y", cmd);
+        }
+        exit(0);
+    }
+
+    private doPdfCommandHelp(string cmd) {
+        switch (cmd) {
+            case "create":
+                printf("%s\n\n", color.bold("qsvg pdf create - Create PDF"));
+                printf("%s  qsvg pdf create -W <width> -H <height> --commands-file <file> -o <output>\n",
+                    color.bold("Usage:\n"));
+                printf("\nDimensions are in points (72pt = 1 inch)\n");
+                printf("Requires %s\n", color.dim("PDF support"));
+                break;
+            default:
+                die("unknown pdf action %y", cmd);
+        }
+        exit(0);
+    }
+
+    private doTextCommandHelp(string cmd) {
+        switch (cmd) {
+            case "measure":
+                printf("%s\n\n", color.bold("qsvg text measure - Measure text dimensions"));
+                printf("%s  qsvg text measure \"<text>\" [--family <f>] [--size <s>] [--weight <w>]\n",
+                    color.bold("Usage:\n"));
+                break;
+            case "metrics":
+                printf("%s\n\n", color.bold("qsvg text metrics - Get font metrics"));
+                printf("%s  qsvg text metrics [--family <f>] [--size <s>] [--slant <s>] [--weight <w>]\n",
+                    color.bold("Usage:\n"));
+                break;
+            case "render":
+                printf("%s\n\n", color.bold("qsvg text render - Render text to PNG"));
+                printf("%s  qsvg text render \"<text>\" -o <output.png> [options]\n",
+                    color.bold("Usage:\n"));
+                printf("\n%s\n", color.bold("Options:"));
+                printf("  %s         Text color as r,g,b[,a] %s\n",
+                    color.key("    --color <values>"), color.dim("(floats 0.0-1.0)"));
+                printf("  %s      Background color as r,g,b,a\n",
+                    color.key("    --bg-color <values>"));
+                printf("  %s          Padding in pixels\n",
+                    color.key("    --padding <px>"));
+                break;
+            default:
+                die("unknown text action %y", cmd);
+        }
+        exit(0);
+    }
+
+    # ---- Utility methods ----
+
+    private hash<auto> invokeProvider(string dp_category, string dp_action, hash<auto> request) {
+        try {
+            CairoDataProvider root();
+            AbstractDataProvider provider = root.getChildProviderEx(dp_category)
+                .getChildProviderEx(dp_action);
+            return provider.doRequest(request);
+        } catch (hash<ExceptionInfo> ex) {
+            die("%s: %s", ex.err, ex.desc);
+        }
+    }
+
+    private list<hash<auto>> loadCommands() {
+        string input_str;
+        # Track whether the input is known to be YAML (from file extension)
+        bool use_yaml = False;
+
+        if (opts.commands_file) {
+            if (opts.commands_file == "-") {
+                input_str = stdin.read(-1);
+            } else {
+                input_str = ReadOnlyFile::readTextFile(opts.commands_file);
+                # Detect format from file extension; YAML is preferred
+                if (opts.commands_file =~ /\.ya?ml$/i) {
+                    use_yaml = True;
+                }
+            }
+        } else if (opts.commands) {
+            input_str = opts.commands;
+        } else if (!TerminalColor::isTerminal()) {
+            input_str = stdin.read(-1);
+        } else {
+            die("draw commands required; use --commands-file <file>, --commands <yaml/json>, "
+                "or pipe data to stdin");
+        }
+
+        auto parsed = parseData(input_str, use_yaml);
+
+        if (parsed.typeCode() == NT_LIST) {
+            return parsed;
+        }
+        if (parsed.typeCode() == NT_HASH && parsed.commands) {
+            return parsed.commands;
+        }
+        die("invalid draw commands: expected a list of commands or an object with a "
+            "'commands' key");
+    }
+
+    #! Parses input data as YAML or JSON; YAML is tried first when preferred or when
+    #! the format is ambiguous
+    private auto parseData(string input_str, bool prefer_yaml) {
+        if (prefer_yaml) {
+%ifdef NoYaml
+            die("YAML module is required for .yaml/.yml files but is not available");
+%else
+            try {
+                return parse_yaml(input_str);
+            } catch (hash<ExceptionInfo> ex) {
+                die("invalid YAML: %s", ex.desc);
+            }
+%endif
+        }
+
+        # For non-YAML files (JSON extension or unknown): try YAML first if available,
+        # fall back to JSON
+%ifndef NoYaml
+        try {
+            return parse_yaml(input_str);
+        } catch () {
+            # fall through to JSON
+        }
+%endif
+
+%ifndef NoJson
+        try {
+            return parse_json(input_str);
+        } catch (hash<ExceptionInfo> ex) {
+%ifdef NoYaml
+            die("invalid JSON: %s", ex.desc);
+%else
+            die("failed to parse as YAML or JSON: %s", ex.desc);
+%endif
+        }
+%endif
+
+%ifdef NoYaml
+%ifdef NoJson
+        die("neither YAML nor JSON modules are available; install at least one to use "
+            "draw commands");
+%endif
+%endif
+    }
+
+    private string getInputFile() {
+        if (!ARGV) {
+            die("%s %s requires an input file argument", category, action);
+        }
+        string path = shift ARGV;
+        if (!is_readable(path)) {
+            die("input file %y not found or not readable", path);
+        }
+        return path;
+    }
+
+    private string getTextArg() {
+        if (!ARGV) {
+            die("text %s requires a text argument", action);
+        }
+        return shift ARGV;
+    }
+
+    private string getOutputPath(string input_path, string new_ext) {
+        if (opts.output) {
+            return opts.output;
+        }
+        if (opts.overwrite) {
+            return input_path;
+        }
+        return deriveOutputPath(input_path, new_ext);
+    }
+
+    private string deriveOutputPath(string input_path, string new_ext) {
+        # Replace extension: input.svg -> input.png
+        *list<string> parts = (input_path =~ x/^(.+)\.([^.]+)$/);
+        if (parts) {
+            return parts[0] + "." + new_ext;
+        }
+        return input_path + "." + new_ext;
+    }
+
+
+    private printFontInfo(hash<auto> request) {
+        string font_desc = request.family ?? "sans-serif";
+        font_desc += sprintf(" %.0fpt", request.size ?? 12.0);
+        if (request.weight && request.weight != "normal") {
+            font_desc += " " + request.weight;
+        }
+        if (request.slant && request.slant != "normal") {
+            font_desc += " " + request.slant;
+        }
+        printf("  %s  %s\n", color.key(sprintf("%-12s", "Font:")), color.type(font_desc));
+    }
+
+    private hash<auto> parseColor(string color_str) {
+        list<string> parts = color_str.split(",");
+        if (parts.size() < 3 || parts.size() > 4) {
+            die("invalid color %y: expected r,g,b or r,g,b,a (floats 0.0-1.0)", color_str);
+        }
+        hash<auto> result = {
+            "r": parts[0].toFloat(),
+            "g": parts[1].toFloat(),
+            "b": parts[2].toFloat(),
+        };
+        if (parts.size() == 4) {
+            result.a = parts[3].toFloat();
+        }
+        return result;
+    }
+
+    private outputSuccess(string action_desc, hash<auto> response) {
+        if (response.warnings) {
+            foreach string w in (response.warnings) {
+                printf("%s %s\n", color.warning("WARNING:"), w);
+            }
+        }
+
+        string target;
+        if (response.output_path) {
+            target = response.output_path;
+        } else if (response.output_location) {
+            target = response.output_location;
+        } else {
+            target = "(overwritten)";
+        }
+
+        printf("%s %s", color.success(action_desc), color.key(target));
+        if (exists response.size) {
+            printf(" (%s bytes)", color.number(sprintf("%d", response.size)));
+        }
+        printf("\n");
+
+        if (response.hasKey("width") && response.hasKey("height")) {
+            printf("  %s %s px\n", color.key(sprintf("%-8s", "Width:")),
+                color.number(sprintf("%d", response.width)));
+            printf("  %s %s px\n", color.key(sprintf("%-8s", "Height:")),
+                color.number(sprintf("%d", response.height)));
+        }
+
+        if ((opts.verbose ?? 0) > 0) {
+            printf("\n%s\n", color.bold("Full response:"));
+            printf("%s\n", color.formatValue(response, "  "));
+        }
+    }
+
+    private requireSvgReader(string cmd) {
+        if (!CairoSvgReader::isAvailable()) {
+            die("%s requires librsvg, which is not available in this build", cmd);
+        }
+    }
+
+    private requirePdfSupport(string cmd) {
+        if (!CairoSurface::isPdfAvailable()) {
+            die("%s requires PDF support, which is not available in this build", cmd);
+        }
+    }
+
+    private requireDimensions(string cmd) {
+        if (!exists opts.width || !exists opts.height) {
+            die("%s requires -W <width> -H <height>", cmd);
+        }
+    }
+
+    private die(string fmt) {
+        printf("%s %s\n", color.error("ERROR:"), fmt);
+        exit(1);
+    }
+
+    private die(string fmt, auto arg1) {
+        printf("%s %s\n", color.error("ERROR:"), sprintf(fmt, arg1));
+        exit(1);
+    }
+
+    private die(string fmt, auto arg1, auto arg2) {
+        printf("%s %s\n", color.error("ERROR:"), sprintf(fmt, arg1, arg2));
+        exit(1);
+    }
+}

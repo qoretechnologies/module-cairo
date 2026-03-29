@@ -28,6 +28,7 @@ public namespace CairoDataProvider {
 
     This provider exposes SVG actions:
     - @b create - Create SVG from draw commands
+    - @b center - Center SVG on a square canvas (requires librsvg)
     - @b get-info - Get SVG dimensions and metadata (requires librsvg)
     - @b to-png - Convert SVG to PNG (requires librsvg)
     - @b to-ps - Convert SVG to PostScript (requires librsvg)
@@ -54,6 +55,7 @@ public class CairoSvgDataProvider inherits AbstractDataProvider {
         };
         #! Additional children requiring librsvg
         const RsvgChildMap = {
+            "center": "CairoDataProvider::CairoSvgCenterDataProvider",
             "get-info": "CairoDataProvider::CairoSvgGetInfoDataProvider",
             "to-png": "CairoDataProvider::CairoSvgToPngDataProvider",
             "to-ps": "CairoDataProvider::CairoSvgToPsDataProvider",

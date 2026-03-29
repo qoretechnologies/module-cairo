@@ -529,6 +529,62 @@ public hashdecl CairoSvgToPdfResponse {
     *list<string> warnings;
 }
 
+# ========== SVG Center ==========
+
+#! Request type for centering SVG content on a square canvas
+public hashdecl CairoSvgCenterRequest {
+    #! Input file path
+    *string input_path;
+
+    #! Binary SVG data
+    *binary data;
+
+    #! Input location
+    *string location;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Return data in response
+    *bool return_data;
+
+    #! Overwrite the input file if true (default: True when no explicit output is given)
+    *bool overwrite;
+}
+
+#! Response type for SVG center operation
+public hashdecl CairoSvgCenterResponse {
+    #! Output SVG data
+    *binary data;
+
+    #! Output file path
+    *string output_path;
+
+    #! Output location
+    *string output_location;
+
+    #! Output size in bytes
+    int size;
+
+    #! Original SVG width before centering
+    float original_width;
+
+    #! Original SVG height before centering
+    float original_height;
+
+    #! Square canvas side length
+    float canvas_size;
+
+    #! True if the operation completed successfully
+    bool success;
+
+    #! Warnings encountered during processing
+    *list<string> warnings;
+}
+
 # ========== Image Create ==========
 
 #! Request type for creating a PNG image
@@ -1184,6 +1240,18 @@ public class CairoSvgToPdfRequestDataType inherits HashDataType {
                     "Default: use SVG intrinsic height.",
             },
         } + CairoOutputFields;
+    }
+
+    constructor() {
+        addQoreFields(Fields);
+        setRequiredGroups((("input_path", "data", "location"),));
+    }
+}
+
+#! SVG center request type
+public class CairoSvgCenterRequestDataType inherits HashDataType {
+    public {
+        const Fields = CairoInputFields + CairoOutputFields;
     }
 
     constructor() {
