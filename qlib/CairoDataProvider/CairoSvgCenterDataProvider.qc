@@ -86,11 +86,11 @@ public class CairoSvgCenterDataProvider inherits CairoActionBase {
                 svg_w, svg_h);
         }
 
-        # Render to an unbounded recording surface to find actual ink extents
-        CairoSurface rec = CairoSurface::createRecording();
-        CairoContext rec_ctx(rec);
-        reader.renderTo(rec_ctx);
-        hash<CairoPathExtents> ink = rec.inkExtents();
+        # Ask librsvg directly for the ink rect; this matches what librsvg paints
+        # (and what other renderers like Inkscape see). Avoids using cairo recording-
+        # surface ink extents, which can include painting-operation bounds beyond the
+        # visible content and produce off-center output.
+        hash<CairoPathExtents> ink = reader.getInkRect();
 
         float ink_w = ink.x2 - ink.x1;
         float ink_h = ink.y2 - ink.y1;

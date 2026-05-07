@@ -184,6 +184,38 @@ void QoreCairoSvgReader::renderTo(QoreCairoContext* ctx, ExceptionSink* xsink) {
     }
 }
 
+QoreHashNode* QoreCairoSvgReader::getInkRect(ExceptionSink* xsink) {
+    if (!handle) {
+        xsink->raiseException("CAIRO-ERROR", "SVG handle is not initialized");
+        return nullptr;
+    }
+
+    RsvgRectangle viewport = {0, 0, width, height};
+    RsvgRectangle ink_rect = {0, 0, 0, 0};
+    RsvgRectangle logical_rect = {0, 0, 0, 0};
+    GError* error = nullptr;
+    gboolean ok = rsvg_handle_get_geometry_for_layer(handle, nullptr, &viewport,
+        &ink_rect, &logical_rect, &error);
+    if (!ok) {
+        xsink->raiseException("CAIRO-ERROR", "failed to get SVG ink geometry: %s",
+            error ? error->message : "unknown error");
+        if (error) {
+            g_error_free(error);
+        }
+        return nullptr;
+    }
+
+    ReferenceHolder<QoreHashNode> rv(new QoreHashNode(hashdeclCairoPathExtents, xsink), xsink);
+    if (*xsink) {
+        return nullptr;
+    }
+    rv->setKeyValue("x1", ink_rect.x, xsink);
+    rv->setKeyValue("y1", ink_rect.y, xsink);
+    rv->setKeyValue("x2", ink_rect.x + ink_rect.width, xsink);
+    rv->setKeyValue("y2", ink_rect.y + ink_rect.height, xsink);
+    return rv.release();
+}
+
 QoreHashNode* QoreCairoSvgReader::getMetadata(ExceptionSink* xsink) {
     if (!handle) {
         xsink->raiseException("CAIRO-ERROR", "SVG handle is not initialized");
@@ -237,6 +269,11 @@ QoreHashNode* QoreCairoSvgReader::getDimensions(ExceptionSink* xsink) {
 
 void QoreCairoSvgReader::renderTo(QoreCairoContext* ctx, ExceptionSink* xsink) {
     xsink->raiseException("MISSING-FEATURE-ERROR", "librsvg is not available");
+}
+
+QoreHashNode* QoreCairoSvgReader::getInkRect(ExceptionSink* xsink) {
+    xsink->raiseException("MISSING-FEATURE-ERROR", "librsvg is not available");
+    return nullptr;
 }
 
 QoreHashNode* QoreCairoSvgReader::getMetadata(ExceptionSink* xsink) {

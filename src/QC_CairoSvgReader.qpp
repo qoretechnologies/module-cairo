@@ -98,6 +98,21 @@ nothing CairoSvgReader::renderTo(CairoContext[QoreCairoContext] ctx) {
     reader->renderTo(*ctx, xsink);
 }
 
+//! Returns the ink bounding box of the SVG content
+/** Returns the bounding box of the actual visible drawn content as reported by librsvg
+    (the same source of truth used when rendering). This is more accurate than measuring
+    a recording surface's ink extents, which can include painting-operation bounds that
+    extend beyond visible content.
+
+    @return a @ref Qore::Cairo::CairoPathExtents hash with @c x1, @c y1, @c x2, @c y2
+
+    @throw CAIRO-ERROR if the ink geometry cannot be computed
+    @throw MISSING-FEATURE-ERROR if librsvg is not available
+*/
+hash<CairoPathExtents> CairoSvgReader::getInkRect() {
+    return reader->getInkRect(xsink);
+}
+
 //! Returns SVG metadata
 /** @return a hash with metadata fields (width, height)
 */

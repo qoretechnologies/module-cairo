@@ -49,6 +49,7 @@ public:
     double getWidth(ExceptionSink* xsink);
     double getHeight(ExceptionSink* xsink);
     QoreHashNode* getDimensions(ExceptionSink* xsink);
+    QoreHashNode* getInkRect(ExceptionSink* xsink);
     void renderTo(QoreCairoContext* ctx, ExceptionSink* xsink);
     QoreHashNode* getMetadata(ExceptionSink* xsink);
 
