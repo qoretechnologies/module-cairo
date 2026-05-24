@@ -44,7 +44,7 @@ qclass CairoContext [arg=QoreCairoContext* ctx; ns=Qore::Cairo];
 
     @throw CAIRO-ERROR if the context cannot be created
 */
-CairoContext::constructor(CairoSurface[QoreCairoSurface] surface) {
+CairoContext::constructor(CairoSurface[QoreCairoSurface] surface) [flags=NAMED_ARGS] {
     ReferenceHolder<QoreCairoContext> holder(new QoreCairoContext(surface.release(), xsink), xsink);
     if (*xsink) {
         return;
@@ -56,7 +56,7 @@ CairoContext::constructor(CairoSurface[QoreCairoSurface] surface) {
 /** @param x the X coordinate
     @param y the Y coordinate
 */
-nothing CairoContext::moveTo(float x, float y) {
+nothing CairoContext::moveTo(float x, float y) [flags=NAMED_ARGS] {
     ctx->moveTo(x, y, xsink);
 }
 
@@ -64,7 +64,7 @@ nothing CairoContext::moveTo(float x, float y) {
 /** @param x the X coordinate
     @param y the Y coordinate
 */
-nothing CairoContext::lineTo(float x, float y) {
+nothing CairoContext::lineTo(float x, float y) [flags=NAMED_ARGS] {
     ctx->lineTo(x, y, xsink);
 }
 
@@ -76,7 +76,7 @@ nothing CairoContext::lineTo(float x, float y) {
     @param x3 end point X
     @param y3 end point Y
 */
-nothing CairoContext::curveTo(float x1, float y1, float x2, float y2, float x3, float y3) {
+nothing CairoContext::curveTo(float x1, float y1, float x2, float y2, float x3, float y3) [flags=NAMED_ARGS] {
     ctx->curveTo(x1, y1, x2, y2, x3, y3, xsink);
 }
 
@@ -86,7 +86,7 @@ nothing CairoContext::curveTo(float x1, float y1, float x2, float y2, float x3, 
 
     @note There must be a current point set before calling this method
 */
-nothing CairoContext::relMoveTo(float dx, float dy) {
+nothing CairoContext::relMoveTo(float dx, float dy) [flags=NAMED_ARGS] {
     ctx->relMoveTo(dx, dy, xsink);
 }
 
@@ -96,7 +96,7 @@ nothing CairoContext::relMoveTo(float dx, float dy) {
 
     @note There must be a current point set before calling this method
 */
-nothing CairoContext::relLineTo(float dx, float dy) {
+nothing CairoContext::relLineTo(float dx, float dy) [flags=NAMED_ARGS] {
     ctx->relLineTo(dx, dy, xsink);
 }
 
@@ -110,7 +110,7 @@ nothing CairoContext::relLineTo(float dx, float dy) {
 
     @note There must be a current point set before calling this method
 */
-nothing CairoContext::relCurveTo(float dx1, float dy1, float dx2, float dy2, float dx3, float dy3) {
+nothing CairoContext::relCurveTo(float dx1, float dy1, float dx2, float dy2, float dx3, float dy3) [flags=NAMED_ARGS] {
     ctx->relCurveTo(dx1, dy1, dx2, dy2, dx3, dy3, xsink);
 }
 
@@ -121,7 +121,7 @@ nothing CairoContext::relCurveTo(float dx1, float dy1, float dx2, float dy2, flo
     @param angle1 start angle in radians
     @param angle2 end angle in radians
 */
-nothing CairoContext::arc(float xc, float yc, float radius, float angle1, float angle2) {
+nothing CairoContext::arc(float xc, float yc, float radius, float angle1, float angle2) [flags=NAMED_ARGS] {
     ctx->arc(xc, yc, radius, angle1, angle2, xsink);
 }
 
@@ -132,7 +132,7 @@ nothing CairoContext::arc(float xc, float yc, float radius, float angle1, float 
     @param angle1 start angle in radians
     @param angle2 end angle in radians
 */
-nothing CairoContext::arcNegative(float xc, float yc, float radius, float angle1, float angle2) {
+nothing CairoContext::arcNegative(float xc, float yc, float radius, float angle1, float angle2) [flags=NAMED_ARGS] {
     ctx->arcNegative(xc, yc, radius, angle1, angle2, xsink);
 }
 
@@ -142,7 +142,7 @@ nothing CairoContext::arcNegative(float xc, float yc, float radius, float angle1
     @param width rectangle width
     @param height rectangle height
 */
-nothing CairoContext::rectangle(float x, float y, float width, float height) {
+nothing CairoContext::rectangle(float x, float y, float width, float height) [flags=NAMED_ARGS] {
     ctx->rectangle(x, y, width, height, xsink);
 }
 
@@ -205,7 +205,7 @@ nothing CairoContext::paint() {
 //! Paints with alpha transparency
 /** @param alpha alpha value (0.0 = transparent, 1.0 = opaque)
 */
-nothing CairoContext::paintWithAlpha(float alpha) {
+nothing CairoContext::paintWithAlpha(float alpha) [flags=NAMED_ARGS] {
     ctx->paintWithAlpha(alpha, xsink);
 }
 
@@ -235,7 +235,7 @@ nothing CairoContext::resetClip() {
     @param g green component (0.0-1.0)
     @param b blue component (0.0-1.0)
 */
-nothing CairoContext::setSourceRgb(float r, float g, float b) {
+nothing CairoContext::setSourceRgb(float r, float g, float b) [flags=NAMED_ARGS] {
     ctx->setSourceRgb(r, g, b, xsink);
 }
 
@@ -245,7 +245,7 @@ nothing CairoContext::setSourceRgb(float r, float g, float b) {
     @param b blue component (0.0-1.0)
     @param a alpha component (0.0-1.0)
 */
-nothing CairoContext::setSourceRgba(float r, float g, float b, float a) {
+nothing CairoContext::setSourceRgba(float r, float g, float b, float a) [flags=NAMED_ARGS] {
     ctx->setSourceRgba(r, g, b, a, xsink);
 }
 
@@ -254,21 +254,21 @@ nothing CairoContext::setSourceRgba(float r, float g, float b, float a) {
     @param x X offset for the surface origin
     @param y Y offset for the surface origin
 */
-nothing CairoContext::setSourceSurface(CairoSurface[QoreCairoSurface] surface, float x, float y) {
+nothing CairoContext::setSourceSurface(CairoSurface[QoreCairoSurface] surface, float x, float y) [flags=NAMED_ARGS] {
     ctx->setSourceSurface(*surface, x, y, xsink);
 }
 
 //! Sets a pattern as the source
 /** @param pattern the source pattern
 */
-nothing CairoContext::setSource(CairoPattern[QoreCairoPattern] pattern) {
+nothing CairoContext::setSource(CairoPattern[QoreCairoPattern] pattern) [flags=NAMED_ARGS] {
     ctx->setSource(pattern->getPattern(), xsink);
 }
 
 //! Uses a pattern as the mask for painting the current source
 /** @param pattern the mask pattern
 */
-nothing CairoContext::mask(CairoPattern[QoreCairoPattern] pattern) {
+nothing CairoContext::mask(CairoPattern[QoreCairoPattern] pattern) [flags=NAMED_ARGS] {
     ctx->mask(pattern->getPattern(), xsink);
 }
 
@@ -277,7 +277,7 @@ nothing CairoContext::mask(CairoPattern[QoreCairoPattern] pattern) {
     @param x X offset for the surface origin
     @param y Y offset for the surface origin
 */
-nothing CairoContext::maskSurface(CairoSurface[QoreCairoSurface] surface, float x, float y) {
+nothing CairoContext::maskSurface(CairoSurface[QoreCairoSurface] surface, float x, float y) [flags=NAMED_ARGS] {
     ctx->maskSurface(*surface, x, y, xsink);
 }
 
@@ -298,21 +298,21 @@ nothing CairoContext::restore() {
 //! Sets the line width
 /** @param width line width
 */
-nothing CairoContext::setLineWidth(float width) {
+nothing CairoContext::setLineWidth(float width) [flags=NAMED_ARGS] {
     ctx->setLineWidth(width, xsink);
 }
 
 //! Sets the line cap style
 /** @param cap "butt", "round", or "square"
 */
-nothing CairoContext::setLineCap(string cap) {
+nothing CairoContext::setLineCap(string cap) [flags=NAMED_ARGS] {
     ctx->setLineCap(cap->c_str(), xsink);
 }
 
 //! Sets the line join style
 /** @param join "miter", "round", or "bevel"
 */
-nothing CairoContext::setLineJoin(string join) {
+nothing CairoContext::setLineJoin(string join) [flags=NAMED_ARGS] {
     ctx->setLineJoin(join->c_str(), xsink);
 }
 
@@ -320,42 +320,42 @@ nothing CairoContext::setLineJoin(string join) {
 /** @param dashes list of dash lengths
     @param offset offset into the dash pattern
 */
-nothing CairoContext::setDash(list<float> dashes, float offset) {
+nothing CairoContext::setDash(list<float> dashes, float offset) [flags=NAMED_ARGS] {
     ctx->setDash(dashes, offset, xsink);
 }
 
 //! Sets the miter limit for the context
 /** @param limit the miter limit value; when the miter exceeds this, the join is rendered as a bevel
 */
-nothing CairoContext::setMiterLimit(float limit) {
+nothing CairoContext::setMiterLimit(float limit) [flags=NAMED_ARGS] {
     ctx->setMiterLimit(limit, xsink);
 }
 
 //! Sets the tolerance used for flattening curves
 /** @param tolerance the tolerance value in device-space units (default 0.1)
 */
-nothing CairoContext::setTolerance(float tolerance) {
+nothing CairoContext::setTolerance(float tolerance) [flags=NAMED_ARGS] {
     ctx->setTolerance(tolerance, xsink);
 }
 
 //! Sets the fill rule
 /** @param rule "winding" or "even-odd"
 */
-nothing CairoContext::setFillRule(string rule) {
+nothing CairoContext::setFillRule(string rule) [flags=NAMED_ARGS] {
     ctx->setFillRule(rule->c_str(), xsink);
 }
 
 //! Sets the compositing operator
 /** @param op operator name (e.g., "over", "source", "clear", etc.)
 */
-nothing CairoContext::setOperator(string op) {
+nothing CairoContext::setOperator(string op) [flags=NAMED_ARGS] {
     ctx->setOperator(op->c_str(), xsink);
 }
 
 //! Sets the antialiasing mode
 /** @param aa "default", "none", "gray", "subpixel", "fast", "good", or "best"
 */
-nothing CairoContext::setAntialias(string aa) {
+nothing CairoContext::setAntialias(string aa) [flags=NAMED_ARGS] {
     ctx->setAntialias(aa->c_str(), xsink);
 }
 
@@ -378,7 +378,7 @@ nothing CairoContext::popGroupToSource() {
 /** @param tx X translation
     @param ty Y translation
 */
-nothing CairoContext::translate(float tx, float ty) {
+nothing CairoContext::translate(float tx, float ty) [flags=NAMED_ARGS] {
     ctx->translate(tx, ty, xsink);
 }
 
@@ -386,28 +386,28 @@ nothing CairoContext::translate(float tx, float ty) {
 /** @param sx X scale factor
     @param sy Y scale factor
 */
-nothing CairoContext::scale(float sx, float sy) {
+nothing CairoContext::scale(float sx, float sy) [flags=NAMED_ARGS] {
     ctx->scale(sx, sy, xsink);
 }
 
 //! Rotates the coordinate system
 /** @param angle rotation angle in radians
 */
-nothing CairoContext::rotate(float angle) {
+nothing CairoContext::rotate(float angle) [flags=NAMED_ARGS] {
     ctx->rotate(angle, xsink);
 }
 
 //! Applies a transformation matrix
 /** @param matrix a @ref Qore::Cairo::CairoMatrix hash
 */
-nothing CairoContext::transform(hash<CairoMatrix> matrix) {
+nothing CairoContext::transform(hash<CairoMatrix> matrix) [flags=NAMED_ARGS] {
     ctx->transform(matrix, xsink);
 }
 
 //! Sets the transformation matrix
 /** @param matrix a @ref Qore::Cairo::CairoMatrix hash
 */
-nothing CairoContext::setMatrix(hash<CairoMatrix> matrix) {
+nothing CairoContext::setMatrix(hash<CairoMatrix> matrix) [flags=NAMED_ARGS] {
     ctx->setMatrix(matrix, xsink);
 }
 
@@ -423,7 +423,7 @@ nothing CairoContext::identityMatrix() {
     @param slant "normal", "italic", or "oblique"
     @param weight "normal" or "bold"
 */
-nothing CairoContext::selectFontFace(string family, *string slant = "normal", *string weight = "normal") {
+nothing CairoContext::selectFontFace(string family, *string slant = "normal", *string weight = "normal") [flags=NAMED_ARGS] {
     const char* s = slant ? slant->c_str() : "normal";
     const char* w = weight ? weight->c_str() : "normal";
     ctx->selectFontFace(family->c_str(), s, w, xsink);
@@ -432,21 +432,21 @@ nothing CairoContext::selectFontFace(string family, *string slant = "normal", *s
 //! Sets the font size
 /** @param size font size in user-space units
 */
-nothing CairoContext::setFontSize(float size) {
+nothing CairoContext::setFontSize(float size) [flags=NAMED_ARGS] {
     ctx->setFontSize(size, xsink);
 }
 
 //! Draws text at the current point
 /** @param text the text string to draw
 */
-nothing CairoContext::showText(string text) {
+nothing CairoContext::showText(string text) [flags=NAMED_ARGS] {
     ctx->showText(text->c_str(), xsink);
 }
 
 //! Adds text to the current path
 /** @param text the text string to add as a path
 */
-nothing CairoContext::textPath(string text) {
+nothing CairoContext::textPath(string text) [flags=NAMED_ARGS] {
     ctx->textPath(text->c_str(), xsink);
 }
 
@@ -454,7 +454,7 @@ nothing CairoContext::textPath(string text) {
 /** @param text the text string to measure
     @return a @ref Qore::Cairo::CairoTextExtents hash
 */
-hash<CairoTextExtents> CairoContext::textExtents(string text) {
+hash<CairoTextExtents> CairoContext::textExtents(string text) [flags=NAMED_ARGS] {
     return ctx->textExtents(text->c_str(), xsink);
 }
 

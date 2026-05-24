@@ -47,6 +47,7 @@ public class CairoTest inherits QUnit::Test {
         addTestCase("PostScript memory surface tests", \psMemoryTest());
         addTestCase("EPS surface tests", \epsSurfaceTest());
         addTestCase("Image surface tests", \imageSurfaceTest());
+        addTestCase("Named argument calls", \namedArgumentTest());
         addTestCase("PNG round-trip tests", \pngRoundTripTest());
         addTestCase("PNG binary data tests", \pngBinaryTest());
         addTestCase("Recording surface tests", \recordingSurfaceTest());
@@ -182,6 +183,72 @@ public class CairoTest inherits QUnit::Test {
         ctx.setSourceRgba(1.0, 0.0, 0.0, 1.0);
         ctx.paint();
         img.finish();
+    }
+
+    private namedArgumentTest() {
+        string svgPath = testDir + "/named.svg";
+        CairoSurface svg = CairoSurface::createSvg(path: svgPath, width: 120.0, height: 80.0);
+        CairoContext svgCtx(surface: svg);
+        svgCtx.setSourceRgb(r: 0.1, g: 0.2, b: 0.3);
+        svgCtx.rectangle(x: 5.0, y: 6.0, width: 50.0, height: 30.0);
+        svgCtx.fill();
+        svg.finish();
+        assertEq(True, is_file(svgPath), "named createSvg path");
+
+        CairoSurface img = CairoSurface::createImage(width: 32, height: 24, format: "ARGB32");
+        CairoContext ctx(surface: img);
+        CairoPattern gradient = CairoPattern::createLinear(x0: 0.0, y0: 0.0, x1: 32.0, y1: 24.0);
+        gradient.addColorStopRgb(offset: 0.0, r: 1.0, g: 0.0, b: 0.0);
+        gradient.addColorStopRgba(offset: 1.0, r: 0.0, g: 0.0, b: 1.0, a: 0.75);
+        gradient.setExtend(extend: "pad");
+        gradient.setFilter(filter: "good");
+        ctx.setSource(pattern: gradient);
+        ctx.paintWithAlpha(alpha: 0.9);
+        ctx.moveTo(x: 2.0, y: 2.0);
+        ctx.lineTo(x: 30.0, y: 22.0);
+        ctx.setLineWidth(width: 2.0);
+        ctx.stroke();
+
+        string pngPath = testDir + "/named.png";
+        img.writeToPng(path: pngPath);
+        CairoSurface loaded = CairoSurface::createImageFromPng(path: pngPath);
+        assertEq(32, loaded.getWidth(), "named createImageFromPng width");
+        assertEq(24, loaded.getHeight(), "named createImageFromPng height");
+
+        binary pngData = loaded.writeToPngData();
+        CairoSurface fromData = CairoSurface::createImageFromPngData(data: pngData);
+        assertEq(32, fromData.getWidth(), "named createImageFromPngData width");
+
+        CairoSurface rec = CairoSurface::createRecording(x: 0.0, y: 0.0, width: 20.0, height: 10.0);
+        CairoContext recCtx(surface: rec);
+        recCtx.translate(tx: 1.0, ty: 2.0);
+        recCtx.scale(sx: 1.5, sy: 1.5);
+        recCtx.rotate(angle: 0.1);
+        recCtx.rectangle(x: 1.0, y: 1.0, width: 10.0, height: 5.0);
+        recCtx.fill();
+        assertEq("recording", rec.getInfo().type, "named createRecording");
+
+        if (CairoSvgReader::isAvailable()) {
+            CairoSurface svgMem = CairoSurface::createSvgToData(width: 100.0, height: 60.0);
+            CairoContext memCtx(surface: svgMem);
+            memCtx.rectangle(x: 0.0, y: 0.0, width: 100.0, height: 60.0);
+            memCtx.fill();
+            svgMem.finish();
+            binary svgData = svgMem.getData();
+            CairoSvgReader reader(data: svgData);
+            CairoSurface target = CairoSurface::createImage(width: 100, height: 60);
+            CairoContext targetCtx(surface: target);
+            reader.renderTo(ctx: targetCtx);
+            assertEq(True, target.writeToPngData().size() > 0, "named CairoSvgReader renderTo");
+        }
+
+        if (CairoSurface::isPdfAvailable()) {
+            CairoSurface pdf = CairoSurface::createPdfToData(width: 100.0, height: 80.0);
+            pdf.setPdfSize(width: 120.0, height: 90.0);
+            pdf.showPage();
+            pdf.finish();
+            assertEq(True, pdf.getData().size() > 0, "named PDF data surface");
+        }
     }
 
     private pngRoundTripTest() {

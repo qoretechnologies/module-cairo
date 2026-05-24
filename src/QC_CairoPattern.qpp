@@ -52,7 +52,7 @@ private CairoPattern::constructor() {
 
     @return a new linear gradient CairoPattern
 */
-static CairoPattern CairoPattern::createLinear(float x0, float y0, float x1, float y1) {
+static CairoPattern CairoPattern::createLinear(float x0, float y0, float x1, float y1) [flags=NAMED_ARGS] {
     ReferenceHolder<QoreCairoPattern> holder(new QoreCairoPattern(x0, y0, x1, y1, xsink), xsink);
     if (*xsink) {
         return QoreValue();
@@ -70,7 +70,7 @@ static CairoPattern CairoPattern::createLinear(float x0, float y0, float x1, flo
 
     @return a new radial gradient CairoPattern
 */
-static CairoPattern CairoPattern::createRadial(float cx0, float cy0, float r0, float cx1, float cy1, float r1) {
+static CairoPattern CairoPattern::createRadial(float cx0, float cy0, float r0, float cx1, float cy1, float r1) [flags=NAMED_ARGS] {
     ReferenceHolder<QoreCairoPattern> holder(new QoreCairoPattern(cx0, cy0, r0, cx1, cy1, r1, xsink), xsink);
     if (*xsink) {
         return QoreValue();
@@ -83,7 +83,7 @@ static CairoPattern CairoPattern::createRadial(float cx0, float cy0, float r0, f
     @param g green component (0.0-1.0)
     @param b blue component (0.0-1.0)
 */
-static CairoPattern CairoPattern::createRgb(float r, float g, float b) {
+static CairoPattern CairoPattern::createRgb(float r, float g, float b) [flags=NAMED_ARGS] {
     ReferenceHolder<QoreCairoPattern> holder(new QoreCairoPattern(r, g, b, xsink), xsink);
     if (*xsink) {
         return QoreValue();
@@ -97,7 +97,7 @@ static CairoPattern CairoPattern::createRgb(float r, float g, float b) {
     @param b blue component (0.0-1.0)
     @param a alpha component (0.0-1.0)
 */
-static CairoPattern CairoPattern::createRgba(float r, float g, float b, float a) {
+static CairoPattern CairoPattern::createRgba(float r, float g, float b, float a) [flags=NAMED_ARGS] {
     ReferenceHolder<QoreCairoPattern> holder(new QoreCairoPattern(r, g, b, a, true, xsink), xsink);
     if (*xsink) {
         return QoreValue();
@@ -108,7 +108,7 @@ static CairoPattern CairoPattern::createRgba(float r, float g, float b, float a)
 //! Creates a pattern from a surface
 /** @param surface the source surface
 */
-static CairoPattern CairoPattern::createForSurface(CairoSurface[QoreCairoSurface] surface) {
+static CairoPattern CairoPattern::createForSurface(CairoSurface[QoreCairoSurface] surface) [flags=NAMED_ARGS] {
     ReferenceHolder<QoreCairoPattern> holder(new QoreCairoPattern(*surface, xsink), xsink);
     if (*xsink) {
         return QoreValue();
@@ -122,7 +122,7 @@ static CairoPattern CairoPattern::createForSurface(CairoSurface[QoreCairoSurface
     @param g green component (0.0-1.0)
     @param b blue component (0.0-1.0)
 */
-nothing CairoPattern::addColorStopRgb(float offset, float r, float g, float b) {
+nothing CairoPattern::addColorStopRgb(float offset, float r, float g, float b) [flags=NAMED_ARGS] {
     pattern->addColorStopRgb(offset, r, g, b, xsink);
 }
 
@@ -133,27 +133,27 @@ nothing CairoPattern::addColorStopRgb(float offset, float r, float g, float b) {
     @param b blue component (0.0-1.0)
     @param a alpha component (0.0-1.0)
 */
-nothing CairoPattern::addColorStopRgba(float offset, float r, float g, float b, float a) {
+nothing CairoPattern::addColorStopRgba(float offset, float r, float g, float b, float a) [flags=NAMED_ARGS] {
     pattern->addColorStopRgba(offset, r, g, b, a, xsink);
 }
 
 //! Sets the pattern extend mode
 /** @param extend "none", "repeat", "reflect", or "pad"
 */
-nothing CairoPattern::setExtend(string extend) {
+nothing CairoPattern::setExtend(string extend) [flags=NAMED_ARGS] {
     pattern->setExtend(extend->c_str(), xsink);
 }
 
 //! Sets the pattern filter
 /** @param filter "fast", "good", "best", "nearest", or "bilinear"
 */
-nothing CairoPattern::setFilter(string filter) {
+nothing CairoPattern::setFilter(string filter) [flags=NAMED_ARGS] {
     pattern->setFilter(filter->c_str(), xsink);
 }
 
 //! Sets the pattern transformation matrix
 /** @param matrix a @ref Qore::Cairo::CairoMatrix hash
 */
-nothing CairoPattern::setMatrix(hash<CairoMatrix> matrix) {
+nothing CairoPattern::setMatrix(hash<CairoMatrix> matrix) [flags=NAMED_ARGS] {
     pattern->setMatrix(matrix, xsink);
 }
