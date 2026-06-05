@@ -193,7 +193,7 @@ private CairoSurface::constructor() {
 
     @throw CAIRO-ERROR if the surface cannot be created
 */
-static CairoSurface CairoSurface::createSvg(string path, float width, float height) [dom=FILESYSTEM] {
+static CairoSurface CairoSurface::createSvg(string path, float width, float height) [dom=FILESYSTEM;flags=NAMED_ARGS] {
     ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(path->c_str(), width, height, xsink), xsink);
     if (*xsink) {
         return QoreValue();
@@ -209,7 +209,7 @@ static CairoSurface CairoSurface::createSvg(string path, float width, float heig
 
     @throw CAIRO-ERROR if the surface cannot be created
 */
-static CairoSurface CairoSurface::createSvgToData(float width, float height) {
+static CairoSurface CairoSurface::createSvgToData(float width, float height) [flags=NAMED_ARGS] {
     ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(width, height, true, xsink), xsink);
     if (*xsink) {
         return QoreValue();
@@ -224,7 +224,7 @@ static CairoSurface CairoSurface::createSvgToData(float width, float height) {
 
     @throw CAIRO-ERROR if the surface cannot be created
 */
-static CairoSurface CairoSurface::createPs(string path, float width, float height) [dom=FILESYSTEM] {
+static CairoSurface CairoSurface::createPs(string path, float width, float height) [dom=FILESYSTEM;flags=NAMED_ARGS] {
     ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(path->c_str(), width, height, true, xsink),
         xsink);
     if (*xsink) {
@@ -241,7 +241,7 @@ static CairoSurface CairoSurface::createPs(string path, float width, float heigh
 
     @throw CAIRO-ERROR if the surface cannot be created
 */
-static CairoSurface CairoSurface::createPsToData(float width, float height) {
+static CairoSurface CairoSurface::createPsToData(float width, float height) [flags=NAMED_ARGS] {
     ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(width, height, xsink), xsink);
     if (*xsink) {
         return QoreValue();
@@ -256,7 +256,7 @@ static CairoSurface CairoSurface::createPsToData(float width, float height) {
 
     @throw CAIRO-ERROR if the surface cannot be created
 */
-static CairoSurface CairoSurface::createImage(int width, int height, *string format = "ARGB32") {
+static CairoSurface CairoSurface::createImage(int width, int height, *string format = "ARGB32") [flags=NAMED_ARGS] {
     cairo_format_t fmt = CAIRO_FORMAT_ARGB32;
     if (format && !format->empty()) {
         const char* fmt_str = format->c_str();
@@ -286,7 +286,7 @@ static CairoSurface CairoSurface::createImage(int width, int height, *string for
 
     @throw CAIRO-ERROR if the PNG cannot be loaded
 */
-static CairoSurface CairoSurface::createImageFromPng(string path) [dom=FILESYSTEM] {
+static CairoSurface CairoSurface::createImageFromPng(string path) [dom=FILESYSTEM;flags=NAMED_ARGS] {
     ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(path->c_str(), xsink), xsink);
     if (*xsink) {
         return QoreValue();
@@ -299,7 +299,7 @@ static CairoSurface CairoSurface::createImageFromPng(string path) [dom=FILESYSTE
 
     @throw CAIRO-ERROR if the PNG data cannot be loaded
 */
-static CairoSurface CairoSurface::createImageFromPngData(binary data) {
+static CairoSurface CairoSurface::createImageFromPngData(binary data) [flags=NAMED_ARGS] {
     if (!data || data->size() == 0) {
         xsink->raiseException("CAIRO-ERROR", "PNG data is empty");
         return QoreValue();
@@ -320,7 +320,7 @@ static CairoSurface CairoSurface::createImageFromPngData(binary data) {
     @note If all four parameters are provided, the recording surface will be bounded.
     If none are provided, the surface is unbounded.
 */
-static CairoSurface CairoSurface::createRecording(*float x, *float y, *float width, *float height) {
+static CairoSurface CairoSurface::createRecording(*float x, *float y, *float width, *float height) [flags=NAMED_ARGS] {
     bool has_extents = !get_param_value(args, 0).isNothing()
         && !get_param_value(args, 1).isNothing()
         && !get_param_value(args, 2).isNothing()
@@ -355,7 +355,7 @@ nothing CairoSurface::flush() {
 
     @throw CAIRO-ERROR if the surface cannot be written as PNG
 */
-nothing CairoSurface::writeToPng(string path) [dom=FILESYSTEM] {
+nothing CairoSurface::writeToPng(string path) [dom=FILESYSTEM;flags=NAMED_ARGS] {
     surface->writeToPng(path->c_str(), xsink);
 }
 
@@ -409,7 +409,7 @@ hash<CairoSurfaceInfo> CairoSurface::getInfo() {
 
     @throw CAIRO-ERROR if not a PostScript surface
 */
-nothing CairoSurface::setEps(bool eps) {
+nothing CairoSurface::setEps(bool eps) [flags=NAMED_ARGS] {
     surface->setEps(eps, xsink);
 }
 
@@ -419,7 +419,7 @@ nothing CairoSurface::setEps(bool eps) {
 
     @throw CAIRO-ERROR if not a PostScript surface
 */
-nothing CairoSurface::setPsSize(float width, float height) {
+nothing CairoSurface::setPsSize(float width, float height) [flags=NAMED_ARGS] {
     surface->setPsSize(width, height, xsink);
 }
 
@@ -430,7 +430,7 @@ nothing CairoSurface::setPsSize(float width, float height) {
 
     @throw CAIRO-ERROR if PDF support is not available or the surface cannot be created
 */
-static CairoSurface CairoSurface::createPdf(string path, float width, float height) [dom=FILESYSTEM] {
+static CairoSurface CairoSurface::createPdf(string path, float width, float height) [dom=FILESYSTEM;flags=NAMED_ARGS] {
 #ifdef HAVE_CAIRO_PDF
     ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(path->c_str(), width, height,
         QoreCairoSurface::PdfTag{}, xsink), xsink);
@@ -452,7 +452,7 @@ static CairoSurface CairoSurface::createPdf(string path, float width, float heig
 
     @throw CAIRO-ERROR if PDF support is not available or the surface cannot be created
 */
-static CairoSurface CairoSurface::createPdfToData(float width, float height) {
+static CairoSurface CairoSurface::createPdfToData(float width, float height) [flags=NAMED_ARGS] {
 #ifdef HAVE_CAIRO_PDF
     ReferenceHolder<QoreCairoSurface> holder(new QoreCairoSurface(width, height,
         QoreCairoSurface::PdfTag{}, xsink), xsink);
@@ -472,7 +472,7 @@ static CairoSurface CairoSurface::createPdfToData(float width, float height) {
 
     @throw CAIRO-ERROR if not a PDF surface or PDF support is not available
 */
-nothing CairoSurface::setPdfSize(float width, float height) {
+nothing CairoSurface::setPdfSize(float width, float height) [flags=NAMED_ARGS] {
 #ifdef HAVE_CAIRO_PDF
     surface->setPdfSize(width, height, xsink);
 #else

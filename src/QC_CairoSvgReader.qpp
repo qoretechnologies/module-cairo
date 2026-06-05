@@ -44,7 +44,7 @@ qclass CairoSvgReader [arg=QoreCairoSvgReader* reader; ns=Qore::Cairo];
     @throw CAIRO-ERROR if the SVG cannot be loaded
     @throw MISSING-FEATURE-ERROR if librsvg is not available
 */
-CairoSvgReader::constructor(string path) [dom=FILESYSTEM] {
+CairoSvgReader::constructor(string path) [dom=FILESYSTEM;flags=NAMED_ARGS] {
     ReferenceHolder<QoreCairoSvgReader> holder(new QoreCairoSvgReader(path->c_str(), xsink), xsink);
     if (*xsink) {
         return;
@@ -58,7 +58,7 @@ CairoSvgReader::constructor(string path) [dom=FILESYSTEM] {
     @throw CAIRO-ERROR if the SVG cannot be loaded
     @throw MISSING-FEATURE-ERROR if librsvg is not available
 */
-CairoSvgReader::constructor(binary data) {
+CairoSvgReader::constructor(binary data) [flags=NAMED_ARGS] {
     if (!data || data->size() == 0) {
         xsink->raiseException("CAIRO-ERROR", "SVG data is empty");
         return;
@@ -94,7 +94,7 @@ hash<auto> CairoSvgReader::getDimensions() {
 //! Renders the SVG onto a Cairo context
 /** @param ctx the target drawing context
 */
-nothing CairoSvgReader::renderTo(CairoContext[QoreCairoContext] ctx) {
+nothing CairoSvgReader::renderTo(CairoContext[QoreCairoContext] ctx) [flags=NAMED_ARGS] {
     reader->renderTo(*ctx, xsink);
 }
 
