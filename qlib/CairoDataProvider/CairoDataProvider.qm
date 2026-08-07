@@ -44,6 +44,7 @@ module CairoDataProvider {
         # Register the data provider application
         DataProviderActionCatalog::registerApp(<DataProviderAppInfo>{
             "name": CairoDataProvider::AppName,
+            "presentation_source_locale": "en",
             "display_name": "Cairo Vector Graphics",
             "short_desc": "SVG, PDF, PostScript, and EPS vector graphics",
             "desc": "Create and manipulate vector graphics in SVG, PDF, PostScript, and EPS formats",

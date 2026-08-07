@@ -1,0 +1,2597 @@
+{
+  "schema_version": 1,
+  "locales": {
+    "root": {
+      "messages": {
+        "app.Q2Fpcm8.display_name": {
+          "source": "Cairo Vector Graphics",
+          "message": "Cairo Vector Graphics"
+        },
+        "app.Q2Fpcm8.short_desc": {
+          "source": "SVG, PDF, PostScript, and EPS vector graphics",
+          "message": "SVG, PDF, PostScript, and EPS vector graphics"
+        },
+        "app.Q2Fpcm8.desc": {
+          "source": "Create and manipulate vector graphics in SVG, PDF, PostScript, and EPS formats",
+          "message": "Create and manipulate vector graphics in SVG, PDF, PostScript, and EPS formats"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.display_name": {
+          "source": "Create SVG",
+          "message": "Create SVG"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.short_desc": {
+          "source": "Create SVG from draw commands",
+          "message": "Create SVG from draw commands"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.desc": {
+          "source": "Create an SVG vector image from declarative draw commands specifying shapes, text, colors, and transformations",
+          "message": "Create an SVG vector image from declarative draw commands specifying shapes, text, colors, and transformations"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "Width"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.d2lkdGg.short_desc": {
+          "source": "SVG width in points",
+          "message": "SVG width in points"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.d2lkdGg.desc": {
+          "source": "Width of the SVG surface in points (72 points = 1 inch)",
+          "message": "Width of the SVG surface in points (72 points = 1 inch)"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "Height"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.aGVpZ2h0.short_desc": {
+          "source": "SVG height in points",
+          "message": "SVG height in points"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.aGVpZ2h0.desc": {
+          "source": "Height of the SVG surface in points (72 points = 1 inch)",
+          "message": "Height of the SVG surface in points (72 points = 1 inch)"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "Draw Commands"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "List of draw commands"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.display_name": {
+          "source": "Center SVG",
+          "message": "Center SVG"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.short_desc": {
+          "source": "Center SVG content on a square canvas",
+          "message": "Center SVG content on a square canvas"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.desc": {
+          "source": "Reads an SVG, makes the canvas square (using the larger of width/height), and centers the content on both axes. By default the output overwrites the input file. Requires librsvg.",
+          "message": "Reads an SVG, makes the canvas square (using the larger of width/height), and centers the content on both axes. By default the output overwrites the input file. Requires librsvg."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Input File Path"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Path to input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "File path to read input from. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Input Data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binary input data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Input Location"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Location of input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Overwrite"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Overwrite the input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used)."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.display_name": {
+          "source": "Get SVG Info",
+          "message": "Get SVG Info"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.short_desc": {
+          "source": "Get SVG dimensions and metadata",
+          "message": "Get SVG dimensions and metadata"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.desc": {
+          "source": "Read SVG `width`, `height`, and metadata without modifying the file. Requires librsvg.",
+          "message": "Read SVG `width`, `height`, and metadata without modifying the file. Requires librsvg."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Input File Path"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Path to input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "File path to read input from. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Input Data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binary input data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Input Location"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Location of input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.display_name": {
+          "source": "SVG to PNG",
+          "message": "SVG to PNG"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.short_desc": {
+          "source": "Convert SVG to PNG",
+          "message": "Convert SVG to PNG"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.desc": {
+          "source": "Render an SVG file to a PNG raster image with optional resizing. Specify `width` and `height` to scale the output. Requires librsvg.",
+          "message": "Render an SVG file to a PNG raster image with optional resizing. Specify `width` and `height` to scale the output. Requires librsvg."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "Width"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.d2lkdGg.short_desc": {
+          "source": "Output width in pixels",
+          "message": "Output width in pixels"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.d2lkdGg.desc": {
+          "source": "Output image width in pixels. Default: use SVG intrinsic width.",
+          "message": "Output image width in pixels. Default: use SVG intrinsic width."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "Height"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aGVpZ2h0.short_desc": {
+          "source": "Output height in pixels",
+          "message": "Output height in pixels"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aGVpZ2h0.desc": {
+          "source": "Output image height in pixels. Default: use SVG intrinsic height.",
+          "message": "Output image height in pixels. Default: use SVG intrinsic height."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Input File Path"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Path to input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "File path to read input from. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Input Data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binary input data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Input Location"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Location of input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Overwrite"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Overwrite the input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used)."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.display_name": {
+          "source": "SVG to PostScript",
+          "message": "SVG to PostScript"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.short_desc": {
+          "source": "Convert SVG to PostScript",
+          "message": "Convert SVG to PostScript"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.desc": {
+          "source": "Convert an SVG file to PostScript format. Specify `width` and `height` in points to control the output page size. Requires librsvg.",
+          "message": "Convert an SVG file to PostScript format. Specify `width` and `height` in points to control the output page size. Requires librsvg."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "Width"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.d2lkdGg.short_desc": {
+          "source": "Output width in points",
+          "message": "Output width in points"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.d2lkdGg.desc": {
+          "source": "Output page width in points (72 points = 1 inch). Default: use SVG intrinsic width.",
+          "message": "Output page width in points (72 points = 1 inch). Default: use SVG intrinsic width."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "Height"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aGVpZ2h0.short_desc": {
+          "source": "Output height in points",
+          "message": "Output height in points"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aGVpZ2h0.desc": {
+          "source": "Output page height in points (72 points = 1 inch). Default: use SVG intrinsic height.",
+          "message": "Output page height in points (72 points = 1 inch). Default: use SVG intrinsic height."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Input File Path"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Path to input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "File path to read input from. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Input Data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binary input data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Input Location"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Location of input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Overwrite"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Overwrite the input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used)."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.display_name": {
+          "source": "SVG to EPS",
+          "message": "SVG to EPS"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.short_desc": {
+          "source": "Convert SVG to EPS",
+          "message": "Convert SVG to EPS"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.desc": {
+          "source": "Convert an SVG file to Encapsulated PostScript (EPS) format. Specify `width` and `height` in points to control the output page size. Requires librsvg.",
+          "message": "Convert an SVG file to Encapsulated PostScript (EPS) format. Specify `width` and `height` in points to control the output page size. Requires librsvg."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "Width"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.d2lkdGg.short_desc": {
+          "source": "Output width in points",
+          "message": "Output width in points"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.d2lkdGg.desc": {
+          "source": "Output page width in points (72 points = 1 inch). Default: use SVG intrinsic width.",
+          "message": "Output page width in points (72 points = 1 inch). Default: use SVG intrinsic width."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "Height"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aGVpZ2h0.short_desc": {
+          "source": "Output height in points",
+          "message": "Output height in points"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aGVpZ2h0.desc": {
+          "source": "Output page height in points (72 points = 1 inch). Default: use SVG intrinsic height.",
+          "message": "Output page height in points (72 points = 1 inch). Default: use SVG intrinsic height."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Input File Path"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Path to input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "File path to read input from. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Input Data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binary input data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Input Location"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Location of input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Overwrite"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Overwrite the input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used)."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.display_name": {
+          "source": "SVG to PDF",
+          "message": "SVG to PDF"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.short_desc": {
+          "source": "Convert SVG to PDF",
+          "message": "Convert SVG to PDF"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.desc": {
+          "source": "Convert an SVG file to PDF format. Specify `width` and `height` in points to control the output page size. Requires librsvg and PDF surface support.",
+          "message": "Convert an SVG file to PDF format. Specify `width` and `height` in points to control the output page size. Requires librsvg and PDF surface support."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "Width"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.d2lkdGg.short_desc": {
+          "source": "Output width in points",
+          "message": "Output width in points"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.d2lkdGg.desc": {
+          "source": "Output page width in points (1 point = 1/72 inch; US Letter = 612). Default: use SVG intrinsic width.",
+          "message": "Output page width in points (1 point = 1/72 inch; US Letter = 612). Default: use SVG intrinsic width."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "Height"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aGVpZ2h0.short_desc": {
+          "source": "Output height in points",
+          "message": "Output height in points"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aGVpZ2h0.desc": {
+          "source": "Output page height in points (1 point = 1/72 inch; US Letter = 792). Default: use SVG intrinsic height.",
+          "message": "Output page height in points (1 point = 1/72 inch; US Letter = 792). Default: use SVG intrinsic height."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Input File Path"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Path to input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "File path to read input from. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Input Data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binary input data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Input Location"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Location of input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Overwrite"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Overwrite the input file"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.display_name": {
+          "source": "Create Image",
+          "message": "Create Image"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.short_desc": {
+          "source": "Create PNG from draw commands",
+          "message": "Create PNG from draw commands"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.desc": {
+          "source": "Create a PNG raster image from declarative draw commands. Supports `ARGB32`, `RGB24`, `A8`, and `A1` pixel formats.",
+          "message": "Create a PNG raster image from declarative draw commands. Supports `ARGB32`, `RGB24`, `A8`, and `A1` pixel formats."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "Width"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.d2lkdGg.short_desc": {
+          "source": "Image width in pixels",
+          "message": "Image width in pixels"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.d2lkdGg.desc": {
+          "source": "Width of the image in pixels",
+          "message": "Width of the image in pixels"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "Height"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.aGVpZ2h0.short_desc": {
+          "source": "Image height in pixels",
+          "message": "Image height in pixels"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.aGVpZ2h0.desc": {
+          "source": "Height of the image in pixels",
+          "message": "Height of the image in pixels"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "Draw Commands"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "List of draw commands"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.display_name": {
+          "source": "Format",
+          "message": "Format"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.short_desc": {
+          "source": "Pixel format",
+          "message": "Pixel format"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.desc": {
+          "source": "Pixel format for the image surface",
+          "message": "Pixel format for the image surface"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkFSR0IzMg.display_name": {
+          "source": "ARGB32",
+          "message": "ARGB32"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkFSR0IzMg.desc": {
+          "source": "32-bit ARGB (default)",
+          "message": "32-bit ARGB (default)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOlJHQjI0.display_name": {
+          "source": "RGB24",
+          "message": "RGB24"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOlJHQjI0.desc": {
+          "source": "32-bit RGB (no alpha)",
+          "message": "32-bit RGB (no alpha)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkE4.display_name": {
+          "source": "A8",
+          "message": "A8"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkE4.desc": {
+          "source": "8-bit alpha mask",
+          "message": "8-bit alpha mask"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkEx.display_name": {
+          "source": "A1",
+          "message": "A1"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkEx.desc": {
+          "source": "1-bit alpha mask",
+          "message": "1-bit alpha mask"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.display_name": {
+          "source": "Get Image Info",
+          "message": "Get Image Info"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.short_desc": {
+          "source": "Get PNG image info",
+          "message": "Get PNG image info"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.desc": {
+          "source": "Read PNG image `width`, `height`, `format`, and surface `type` without modifying the file.",
+          "message": "Read PNG image `width`, `height`, `format`, and surface `type` without modifying the file."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Input File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Path to input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "File path to read input from. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Input Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binary input data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Input Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Location of input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.display_name": {
+          "source": "Draw on Image",
+          "message": "Draw on Image"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.short_desc": {
+          "source": "Draw on existing PNG",
+          "message": "Draw on existing PNG"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.desc": {
+          "source": "Draw on an existing PNG image using declarative draw commands. The input image is loaded and the draw commands are applied on top of it.",
+          "message": "Draw on an existing PNG image using declarative draw commands. The input image is loaded and the draw commands are applied on top of it."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "Draw Commands"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "List of draw commands"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Input File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Path to input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "File path to read input from. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Input Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binary input data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Input Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Location of input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Overwrite"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Overwrite the input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used)."
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.display_name": {
+          "source": "Create PostScript",
+          "message": "Create PostScript"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.short_desc": {
+          "source": "Create PS or EPS from draw commands",
+          "message": "Create PS or EPS from draw commands"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.desc": {
+          "source": "Create a PostScript or Encapsulated PostScript (EPS) document from declarative draw commands. Set `eps` to `True` for EPS output.",
+          "message": "Create a PostScript or Encapsulated PostScript (EPS) document from declarative draw commands. Set `eps` to `True` for EPS output."
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "Width"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.d2lkdGg.short_desc": {
+          "source": "Page width in points",
+          "message": "Page width in points"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.d2lkdGg.desc": {
+          "source": "Width of the PostScript page in points (72 points = 1 inch)",
+          "message": "Width of the PostScript page in points (72 points = 1 inch)"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "Height"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.aGVpZ2h0.short_desc": {
+          "source": "Page height in points",
+          "message": "Page height in points"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.aGVpZ2h0.desc": {
+          "source": "Height of the PostScript page in points (72 points = 1 inch)",
+          "message": "Height of the PostScript page in points (72 points = 1 inch)"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "Draw Commands"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "List of draw commands"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.ZXBz.display_name": {
+          "source": "EPS Mode",
+          "message": "EPS Mode"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.ZXBz.short_desc": {
+          "source": "Enable EPS mode",
+          "message": "Enable EPS mode"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.ZXBz.desc": {
+          "source": "If `True`, create Encapsulated PostScript (EPS) output",
+          "message": "If `True`, create Encapsulated PostScript (EPS) output"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.display_name": {
+          "source": "Create PDF",
+          "message": "Create PDF"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.short_desc": {
+          "source": "Create PDF from draw commands",
+          "message": "Create PDF from draw commands"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.desc": {
+          "source": "Create a PDF document from declarative draw commands. Dimensions are in points (72 points = 1 inch).",
+          "message": "Create a PDF document from declarative draw commands. Dimensions are in points (72 points = 1 inch)."
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "Width"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.d2lkdGg.short_desc": {
+          "source": "Page width in points",
+          "message": "Page width in points"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.d2lkdGg.desc": {
+          "source": "Width of the PDF page in points (72 points = 1 inch)",
+          "message": "Width of the PDF page in points (72 points = 1 inch)"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "Height"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.aGVpZ2h0.short_desc": {
+          "source": "Page height in points",
+          "message": "Page height in points"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.aGVpZ2h0.desc": {
+          "source": "Height of the PDF page in points (72 points = 1 inch)",
+          "message": "Height of the PDF page in points (72 points = 1 inch)"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "Draw Commands"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "List of draw commands"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.display_name": {
+          "source": "Measure Text",
+          "message": "Measure Text"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.short_desc": {
+          "source": "Measure text dimensions",
+          "message": "Measure text dimensions"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.desc": {
+          "source": "Calculate the `width`, `height`, bearing, and advance of a text string for a given font `family`, `size`, `slant`, and `weight`.",
+          "message": "Calculate the `width`, `height`, bearing, and advance of a text string for a given font `family`, `size`, `slant`, and `weight`."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.dGV4dA.display_name": {
+          "source": "Text",
+          "message": "Text"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.dGV4dA.short_desc": {
+          "source": "Text to measure",
+          "message": "Text to measure"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.dGV4dA.desc": {
+          "source": "The text string to measure dimensions for",
+          "message": "The text string to measure dimensions for"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.ZmFtaWx5.display_name": {
+          "source": "Font Family",
+          "message": "Font Family"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.ZmFtaWx5.short_desc": {
+          "source": "Font family name",
+          "message": "Font family name"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.ZmFtaWx5.desc": {
+          "source": "Font family name (e.g., `sans-serif`, `Helvetica`). Default: `sans-serif`",
+          "message": "Font family name (e.g., `sans-serif`, `Helvetica`). Default: `sans-serif`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2l6ZQ.display_name": {
+          "source": "Font Size",
+          "message": "Font Size"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2l6ZQ.short_desc": {
+          "source": "Font size",
+          "message": "Font size"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2l6ZQ.desc": {
+          "source": "Font size in user-space units. Default: `12.0`",
+          "message": "Font size in user-space units. Default: `12.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.display_name": {
+          "source": "Font Slant",
+          "message": "Font Slant"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.short_desc": {
+          "source": "Font slant style",
+          "message": "Font slant style"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.desc": {
+          "source": "Font slant style. Default: `normal`",
+          "message": "Font slant style. Default: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "Normal"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal (upright) style",
+          "message": "Normal (upright) style"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.display_name": {
+          "source": "Italic",
+          "message": "Italic"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.desc": {
+          "source": "Italic style",
+          "message": "Italic style"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.display_name": {
+          "source": "Oblique",
+          "message": "Oblique"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.desc": {
+          "source": "Oblique style",
+          "message": "Oblique style"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.display_name": {
+          "source": "Font Weight",
+          "message": "Font Weight"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.short_desc": {
+          "source": "Font weight",
+          "message": "Font weight"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.desc": {
+          "source": "Font weight style. Default: `normal`",
+          "message": "Font weight style. Default: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "Normal"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal weight",
+          "message": "Normal weight"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.display_name": {
+          "source": "Bold",
+          "message": "Bold"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.desc": {
+          "source": "Bold weight",
+          "message": "Bold weight"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.display_name": {
+          "source": "Get Font Metrics",
+          "message": "Get Font Metrics"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.short_desc": {
+          "source": "Get font ascent, descent, and height",
+          "message": "Get font ascent, descent, and height"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.desc": {
+          "source": "Get font metrics (`ascent`, `descent`, `height`, `max_x_advance`, `max_y_advance`) for a given font configuration.",
+          "message": "Get font metrics (`ascent`, `descent`, `height`, `max_x_advance`, `max_y_advance`) for a given font configuration."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.ZmFtaWx5.display_name": {
+          "source": "Font Family",
+          "message": "Font Family"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.ZmFtaWx5.short_desc": {
+          "source": "Font family name",
+          "message": "Font family name"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.ZmFtaWx5.desc": {
+          "source": "Font family name (e.g., `sans-serif`, `Helvetica`). Default: `sans-serif`",
+          "message": "Font family name (e.g., `sans-serif`, `Helvetica`). Default: `sans-serif`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2l6ZQ.display_name": {
+          "source": "Font Size",
+          "message": "Font Size"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2l6ZQ.short_desc": {
+          "source": "Font size",
+          "message": "Font size"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2l6ZQ.desc": {
+          "source": "Font size in user-space units. Default: `12.0`",
+          "message": "Font size in user-space units. Default: `12.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.display_name": {
+          "source": "Font Slant",
+          "message": "Font Slant"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.short_desc": {
+          "source": "Font slant style",
+          "message": "Font slant style"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.desc": {
+          "source": "Font slant style. Default: `normal`",
+          "message": "Font slant style. Default: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "Normal"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal (upright) style",
+          "message": "Normal (upright) style"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.display_name": {
+          "source": "Italic",
+          "message": "Italic"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.desc": {
+          "source": "Italic style",
+          "message": "Italic style"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.display_name": {
+          "source": "Oblique",
+          "message": "Oblique"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.desc": {
+          "source": "Oblique style",
+          "message": "Oblique style"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.display_name": {
+          "source": "Font Weight",
+          "message": "Font Weight"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.short_desc": {
+          "source": "Font weight",
+          "message": "Font weight"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.desc": {
+          "source": "Font weight style. Default: `normal`",
+          "message": "Font weight style. Default: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "Normal"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal weight",
+          "message": "Normal weight"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.display_name": {
+          "source": "Bold",
+          "message": "Bold"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.desc": {
+          "source": "Bold weight",
+          "message": "Bold weight"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.display_name": {
+          "source": "Resize Image",
+          "message": "Resize Image"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.short_desc": {
+          "source": "Resize a PNG image",
+          "message": "Resize a PNG image"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.desc": {
+          "source": "Resize a PNG image to the specified `target_width` and `target_height` in pixels using Cairo surface scaling.",
+          "message": "Resize a PNG image to the specified `target_width` and `target_height` in pixels using Cairo surface scaling."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X3dpZHRo.display_name": {
+          "source": "Target Width",
+          "message": "Target Width"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X3dpZHRo.short_desc": {
+          "source": "Target width in pixels",
+          "message": "Target width in pixels"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X3dpZHRo.desc": {
+          "source": "Target image width in pixels",
+          "message": "Target image width in pixels"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X2hlaWdodA.display_name": {
+          "source": "Target Height",
+          "message": "Target Height"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X2hlaWdodA.short_desc": {
+          "source": "Target height in pixels",
+          "message": "Target height in pixels"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X2hlaWdodA.desc": {
+          "source": "Target image height in pixels",
+          "message": "Target image height in pixels"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Input File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Path to input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "File path to read input from. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Input Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binary input data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Input Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Location of input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Overwrite"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Overwrite the input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.display_name": {
+          "source": "Crop Image",
+          "message": "Crop Image"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.short_desc": {
+          "source": "Crop a PNG image",
+          "message": "Crop a PNG image"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.desc": {
+          "source": "Crop a rectangular region from a PNG image at a given `x`, `y` offset with specified `crop_width` and `crop_height`.",
+          "message": "Crop a rectangular region from a PNG image at a given `x`, `y` offset with specified `crop_width` and `crop_height`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eA.display_name": {
+          "source": "X Offset",
+          "message": "X Offset"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eA.short_desc": {
+          "source": "X offset of crop region",
+          "message": "X offset of crop region"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eA.desc": {
+          "source": "X offset of the top-left corner of the crop region in pixels",
+          "message": "X offset of the top-left corner of the crop region in pixels"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eQ.display_name": {
+          "source": "Y Offset",
+          "message": "Y Offset"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eQ.short_desc": {
+          "source": "Y offset of crop region",
+          "message": "Y offset of crop region"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eQ.desc": {
+          "source": "Y offset of the top-left corner of the crop region in pixels",
+          "message": "Y offset of the top-left corner of the crop region in pixels"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF93aWR0aA.display_name": {
+          "source": "Crop Width",
+          "message": "Crop Width"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF93aWR0aA.short_desc": {
+          "source": "Width of crop region",
+          "message": "Width of crop region"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF93aWR0aA.desc": {
+          "source": "Width of the crop region in pixels",
+          "message": "Width of the crop region in pixels"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF9oZWlnaHQ.display_name": {
+          "source": "Crop Height",
+          "message": "Crop Height"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF9oZWlnaHQ.short_desc": {
+          "source": "Height of crop region",
+          "message": "Height of crop region"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF9oZWlnaHQ.desc": {
+          "source": "Height of the crop region in pixels",
+          "message": "Height of the crop region in pixels"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Input File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Path to input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "File path to read input from. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Input Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binary input data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Input Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Location of input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Overwrite"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Overwrite the input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.display_name": {
+          "source": "Composite Images",
+          "message": "Composite Images"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.short_desc": {
+          "source": "Overlay one image on another",
+          "message": "Overlay one image on another"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.desc": {
+          "source": "Composite an overlay PNG image onto a base PNG image with optional `alpha` blending, positioning (`x`, `y`), and overlay scaling (`overlay_width`, `overlay_height`).",
+          "message": "Composite an overlay PNG image onto a base PNG image with optional `alpha` blending, positioning (`x`, `y`), and overlay scaling (`overlay_width`, `overlay_height`)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9kYXRh.display_name": {
+          "source": "Base Image Data",
+          "message": "Base Image Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9kYXRh.short_desc": {
+          "source": "Binary base image data",
+          "message": "Binary base image data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9kYXRh.desc": {
+          "source": "Binary PNG data of the base image.",
+          "message": "Binary PNG data of the base image."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9kYXRh.display_name": {
+          "source": "Overlay Image Data",
+          "message": "Overlay Image Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9kYXRh.short_desc": {
+          "source": "Binary overlay image data",
+          "message": "Binary overlay image data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9kYXRh.desc": {
+          "source": "Binary PNG data of the overlay image.",
+          "message": "Binary PNG data of the overlay image."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9pbnB1dF9wYXRo.display_name": {
+          "source": "Base Image Path",
+          "message": "Base Image Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9pbnB1dF9wYXRo.short_desc": {
+          "source": "Path to base image file",
+          "message": "Path to base image file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9pbnB1dF9wYXRo.desc": {
+          "source": "File path to the base image. One of `base_input_path`, `base_data`, or `base_location` must be provided.",
+          "message": "File path to the base image. One of `base_input_path`, `base_data`, or `base_location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9sb2NhdGlvbg.display_name": {
+          "source": "Base Image Location",
+          "message": "Base Image Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9sb2NhdGlvbg.short_desc": {
+          "source": "Location of base image",
+          "message": "Location of base image"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9sb2NhdGlvbg.desc": {
+          "source": "A file location string for the base image.",
+          "message": "A file location string for the base image."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9pbnB1dF9wYXRo.display_name": {
+          "source": "Overlay Image Path",
+          "message": "Overlay Image Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9pbnB1dF9wYXRo.short_desc": {
+          "source": "Path to overlay image file",
+          "message": "Path to overlay image file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9pbnB1dF9wYXRo.desc": {
+          "source": "File path to the overlay image. One of `overlay_input_path`, `overlay_data`, or `overlay_location` must be provided.",
+          "message": "File path to the overlay image. One of `overlay_input_path`, `overlay_data`, or `overlay_location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9sb2NhdGlvbg.display_name": {
+          "source": "Overlay Image Location",
+          "message": "Overlay Image Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9sb2NhdGlvbg.short_desc": {
+          "source": "Location of overlay image",
+          "message": "Location of overlay image"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9sb2NhdGlvbg.desc": {
+          "source": "A file location string for the overlay image.",
+          "message": "A file location string for the overlay image."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eA.display_name": {
+          "source": "X Position",
+          "message": "X Position"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eA.short_desc": {
+          "source": "Overlay X position",
+          "message": "Overlay X position"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eA.desc": {
+          "source": "X position for overlay placement. Default: `0.0`",
+          "message": "X position for overlay placement. Default: `0.0`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eQ.display_name": {
+          "source": "Y Position",
+          "message": "Y Position"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eQ.short_desc": {
+          "source": "Overlay Y position",
+          "message": "Overlay Y position"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eQ.desc": {
+          "source": "Y position for overlay placement. Default: `0.0`",
+          "message": "Y position for overlay placement. Default: `0.0`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YWxwaGE.display_name": {
+          "source": "Alpha",
+          "message": "Alpha"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YWxwaGE.short_desc": {
+          "source": "Overlay transparency",
+          "message": "Overlay transparency"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YWxwaGE.desc": {
+          "source": "Overlay alpha value (`0.0` = transparent, `1.0` = opaque). Default: `1.0`",
+          "message": "Overlay alpha value (`0.0` = transparent, `1.0` = opaque). Default: `1.0`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV93aWR0aA.display_name": {
+          "source": "Overlay Width",
+          "message": "Overlay Width"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV93aWR0aA.short_desc": {
+          "source": "Scale overlay to this width",
+          "message": "Scale overlay to this width"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV93aWR0aA.desc": {
+          "source": "Optional width to scale the overlay to (in pixels). Both `overlay_width` and `overlay_height` must be specified for scaling.",
+          "message": "Optional width to scale the overlay to (in pixels). Both `overlay_width` and `overlay_height` must be specified for scaling."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9oZWlnaHQ.display_name": {
+          "source": "Overlay Height",
+          "message": "Overlay Height"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9oZWlnaHQ.short_desc": {
+          "source": "Scale overlay to this height",
+          "message": "Scale overlay to this height"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9oZWlnaHQ.desc": {
+          "source": "Optional height to scale the overlay to (in pixels). Both `overlay_width` and `overlay_height` must be specified for scaling.",
+          "message": "Optional height to scale the overlay to (in pixels). Both `overlay_width` and `overlay_height` must be specified for scaling."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.display_name": {
+          "source": "Image to SVG",
+          "message": "Image to SVG"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.short_desc": {
+          "source": "Convert PNG to SVG",
+          "message": "Convert PNG to SVG"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.desc": {
+          "source": "Convert a PNG image to SVG format by embedding the raster data in an SVG surface.",
+          "message": "Convert a PNG image to SVG format by embedding the raster data in an SVG surface."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Input File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Path to input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "File path to read input from. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Input Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binary input data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Input Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Location of input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Overwrite"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Overwrite the input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.display_name": {
+          "source": "Image to PostScript",
+          "message": "Image to PostScript"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.short_desc": {
+          "source": "Convert PNG to PostScript",
+          "message": "Convert PNG to PostScript"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.desc": {
+          "source": "Convert a PNG image to PostScript format. The page dimensions match the image pixel dimensions (in points).",
+          "message": "Convert a PNG image to PostScript format. The page dimensions match the image pixel dimensions (in points)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Input File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Path to input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "File path to read input from. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Input Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binary input data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Input Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Location of input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Overwrite"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Overwrite the input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.display_name": {
+          "source": "Image to EPS",
+          "message": "Image to EPS"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.short_desc": {
+          "source": "Convert PNG to EPS",
+          "message": "Convert PNG to EPS"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.desc": {
+          "source": "Convert a PNG image to Encapsulated PostScript (EPS) format. The page dimensions match the image pixel dimensions (in points).",
+          "message": "Convert a PNG image to Encapsulated PostScript (EPS) format. The page dimensions match the image pixel dimensions (in points)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Input File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Path to input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "File path to read input from. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Input Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binary input data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Input Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Location of input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Overwrite"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Overwrite the input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.display_name": {
+          "source": "Image to PDF",
+          "message": "Image to PDF"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.short_desc": {
+          "source": "Convert PNG to PDF",
+          "message": "Convert PNG to PDF"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.desc": {
+          "source": "Convert a PNG image to a single-page PDF document. The page dimensions match the image pixel dimensions (in points).",
+          "message": "Convert a PNG image to a single-page PDF document. The page dimensions match the image pixel dimensions (in points)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Input File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Path to input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "File path to read input from. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Input Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binary input data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Input Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Location of input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Overwrite"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Overwrite the input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.display_name": {
+          "source": "Rotate Image",
+          "message": "Rotate Image"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.short_desc": {
+          "source": "Rotate a PNG image",
+          "message": "Rotate a PNG image"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.desc": {
+          "source": "Rotate a PNG image by a specified `angle` in degrees. The output canvas is automatically sized to contain the full rotated image.",
+          "message": "Rotate a PNG image by a specified `angle` in degrees. The output canvas is automatically sized to contain the full rotated image."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.YW5nbGU.display_name": {
+          "source": "Angle",
+          "message": "Angle"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.YW5nbGU.short_desc": {
+          "source": "Rotation angle in degrees",
+          "message": "Rotation angle in degrees"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.YW5nbGU.desc": {
+          "source": "Rotation angle in degrees (positive = clockwise). Common values: `90`, `180`, `270`.",
+          "message": "Rotation angle in degrees (positive = clockwise). Common values: `90`, `180`, `270`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Input File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Path to input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "File path to read input from. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Input Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binary input data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Input Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Location of input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Overwrite"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Overwrite the input file"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used)."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.display_name": {
+          "source": "Render Text",
+          "message": "Render Text"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.short_desc": {
+          "source": "Render text to PNG image",
+          "message": "Render text to PNG image"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.desc": {
+          "source": "Render text to a PNG image with specified font, color, and optional background. The image is automatically sized to fit the text.",
+          "message": "Render text to a PNG image with specified font, color, and optional background. The image is automatically sized to fit the text."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.dGV4dA.display_name": {
+          "source": "Text",
+          "message": "Text"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.dGV4dA.short_desc": {
+          "source": "Text to render",
+          "message": "Text to render"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.dGV4dA.desc": {
+          "source": "The text string to render to a PNG image",
+          "message": "The text string to render to a PNG image"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.ZmFtaWx5.display_name": {
+          "source": "Font Family",
+          "message": "Font Family"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.ZmFtaWx5.short_desc": {
+          "source": "Font family name",
+          "message": "Font family name"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.ZmFtaWx5.desc": {
+          "source": "Font family name (e.g., `sans-serif`, `Helvetica`). Default: `sans-serif`",
+          "message": "Font family name (e.g., `sans-serif`, `Helvetica`). Default: `sans-serif`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2l6ZQ.display_name": {
+          "source": "Font Size",
+          "message": "Font Size"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2l6ZQ.short_desc": {
+          "source": "Font size",
+          "message": "Font size"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2l6ZQ.desc": {
+          "source": "Font size in user-space units. Default: `12.0`",
+          "message": "Font size in user-space units. Default: `12.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.display_name": {
+          "source": "Font Slant",
+          "message": "Font Slant"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.short_desc": {
+          "source": "Font slant style",
+          "message": "Font slant style"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.desc": {
+          "source": "Font slant style. Default: `normal`",
+          "message": "Font slant style. Default: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "Normal"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal (upright) style",
+          "message": "Normal (upright) style"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.display_name": {
+          "source": "Italic",
+          "message": "Italic"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.desc": {
+          "source": "Italic style",
+          "message": "Italic style"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.display_name": {
+          "source": "Oblique",
+          "message": "Oblique"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.desc": {
+          "source": "Oblique style",
+          "message": "Oblique style"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.display_name": {
+          "source": "Font Weight",
+          "message": "Font Weight"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.short_desc": {
+          "source": "Font weight",
+          "message": "Font weight"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.desc": {
+          "source": "Font weight style. Default: `normal`",
+          "message": "Font weight style. Default: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "Normal"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal weight",
+          "message": "Normal weight"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.display_name": {
+          "source": "Bold",
+          "message": "Bold"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.desc": {
+          "source": "Bold weight",
+          "message": "Bold weight"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cg.display_name": {
+          "source": "Text Red",
+          "message": "Text Red"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cg.short_desc": {
+          "source": "Text color red component",
+          "message": "Text color red component"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cg.desc": {
+          "source": "Text color red component (`0.0`-`1.0`). Default: `0.0` (black)",
+          "message": "Text color red component (`0.0`-`1.0`). Default: `0.0` (black)"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Zw.display_name": {
+          "source": "Text Green",
+          "message": "Text Green"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Zw.short_desc": {
+          "source": "Text color green component",
+          "message": "Text color green component"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Zw.desc": {
+          "source": "Text color green component (`0.0`-`1.0`). Default: `0.0`",
+          "message": "Text color green component (`0.0`-`1.0`). Default: `0.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Yg.display_name": {
+          "source": "Text Blue",
+          "message": "Text Blue"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Yg.short_desc": {
+          "source": "Text color blue component",
+          "message": "Text color blue component"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Yg.desc": {
+          "source": "Text color blue component (`0.0`-`1.0`). Default: `0.0`",
+          "message": "Text color blue component (`0.0`-`1.0`). Default: `0.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YQ.display_name": {
+          "source": "Text Alpha",
+          "message": "Text Alpha"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YQ.short_desc": {
+          "source": "Text color alpha",
+          "message": "Text color alpha"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YQ.desc": {
+          "source": "Text color alpha (`0.0` = transparent, `1.0` = opaque). Default: `1.0`",
+          "message": "Text color alpha (`0.0` = transparent, `1.0` = opaque). Default: `1.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Ymdfcg.display_name": {
+          "source": "Background Red",
+          "message": "Background Red"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Ymdfcg.short_desc": {
+          "source": "Background color red component",
+          "message": "Background color red component"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Ymdfcg.desc": {
+          "source": "Background color red component (`0.0`-`1.0`). Default: `1.0` (white)",
+          "message": "Background color red component (`0.0`-`1.0`). Default: `1.0` (white)"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfZw.display_name": {
+          "source": "Background Green",
+          "message": "Background Green"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfZw.short_desc": {
+          "source": "Background color green component",
+          "message": "Background color green component"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfZw.desc": {
+          "source": "Background color green component (`0.0`-`1.0`). Default: `1.0`",
+          "message": "Background color green component (`0.0`-`1.0`). Default: `1.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYg.display_name": {
+          "source": "Background Blue",
+          "message": "Background Blue"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYg.short_desc": {
+          "source": "Background color blue component",
+          "message": "Background color blue component"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYg.desc": {
+          "source": "Background color blue component (`0.0`-`1.0`). Default: `1.0`",
+          "message": "Background color blue component (`0.0`-`1.0`). Default: `1.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYQ.display_name": {
+          "source": "Background Alpha",
+          "message": "Background Alpha"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYQ.short_desc": {
+          "source": "Background color alpha",
+          "message": "Background color alpha"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYQ.desc": {
+          "source": "Background color alpha (`0.0` = transparent, `1.0` = opaque). Default: `0.0` (transparent)",
+          "message": "Background color alpha (`0.0` = transparent, `1.0` = opaque). Default: `0.0` (transparent)"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cGFkZGluZw.display_name": {
+          "source": "Padding",
+          "message": "Padding"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cGFkZGluZw.short_desc": {
+          "source": "Padding around text in pixels",
+          "message": "Padding around text in pixels"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cGFkZGluZw.desc": {
+          "source": "Padding in pixels around the rendered text. Default: `0`",
+          "message": "Padding in pixels around the rendered text. Default: `0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Output File Path"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Path to write the output to"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Output Location"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Location to write the output to"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Return Data"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Whether to include data in the response"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided."
+        }
+      }
+    }
+  }
+}
