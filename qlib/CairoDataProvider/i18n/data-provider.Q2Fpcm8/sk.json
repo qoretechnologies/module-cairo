@@ -1,0 +1,2597 @@
+{
+  "schema_version": 1,
+  "locales": {
+    "sk": {
+      "messages": {
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.desc": {
+          "source": "Composite an overlay PNG image onto a base PNG image with optional `alpha` blending, positioning (`x`, `y`), and overlay scaling (`overlay_width`, `overlay_height`).",
+          "message": "Skomponujte prekryvný obrázok PNG na základný obrázok PNG s voliteľným zmiešaním `alpha`, umiestnením (`x`, `y`) a škálovaním prekrytia (`overlay_width`, `overlay_height`)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.display_name": {
+          "source": "Composite Images",
+          "message": "Skomponovať obrázky"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YWxwaGE.desc": {
+          "source": "Overlay alpha value (`0.0` = transparent, `1.0` = opaque). Default: `1.0`",
+          "message": "Hodnota alfa prekrytia (`0.0` = priehľadný, `1.0` = nepriehľadný). Predvolené: `1.0`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YWxwaGE.display_name": {
+          "source": "Alpha",
+          "message": "Alfa"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YWxwaGE.short_desc": {
+          "source": "Overlay transparency",
+          "message": "Priehľadnosť prekrytia"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9kYXRh.desc": {
+          "source": "Binary PNG data of the base image.",
+          "message": "Binárne dáta PNG základného obrázka."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9kYXRh.display_name": {
+          "source": "Base Image Data",
+          "message": "Dáta základného obrázka"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9kYXRh.short_desc": {
+          "source": "Binary base image data",
+          "message": "Binárne dáta základného obrázka"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9pbnB1dF9wYXRo.desc": {
+          "source": "File path to the base image. One of `base_input_path`, `base_data`, or `base_location` must be provided.",
+          "message": "Cesta k súboru základného obrázka. Musí byť poskytnuté jedno z `base_input_path`, `base_data` alebo `base_location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9pbnB1dF9wYXRo.display_name": {
+          "source": "Base Image Path",
+          "message": "Cesta k základnému obrázku"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9pbnB1dF9wYXRo.short_desc": {
+          "source": "Path to base image file",
+          "message": "Cesta k súboru základného obrázka"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9sb2NhdGlvbg.desc": {
+          "source": "A file location string for the base image.",
+          "message": "Reťazec umiestnenia súboru pre základný obrázok."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9sb2NhdGlvbg.display_name": {
+          "source": "Base Image Location",
+          "message": "Umiestnenie základného obrázka"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9sb2NhdGlvbg.short_desc": {
+          "source": "Location of base image",
+          "message": "Umiestnenie základného obrázka"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV93aWR0aA.desc": {
+          "source": "Optional width to scale the overlay to (in pixels). Both `overlay_width` and `overlay_height` must be specified for scaling.",
+          "message": "Voliteľná šírka pre prispôsobenie veľkosti prekrytia (v pixeloch). Pre prispôsobenie veľkosti meujú byť zadané `overlay_width` aj `overlay_height`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV93aWR0aA.display_name": {
+          "source": "Overlay Width",
+          "message": "Šírka prekrytia"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV93aWR0aA.short_desc": {
+          "source": "Scale overlay to this width",
+          "message": "Prispôsobiť veľkosť prekrytia na túto šírku"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9kYXRh.desc": {
+          "source": "Binary PNG data of the overlay image.",
+          "message": "Binárne PNG dáta obrázka prekrytia."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9kYXRh.display_name": {
+          "source": "Overlay Image Data",
+          "message": "Dáta obrázka prekrytia"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9kYXRh.short_desc": {
+          "source": "Binary overlay image data",
+          "message": "Binárne dáta obrázka prekrytia"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9oZWlnaHQ.desc": {
+          "source": "Optional height to scale the overlay to (in pixels). Both `overlay_width` and `overlay_height` must be specified for scaling.",
+          "message": "Voliteľná výška pre prispôsobenie veľkosti prekrytia (v pixeloch). Pre prispôsobenie veľkosti musia byť zadané `overlay_width` aj `overlay_height`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9oZWlnaHQ.display_name": {
+          "source": "Overlay Height",
+          "message": "Výška prekrytia"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9oZWlnaHQ.short_desc": {
+          "source": "Scale overlay to this height",
+          "message": "Prispôsobiť veľkosť prekrytia na túto výšku"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9pbnB1dF9wYXRo.desc": {
+          "source": "File path to the overlay image. One of `overlay_input_path`, `overlay_data`, or `overlay_location` must be provided.",
+          "message": "Cesta k súboru s obrázkom prekrytia. Musí byť poskytnuté jedno z `overlay_input_path`, `overlay_data` alebo `overlay_location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9pbnB1dF9wYXRo.display_name": {
+          "source": "Overlay Image Path",
+          "message": "Cesta k obrázku prekrytia"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9pbnB1dF9wYXRo.short_desc": {
+          "source": "Path to overlay image file",
+          "message": "Cesta k súboru obrázka prekrytia"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9sb2NhdGlvbg.desc": {
+          "source": "A file location string for the overlay image.",
+          "message": "Reťazec umiestnenia súboru pre obrázok prekrytia."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9sb2NhdGlvbg.display_name": {
+          "source": "Overlay Image Location",
+          "message": "Umiestnenie obrázka prekrytia"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9sb2NhdGlvbg.short_desc": {
+          "source": "Location of overlay image",
+          "message": "Umiestnenie obrázka prekrytia"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eA.desc": {
+          "source": "X position for overlay placement. Default: `0.0`",
+          "message": "Pozícia X pre umiestnenie prekrytia. Predvolené: `0.0`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eA.display_name": {
+          "source": "X Position",
+          "message": "Pozícia X"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eA.short_desc": {
+          "source": "Overlay X position",
+          "message": "Pozícia X prekrytia"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eQ.desc": {
+          "source": "Y position for overlay placement. Default: `0.0`",
+          "message": "Pozícia Y pre umiestnenie prekrytia. Predvolené: `0.0`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eQ.display_name": {
+          "source": "Y Position",
+          "message": "Pozícia Y"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eQ.short_desc": {
+          "source": "Overlay Y position",
+          "message": "Pozícia Y prekrytia"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.short_desc": {
+          "source": "Overlay one image on another",
+          "message": "Prekryť jeden obrázok druhým"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.desc": {
+          "source": "Create a PNG raster image from declarative draw commands. Supports `ARGB32`, `RGB24`, `A8`, and `A1` pixel formats.",
+          "message": "Vytvoriť rasterový PNG obrázok z deklaratívnych príkazov kreslenia. Podporuje formáty pixelov `ARGB32`, `RGB24`, `A8` a `A1`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.display_name": {
+          "source": "Create Image",
+          "message": "Vytvoriť obrázok"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "Zoznam hašov príkazov kreslenia. Každý príkaz má kľúč `op` špecifikujúci operáciu a parametre špecifické pre operáciu.\n\n**Súradnicový systém**: rozmery sú v bodoch (1 bod = 1/72 palca). US Letter = 612 x 792 bodov; A4 = 595 x 842 bodov.\n\n**Farba a štýl**:\n- `set_source_rgb` (r, g, b) — hodnoty farieb sú desatinné čísla 0.0-1.0 (napr. r=1.0 je plná červená)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Cesty**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — uhly v radiánoch (0 = 3 hodiny, pi/2 = 6 hodín)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Kreslenie**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transformácie**:\n- `translate` (x, y), `rotate` (angle — radiány), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradienty**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Zastávky: zoznam hašov s `offset` (0.0-1.0), `r`, `g`, `b` a voliteľným `a`\n- Rozšírenie: `none` (priehľadné), `repeat` (dlaždica), `reflect` (zrkadlo), `pad` (rozšíriť farbu okraja)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Ostatné**:\n- `image` (path/data/location, x, y, width, height) — iba súbory PNG\n- `mask_surface` (path/data/location, x, y) — používa aktuálnu zdrojovú farbu maskovanú alfa kanálom povrchu PNG\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "Príkazy kreslenia"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "Zoznam príkazov kreslenia"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkE4.desc": {
+          "source": "8-bit alpha mask",
+          "message": "8-bitová alfa maska"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkE4.display_name": {
+          "source": "A8",
+          "message": "A8"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkEx.desc": {
+          "source": "1-bit alpha mask",
+          "message": "1-bitová alfa maska"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkEx.display_name": {
+          "source": "A1",
+          "message": "A1"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkFSR0IzMg.desc": {
+          "source": "32-bit ARGB (default)",
+          "message": "32-bitový ARGB (predvolené)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkFSR0IzMg.display_name": {
+          "source": "ARGB32",
+          "message": "ARGB32"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOlJHQjI0.desc": {
+          "source": "32-bit RGB (no alpha)",
+          "message": "32-bitový RGB (bez alfa kanála)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOlJHQjI0.display_name": {
+          "source": "RGB24",
+          "message": "RGB24"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.desc": {
+          "source": "Pixel format for the image surface",
+          "message": "Formát pixelov pre povrch obrázka"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.display_name": {
+          "source": "Format",
+          "message": "Formát"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.short_desc": {
+          "source": "Pixel format",
+          "message": "Formát pixelov"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.aGVpZ2h0.desc": {
+          "source": "Height of the image in pixels",
+          "message": "Výška obrázka v pixeloch"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "Výška"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.aGVpZ2h0.short_desc": {
+          "source": "Image height in pixels",
+          "message": "Výška obrázka v pixeloch"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.d2lkdGg.desc": {
+          "source": "Width of the image in pixels",
+          "message": "Šírka obrázka v pixeloch"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "Šírka"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.d2lkdGg.short_desc": {
+          "source": "Image width in pixels",
+          "message": "Šírka obrázka v pixeloch"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.short_desc": {
+          "source": "Create PNG from draw commands",
+          "message": "Vytvoriť PNG z príkazov kreslenia"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.desc": {
+          "source": "Crop a rectangular region from a PNG image at a given `x`, `y` offset with specified `crop_width` and `crop_height`.",
+          "message": "Orezať pravouhlú oblasť z PNG obrázka na danom posune `x`, `y` so špecifikovanou `crop_width` a `crop_height`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.display_name": {
+          "source": "Crop Image",
+          "message": "Orezať obrázok"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF93aWR0aA.desc": {
+          "source": "Width of the crop region in pixels",
+          "message": "Šírka oblasti orezania v pixeloch"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF93aWR0aA.display_name": {
+          "source": "Crop Width",
+          "message": "Šírka orezania"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF93aWR0aA.short_desc": {
+          "source": "Width of crop region",
+          "message": "Šírka oblasti orezania"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF9oZWlnaHQ.desc": {
+          "source": "Height of the crop region in pixels",
+          "message": "Výška oblasti orezania v pixeloch"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF9oZWlnaHQ.display_name": {
+          "source": "Crop Height",
+          "message": "Výška orezania"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF9oZWlnaHQ.short_desc": {
+          "source": "Height of crop region",
+          "message": "Výška oblasti orezania"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binárne dáta vstupu. Musí byť poskytnuté jedno z `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binárne vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Cesta k súboru, z ktorého sa má čítať vstup. Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "Ak nie je špecifikované `true` a `output_path`, vstupný súbor sa prepíše (platí len vtedy, keď sa použije `input_path`)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Prepísať"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Prepísať vstupný súbor"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Reťazec umiestnenia súboru, ako ho podporuje modul [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/input.png`, `https://example.com/image.png`). Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Umiestnenie vstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Umiestnenie vstupného súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eA.desc": {
+          "source": "X offset of the top-left corner of the crop region in pixels",
+          "message": "Posun X ľavého horného rohu oblasti orezania v pixeloch"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eA.display_name": {
+          "source": "X Offset",
+          "message": "Posun X"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eA.short_desc": {
+          "source": "X offset of crop region",
+          "message": "Posun X oblasti orezania"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eQ.desc": {
+          "source": "Y offset of the top-left corner of the crop region in pixels",
+          "message": "Posun Y ľavého horného rohu oblasti orezania v pixeloch"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eQ.display_name": {
+          "source": "Y Offset",
+          "message": "Posun Y"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eQ.short_desc": {
+          "source": "Y offset of crop region",
+          "message": "Posun Y oblasti orezania"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.short_desc": {
+          "source": "Crop a PNG image",
+          "message": "Orezať obrázok PNG"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.desc": {
+          "source": "Read PNG image `width`, `height`, `format`, and surface `type` without modifying the file.",
+          "message": "Načítať PNG obrázok `width`, `height`, `format` a povrch `type` bez úpravy súboru."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.display_name": {
+          "source": "Get Image Info",
+          "message": "Získať informácie o obrázku"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binárne dáta vstupu. Musí byť poskytnuté jedno z `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binárne vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Cesta k súboru, z ktorého sa má čítať vstup. Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Reťazec umiestnenia súboru, ako ho podporuje modul [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/input.png`, `https://example.com/image.png`). Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Umiestnenie vstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Umiestnenie vstupného súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.short_desc": {
+          "source": "Get PNG image info",
+          "message": "Získať informácie o obrázku PNG"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.desc": {
+          "source": "Draw on an existing PNG image using declarative draw commands. The input image is loaded and the draw commands are applied on top of it.",
+          "message": "Kresliť na existujúci obrázok PNG pomocou deklaratívnych príkazov kreslenia. Vstupný obrázok sa načíta a príkazy kreslenia sa aplikujú naň."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.display_name": {
+          "source": "Draw on Image",
+          "message": "Kresliť na obrázok"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "Zoznam hašov príkazov kreslenia. Každý príkaz má kľúč `op` špecifikujúci operáciu a parametre špecifické pre operáciu.\n\n**Súradnicový systém**: rozmery sú v bodoch (1 bod = 1/72 palca). US Letter = 612 x 792 bodov; A4 = 595 x 842 bodov.\n\n**Farba a štýl**:\n- `set_source_rgb` (r, g, b) — hodnoty farieb sú desatinné čísla 0.0-1.0 (napr. r=1.0 je plná červená)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Cesty**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — uhly v radiánoch (0 = 3 hodiny, pi/2 = 6 hodín)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Kreslenie**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transformácie**:\n- `translate` (x, y), `rotate` (angle — radiány), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradienty**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Zastávky: zoznam hašov s `offset` (0.0-1.0), `r`, `g`, `b` a voliteľným `a`\n- Rozšírenie: `none` (priehľadné), `repeat` (dlaždica), `reflect` (zrkadlo), `pad` (rozšíriť farbu okraja)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Ostatné**:\n- `image` (path/data/location, x, y, width, height) — iba súbory PNG\n- `mask_surface` (path/data/location, x, y) — používa aktuálnu zdrojovú farbu maskovanú alfa kanálom povrchu PNG\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "Príkazy kreslenia"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "Zoznam príkazov kreslenia"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binárne dáta vstupu. Musí byť poskytnuté jedno z `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binárne vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Cesta k súboru, z ktorého sa má čítať vstup. Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "Ak nie je špecifikované `true` a `output_path`, vstupný súbor sa prepíše (platí len vtedy, keď sa použije `input_path`)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Prepísať"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Prepísať vstupný súbor"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Reťazec umiestnenia súboru, ako ho podporuje modul [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/input.png`, `https://example.com/image.png`). Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Umiestnenie vstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Umiestnenie vstupného súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.short_desc": {
+          "source": "Draw on existing PNG",
+          "message": "Kresliť na existujúci PNG"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.desc": {
+          "source": "Rotate a PNG image by a specified `angle` in degrees. The output canvas is automatically sized to contain the full rotated image.",
+          "message": "Otočiť obrázok PNG o zadaný `angle` v stupňoch. Výstupné plátno sa automaticky prispôsobí veľkosti celého otočeného obrázka."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.display_name": {
+          "source": "Rotate Image",
+          "message": "Otočiť obrázok"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.YW5nbGU.desc": {
+          "source": "Rotation angle in degrees (positive = clockwise). Common values: `90`, `180`, `270`.",
+          "message": "Uhol otočenia v stupňoch (kladný = v smere hodinových ručičiek). Bežné hodnoty: `90`, `180`, `270`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.YW5nbGU.display_name": {
+          "source": "Angle",
+          "message": "Uhol"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.YW5nbGU.short_desc": {
+          "source": "Rotation angle in degrees",
+          "message": "Uhol otočenia v stupňoch"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binárne dáta vstupu. Musí byť poskytnuté jedno z `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binárne vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Cesta k súboru, z ktorého sa má čítať vstup. Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "Ak nie je špecifikované `true` a `output_path`, vstupný súbor sa prepíše (platí len vtedy, keď sa použije `input_path`)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Prepísať"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Prepísať vstupný súbor"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Reťazec umiestnenia súboru, ako ho podporuje modul [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/input.png`, `https://example.com/image.png`). Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Umiestnenie vstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Umiestnenie vstupného súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.short_desc": {
+          "source": "Rotate a PNG image",
+          "message": "Otočiť obrázok PNG"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.desc": {
+          "source": "Resize a PNG image to the specified `target_width` and `target_height` in pixels using Cairo surface scaling.",
+          "message": "Zmeniť veľkosť obrázka PNG na zadanú `target_width` a `target_height` v pixeloch pomocou škálovania povrchu Cairo."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.display_name": {
+          "source": "Resize Image",
+          "message": "Zmeniť veľkosť obrázka"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binárne dáta vstupu. Musí byť poskytnuté jedno z `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binárne vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Cesta k súboru, z ktorého sa má čítať vstup. Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "Ak nie je špecifikované `true` a `output_path`, vstupný súbor sa prepíše (platí len vtedy, keď sa použije `input_path`)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Prepísať"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Prepísať vstupný súbor"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Reťazec umiestnenia súboru, ako ho podporuje modul [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/input.png`, `https://example.com/image.png`). Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Umiestnenie vstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Umiestnenie vstupného súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X2hlaWdodA.desc": {
+          "source": "Target image height in pixels",
+          "message": "Cieľová výška obrázka v pixeloch"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X2hlaWdodA.display_name": {
+          "source": "Target Height",
+          "message": "Cieľová výška"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X2hlaWdodA.short_desc": {
+          "source": "Target height in pixels",
+          "message": "Cieľová výška v pixeloch"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X3dpZHRo.desc": {
+          "source": "Target image width in pixels",
+          "message": "Cieľová šírka obrázka v pixeloch"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X3dpZHRo.display_name": {
+          "source": "Target Width",
+          "message": "Cieľová šírka"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X3dpZHRo.short_desc": {
+          "source": "Target width in pixels",
+          "message": "Cieľová šírka v pixeloch"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.short_desc": {
+          "source": "Resize a PNG image",
+          "message": "Zmeniť veľkosť obrázka PNG"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.desc": {
+          "source": "Convert a PNG image to Encapsulated PostScript (EPS) format. The page dimensions match the image pixel dimensions (in points).",
+          "message": "Konvertovať obrázok PNG do formátu Encapsulated PostScript (EPS). Rozmery stránky zodpovedajú rozmerom pixelov obrázka (v bodoch)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.display_name": {
+          "source": "Image to EPS",
+          "message": "Obrázok do EPS"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binárne dáta vstupu. Musí byť poskytnuté jedno z `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binárne vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Cesta k súboru, z ktorého sa má čítať vstup. Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "Ak nie je špecifikované `true` a `output_path`, vstupný súbor sa prepíše (platí len vtedy, keď sa použije `input_path`)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Prepísať"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Prepísať vstupný súbor"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Reťazec umiestnenia súboru, ako ho podporuje modul [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/input.png`, `https://example.com/image.png`). Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Umiestnenie vstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Umiestnenie vstupného súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.short_desc": {
+          "source": "Convert PNG to EPS",
+          "message": "Konvertovať PNG do EPS"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.desc": {
+          "source": "Convert a PNG image to SVG format by embedding the raster data in an SVG surface.",
+          "message": "Konvertovať obrázok PNG do formátu SVG vložením rastrových dát do povrchu SVG."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.display_name": {
+          "source": "Image to SVG",
+          "message": "Obrázok do SVG"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binárne dáta vstupu. Musí byť poskytnuté jedno z `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binárne vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Cesta k súboru, z ktorého sa má čítať vstup. Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "Ak nie je špecifikované `true` a `output_path`, vstupný súbor sa prepíše (platí len vtedy, keď sa použije `input_path`)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Prepísať"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Prepísať vstupný súbor"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Reťazec umiestnenia súboru, ako ho podporuje modul [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/input.png`, `https://example.com/image.png`). Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Umiestnenie vstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Umiestnenie vstupného súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.short_desc": {
+          "source": "Convert PNG to SVG",
+          "message": "Konvertovať PNG do SVG"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.desc": {
+          "source": "Convert a PNG image to a single-page PDF document. The page dimensions match the image pixel dimensions (in points).",
+          "message": "Konvertovať obrázok PNG do jednostránkového dokumentu PDF. Rozmery stránky zodpovedajú rozmerom pixelov obrázka (v bodoch)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.display_name": {
+          "source": "Image to PDF",
+          "message": "Obrázok do PDF"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binárne dáta vstupu. Musí byť poskytnuté jedno z `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binárne vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Cesta k súboru, z ktorého sa má čítať vstup. Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "Ak nie je špecifikované `true` a `output_path`, vstupný súbor sa prepíše (platí len vtedy, keď sa použije `input_path`)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Prepísať"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Prepísať vstupný súbor"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Reťazec umiestnenia súboru, ako ho podporuje modul [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/input.png`, `https://example.com/image.png`). Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Umiestnenie vstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Umiestnenie vstupného súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.short_desc": {
+          "source": "Convert PNG to PDF",
+          "message": "Konvertovať PNG do PDF"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.desc": {
+          "source": "Convert a PNG image to PostScript format. The page dimensions match the image pixel dimensions (in points).",
+          "message": "Konvertovať obrázok PNG do formátu PostScript. Rozmery stránky zodpovedajú rozmerom pixelov obrázka (v bodoch)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.display_name": {
+          "source": "Image to PostScript",
+          "message": "Obrázok do PostScriptu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binárne dáta vstupu. Musí byť poskytnuté jedno z `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binárne vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Cesta k súboru, z ktorého sa má čítať vstup. Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "Ak nie je špecifikované `true` a `output_path`, vstupný súbor sa prepíše (platí len vtedy, keď sa použije `input_path`)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Prepísať"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Prepísať vstupný súbor"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Reťazec umiestnenia súboru, ako ho podporuje modul [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/input.png`, `https://example.com/image.png`). Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Umiestnenie vstupu"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Umiestnenie vstupného súboru"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.short_desc": {
+          "source": "Convert PNG to PostScript",
+          "message": "Konvertovať PNG do PostScriptu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.desc": {
+          "source": "Reads an SVG, makes the canvas square (using the larger of width/height), and centers the content on both axes. By default the output overwrites the input file. Requires librsvg.",
+          "message": "Načíta SVG, spraví plátno štvorcové (použitím väčšieho rozmeru zo šírky/výšky) a vycentruje obsah na oboch osiach. V predvolenom nastavení výstup prepíše vstupný súbor. Vyžaduje librsvg."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.display_name": {
+          "source": "Center SVG",
+          "message": "Vycentrovať SVG"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binárne dáta vstupu. Musí byť poskytnuté jedno z `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binárne vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Cesta k súboru, z ktorého sa má čítať vstup. Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "Ak nie je špecifikované `true` a `output_path`, vstupný súbor sa prepíše (platí len vtedy, keď sa použije `input_path`)."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Prepísať"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Prepísať vstupný súbor"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Reťazec umiestnenia súboru, ako ho podporuje modul [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/input.png`, `https://example.com/image.png`). Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Umiestnenie vstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Umiestnenie vstupného súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.short_desc": {
+          "source": "Center SVG content on a square canvas",
+          "message": "Vycentrovať obsah SVG na štvorcovom plátne"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.desc": {
+          "source": "Create an SVG vector image from declarative draw commands specifying shapes, text, colors, and transformations",
+          "message": "Vytvoriť vektorový obrázok SVG z deklaratívnych príkazov kreslenia špecifikujúcich tvary, text, farby a transformácie"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.display_name": {
+          "source": "Create SVG",
+          "message": "Vytvoriť SVG"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "Zoznam hašov príkazov kreslenia. Každý príkaz má kľúč `op` špecifikujúci operáciu a parametre špecifické pre operáciu.\n\n**Súradnicový systém**: rozmery sú v bodoch (1 bod = 1/72 palca). US Letter = 612 x 792 bodov; A4 = 595 x 842 bodov.\n\n**Farba a štýl**:\n- `set_source_rgb` (r, g, b) — hodnoty farieb sú desatinné čísla 0.0-1.0 (napr. r=1.0 je plná červená)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Cesty**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — uhly v radiánoch (0 = 3 hodiny, pi/2 = 6 hodín)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Kreslenie**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transformácie**:\n- `translate` (x, y), `rotate` (angle — radiány), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradienty**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Zastávky: zoznam hašov s `offset` (0.0-1.0), `r`, `g`, `b` a voliteľným `a`\n- Rozšírenie: `none` (priehľadné), `repeat` (dlaždica), `reflect` (zrkadlo), `pad` (rozšíriť farbu okraja)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Ostatné**:\n- `image` (path/data/location, x, y, width, height) — iba súbory PNG\n- `mask_surface` (path/data/location, x, y) — používa aktuálnu zdrojovú farbu maskovanú alfa kanálom povrchu PNG\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "Príkazy kreslenia"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "Zoznam príkazov kreslenia"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.aGVpZ2h0.desc": {
+          "source": "Height of the SVG surface in points (72 points = 1 inch)",
+          "message": "Výška povrchu SVG v bodoch (72 bodov = 1 palec)"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "Výška"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.aGVpZ2h0.short_desc": {
+          "source": "SVG height in points",
+          "message": "Výška SVG v bodoch"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.d2lkdGg.desc": {
+          "source": "Width of the SVG surface in points (72 points = 1 inch)",
+          "message": "Šírka povrchu SVG v bodoch (72 bodov = 1 palec)"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "Šírka"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.d2lkdGg.short_desc": {
+          "source": "SVG width in points",
+          "message": "Šírka SVG v bodoch"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.short_desc": {
+          "source": "Create SVG from draw commands",
+          "message": "Vytvoriť SVG z príkazov kreslenia"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.desc": {
+          "source": "Read SVG `width`, `height`, and metadata without modifying the file. Requires librsvg.",
+          "message": "Načítať SVG `width`, `height` a metadáta bez úpravy súboru. Vyžaduje librsvg."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.display_name": {
+          "source": "Get SVG Info",
+          "message": "Získať informácie o SVG"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binárne dáta vstupu. Musí byť poskytnuté jedno z `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binárne vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Cesta k súboru, z ktorého sa má čítať vstup. Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Reťazec umiestnenia súboru, ako ho podporuje modul [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/input.png`, `https://example.com/image.png`). Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Umiestnenie vstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Umiestnenie vstupného súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.short_desc": {
+          "source": "Get SVG dimensions and metadata",
+          "message": "Získať rozmery a metadáta SVG"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.desc": {
+          "source": "Convert an SVG file to Encapsulated PostScript (EPS) format. Specify `width` and `height` in points to control the output page size. Requires librsvg.",
+          "message": "Konvertovať súbor SVG do formátu Encapsulated PostScript (EPS). Zadajte `width` a `height` v bodoch na riadenie veľkosti výstupnej stránky. Vyžaduje librsvg."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.display_name": {
+          "source": "SVG to EPS",
+          "message": "SVG do EPS"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binárne dáta vstupu. Musí byť poskytnuté jedno z `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binárne vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aGVpZ2h0.desc": {
+          "source": "Output page height in points (72 points = 1 inch). Default: use SVG intrinsic height.",
+          "message": "Výška výstupnej stránky v bodoch (72 bodov = 1 palec). Predvolené: použiť prirodzenú výšku SVG."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "Výška"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aGVpZ2h0.short_desc": {
+          "source": "Output height in points",
+          "message": "Výstupná výška v bodoch"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Cesta k súboru, z ktorého sa má čítať vstup. Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "Ak nie je špecifikované `true` a `output_path`, vstupný súbor sa prepíše (platí len vtedy, keď sa použije `input_path`)."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Prepísať"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Prepísať vstupný súbor"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Reťazec umiestnenia súboru, ako ho podporuje modul [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/input.png`, `https://example.com/image.png`). Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Umiestnenie vstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Umiestnenie vstupného súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.d2lkdGg.desc": {
+          "source": "Output page width in points (72 points = 1 inch). Default: use SVG intrinsic width.",
+          "message": "Šírka výstupnej stránky v bodoch (72 bodov = 1 palec). Predvolené: použiť prirodzenú šírku SVG."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "Šírka"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.d2lkdGg.short_desc": {
+          "source": "Output width in points",
+          "message": "Výstupná šírka v bodoch"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.short_desc": {
+          "source": "Convert SVG to EPS",
+          "message": "Konvertovať SVG do EPS"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.desc": {
+          "source": "Convert an SVG file to PDF format. Specify `width` and `height` in points to control the output page size. Requires librsvg and PDF surface support.",
+          "message": "Konvertovať súbor SVG do formátu PDF. Zadajte `width` a `height` v bodoch na riadenie veľkosti výstupnej stránky. Vyžaduje librsvg a podporu povrchu PDF."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.display_name": {
+          "source": "SVG to PDF",
+          "message": "SVG do PDF"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binárne dáta vstupu. Musí byť poskytnuté jedno z `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binárne vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aGVpZ2h0.desc": {
+          "source": "Output page height in points (1 point = 1/72 inch; US Letter = 792). Default: use SVG intrinsic height.",
+          "message": "Výška výstupnej stránky v bodoch (1 bod = 1/72 palca; US Letter = 792). Predvolené: použiť prirodzenú výšku SVG."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "Výška"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aGVpZ2h0.short_desc": {
+          "source": "Output height in points",
+          "message": "Výstupná výška v bodoch"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Cesta k súboru, z ktorého sa má čítať vstup. Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "Ak nie je špecifikované `true` a `output_path`, vstupný súbor sa prepíše (platí len vtedy, keď sa použije `input_path`)."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Prepísať"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Prepísať vstupný súbor"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Reťazec umiestnenia súboru, ako ho podporuje modul [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/input.png`, `https://example.com/image.png`). Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Umiestnenie vstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Umiestnenie vstupného súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.d2lkdGg.desc": {
+          "source": "Output page width in points (1 point = 1/72 inch; US Letter = 612). Default: use SVG intrinsic width.",
+          "message": "Šírka výstupnej stránky v bodoch (1 bod = 1/72 palca; US Letter = 612). Predvolené: použiť prirodzenú šírku SVG."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "Šírka"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.d2lkdGg.short_desc": {
+          "source": "Output width in points",
+          "message": "Výstupná šírka v bodoch"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.short_desc": {
+          "source": "Convert SVG to PDF",
+          "message": "Konvertovať SVG do PDF"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.desc": {
+          "source": "Render an SVG file to a PNG raster image with optional resizing. Specify `width` and `height` to scale the output. Requires librsvg.",
+          "message": "Renderovať súbor SVG do rasterového obrázka PNG s voliteľnou zmenou veľkosti. Zadajte `width` a `height` na zmenu mierky výstupu. Vyžaduje librsvg."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.display_name": {
+          "source": "SVG to PNG",
+          "message": "SVG do PNG"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binárne dáta vstupu. Musí byť poskytnuté jedno z `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binárne vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aGVpZ2h0.desc": {
+          "source": "Output image height in pixels. Default: use SVG intrinsic height.",
+          "message": "Výška výstupného obrázka v pixeloch. Predvolené: použiť prirodzenú výšku SVG."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "Výška"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aGVpZ2h0.short_desc": {
+          "source": "Output height in pixels",
+          "message": "Výstupná výška v pixeloch"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Cesta k súboru, z ktorého sa má čítať vstup. Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "Ak nie je špecifikované `true` a `output_path`, vstupný súbor sa prepíše (platí len vtedy, keď sa použije `input_path`)."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Prepísať"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Prepísať vstupný súbor"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Reťazec umiestnenia súboru, ako ho podporuje modul [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/input.png`, `https://example.com/image.png`). Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Umiestnenie vstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Umiestnenie vstupného súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.d2lkdGg.desc": {
+          "source": "Output image width in pixels. Default: use SVG intrinsic width.",
+          "message": "Šírka výstupného obrázka v pixeloch. Predvolené: použiť prirodzenú šírku SVG."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "Šírka"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.d2lkdGg.short_desc": {
+          "source": "Output width in pixels",
+          "message": "Výstupná šírka v pixeloch"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.short_desc": {
+          "source": "Convert SVG to PNG",
+          "message": "Konvertovať SVG do PNG"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.desc": {
+          "source": "Convert an SVG file to PostScript format. Specify `width` and `height` in points to control the output page size. Requires librsvg.",
+          "message": "Konvertovať súbor SVG do formátu PostScript. Zadajte `width` a `height` v bodoch na riadenie veľkosti výstupnej stránky. Vyžaduje librsvg."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.display_name": {
+          "source": "SVG to PostScript",
+          "message": "SVG do PostScriptu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Binárne dáta vstupu. Musí byť poskytnuté jedno z `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "Vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "Binárne vstupné dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aGVpZ2h0.desc": {
+          "source": "Output page height in points (72 points = 1 inch). Default: use SVG intrinsic height.",
+          "message": "Výška výstupnej stránky v bodoch (72 bodov = 1 palec). Predvolené: použiť prirodzenú výšku SVG."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "Výška"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aGVpZ2h0.short_desc": {
+          "source": "Output height in points",
+          "message": "Výstupná výška v bodoch"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Cesta k súboru, z ktorého sa má čítať vstup. Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "Cesta k vstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "Ak nie je špecifikované `true` a `output_path`, vstupný súbor sa prepíše (platí len vtedy, keď sa použije `input_path`)."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "Prepísať"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "Prepísať vstupný súbor"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "Reťazec umiestnenia súboru, ako ho podporuje modul [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/input.png`, `https://example.com/image.png`). Musí byť poskytnutá jedna z možností `input_path`, `data` alebo `location`."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "Umiestnenie vstupu"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "Umiestnenie vstupného súboru"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.d2lkdGg.desc": {
+          "source": "Output page width in points (72 points = 1 inch). Default: use SVG intrinsic width.",
+          "message": "Šírka výstupnej stránky v bodoch (72 bodov = 1 palec). Predvolené: použiť prirodzenú šírku SVG."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "Šírka"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.d2lkdGg.short_desc": {
+          "source": "Output width in points",
+          "message": "Výstupná šírka v bodoch"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.short_desc": {
+          "source": "Convert SVG to PostScript",
+          "message": "Konvertovať SVG do PostScriptu"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.desc": {
+          "source": "Create a PostScript or Encapsulated PostScript (EPS) document from declarative draw commands. Set `eps` to `True` for EPS output.",
+          "message": "Vytvoriť dokument PostScript alebo Encapsulated PostScript (EPS) z deklaratívnych príkazov kreslenia. Nastavte `eps` na `True` pre výstup EPS."
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.display_name": {
+          "source": "Create PostScript",
+          "message": "Vytvoriť PostScript"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "Zoznam hašov príkazov kreslenia. Každý príkaz má kľúč `op` špecifikujúci operáciu a parametre špecifické pre operáciu.\n\n**Súradnicový systém**: rozmery sú v bodoch (1 bod = 1/72 palca). US Letter = 612 x 792 bodov; A4 = 595 x 842 bodov.\n\n**Farba a štýl**:\n- `set_source_rgb` (r, g, b) — hodnoty farieb sú desatinné čísla 0.0-1.0 (napr. r=1.0 je plná červená)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Cesty**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — uhly v radiánoch (0 = 3 hodiny, pi/2 = 6 hodín)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Kreslenie**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transformácie**:\n- `translate` (x, y), `rotate` (angle — radiány), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradienty**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Zastávky: zoznam hašov s `offset` (0.0-1.0), `r`, `g`, `b` a voliteľným `a`\n- Rozšírenie: `none` (priehľadné), `repeat` (dlaždica), `reflect` (zrkadlo), `pad` (rozšíriť farbu okraja)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Ostatné**:\n- `image` (path/data/location, x, y, width, height) — iba súbory PNG\n- `mask_surface` (path/data/location, x, y) — používa aktuálnu zdrojovú farbu maskovanú alfa kanálom povrchu PNG\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "Príkazy kreslenia"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "Zoznam príkazov kreslenia"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.ZXBz.desc": {
+          "source": "If `True`, create Encapsulated PostScript (EPS) output",
+          "message": "Ak `True`, vytvoriť výstup Encapsulated PostScript (EPS)"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.ZXBz.display_name": {
+          "source": "EPS Mode",
+          "message": "Režim EPS"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.ZXBz.short_desc": {
+          "source": "Enable EPS mode",
+          "message": "Povoliť režim EPS"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.aGVpZ2h0.desc": {
+          "source": "Height of the PostScript page in points (72 points = 1 inch)",
+          "message": "Výška stránky PostScript v bodoch (72 bodov = 1 palec)"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "Výška"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.aGVpZ2h0.short_desc": {
+          "source": "Page height in points",
+          "message": "Výška stránky v bodoch"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.d2lkdGg.desc": {
+          "source": "Width of the PostScript page in points (72 points = 1 inch)",
+          "message": "Šírka stránky PostScript v bodoch (72 bodov = 1 palec)"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "Šírka"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.d2lkdGg.short_desc": {
+          "source": "Page width in points",
+          "message": "Šírka stránky v bodoch"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.short_desc": {
+          "source": "Create PS or EPS from draw commands",
+          "message": "Vytvoriť PS alebo EPS z príkazov kreslenia"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.desc": {
+          "source": "Create a PDF document from declarative draw commands. Dimensions are in points (72 points = 1 inch).",
+          "message": "Vytvoriť dokument PDF z deklaratívnych príkazov kreslenia. Rozmery sú v bodoch (72 bodov = 1 palec)."
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.display_name": {
+          "source": "Create PDF",
+          "message": "Vytvoriť PDF"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "Zoznam hašov príkazov kreslenia. Každý príkaz má kľúč `op` špecifikujúci operáciu a parametre špecifické pre operáciu.\n\n**Súradnicový systém**: rozmery sú v bodoch (1 bod = 1/72 palca). US Letter = 612 x 792 bodov; A4 = 595 x 842 bodov.\n\n**Farba a štýl**:\n- `set_source_rgb` (r, g, b) — hodnoty farieb sú desatinné čísla 0.0-1.0 (napr. r=1.0 je plná červená)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Cesty**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — uhly v radiánoch (0 = 3 hodiny, pi/2 = 6 hodín)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Kreslenie**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transformácie**:\n- `translate` (x, y), `rotate` (angle — radiány), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradienty**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Zastávky: zoznam hašov s `offset` (0.0-1.0), `r`, `g`, `b` a voliteľným `a`\n- Rozšírenie: `none` (priehľadné), `repeat` (dlaždica), `reflect` (zrkadlo), `pad` (rozšíriť farbu okraja)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Ostatné**:\n- `image` (path/data/location, x, y, width, height) — iba súbory PNG\n- `mask_surface` (path/data/location, x, y) — používa aktuálnu zdrojovú farbu maskovanú alfa kanálom povrchu PNG\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "Príkazy kreslenia"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "Zoznam príkazov kreslenia"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.aGVpZ2h0.desc": {
+          "source": "Height of the PDF page in points (72 points = 1 inch)",
+          "message": "Výška stránky PDF v bodoch (72 bodov = 1 palec)"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "Výška"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.aGVpZ2h0.short_desc": {
+          "source": "Page height in points",
+          "message": "Výška stránky v bodoch"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.d2lkdGg.desc": {
+          "source": "Width of the PDF page in points (72 points = 1 inch)",
+          "message": "Šírka stránky PDF v bodoch (72 bodov = 1 palec)"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "Šírka"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.d2lkdGg.short_desc": {
+          "source": "Page width in points",
+          "message": "Šírka stránky v bodoch"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.short_desc": {
+          "source": "Create PDF from draw commands",
+          "message": "Vytvoriť PDF z príkazov kreslenia"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.desc": {
+          "source": "Get font metrics (`ascent`, `descent`, `height`, `max_x_advance`, `max_y_advance`) for a given font configuration.",
+          "message": "Získať metriky písma (`ascent`, `descent`, `height`, `max_x_advance`, `max_y_advance`) pre danú konfiguráciu písma."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.display_name": {
+          "source": "Get Font Metrics",
+          "message": "Získať metriky písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.ZmFtaWx5.desc": {
+          "source": "Font family name (e.g., `sans-serif`, `Helvetica`). Default: `sans-serif`",
+          "message": "Názov rodiny písma (napr. `sans-serif`, `Helvetica`). Predvolené: `sans-serif`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.ZmFtaWx5.display_name": {
+          "source": "Font Family",
+          "message": "Rodina písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.ZmFtaWx5.short_desc": {
+          "source": "Font family name",
+          "message": "Názov rodiny písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2l6ZQ.desc": {
+          "source": "Font size in user-space units. Default: `12.0`",
+          "message": "Veľkosť písma v jednotkách používateľského priestoru. Predvolené: `12.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2l6ZQ.display_name": {
+          "source": "Font Size",
+          "message": "Veľkosť písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2l6ZQ.short_desc": {
+          "source": "Font size",
+          "message": "Veľkosť písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal (upright) style",
+          "message": "Normálny (priamy) štýl"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "Normálne"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.desc": {
+          "source": "Oblique style",
+          "message": "Šikmý štýl"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.display_name": {
+          "source": "Oblique",
+          "message": "Šikmé"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.desc": {
+          "source": "Italic style",
+          "message": "Štýl kurzívy"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.display_name": {
+          "source": "Italic",
+          "message": "Kurzíva"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.desc": {
+          "source": "Font slant style. Default: `normal`",
+          "message": "Štýl sklonu písma. Predvolené: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.display_name": {
+          "source": "Font Slant",
+          "message": "Sklon písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.short_desc": {
+          "source": "Font slant style",
+          "message": "Štýl sklonu písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal weight",
+          "message": "Normálna hrúbka"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "Normálne"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.desc": {
+          "source": "Bold weight",
+          "message": "Tučná hrúbka"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.display_name": {
+          "source": "Bold",
+          "message": "Tučné"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.desc": {
+          "source": "Font weight style. Default: `normal`",
+          "message": "Štýl hrúbky písma. Predvolené: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.display_name": {
+          "source": "Font Weight",
+          "message": "Hrúbka písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.short_desc": {
+          "source": "Font weight",
+          "message": "Hrúbka písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.short_desc": {
+          "source": "Get font ascent, descent, and height",
+          "message": "Získať ascent, descent a výšku písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.desc": {
+          "source": "Calculate the `width`, `height`, bearing, and advance of a text string for a given font `family`, `size`, `slant`, and `weight`.",
+          "message": "Vypočítať `width`, `height`, bearing a advance textového reťazca pre danú konfiguráciu písma `family`, `size`, `slant` a `weight`."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.display_name": {
+          "source": "Measure Text",
+          "message": "Odmerať text"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.ZmFtaWx5.desc": {
+          "source": "Font family name (e.g., `sans-serif`, `Helvetica`). Default: `sans-serif`",
+          "message": "Názov rodiny písma (napr. `sans-serif`, `Helvetica`). Predvolené: `sans-serif`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.ZmFtaWx5.display_name": {
+          "source": "Font Family",
+          "message": "Rodina písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.ZmFtaWx5.short_desc": {
+          "source": "Font family name",
+          "message": "Názov rodiny písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2l6ZQ.desc": {
+          "source": "Font size in user-space units. Default: `12.0`",
+          "message": "Veľkosť písma v jednotkách používateľského priestoru. Predvolené: `12.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2l6ZQ.display_name": {
+          "source": "Font Size",
+          "message": "Veľkosť písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2l6ZQ.short_desc": {
+          "source": "Font size",
+          "message": "Veľkosť písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal (upright) style",
+          "message": "Normálny (priamy) štýl"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "Normálne"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.desc": {
+          "source": "Oblique style",
+          "message": "Šikmý štýl"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.display_name": {
+          "source": "Oblique",
+          "message": "Šikmé"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.desc": {
+          "source": "Italic style",
+          "message": "Štýl kurzívy"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.display_name": {
+          "source": "Italic",
+          "message": "Kurzíva"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.desc": {
+          "source": "Font slant style. Default: `normal`",
+          "message": "Štýl sklonu písma. Predvolené: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.display_name": {
+          "source": "Font Slant",
+          "message": "Sklon písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.short_desc": {
+          "source": "Font slant style",
+          "message": "Štýl sklonu písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal weight",
+          "message": "Normálna hrúbka"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "Normálne"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.desc": {
+          "source": "Bold weight",
+          "message": "Tučná hrúbka"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.display_name": {
+          "source": "Bold",
+          "message": "Tučné"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.desc": {
+          "source": "Font weight style. Default: `normal`",
+          "message": "Štýl hrúbky písma. Predvolené: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.display_name": {
+          "source": "Font Weight",
+          "message": "Hrúbka písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.short_desc": {
+          "source": "Font weight",
+          "message": "Hrúbka písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.dGV4dA.desc": {
+          "source": "The text string to measure dimensions for",
+          "message": "Textový reťazec, ktorého rozmery sa majú odmerať"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.dGV4dA.display_name": {
+          "source": "Text",
+          "message": "Text"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.dGV4dA.short_desc": {
+          "source": "Text to measure",
+          "message": "Text na meranie"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.short_desc": {
+          "source": "Measure text dimensions",
+          "message": "Zmerať rozmery textu"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.desc": {
+          "source": "Render text to a PNG image with specified font, color, and optional background. The image is automatically sized to fit the text.",
+          "message": "Rendrovať text do obrázka PNG so zadaným písmom, farbou a voliteľným pozadím. Veľkosť obrázka sa automaticky prispôsobí textu."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.display_name": {
+          "source": "Render Text",
+          "message": "Rendrovať text"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YQ.desc": {
+          "source": "Text color alpha (`0.0` = transparent, `1.0` = opaque). Default: `1.0`",
+          "message": "Alfa kanál farby textu (`0.0` = priehľadný, `1.0` = nepriehľadný). Predvolené: `1.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YQ.display_name": {
+          "source": "Text Alpha",
+          "message": "Alfa textu"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YQ.short_desc": {
+          "source": "Text color alpha",
+          "message": "Alfa kanál farby textu"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Yg.desc": {
+          "source": "Text color blue component (`0.0`-`1.0`). Default: `0.0`",
+          "message": "Modrá zložka farby textu (`0.0`-`1.0`). Predvolené: `0.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Yg.display_name": {
+          "source": "Text Blue",
+          "message": "Modrá textu"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Yg.short_desc": {
+          "source": "Text color blue component",
+          "message": "Modrá zložka farby textu"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYQ.desc": {
+          "source": "Background color alpha (`0.0` = transparent, `1.0` = opaque). Default: `0.0` (transparent)",
+          "message": "Alfa kanál farby pozadia (`0.0` = priehľadný, `1.0` = nepriehľadný). Predvolené: `0.0` (priehľadný)"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYQ.display_name": {
+          "source": "Background Alpha",
+          "message": "Alfa pozadia"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYQ.short_desc": {
+          "source": "Background color alpha",
+          "message": "Alfa kanál farby pozadia"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYg.desc": {
+          "source": "Background color blue component (`0.0`-`1.0`). Default: `1.0`",
+          "message": "Modrá zložka farby pozadia (`0.0`-`1.0`). Predvolené: `1.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYg.display_name": {
+          "source": "Background Blue",
+          "message": "Modrá pozadia"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYg.short_desc": {
+          "source": "Background color blue component",
+          "message": "Modrá zložka farby pozadia"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfZw.desc": {
+          "source": "Background color green component (`0.0`-`1.0`). Default: `1.0`",
+          "message": "Zelená zložka farby pozadia (`0.0`-`1.0`). Predvolené: `1.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfZw.display_name": {
+          "source": "Background Green",
+          "message": "Zelená pozadia"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfZw.short_desc": {
+          "source": "Background color green component",
+          "message": "Zelená zložka farby pozadia"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Ymdfcg.desc": {
+          "source": "Background color red component (`0.0`-`1.0`). Default: `1.0` (white)",
+          "message": "Červená zložka farby pozadia (`0.0`-`1.0`). Predvolené: `1.0` (biela)"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Ymdfcg.display_name": {
+          "source": "Background Red",
+          "message": "Červená pozadia"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Ymdfcg.short_desc": {
+          "source": "Background color red component",
+          "message": "Červená zložka farby pozadia"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.ZmFtaWx5.desc": {
+          "source": "Font family name (e.g., `sans-serif`, `Helvetica`). Default: `sans-serif`",
+          "message": "Názov rodiny písma (napr. `sans-serif`, `Helvetica`). Predvolené: `sans-serif`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.ZmFtaWx5.display_name": {
+          "source": "Font Family",
+          "message": "Rodina písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.ZmFtaWx5.short_desc": {
+          "source": "Font family name",
+          "message": "Názov rodiny písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Zw.desc": {
+          "source": "Text color green component (`0.0`-`1.0`). Default: `0.0`",
+          "message": "Zelená zložka farby textu (`0.0`-`1.0`). Predvolené: `0.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Zw.display_name": {
+          "source": "Text Green",
+          "message": "Zelená textu"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Zw.short_desc": {
+          "source": "Text color green component",
+          "message": "Zelená zložka farby textu"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Reťazec umiestnenia súboru podporovaný modulom [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) (napr. `file:///path/to/output.png`, `sftp://host/path/output.png`). Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "Cieľové umiestnenie"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "Umiestnenie na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "Cesta k súboru na zápis spracovaného výstupu. Ak nie je poskytnuté `output_path` ani `output_location`, dáta sa vrátia iba v odpovedi."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "Cesta k výstupnému súboru"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "Cesta na zápis výstupu"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2l6ZQ.desc": {
+          "source": "Font size in user-space units. Default: `12.0`",
+          "message": "Veľkosť písma v jednotkách používateľského priestoru. Predvolené: `12.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2l6ZQ.display_name": {
+          "source": "Font Size",
+          "message": "Veľkosť písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2l6ZQ.short_desc": {
+          "source": "Font size",
+          "message": "Veľkosť písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal (upright) style",
+          "message": "Normálny (priamy) štýl"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "Normálne"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.desc": {
+          "source": "Oblique style",
+          "message": "Šikmý štýl"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.display_name": {
+          "source": "Oblique",
+          "message": "Šikmé"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.desc": {
+          "source": "Italic style",
+          "message": "Štýl kurzívy"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.display_name": {
+          "source": "Italic",
+          "message": "Kurzíva"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.desc": {
+          "source": "Font slant style. Default: `normal`",
+          "message": "Štýl sklonu písma. Predvolené: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.display_name": {
+          "source": "Font Slant",
+          "message": "Sklon písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.short_desc": {
+          "source": "Font slant style",
+          "message": "Štýl sklonu písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cGFkZGluZw.desc": {
+          "source": "Padding in pixels around the rendered text. Default: `0`",
+          "message": "Odsadenie v pixeloch okolo rendrovaného textu. Predvolené: `0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cGFkZGluZw.display_name": {
+          "source": "Padding",
+          "message": "Odsadenie"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cGFkZGluZw.short_desc": {
+          "source": "Padding around text in pixels",
+          "message": "Odsadenie okolo textu v pixeloch"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cg.desc": {
+          "source": "Text color red component (`0.0`-`1.0`). Default: `0.0` (black)",
+          "message": "Červená zložka farby textu (`0.0`-`1.0`). Predvolené: `0.0` (čierna)"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cg.display_name": {
+          "source": "Text Red",
+          "message": "Červená textu"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cg.short_desc": {
+          "source": "Text color red component",
+          "message": "Červená zložka farby textu"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "Určuje, či sa majú do hašu odpovede zahrnúť binárne dáta. Predvolene `True`, keď nie je zadaná výstupná cesta ani umiestnenie, `False`, keď je zadaná výstupná destinácia."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "Vrátiť dáta"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "Určuje, či sa majú zahrnúť dáta do odpovede"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal weight",
+          "message": "Normálna hrúbka"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "Normálne"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.desc": {
+          "source": "Bold weight",
+          "message": "Tučná hrúbka"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.display_name": {
+          "source": "Bold",
+          "message": "Tučné"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.desc": {
+          "source": "Font weight style. Default: `normal`",
+          "message": "Štýl hrúbky písma. Predvolené: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.display_name": {
+          "source": "Font Weight",
+          "message": "Hrúbka písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.short_desc": {
+          "source": "Font weight",
+          "message": "Hrúbka písma"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.dGV4dA.desc": {
+          "source": "The text string to render to a PNG image",
+          "message": "Textový reťazec na vykreslenie do obrázka PNG"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.dGV4dA.display_name": {
+          "source": "Text",
+          "message": "Text"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.dGV4dA.short_desc": {
+          "source": "Text to render",
+          "message": "Text na rendrovanie"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.short_desc": {
+          "source": "Render text to PNG image",
+          "message": "Rendrovať text do obrázka PNG"
+        },
+        "app.Q2Fpcm8.desc": {
+          "source": "Create and manipulate vector graphics in SVG, PDF, PostScript, and EPS formats",
+          "message": "Vytváranie a úprava vektorovej grafiky vo formátoch SVG, PDF, PostScript a EPS"
+        },
+        "app.Q2Fpcm8.display_name": {
+          "source": "Cairo Vector Graphics",
+          "message": "Cairo Vector Graphics"
+        },
+        "app.Q2Fpcm8.short_desc": {
+          "source": "SVG, PDF, PostScript, and EPS vector graphics",
+          "message": "Vektorová grafika SVG, PDF, PostScript a EPS"
+        }
+      }
+    }
+  }
+}

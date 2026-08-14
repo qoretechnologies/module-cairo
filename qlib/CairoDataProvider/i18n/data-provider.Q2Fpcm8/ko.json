@@ -1,0 +1,2597 @@
+{
+  "schema_version": 1,
+  "locales": {
+    "ko": {
+      "messages": {
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.desc": {
+          "source": "Composite an overlay PNG image onto a base PNG image with optional `alpha` blending, positioning (`x`, `y`), and overlay scaling (`overlay_width`, `overlay_height`).",
+          "message": "선택적 `alpha` 혼합, 위치 지정(`x`, `y`) 및 오버레이 크기 조정(`overlay_width`, `overlay_height`)을 사용하여 기본 PNG 이미지에 오버레이 PNG 이미지를 합성합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.display_name": {
+          "source": "Composite Images",
+          "message": "이미지 합성"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YWxwaGE.desc": {
+          "source": "Overlay alpha value (`0.0` = transparent, `1.0` = opaque). Default: `1.0`",
+          "message": "오버레이 알파 값(`0.0` = 투명, `1.0` = 불투명). 기본값: `1.0`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YWxwaGE.display_name": {
+          "source": "Alpha",
+          "message": "알파"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YWxwaGE.short_desc": {
+          "source": "Overlay transparency",
+          "message": "오버레이 투명도"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9kYXRh.desc": {
+          "source": "Binary PNG data of the base image.",
+          "message": "기본 이미지의 바이너리 PNG 데이터입니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9kYXRh.display_name": {
+          "source": "Base Image Data",
+          "message": "기본 이미지 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9kYXRh.short_desc": {
+          "source": "Binary base image data",
+          "message": "바이너리 기본 이미지 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9pbnB1dF9wYXRo.desc": {
+          "source": "File path to the base image. One of `base_input_path`, `base_data`, or `base_location` must be provided.",
+          "message": "기본 이미지의 파일 경로입니다. `base_input_path`, `base_data`, `base_location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9pbnB1dF9wYXRo.display_name": {
+          "source": "Base Image Path",
+          "message": "기본 이미지 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9pbnB1dF9wYXRo.short_desc": {
+          "source": "Path to base image file",
+          "message": "기본 이미지 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9sb2NhdGlvbg.desc": {
+          "source": "A file location string for the base image.",
+          "message": "기본 이미지의 파일 위치 문자열입니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9sb2NhdGlvbg.display_name": {
+          "source": "Base Image Location",
+          "message": "기본 이미지 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9sb2NhdGlvbg.short_desc": {
+          "source": "Location of base image",
+          "message": "기본 이미지의 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV93aWR0aA.desc": {
+          "source": "Optional width to scale the overlay to (in pixels). Both `overlay_width` and `overlay_height` must be specified for scaling.",
+          "message": "오버레이의 크기를 조정할 선택적 너비(픽셀 단위)입니다. 크기를 조정하려면 `overlay_width` 및 `overlay_height`을 모두 지정해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV93aWR0aA.display_name": {
+          "source": "Overlay Width",
+          "message": "오버레이 너비"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV93aWR0aA.short_desc": {
+          "source": "Scale overlay to this width",
+          "message": "오버레이 크기를 이 너비로 조정"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9kYXRh.desc": {
+          "source": "Binary PNG data of the overlay image.",
+          "message": "오버레이 이미지의 바이너리 PNG 데이터입니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9kYXRh.display_name": {
+          "source": "Overlay Image Data",
+          "message": "오버레이 이미지 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9kYXRh.short_desc": {
+          "source": "Binary overlay image data",
+          "message": "바이너리 오버레이 이미지 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9oZWlnaHQ.desc": {
+          "source": "Optional height to scale the overlay to (in pixels). Both `overlay_width` and `overlay_height` must be specified for scaling.",
+          "message": "오버레이의 크기를 조정할 선택적 높이(픽셀 단위)입니다. 크기를 조정하려면 `overlay_width` 및 `overlay_height`을 모두 지정해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9oZWlnaHQ.display_name": {
+          "source": "Overlay Height",
+          "message": "오버레이 높이"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9oZWlnaHQ.short_desc": {
+          "source": "Scale overlay to this height",
+          "message": "오버레이 크기를 이 높이로 조정"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9pbnB1dF9wYXRo.desc": {
+          "source": "File path to the overlay image. One of `overlay_input_path`, `overlay_data`, or `overlay_location` must be provided.",
+          "message": "오버레이 이미지의 파일 경로입니다. `overlay_input_path`, `overlay_data`, `overlay_location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9pbnB1dF9wYXRo.display_name": {
+          "source": "Overlay Image Path",
+          "message": "오버레이 이미지 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9pbnB1dF9wYXRo.short_desc": {
+          "source": "Path to overlay image file",
+          "message": "오버레이 이미지 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9sb2NhdGlvbg.desc": {
+          "source": "A file location string for the overlay image.",
+          "message": "오버레이 이미지의 파일 위치 문자열입니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9sb2NhdGlvbg.display_name": {
+          "source": "Overlay Image Location",
+          "message": "오버레이 이미지 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9sb2NhdGlvbg.short_desc": {
+          "source": "Location of overlay image",
+          "message": "오버레이 이미지의 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eA.desc": {
+          "source": "X position for overlay placement. Default: `0.0`",
+          "message": "오버레이 배치용 X 위치입니다. 기본값: `0.0`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eA.display_name": {
+          "source": "X Position",
+          "message": "X 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eA.short_desc": {
+          "source": "Overlay X position",
+          "message": "오버레이 X 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eQ.desc": {
+          "source": "Y position for overlay placement. Default: `0.0`",
+          "message": "오버레이 배치용 Y 위치입니다. 기본값: `0.0`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eQ.display_name": {
+          "source": "Y Position",
+          "message": "Y 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eQ.short_desc": {
+          "source": "Overlay Y position",
+          "message": "오버레이 Y 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.short_desc": {
+          "source": "Overlay one image on another",
+          "message": "한 이미지를 다른 이미지 위에 오버레이"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.desc": {
+          "source": "Create a PNG raster image from declarative draw commands. Supports `ARGB32`, `RGB24`, `A8`, and `A1` pixel formats.",
+          "message": "선언적 그리기 명령에서 PNG 래스터 이미지를 만듭니다. `ARGB32`, `RGB24`, `A8` 및 `A1` 픽셀 형식을 지원합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.display_name": {
+          "source": "Create Image",
+          "message": "이미지 생성"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "그리기 명령 해시의 목록입니다. 각 명령에는 작업 및 작업별 매개변수를 지정하는 `op` 키가 있습니다.\n\n**좌표계**: 치수는 포인트 단위입니다(1포인트 = 1/72인치). US Letter = 612 x 792 포인트; A4 = 595 x 842 포인트.\n\n**색상 및 스타일**:\n- `set_source_rgb` (r, g, b) — 색상 값은 0.0-1.0의 부동소수점입니다(예: r=1.0은 순수한 빨간색)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**경로**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — 각도는 라디안 단위입니다(0 = 3시 방향, pi/2 = 6시 방향)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**그리기**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**텍스트**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**변환**:\n- `translate` (x, y), `rotate` (angle — 라디안), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**그라디언트**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- 정지점(Stops): `offset` (0.0-1.0), `r`, `g`, `b` 및 선택적 `a`을 가진 해시 목록\n- 확장(Extend): `none` (투명), `repeat` (타일), `reflect` (미러), `pad` (가장자리 색상 확장)\n- 필터(Filter): `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**기타**:\n- `image` (path/data/location, x, y, width, height) — PNG 파일 전용\n- `mask_surface` (path/data/location, x, y) — PNG 서피스의 알파 채널로 마스크 처리된 현재 소스 색상 사용\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "그리기 명령"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "그리기 명령 목록"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkE4.desc": {
+          "source": "8-bit alpha mask",
+          "message": "8비트 알파 마스크"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkE4.display_name": {
+          "source": "A8",
+          "message": "A8"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkEx.desc": {
+          "source": "1-bit alpha mask",
+          "message": "1비트 알파 마스크"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkEx.display_name": {
+          "source": "A1",
+          "message": "A1"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkFSR0IzMg.desc": {
+          "source": "32-bit ARGB (default)",
+          "message": "32비트 ARGB(기본값)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkFSR0IzMg.display_name": {
+          "source": "ARGB32",
+          "message": "ARGB32"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOlJHQjI0.desc": {
+          "source": "32-bit RGB (no alpha)",
+          "message": "32비트 RGB(알파 없음)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOlJHQjI0.display_name": {
+          "source": "RGB24",
+          "message": "RGB24"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.desc": {
+          "source": "Pixel format for the image surface",
+          "message": "이미지 서피스의 픽셀 형식"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.display_name": {
+          "source": "Format",
+          "message": "형식"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.short_desc": {
+          "source": "Pixel format",
+          "message": "픽셀 형식"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.aGVpZ2h0.desc": {
+          "source": "Height of the image in pixels",
+          "message": "이미지 높이(픽셀 단위)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "높이"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.aGVpZ2h0.short_desc": {
+          "source": "Image height in pixels",
+          "message": "이미지 높이(픽셀 단위)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.d2lkdGg.desc": {
+          "source": "Width of the image in pixels",
+          "message": "이미지 너비(픽셀 단위)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "너비"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.d2lkdGg.short_desc": {
+          "source": "Image width in pixels",
+          "message": "이미지 너비(픽셀 단위)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.short_desc": {
+          "source": "Create PNG from draw commands",
+          "message": "그리기 명령에서 PNG 생성"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.desc": {
+          "source": "Crop a rectangular region from a PNG image at a given `x`, `y` offset with specified `crop_width` and `crop_height`.",
+          "message": "지정된 `crop_width` 및 `crop_height`을(를) 사용하여 주어진 `x`, `y` 오프셋의 PNG 이미지에서 직사각형 영역을 잘라냅니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.display_name": {
+          "source": "Crop Image",
+          "message": "이미지 자르기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF93aWR0aA.desc": {
+          "source": "Width of the crop region in pixels",
+          "message": "자르기 영역의 너비(픽셀 단위)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF93aWR0aA.display_name": {
+          "source": "Crop Width",
+          "message": "자르기 너비"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF93aWR0aA.short_desc": {
+          "source": "Width of crop region",
+          "message": "자르기 영역 너비"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF9oZWlnaHQ.desc": {
+          "source": "Height of the crop region in pixels",
+          "message": "자르기 영역의 높이(픽셀 단위)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF9oZWlnaHQ.display_name": {
+          "source": "Crop Height",
+          "message": "자르기 높이"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF9oZWlnaHQ.short_desc": {
+          "source": "Height of crop region",
+          "message": "자르기 영역 높이"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력의 바이너리 데이터입니다. `input_path`, `data`, `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "이진 입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력을 읽을 파일 경로입니다. `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true` 및 `output_path`이(가) 지정되지 않은 경우 입력 파일이 덮어쓰여집니다(`input_path`이(가) 사용될 때만 적용됨)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "입력 파일 덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/input.png`, `https://example.com/image.png`). `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "입력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "입력 파일 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eA.desc": {
+          "source": "X offset of the top-left corner of the crop region in pixels",
+          "message": "자르기 영역의 왼쪽 위 모서리의 X 오프셋(픽셀 단위)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eA.display_name": {
+          "source": "X Offset",
+          "message": "X 오프셋"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eA.short_desc": {
+          "source": "X offset of crop region",
+          "message": "자르기 영역의 X 오프셋"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eQ.desc": {
+          "source": "Y offset of the top-left corner of the crop region in pixels",
+          "message": "자르기 영역의 왼쪽 위 모서리의 Y 오프셋(픽셀 단위)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eQ.display_name": {
+          "source": "Y Offset",
+          "message": "Y 오프셋"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eQ.short_desc": {
+          "source": "Y offset of crop region",
+          "message": "자르기 영역의 Y 오프셋"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.short_desc": {
+          "source": "Crop a PNG image",
+          "message": "PNG 이미지 자르기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.desc": {
+          "source": "Read PNG image `width`, `height`, `format`, and surface `type` without modifying the file.",
+          "message": "파일을 수정하지 않고 PNG 이미지 `width`, `height`, `format` 및 서페이스 `type`을(를) 읽습니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.display_name": {
+          "source": "Get Image Info",
+          "message": "이미지 정보 가져오기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력의 바이너리 데이터입니다. `input_path`, `data`, `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "이진 입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력을 읽을 파일 경로입니다. `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/input.png`, `https://example.com/image.png`). `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "입력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "입력 파일 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.short_desc": {
+          "source": "Get PNG image info",
+          "message": "PNG 이미지 정보 가져오기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.desc": {
+          "source": "Draw on an existing PNG image using declarative draw commands. The input image is loaded and the draw commands are applied on top of it.",
+          "message": "선언적 그리기 명령을 사용하여 기존 PNG 이미지에 그립니다. 입력 이미지가 로드되고 그 위에 그리기 명령이 적용됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.display_name": {
+          "source": "Draw on Image",
+          "message": "이미지에 그리기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "그리기 명령 해시의 목록입니다. 각 명령에는 작업 및 작업별 매개변수를 지정하는 `op` 키가 있습니다.\n\n**좌표계**: 치수는 포인트 단위입니다(1포인트 = 1/72인치). US Letter = 612 x 792 포인트; A4 = 595 x 842 포인트.\n\n**색상 및 스타일**:\n- `set_source_rgb` (r, g, b) — 색상 값은 0.0-1.0의 부동소수점입니다(예: r=1.0은 순수한 빨간색)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**경로**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — 각도는 라디안 단위입니다(0 = 3시 방향, pi/2 = 6시 방향)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**그리기**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**텍스트**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**변환**:\n- `translate` (x, y), `rotate` (angle — 라디안), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**그라디언트**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- 정지점(Stops): `offset` (0.0-1.0), `r`, `g`, `b` 및 선택적 `a`을 가진 해시 목록\n- 확장(Extend): `none` (투명), `repeat` (타일), `reflect` (미러), `pad` (가장자리 색상 확장)\n- 필터(Filter): `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**기타**:\n- `image` (path/data/location, x, y, width, height) — PNG 파일 전용\n- `mask_surface` (path/data/location, x, y) — PNG 서피스의 알파 채널로 마스크 처리된 현재 소스 색상 사용\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "그리기 명령"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "그리기 명령 목록"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력의 바이너리 데이터입니다. `input_path`, `data`, `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "이진 입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력을 읽을 파일 경로입니다. `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true` 및 `output_path`이(가) 지정되지 않은 경우 입력 파일이 덮어쓰여집니다(`input_path`이(가) 사용될 때만 적용됨)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "입력 파일 덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/input.png`, `https://example.com/image.png`). `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "입력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "입력 파일 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.short_desc": {
+          "source": "Draw on existing PNG",
+          "message": "기존 PNG에 그리기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.desc": {
+          "source": "Rotate a PNG image by a specified `angle` in degrees. The output canvas is automatically sized to contain the full rotated image.",
+          "message": "PNG 이미지를 지정된 `angle`(도 단위)만큼 회전합니다. 출력 캔버스는 회전된 전체 이미지를 포함하도록 크기가 자동으로 조정됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.display_name": {
+          "source": "Rotate Image",
+          "message": "이미지 회전"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.YW5nbGU.desc": {
+          "source": "Rotation angle in degrees (positive = clockwise). Common values: `90`, `180`, `270`.",
+          "message": "회전 각도(도 단위, 양수 = 시계 방향). 일반적인 값: `90`, `180`, `270`."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.YW5nbGU.display_name": {
+          "source": "Angle",
+          "message": "각도"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.YW5nbGU.short_desc": {
+          "source": "Rotation angle in degrees",
+          "message": "회전 각도(도 단위)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력의 바이너리 데이터입니다. `input_path`, `data`, `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "이진 입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력을 읽을 파일 경로입니다. `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true` 및 `output_path`이(가) 지정되지 않은 경우 입력 파일이 덮어쓰여집니다(`input_path`이(가) 사용될 때만 적용됨)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "입력 파일 덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/input.png`, `https://example.com/image.png`). `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "입력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "입력 파일 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.short_desc": {
+          "source": "Rotate a PNG image",
+          "message": "PNG 이미지 회전"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.desc": {
+          "source": "Resize a PNG image to the specified `target_width` and `target_height` in pixels using Cairo surface scaling.",
+          "message": "Cairo 서페이스 스케일링을 사용하여 PNG 이미지 크기를 지정된 `target_width` 및 `target_height`(픽셀 단위)로 조정합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.display_name": {
+          "source": "Resize Image",
+          "message": "이미지 크기 조정"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력의 바이너리 데이터입니다. `input_path`, `data`, `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "이진 입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력을 읽을 파일 경로입니다. `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true` 및 `output_path`이(가) 지정되지 않은 경우 입력 파일이 덮어쓰여집니다(`input_path`이(가) 사용될 때만 적용됨)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "입력 파일 덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/input.png`, `https://example.com/image.png`). `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "입력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "입력 파일 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X2hlaWdodA.desc": {
+          "source": "Target image height in pixels",
+          "message": "대상 이미지 높이(픽셀 단위)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X2hlaWdodA.display_name": {
+          "source": "Target Height",
+          "message": "대상 높이"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X2hlaWdodA.short_desc": {
+          "source": "Target height in pixels",
+          "message": "대상 높이(픽셀 단위)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X3dpZHRo.desc": {
+          "source": "Target image width in pixels",
+          "message": "대상 이미지 너비(픽셀 단위)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X3dpZHRo.display_name": {
+          "source": "Target Width",
+          "message": "대상 너비"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X3dpZHRo.short_desc": {
+          "source": "Target width in pixels",
+          "message": "대상 너비(픽셀 단위)"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.short_desc": {
+          "source": "Resize a PNG image",
+          "message": "PNG 이미지 크기 조정"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.desc": {
+          "source": "Convert a PNG image to Encapsulated PostScript (EPS) format. The page dimensions match the image pixel dimensions (in points).",
+          "message": "PNG 이미지를 EPS(Encapsulated PostScript) 형식으로 변환합니다. 페이지 크기는 이미지 픽셀 크기(포인트 단위)와 일치합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.display_name": {
+          "source": "Image to EPS",
+          "message": "이미지를 EPS로 변환"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력의 바이너리 데이터입니다. `input_path`, `data`, `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "이진 입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력을 읽을 파일 경로입니다. `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true` 및 `output_path`이(가) 지정되지 않은 경우 입력 파일이 덮어쓰여집니다(`input_path`이(가) 사용될 때만 적용됨)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "입력 파일 덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/input.png`, `https://example.com/image.png`). `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "입력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "입력 파일 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.short_desc": {
+          "source": "Convert PNG to EPS",
+          "message": "PNG를 EPS로 변환"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.desc": {
+          "source": "Convert a PNG image to SVG format by embedding the raster data in an SVG surface.",
+          "message": "래스터 데이터를 SVG 서페이스에 임베딩하여 PNG 이미지를 SVG 형식으로 변환합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.display_name": {
+          "source": "Image to SVG",
+          "message": "이미지를 SVG로 변환"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력의 바이너리 데이터입니다. `input_path`, `data`, `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "이진 입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력을 읽을 파일 경로입니다. `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true` 및 `output_path`이(가) 지정되지 않은 경우 입력 파일이 덮어쓰여집니다(`input_path`이(가) 사용될 때만 적용됨)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "입력 파일 덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/input.png`, `https://example.com/image.png`). `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "입력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "입력 파일 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.short_desc": {
+          "source": "Convert PNG to SVG",
+          "message": "PNG를 SVG로 변환"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.desc": {
+          "source": "Convert a PNG image to a single-page PDF document. The page dimensions match the image pixel dimensions (in points).",
+          "message": "PNG 이미지를 단일 페이지 PDF 문서로 변환합니다. 페이지 크기는 이미지 픽셀 크기(포인트 단위)와 일치합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.display_name": {
+          "source": "Image to PDF",
+          "message": "이미지를 PDF로 변환"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력의 바이너리 데이터입니다. `input_path`, `data`, `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "이진 입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력을 읽을 파일 경로입니다. `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true` 및 `output_path`이(가) 지정되지 않은 경우 입력 파일이 덮어쓰여집니다(`input_path`이(가) 사용될 때만 적용됨)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "입력 파일 덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/input.png`, `https://example.com/image.png`). `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "입력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "입력 파일 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.short_desc": {
+          "source": "Convert PNG to PDF",
+          "message": "PNG를 PDF로 변환"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.desc": {
+          "source": "Convert a PNG image to PostScript format. The page dimensions match the image pixel dimensions (in points).",
+          "message": "PNG 이미지를 PostScript 형식으로 변환합니다. 페이지 크기는 이미지 픽셀 크기(포인트 단위)와 일치합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.display_name": {
+          "source": "Image to PostScript",
+          "message": "이미지를 PostScript로 변환"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력의 바이너리 데이터입니다. `input_path`, `data`, `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "이진 입력 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력을 읽을 파일 경로입니다. `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true` 및 `output_path`이(가) 지정되지 않은 경우 입력 파일이 덮어쓰여집니다(`input_path`이(가) 사용될 때만 적용됨)."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "입력 파일 덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/input.png`, `https://example.com/image.png`). `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "입력 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "입력 파일 위치"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.short_desc": {
+          "source": "Convert PNG to PostScript",
+          "message": "PNG를 PostScript로 변환"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.desc": {
+          "source": "Reads an SVG, makes the canvas square (using the larger of width/height), and centers the content on both axes. By default the output overwrites the input file. Requires librsvg.",
+          "message": "SVG를 읽고, 캔버스를 정사각형으로 만든 후(너비/높이 중 더 큰 값 사용), 두 축 모두에서 콘텐츠를 중앙에 배치합니다. 기본적으로 출력은 입력 파일을 덮어씁니다. librsvg가 필요합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.display_name": {
+          "source": "Center SVG",
+          "message": "SVG 중앙 정렬"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력의 바이너리 데이터입니다. `input_path`, `data`, `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "입력 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "이진 입력 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력을 읽을 파일 경로입니다. `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true` 및 `output_path`이(가) 지정되지 않은 경우 입력 파일이 덮어쓰여집니다(`input_path`이(가) 사용될 때만 적용됨)."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "입력 파일 덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/input.png`, `https://example.com/image.png`). `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "입력 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "입력 파일 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.short_desc": {
+          "source": "Center SVG content on a square canvas",
+          "message": "정사각형 캔버스에서 SVG 콘텐츠 중앙 정렬"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.desc": {
+          "source": "Create an SVG vector image from declarative draw commands specifying shapes, text, colors, and transformations",
+          "message": "도형, 텍스트, 색상 및 변환을 지정하는 선언적 그리기 명령에서 SVG 벡터 이미지를 만듭니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.display_name": {
+          "source": "Create SVG",
+          "message": "SVG 만들기"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "그리기 명령 해시의 목록입니다. 각 명령에는 작업 및 작업별 매개변수를 지정하는 `op` 키가 있습니다.\n\n**좌표계**: 치수는 포인트 단위입니다(1포인트 = 1/72인치). US Letter = 612 x 792 포인트; A4 = 595 x 842 포인트.\n\n**색상 및 스타일**:\n- `set_source_rgb` (r, g, b) — 색상 값은 0.0-1.0의 부동소수점입니다(예: r=1.0은 순수한 빨간색)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**경로**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — 각도는 라디안 단위입니다(0 = 3시 방향, pi/2 = 6시 방향)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**그리기**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**텍스트**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**변환**:\n- `translate` (x, y), `rotate` (angle — 라디안), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**그라디언트**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- 정지점(Stops): `offset` (0.0-1.0), `r`, `g`, `b` 및 선택적 `a`을 가진 해시 목록\n- 확장(Extend): `none` (투명), `repeat` (타일), `reflect` (미러), `pad` (가장자리 색상 확장)\n- 필터(Filter): `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**기타**:\n- `image` (path/data/location, x, y, width, height) — PNG 파일 전용\n- `mask_surface` (path/data/location, x, y) — PNG 서피스의 알파 채널로 마스크 처리된 현재 소스 색상 사용\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "그리기 명령"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "그리기 명령 목록"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.aGVpZ2h0.desc": {
+          "source": "Height of the SVG surface in points (72 points = 1 inch)",
+          "message": "SVG 서페이스 높이(포인트 단위, 72포인트 = 1인치)"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "높이"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.aGVpZ2h0.short_desc": {
+          "source": "SVG height in points",
+          "message": "SVG 높이(포인트 단위)"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.d2lkdGg.desc": {
+          "source": "Width of the SVG surface in points (72 points = 1 inch)",
+          "message": "SVG 서페이스 너비(포인트 단위, 72포인트 = 1인치)"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "너비"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.d2lkdGg.short_desc": {
+          "source": "SVG width in points",
+          "message": "SVG 너비(포인트 단위)"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.short_desc": {
+          "source": "Create SVG from draw commands",
+          "message": "그리기 명령으로 SVG 만들기"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.desc": {
+          "source": "Read SVG `width`, `height`, and metadata without modifying the file. Requires librsvg.",
+          "message": "파일을 수정하지 않고 SVG `width`, `height` 및 메타데이터를 읽습니다. librsvg가 필요합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.display_name": {
+          "source": "Get SVG Info",
+          "message": "SVG 정보 가져오기"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력의 바이너리 데이터입니다. `input_path`, `data`, `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "입력 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "이진 입력 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력을 읽을 파일 경로입니다. `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/input.png`, `https://example.com/image.png`). `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "입력 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "입력 파일 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.short_desc": {
+          "source": "Get SVG dimensions and metadata",
+          "message": "SVG 크기 및 메타데이터 가져오기"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.desc": {
+          "source": "Convert an SVG file to Encapsulated PostScript (EPS) format. Specify `width` and `height` in points to control the output page size. Requires librsvg.",
+          "message": "SVG 파일을 EPS(Encapsulated PostScript) 형식으로 변환합니다. 출력 페이지 크기를 제어하려면 포인트 단위로 `width` 및 `height`을(를) 지정하십시오. librsvg가 필요합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.display_name": {
+          "source": "SVG to EPS",
+          "message": "SVG를 EPS로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력의 바이너리 데이터입니다. `input_path`, `data`, `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "입력 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "이진 입력 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aGVpZ2h0.desc": {
+          "source": "Output page height in points (72 points = 1 inch). Default: use SVG intrinsic height.",
+          "message": "포인트 단위의 출력 페이지 높이(72포인트 = 1인치). 기본값: SVG 고유 높이 사용."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "높이"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aGVpZ2h0.short_desc": {
+          "source": "Output height in points",
+          "message": "포인트 단위 출력 높이"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력을 읽을 파일 경로입니다. `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true` 및 `output_path`이(가) 지정되지 않은 경우 입력 파일이 덮어쓰여집니다(`input_path`이(가) 사용될 때만 적용됨)."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "입력 파일 덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/input.png`, `https://example.com/image.png`). `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "입력 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "입력 파일 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.d2lkdGg.desc": {
+          "source": "Output page width in points (72 points = 1 inch). Default: use SVG intrinsic width.",
+          "message": "포인트 단위의 출력 페이지 너비(72포인트 = 1인치). 기본값: SVG 고유 너비 사용."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "너비"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.d2lkdGg.short_desc": {
+          "source": "Output width in points",
+          "message": "포인트 단위 출력 너비"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.short_desc": {
+          "source": "Convert SVG to EPS",
+          "message": "SVG를 EPS로 변환"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.desc": {
+          "source": "Convert an SVG file to PDF format. Specify `width` and `height` in points to control the output page size. Requires librsvg and PDF surface support.",
+          "message": "SVG 파일을 PDF 형식으로 변환합니다. 출력 페이지 크기를 제어하려면 `width` 및 `height`을 포인트 단위로 지정하십시오. librsvg 및 PDF 서피스 지원이 필요합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.display_name": {
+          "source": "SVG to PDF",
+          "message": "SVG를 PDF로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력의 바이너리 데이터입니다. `input_path`, `data`, `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "입력 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "이진 입력 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aGVpZ2h0.desc": {
+          "source": "Output page height in points (1 point = 1/72 inch; US Letter = 792). Default: use SVG intrinsic height.",
+          "message": "포인트 단위의 출력 페이지 높이(1포인트 = 1/72인치, US Letter = 792). 기본값: SVG 고유 높이 사용."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "높이"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aGVpZ2h0.short_desc": {
+          "source": "Output height in points",
+          "message": "포인트 단위 출력 높이"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력을 읽을 파일 경로입니다. `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true` 및 `output_path`이(가) 지정되지 않은 경우 입력 파일이 덮어쓰여집니다(`input_path`이(가) 사용될 때만 적용됨)."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "입력 파일 덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/input.png`, `https://example.com/image.png`). `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "입력 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "입력 파일 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.d2lkdGg.desc": {
+          "source": "Output page width in points (1 point = 1/72 inch; US Letter = 612). Default: use SVG intrinsic width.",
+          "message": "포인트 단위의 출력 페이지 너비(1포인트 = 1/72인치, US Letter = 612). 기본값: SVG 고유 너비 사용."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "너비"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.d2lkdGg.short_desc": {
+          "source": "Output width in points",
+          "message": "포인트 단위 출력 너비"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.short_desc": {
+          "source": "Convert SVG to PDF",
+          "message": "SVG를 PDF로 변환"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.desc": {
+          "source": "Render an SVG file to a PNG raster image with optional resizing. Specify `width` and `height` to scale the output. Requires librsvg.",
+          "message": "SVG 파일을 선택적 크기 조정과 함께 PNG 래스터 이미지로 렌더링합니다. 출력을 비율 조정하려면 `width` 및 `height`을 지정하십시오. librsvg가 필요합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.display_name": {
+          "source": "SVG to PNG",
+          "message": "SVG를 PNG로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력의 바이너리 데이터입니다. `input_path`, `data`, `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "입력 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "이진 입력 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aGVpZ2h0.desc": {
+          "source": "Output image height in pixels. Default: use SVG intrinsic height.",
+          "message": "픽셀 단위의 출력 이미지 높이. 기본값: SVG 고유 높이 사용."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "높이"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aGVpZ2h0.short_desc": {
+          "source": "Output height in pixels",
+          "message": "픽셀 단위 출력 높이"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력을 읽을 파일 경로입니다. `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true` 및 `output_path`이(가) 지정되지 않은 경우 입력 파일이 덮어쓰여집니다(`input_path`이(가) 사용될 때만 적용됨)."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "입력 파일 덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/input.png`, `https://example.com/image.png`). `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "입력 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "입력 파일 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.d2lkdGg.desc": {
+          "source": "Output image width in pixels. Default: use SVG intrinsic width.",
+          "message": "픽셀 단위의 출력 이미지 너비. 기본값: SVG 고유 너비 사용."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "너비"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.d2lkdGg.short_desc": {
+          "source": "Output width in pixels",
+          "message": "픽셀 단위 출력 너비"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.short_desc": {
+          "source": "Convert SVG to PNG",
+          "message": "SVG를 PNG로 변환"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.desc": {
+          "source": "Convert an SVG file to PostScript format. Specify `width` and `height` in points to control the output page size. Requires librsvg.",
+          "message": "SVG 파일을 PostScript 형식으로 변환합니다. 출력 페이지 크기를 제어하려면 `width` 및 `height`을 포인트 단위로 지정하십시오. librsvg가 필요합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.display_name": {
+          "source": "SVG to PostScript",
+          "message": "SVG를 PostScript로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력의 바이너리 데이터입니다. `input_path`, `data`, `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "입력 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "이진 입력 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aGVpZ2h0.desc": {
+          "source": "Output page height in points (72 points = 1 inch). Default: use SVG intrinsic height.",
+          "message": "포인트 단위의 출력 페이지 높이(72포인트 = 1인치). 기본값: SVG 고유 높이 사용."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "높이"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aGVpZ2h0.short_desc": {
+          "source": "Output height in points",
+          "message": "포인트 단위 출력 높이"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "입력을 읽을 파일 경로입니다. `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "입력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true` 및 `output_path`이(가) 지정되지 않은 경우 입력 파일이 덮어쓰여집니다(`input_path`이(가) 사용될 때만 적용됨)."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "입력 파일 덮어쓰기"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/input.png`, `https://example.com/image.png`). `input_path`, `data` 또는 `location` 중 하나를 제공해야 합니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "입력 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "입력 파일 위치"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.d2lkdGg.desc": {
+          "source": "Output page width in points (72 points = 1 inch). Default: use SVG intrinsic width.",
+          "message": "포인트 단위의 출력 페이지 너비(72포인트 = 1인치). 기본값: SVG 고유 너비 사용."
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "너비"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.d2lkdGg.short_desc": {
+          "source": "Output width in points",
+          "message": "포인트 단위 출력 너비"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.short_desc": {
+          "source": "Convert SVG to PostScript",
+          "message": "SVG를 PostScript로 변환"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.desc": {
+          "source": "Create a PostScript or Encapsulated PostScript (EPS) document from declarative draw commands. Set `eps` to `True` for EPS output.",
+          "message": "선언적 그리기 명령으로 PostScript 또는 Encapsulated PostScript(EPS) 문서를 생성합니다. EPS 출력을 하려면 `eps`을 `True`로 설정하십시오."
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.display_name": {
+          "source": "Create PostScript",
+          "message": "PostScript 생성"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "그리기 명령 해시의 목록입니다. 각 명령에는 작업 및 작업별 매개변수를 지정하는 `op` 키가 있습니다.\n\n**좌표계**: 치수는 포인트 단위입니다(1포인트 = 1/72인치). US Letter = 612 x 792 포인트; A4 = 595 x 842 포인트.\n\n**색상 및 스타일**:\n- `set_source_rgb` (r, g, b) — 색상 값은 0.0-1.0의 부동소수점입니다(예: r=1.0은 순수한 빨간색)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**경로**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — 각도는 라디안 단위입니다(0 = 3시 방향, pi/2 = 6시 방향)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**그리기**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**텍스트**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**변환**:\n- `translate` (x, y), `rotate` (angle — 라디안), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**그라디언트**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- 정지점(Stops): `offset` (0.0-1.0), `r`, `g`, `b` 및 선택적 `a`을 가진 해시 목록\n- 확장(Extend): `none` (투명), `repeat` (타일), `reflect` (미러), `pad` (가장자리 색상 확장)\n- 필터(Filter): `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**기타**:\n- `image` (path/data/location, x, y, width, height) — PNG 파일 전용\n- `mask_surface` (path/data/location, x, y) — PNG 서피스의 알파 채널로 마스크 처리된 현재 소스 색상 사용\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "그리기 명령"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "그리기 명령 목록"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.ZXBz.desc": {
+          "source": "If `True`, create Encapsulated PostScript (EPS) output",
+          "message": "`True`인 경우 Encapsulated PostScript(EPS) 출력을 생성합니다."
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.ZXBz.display_name": {
+          "source": "EPS Mode",
+          "message": "EPS 모드"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.ZXBz.short_desc": {
+          "source": "Enable EPS mode",
+          "message": "EPS 모드 활성화"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.aGVpZ2h0.desc": {
+          "source": "Height of the PostScript page in points (72 points = 1 inch)",
+          "message": "포인트 단위의 PostScript 페이지 높이(72포인트 = 1인치)"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "높이"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.aGVpZ2h0.short_desc": {
+          "source": "Page height in points",
+          "message": "포인트 단위 페이지 높이"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.d2lkdGg.desc": {
+          "source": "Width of the PostScript page in points (72 points = 1 inch)",
+          "message": "포인트 단위의 PostScript 페이지 너비(72포인트 = 1인치)"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "너비"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.d2lkdGg.short_desc": {
+          "source": "Page width in points",
+          "message": "포인트 단위 페이지 너비"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.short_desc": {
+          "source": "Create PS or EPS from draw commands",
+          "message": "그리기 명령으로 PS 또는 EPS 생성"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.desc": {
+          "source": "Create a PDF document from declarative draw commands. Dimensions are in points (72 points = 1 inch).",
+          "message": "선언적 그리기 명령으로 PDF 문서를 생성합니다. 치수는 포인트 단위입니다(72포인트 = 1인치)."
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.display_name": {
+          "source": "Create PDF",
+          "message": "PDF 생성"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "그리기 명령 해시의 목록입니다. 각 명령에는 작업 및 작업별 매개변수를 지정하는 `op` 키가 있습니다.\n\n**좌표계**: 치수는 포인트 단위입니다(1포인트 = 1/72인치). US Letter = 612 x 792 포인트; A4 = 595 x 842 포인트.\n\n**색상 및 스타일**:\n- `set_source_rgb` (r, g, b) — 색상 값은 0.0-1.0의 부동소수점입니다(예: r=1.0은 순수한 빨간색)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**경로**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — 각도는 라디안 단위입니다(0 = 3시 방향, pi/2 = 6시 방향)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**그리기**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**텍스트**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**변환**:\n- `translate` (x, y), `rotate` (angle — 라디안), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**그라디언트**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- 정지점(Stops): `offset` (0.0-1.0), `r`, `g`, `b` 및 선택적 `a`을 가진 해시 목록\n- 확장(Extend): `none` (투명), `repeat` (타일), `reflect` (미러), `pad` (가장자리 색상 확장)\n- 필터(Filter): `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**기타**:\n- `image` (path/data/location, x, y, width, height) — PNG 파일 전용\n- `mask_surface` (path/data/location, x, y) — PNG 서피스의 알파 채널로 마스크 처리된 현재 소스 색상 사용\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "그리기 명령"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "그리기 명령 목록"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.aGVpZ2h0.desc": {
+          "source": "Height of the PDF page in points (72 points = 1 inch)",
+          "message": "포인트 단위의 PDF 페이지 높이(72포인트 = 1인치)"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "높이"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.aGVpZ2h0.short_desc": {
+          "source": "Page height in points",
+          "message": "포인트 단위 페이지 높이"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.d2lkdGg.desc": {
+          "source": "Width of the PDF page in points (72 points = 1 inch)",
+          "message": "포인트 단위의 PDF 페이지 너비(72포인트 = 1인치)"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "너비"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.d2lkdGg.short_desc": {
+          "source": "Page width in points",
+          "message": "포인트 단위 페이지 너비"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.short_desc": {
+          "source": "Create PDF from draw commands",
+          "message": "그리기 명령으로 PDF 생성"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.desc": {
+          "source": "Get font metrics (`ascent`, `descent`, `height`, `max_x_advance`, `max_y_advance`) for a given font configuration.",
+          "message": "지정된 폰트 구성에 대한 폰트 메트릭(`ascent`, `descent`, `height`, `max_x_advance`, `max_y_advance`)을 가져옵니다."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.display_name": {
+          "source": "Get Font Metrics",
+          "message": "폰트 메트릭 가져오기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.ZmFtaWx5.desc": {
+          "source": "Font family name (e.g., `sans-serif`, `Helvetica`). Default: `sans-serif`",
+          "message": "폰트 패밀리 이름(예: `sans-serif`, `Helvetica`). 기본값: `sans-serif`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.ZmFtaWx5.display_name": {
+          "source": "Font Family",
+          "message": "폰트 패밀리"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.ZmFtaWx5.short_desc": {
+          "source": "Font family name",
+          "message": "폰트 패밀리 이름"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2l6ZQ.desc": {
+          "source": "Font size in user-space units. Default: `12.0`",
+          "message": "사용자 공간 단위의 폰트 크기. 기본값: `12.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2l6ZQ.display_name": {
+          "source": "Font Size",
+          "message": "폰트 크기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2l6ZQ.short_desc": {
+          "source": "Font size",
+          "message": "폰트 크기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal (upright) style",
+          "message": "보통(직립) 스타일"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "보통"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.desc": {
+          "source": "Oblique style",
+          "message": "사각(Oblique) 스타일"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.display_name": {
+          "source": "Oblique",
+          "message": "사각(Oblique)"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.desc": {
+          "source": "Italic style",
+          "message": "이탤릭 스타일"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.display_name": {
+          "source": "Italic",
+          "message": "이탤릭"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.desc": {
+          "source": "Font slant style. Default: `normal`",
+          "message": "폰트 기울임 스타일. 기본값: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.display_name": {
+          "source": "Font Slant",
+          "message": "폰트 기울임"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.short_desc": {
+          "source": "Font slant style",
+          "message": "폰트 기울임 스타일"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal weight",
+          "message": "보통 굵기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "보통"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.desc": {
+          "source": "Bold weight",
+          "message": "굵은 굵기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.display_name": {
+          "source": "Bold",
+          "message": "굵게"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.desc": {
+          "source": "Font weight style. Default: `normal`",
+          "message": "폰트 굵기 스타일. 기본값: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.display_name": {
+          "source": "Font Weight",
+          "message": "폰트 굵기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.short_desc": {
+          "source": "Font weight",
+          "message": "폰트 굵기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.short_desc": {
+          "source": "Get font ascent, descent, and height",
+          "message": "폰트 어센트, 디센트 및 높이 가져오기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.desc": {
+          "source": "Calculate the `width`, `height`, bearing, and advance of a text string for a given font `family`, `size`, `slant`, and `weight`.",
+          "message": "지정된 폰트 `family`, `size`, `slant` 및 `weight`에 대한 텍스트 문자열의 `width`, `height`, 베어링(bearing) 및 어드밴스(advance)를 계산합니다."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.display_name": {
+          "source": "Measure Text",
+          "message": "텍스트 측정"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.ZmFtaWx5.desc": {
+          "source": "Font family name (e.g., `sans-serif`, `Helvetica`). Default: `sans-serif`",
+          "message": "폰트 패밀리 이름(예: `sans-serif`, `Helvetica`). 기본값: `sans-serif`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.ZmFtaWx5.display_name": {
+          "source": "Font Family",
+          "message": "폰트 패밀리"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.ZmFtaWx5.short_desc": {
+          "source": "Font family name",
+          "message": "폰트 패밀리 이름"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2l6ZQ.desc": {
+          "source": "Font size in user-space units. Default: `12.0`",
+          "message": "사용자 공간 단위의 폰트 크기. 기본값: `12.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2l6ZQ.display_name": {
+          "source": "Font Size",
+          "message": "폰트 크기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2l6ZQ.short_desc": {
+          "source": "Font size",
+          "message": "폰트 크기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal (upright) style",
+          "message": "보통(직립) 스타일"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "보통"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.desc": {
+          "source": "Oblique style",
+          "message": "사각(Oblique) 스타일"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.display_name": {
+          "source": "Oblique",
+          "message": "사각(Oblique)"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.desc": {
+          "source": "Italic style",
+          "message": "이탤릭 스타일"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.display_name": {
+          "source": "Italic",
+          "message": "이탤릭"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.desc": {
+          "source": "Font slant style. Default: `normal`",
+          "message": "폰트 기울임 스타일. 기본값: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.display_name": {
+          "source": "Font Slant",
+          "message": "폰트 기울임"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.short_desc": {
+          "source": "Font slant style",
+          "message": "폰트 기울임 스타일"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal weight",
+          "message": "보통 굵기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "보통"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.desc": {
+          "source": "Bold weight",
+          "message": "굵은 굵기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.display_name": {
+          "source": "Bold",
+          "message": "굵게"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.desc": {
+          "source": "Font weight style. Default: `normal`",
+          "message": "폰트 굵기 스타일. 기본값: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.display_name": {
+          "source": "Font Weight",
+          "message": "폰트 굵기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.short_desc": {
+          "source": "Font weight",
+          "message": "폰트 굵기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.dGV4dA.desc": {
+          "source": "The text string to measure dimensions for",
+          "message": "치수를 측정할 텍스트 문자열"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.dGV4dA.display_name": {
+          "source": "Text",
+          "message": "텍스트"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.dGV4dA.short_desc": {
+          "source": "Text to measure",
+          "message": "측정할 텍스트"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.short_desc": {
+          "source": "Measure text dimensions",
+          "message": "텍스트 크기 측정"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.desc": {
+          "source": "Render text to a PNG image with specified font, color, and optional background. The image is automatically sized to fit the text.",
+          "message": "지정된 글꼴, 색상 및 선택적 배경을 사용하여 텍스트를 PNG 이미지로 렌더링합니다. 이미지는 텍스트에 맞게 크기가 자동으로 조절됩니다."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.display_name": {
+          "source": "Render Text",
+          "message": "텍스트 렌더링"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YQ.desc": {
+          "source": "Text color alpha (`0.0` = transparent, `1.0` = opaque). Default: `1.0`",
+          "message": "텍스트 색상 알파(`0.0` = 투명, `1.0` = 불투명). 기본값: `1.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YQ.display_name": {
+          "source": "Text Alpha",
+          "message": "텍스트 알파"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YQ.short_desc": {
+          "source": "Text color alpha",
+          "message": "텍스트 색상 알파"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Yg.desc": {
+          "source": "Text color blue component (`0.0`-`1.0`). Default: `0.0`",
+          "message": "텍스트 색상 파란색 구성 요소(`0.0`-`1.0`). 기본값: `0.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Yg.display_name": {
+          "source": "Text Blue",
+          "message": "텍스트 파란색"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Yg.short_desc": {
+          "source": "Text color blue component",
+          "message": "텍스트 색상 파란색 구성 요소"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYQ.desc": {
+          "source": "Background color alpha (`0.0` = transparent, `1.0` = opaque). Default: `0.0` (transparent)",
+          "message": "배경색 알파(`0.0` = 투명, `1.0` = 불투명). 기본값: `0.0`(투명)"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYQ.display_name": {
+          "source": "Background Alpha",
+          "message": "배경 알파"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYQ.short_desc": {
+          "source": "Background color alpha",
+          "message": "배경색 알파"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYg.desc": {
+          "source": "Background color blue component (`0.0`-`1.0`). Default: `1.0`",
+          "message": "배경색 파란색 구성 요소(`0.0`-`1.0`). 기본값: `1.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYg.display_name": {
+          "source": "Background Blue",
+          "message": "배경 파란색"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYg.short_desc": {
+          "source": "Background color blue component",
+          "message": "배경색 파란색 구성 요소"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfZw.desc": {
+          "source": "Background color green component (`0.0`-`1.0`). Default: `1.0`",
+          "message": "배경색 녹색 구성 요소(`0.0`-`1.0`). 기본값: `1.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfZw.display_name": {
+          "source": "Background Green",
+          "message": "배경 녹색"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfZw.short_desc": {
+          "source": "Background color green component",
+          "message": "배경색 녹색 구성 요소"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Ymdfcg.desc": {
+          "source": "Background color red component (`0.0`-`1.0`). Default: `1.0` (white)",
+          "message": "배경색 빨간색 구성 요소(`0.0`-`1.0`). 기본값: `1.0`(흰색)"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Ymdfcg.display_name": {
+          "source": "Background Red",
+          "message": "배경 빨간색"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Ymdfcg.short_desc": {
+          "source": "Background color red component",
+          "message": "배경색 빨간색 구성 요소"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.ZmFtaWx5.desc": {
+          "source": "Font family name (e.g., `sans-serif`, `Helvetica`). Default: `sans-serif`",
+          "message": "폰트 패밀리 이름(예: `sans-serif`, `Helvetica`). 기본값: `sans-serif`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.ZmFtaWx5.display_name": {
+          "source": "Font Family",
+          "message": "폰트 패밀리"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.ZmFtaWx5.short_desc": {
+          "source": "Font family name",
+          "message": "폰트 패밀리 이름"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Zw.desc": {
+          "source": "Text color green component (`0.0`-`1.0`). Default: `0.0`",
+          "message": "텍스트 색상 녹색 구성 요소(`0.0`-`1.0`). 기본값: `0.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Zw.display_name": {
+          "source": "Text Green",
+          "message": "텍스트 녹색"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Zw.short_desc": {
+          "source": "Text color green component",
+          "message": "텍스트 색상 녹색 구성 요소"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) 모듈에서 지원하는 파일 위치 문자열입니다(예: `file:///path/to/output.png`, `sftp://host/path/output.png`). `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "출력 위치"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "출력을 기록할 위치"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "처리된 출력을 기록할 파일 경로입니다. `output_path` 및 `output_location`이 모두 제공되지 않은 경우 데이터는 응답으로만 반환됩니다."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "출력 파일 경로"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "출력을 기록할 경로"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2l6ZQ.desc": {
+          "source": "Font size in user-space units. Default: `12.0`",
+          "message": "사용자 공간 단위의 폰트 크기. 기본값: `12.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2l6ZQ.display_name": {
+          "source": "Font Size",
+          "message": "폰트 크기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2l6ZQ.short_desc": {
+          "source": "Font size",
+          "message": "폰트 크기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal (upright) style",
+          "message": "보통(직립) 스타일"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "보통"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.desc": {
+          "source": "Oblique style",
+          "message": "사각(Oblique) 스타일"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.display_name": {
+          "source": "Oblique",
+          "message": "사각(Oblique)"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.desc": {
+          "source": "Italic style",
+          "message": "이탤릭 스타일"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.display_name": {
+          "source": "Italic",
+          "message": "이탤릭"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.desc": {
+          "source": "Font slant style. Default: `normal`",
+          "message": "폰트 기울임 스타일. 기본값: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.display_name": {
+          "source": "Font Slant",
+          "message": "폰트 기울임"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.short_desc": {
+          "source": "Font slant style",
+          "message": "폰트 기울임 스타일"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cGFkZGluZw.desc": {
+          "source": "Padding in pixels around the rendered text. Default: `0`",
+          "message": "렌더링된 텍스트 주변의 여백(픽셀 단위)입니다. 기본값: `0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cGFkZGluZw.display_name": {
+          "source": "Padding",
+          "message": "패딩"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cGFkZGluZw.short_desc": {
+          "source": "Padding around text in pixels",
+          "message": "텍스트 주변 여백(픽셀 단위)"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cg.desc": {
+          "source": "Text color red component (`0.0`-`1.0`). Default: `0.0` (black)",
+          "message": "텍스트 색상 빨간색 구성 요소(`0.0`-`1.0`). 기본값: `0.0`(검은색)"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cg.display_name": {
+          "source": "Text Red",
+          "message": "텍스트 빨간색"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cg.short_desc": {
+          "source": "Text color red component",
+          "message": "텍스트 색상 빨간색 구성 요소"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "응답 해시에 바이너리 데이터를 포함할지 여부입니다. 출력 경로나 위치가 지정되지 않은 경우 기본값은 `True`이고, 출력 대상이 제공된 경우 기본값은 `False`입니다."
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "반환 데이터"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "응답에 데이터를 포함할지 여부"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal weight",
+          "message": "보통 굵기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "보통"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.desc": {
+          "source": "Bold weight",
+          "message": "굵은 굵기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.display_name": {
+          "source": "Bold",
+          "message": "굵게"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.desc": {
+          "source": "Font weight style. Default: `normal`",
+          "message": "폰트 굵기 스타일. 기본값: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.display_name": {
+          "source": "Font Weight",
+          "message": "폰트 굵기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.short_desc": {
+          "source": "Font weight",
+          "message": "폰트 굵기"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.dGV4dA.desc": {
+          "source": "The text string to render to a PNG image",
+          "message": "PNG 이미지로 렌더링할 텍스트 문자열"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.dGV4dA.display_name": {
+          "source": "Text",
+          "message": "텍스트"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.dGV4dA.short_desc": {
+          "source": "Text to render",
+          "message": "렌더링할 텍스트"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.short_desc": {
+          "source": "Render text to PNG image",
+          "message": "텍스트를 PNG 이미지로 렌더링"
+        },
+        "app.Q2Fpcm8.desc": {
+          "source": "Create and manipulate vector graphics in SVG, PDF, PostScript, and EPS formats",
+          "message": "SVG, PDF, PostScript 및 EPS 형식의 벡터 그래픽 생성 및 조작"
+        },
+        "app.Q2Fpcm8.display_name": {
+          "source": "Cairo Vector Graphics",
+          "message": "Cairo 벡터 그래픽"
+        },
+        "app.Q2Fpcm8.short_desc": {
+          "source": "SVG, PDF, PostScript, and EPS vector graphics",
+          "message": "SVG, PDF, PostScript 및 EPS 벡터 그래픽"
+        }
+      }
+    }
+  }
+}

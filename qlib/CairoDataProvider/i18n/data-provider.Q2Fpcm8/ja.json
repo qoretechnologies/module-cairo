@@ -1,0 +1,2597 @@
+{
+  "schema_version": 1,
+  "locales": {
+    "ja": {
+      "messages": {
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.desc": {
+          "source": "Composite an overlay PNG image onto a base PNG image with optional `alpha` blending, positioning (`x`, `y`), and overlay scaling (`overlay_width`, `overlay_height`).",
+          "message": "ベース PNG 画像の上にオーバーレイ PNG 画像を合成します。オプションで `alpha` ブレンド、位置調整（`x`、`y`）、およびオーバーレイの拡大縮小（`overlay_width`、`overlay_height`）を指定できます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.display_name": {
+          "source": "Composite Images",
+          "message": "画像を合成"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YWxwaGE.desc": {
+          "source": "Overlay alpha value (`0.0` = transparent, `1.0` = opaque). Default: `1.0`",
+          "message": "オーバーレイのアルファ値（`0.0` = 透明、`1.0` = 不透明）。デフォルト: `1.0`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YWxwaGE.display_name": {
+          "source": "Alpha",
+          "message": "アルファ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YWxwaGE.short_desc": {
+          "source": "Overlay transparency",
+          "message": "オーバーレイの透明度"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9kYXRh.desc": {
+          "source": "Binary PNG data of the base image.",
+          "message": "ベース画像のバイナリ PNG データ。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9kYXRh.display_name": {
+          "source": "Base Image Data",
+          "message": "ベース画像データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9kYXRh.short_desc": {
+          "source": "Binary base image data",
+          "message": "バイナリベース画像データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9pbnB1dF9wYXRo.desc": {
+          "source": "File path to the base image. One of `base_input_path`, `base_data`, or `base_location` must be provided.",
+          "message": "ベース画像へのファイルパス。`base_input_path`、`base_data`、または `base_location` のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9pbnB1dF9wYXRo.display_name": {
+          "source": "Base Image Path",
+          "message": "ベース画像パス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9pbnB1dF9wYXRo.short_desc": {
+          "source": "Path to base image file",
+          "message": "ベース画像ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9sb2NhdGlvbg.desc": {
+          "source": "A file location string for the base image.",
+          "message": "ベース画像のファイルロケーション文字列。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9sb2NhdGlvbg.display_name": {
+          "source": "Base Image Location",
+          "message": "ベース画像ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.YmFzZV9sb2NhdGlvbg.short_desc": {
+          "source": "Location of base image",
+          "message": "ベース画像の位置"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV93aWR0aA.desc": {
+          "source": "Optional width to scale the overlay to (in pixels). Both `overlay_width` and `overlay_height` must be specified for scaling.",
+          "message": "オーバーレイをスケーリングするオプションの幅（ピクセル単位）。スケーリングを行うには、`overlay_width` と `overlay_height` の両方を指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV93aWR0aA.display_name": {
+          "source": "Overlay Width",
+          "message": "オーバーレイの幅"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV93aWR0aA.short_desc": {
+          "source": "Scale overlay to this width",
+          "message": "オーバーレイをこの幅にスケーリング"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9kYXRh.desc": {
+          "source": "Binary PNG data of the overlay image.",
+          "message": "オーバーレイ画像のバイナリPNGデータ。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9kYXRh.display_name": {
+          "source": "Overlay Image Data",
+          "message": "オーバーレイ画像データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9kYXRh.short_desc": {
+          "source": "Binary overlay image data",
+          "message": "バイナリオーバーレイ画像データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9oZWlnaHQ.desc": {
+          "source": "Optional height to scale the overlay to (in pixels). Both `overlay_width` and `overlay_height` must be specified for scaling.",
+          "message": "オーバーレイをスケーリングするオプションの高さ（ピクセル単位）。スケーリングを行うには、`overlay_width` と `overlay_height` の両方を指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9oZWlnaHQ.display_name": {
+          "source": "Overlay Height",
+          "message": "オーバーレイの高さ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9oZWlnaHQ.short_desc": {
+          "source": "Scale overlay to this height",
+          "message": "オーバーレイをこの高さにスケーリング"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9pbnB1dF9wYXRo.desc": {
+          "source": "File path to the overlay image. One of `overlay_input_path`, `overlay_data`, or `overlay_location` must be provided.",
+          "message": "オーバーレイ画像へのファイルパス。`overlay_input_path`、`overlay_data`、`overlay_location` のいずれか1つを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9pbnB1dF9wYXRo.display_name": {
+          "source": "Overlay Image Path",
+          "message": "オーバーレイ画像パス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9pbnB1dF9wYXRo.short_desc": {
+          "source": "Path to overlay image file",
+          "message": "オーバーレイ画像ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9sb2NhdGlvbg.desc": {
+          "source": "A file location string for the overlay image.",
+          "message": "オーバーレイ画像のファイルロケーション文字列。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9sb2NhdGlvbg.display_name": {
+          "source": "Overlay Image Location",
+          "message": "オーバーレイ画像ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.b3ZlcmxheV9sb2NhdGlvbg.short_desc": {
+          "source": "Location of overlay image",
+          "message": "オーバーレイ画像のロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eA.desc": {
+          "source": "X position for overlay placement. Default: `0.0`",
+          "message": "オーバーレイ配置のX位置。デフォルト: `0.0`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eA.display_name": {
+          "source": "X Position",
+          "message": "X位置"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eA.short_desc": {
+          "source": "Overlay X position",
+          "message": "オーバーレイのX位置"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eQ.desc": {
+          "source": "Y position for overlay placement. Default: `0.0`",
+          "message": "オーバーレイ配置のY位置。デフォルト: `0.0`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eQ.display_name": {
+          "source": "Y Position",
+          "message": "Y位置"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.option.eQ.short_desc": {
+          "source": "Overlay Y position",
+          "message": "オーバーレイのY位置"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY29tcG9zaXRl.short_desc": {
+          "source": "Overlay one image on another",
+          "message": "ある画像を別の画像の上に重ね合わせる"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.desc": {
+          "source": "Create a PNG raster image from declarative draw commands. Supports `ARGB32`, `RGB24`, `A8`, and `A1` pixel formats.",
+          "message": "宣言型描画コマンドからPNGラスタ画像を作成します。`ARGB32`、`RGB24`、`A8`、および `A1` のピクセルフォーマットをサポートします。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.display_name": {
+          "source": "Create Image",
+          "message": "画像の作成"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "描画コマンドハッシュのリスト。各コマンドには操作と操作固有のパラメータを指定する `op` キーがあります。\n\n**座標系**: 寸法はポイント単位です（1ポイント = 1/72インチ）。US Letter = 612 x 792 ポイント、A4 = 595 x 842 ポイント。\n\n**色とスタイル**:\n- `set_source_rgb` (r, g, b) — 色の値は 0.0-1.0 の浮動小数点数（例: r=1.0 は純赤）\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**パス**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — 角度はラジアン（0 = 3時位置、pi/2 = 6時位置）\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**描画**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**テキスト**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**変換**:\n- `translate` (x, y), `rotate` (angle — ラジアン), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**グラデーション**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: `offset` (0.0-1.0)、`r`、`g`、`b`、およびオプションの `a` を持つハッシュのリスト\n- Extend: `none` (透明)、`repeat` (タイル)、`reflect` (ミラー)、`pad` (端の色を拡張)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**その他**:\n- `image` (path/data/location, x, y, width, height) — PNGファイルのみ\n- `mask_surface` (path/data/location, x, y) — PNGサーフェスのアルファチャネルでマスクされた現在のソースカラーを使用\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "描画コマンド"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "描画コマンドのリスト"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkE4.desc": {
+          "source": "8-bit alpha mask",
+          "message": "8ビットアルファマスク"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkE4.display_name": {
+          "source": "A8",
+          "message": "A8"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkEx.desc": {
+          "source": "1-bit alpha mask",
+          "message": "1ビットアルファマスク"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkEx.display_name": {
+          "source": "A1",
+          "message": "A1"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkFSR0IzMg.desc": {
+          "source": "32-bit ARGB (default)",
+          "message": "32ビットARGB（デフォルト）"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOkFSR0IzMg.display_name": {
+          "source": "ARGB32",
+          "message": "ARGB32"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOlJHQjI0.desc": {
+          "source": "32-bit RGB (no alpha)",
+          "message": "32ビットRGB（アルファなし）"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.allowed-value.c3RyaW5nOlJHQjI0.display_name": {
+          "source": "RGB24",
+          "message": "RGB24"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.desc": {
+          "source": "Pixel format for the image surface",
+          "message": "画像サーフェスのピクセルフォーマット"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.display_name": {
+          "source": "Format",
+          "message": "フォーマット"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.Zm9ybWF0.short_desc": {
+          "source": "Pixel format",
+          "message": "ピクセルフォーマット"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.aGVpZ2h0.desc": {
+          "source": "Height of the image in pixels",
+          "message": "画像の高さ（ピクセル単位）"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "高さ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.aGVpZ2h0.short_desc": {
+          "source": "Image height in pixels",
+          "message": "画像の高さ（ピクセル単位）"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.d2lkdGg.desc": {
+          "source": "Width of the image in pixels",
+          "message": "画像の幅（ピクセル単位）"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "幅"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.option.d2lkdGg.short_desc": {
+          "source": "Image width in pixels",
+          "message": "画像の幅（ピクセル単位）"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JlYXRl.short_desc": {
+          "source": "Create PNG from draw commands",
+          "message": "描画コマンドからPNGを作成"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.desc": {
+          "source": "Crop a rectangular region from a PNG image at a given `x`, `y` offset with specified `crop_width` and `crop_height`.",
+          "message": "指定された `x`、`y` のオフセットで、指定された `crop_width` および `crop_height` を使用してPNG画像から長方形領域を切り抜きます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.display_name": {
+          "source": "Crop Image",
+          "message": "画像の切り抜き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF93aWR0aA.desc": {
+          "source": "Width of the crop region in pixels",
+          "message": "切り抜き領域の幅（ピクセル単位）"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF93aWR0aA.display_name": {
+          "source": "Crop Width",
+          "message": "切り抜きの幅"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF93aWR0aA.short_desc": {
+          "source": "Width of crop region",
+          "message": "切り抜き領域の幅"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF9oZWlnaHQ.desc": {
+          "source": "Height of the crop region in pixels",
+          "message": "切り抜き領域の高さ（ピクセル単位）"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF9oZWlnaHQ.display_name": {
+          "source": "Crop Height",
+          "message": "切り抜きの高さ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.Y3JvcF9oZWlnaHQ.short_desc": {
+          "source": "Height of crop region",
+          "message": "切り抜き領域の高さ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力のバイナリデータ。`input_path`、`data`、`location` のいずれか1つを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "バイナリ入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力を読み取るファイルパス。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "入力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "入力ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true`および`output_path`が指定されていない場合、入力ファイルは上書きされます（`input_path`が使用されている場合のみ適用可能）。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "上書き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "入力ファイルを上書き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html)モジュールでサポートされるファイルロケーション文字列（例: `file:///path/to/input.png`、`https://example.com/image.png`）。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "入力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "入力ファイルのロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eA.desc": {
+          "source": "X offset of the top-left corner of the crop region in pixels",
+          "message": "切り抜き領域の左上隅のXオフセット（ピクセル単位）"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eA.display_name": {
+          "source": "X Offset",
+          "message": "Xオフセット"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eA.short_desc": {
+          "source": "X offset of crop region",
+          "message": "切り抜き領域のXオフセット"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eQ.desc": {
+          "source": "Y offset of the top-left corner of the crop region in pixels",
+          "message": "切り抜き領域の左上隅のYオフセット（ピクセル単位）"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eQ.display_name": {
+          "source": "Y Offset",
+          "message": "Yオフセット"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.option.eQ.short_desc": {
+          "source": "Y offset of crop region",
+          "message": "切り抜き領域のYオフセット"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtY3JvcA.short_desc": {
+          "source": "Crop a PNG image",
+          "message": "PNG画像を切り抜く"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.desc": {
+          "source": "Read PNG image `width`, `height`, `format`, and surface `type` without modifying the file.",
+          "message": "ファイルを変更せずに、PNG画像`width`、`height`、`format`、およびサーフェス`type`を読み取ります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.display_name": {
+          "source": "Get Image Info",
+          "message": "画像情報を取得"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力のバイナリデータ。`input_path`、`data`、`location` のいずれか1つを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "バイナリ入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力を読み取るファイルパス。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "入力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "入力ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html)モジュールでサポートされるファイルロケーション文字列（例: `file:///path/to/input.png`、`https://example.com/image.png`）。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "入力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "入力ファイルのロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZ2V0LWluZm8.short_desc": {
+          "source": "Get PNG image info",
+          "message": "PNG画像情報を取得"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.desc": {
+          "source": "Draw on an existing PNG image using declarative draw commands. The input image is loaded and the draw commands are applied on top of it.",
+          "message": "宣言的な描画コマンドを使用して既存のPNG画像に描画します。入力画像が読み込まれ、その上に描画コマンドが適用されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.display_name": {
+          "source": "Draw on Image",
+          "message": "画像上に描画"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "描画コマンドハッシュのリスト。各コマンドには操作と操作固有のパラメータを指定する `op` キーがあります。\n\n**座標系**: 寸法はポイント単位です（1ポイント = 1/72インチ）。US Letter = 612 x 792 ポイント、A4 = 595 x 842 ポイント。\n\n**色とスタイル**:\n- `set_source_rgb` (r, g, b) — 色の値は 0.0-1.0 の浮動小数点数（例: r=1.0 は純赤）\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**パス**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — 角度はラジアン（0 = 3時位置、pi/2 = 6時位置）\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**描画**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**テキスト**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**変換**:\n- `translate` (x, y), `rotate` (angle — ラジアン), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**グラデーション**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: `offset` (0.0-1.0)、`r`、`g`、`b`、およびオプションの `a` を持つハッシュのリスト\n- Extend: `none` (透明)、`repeat` (タイル)、`reflect` (ミラー)、`pad` (端の色を拡張)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**その他**:\n- `image` (path/data/location, x, y, width, height) — PNGファイルのみ\n- `mask_surface` (path/data/location, x, y) — PNGサーフェスのアルファチャネルでマスクされた現在のソースカラーを使用\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "描画コマンド"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "描画コマンドのリスト"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力のバイナリデータ。`input_path`、`data`、`location` のいずれか1つを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "バイナリ入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力を読み取るファイルパス。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "入力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "入力ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true`および`output_path`が指定されていない場合、入力ファイルは上書きされます（`input_path`が使用されている場合のみ適用可能）。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "上書き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "入力ファイルを上書き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html)モジュールでサポートされるファイルロケーション文字列（例: `file:///path/to/input.png`、`https://example.com/image.png`）。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "入力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "入力ファイルのロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtZHJhdw.short_desc": {
+          "source": "Draw on existing PNG",
+          "message": "既存のPNGに描画"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.desc": {
+          "source": "Rotate a PNG image by a specified `angle` in degrees. The output canvas is automatically sized to contain the full rotated image.",
+          "message": "指定された`angle`（度単位）でPNG画像を回転します。出力キャンバスのサイズは、回転後の画像全体が含まれるように自動的に設定されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.display_name": {
+          "source": "Rotate Image",
+          "message": "画像を回転"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.YW5nbGU.desc": {
+          "source": "Rotation angle in degrees (positive = clockwise). Common values: `90`, `180`, `270`.",
+          "message": "回転角度（度単位、正の値＝時計回り）。よく使われる値: `90`、`180`、`270`。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.YW5nbGU.display_name": {
+          "source": "Angle",
+          "message": "角度"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.YW5nbGU.short_desc": {
+          "source": "Rotation angle in degrees",
+          "message": "回転角度（度単位）"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力のバイナリデータ。`input_path`、`data`、`location` のいずれか1つを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "バイナリ入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力を読み取るファイルパス。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "入力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "入力ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true`および`output_path`が指定されていない場合、入力ファイルは上書きされます（`input_path`が使用されている場合のみ適用可能）。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "上書き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "入力ファイルを上書き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html)モジュールでサポートされるファイルロケーション文字列（例: `file:///path/to/input.png`、`https://example.com/image.png`）。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "入力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "入力ファイルのロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2Utcm90YXRl.short_desc": {
+          "source": "Rotate a PNG image",
+          "message": "PNG画像を回転"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.desc": {
+          "source": "Resize a PNG image to the specified `target_width` and `target_height` in pixels using Cairo surface scaling.",
+          "message": "Cairoサーフェススケーリングを使用して、指定された`target_width`および`target_height`（ピクセル単位）にPNG画像をリサイズします。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.display_name": {
+          "source": "Resize Image",
+          "message": "画像をリサイズ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力のバイナリデータ。`input_path`、`data`、`location` のいずれか1つを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "バイナリ入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力を読み取るファイルパス。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "入力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "入力ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true`および`output_path`が指定されていない場合、入力ファイルは上書きされます（`input_path`が使用されている場合のみ適用可能）。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "上書き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "入力ファイルを上書き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html)モジュールでサポートされるファイルロケーション文字列（例: `file:///path/to/input.png`、`https://example.com/image.png`）。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "入力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "入力ファイルのロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X2hlaWdodA.desc": {
+          "source": "Target image height in pixels",
+          "message": "ターゲット画像の高さ（ピクセル単位）"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X2hlaWdodA.display_name": {
+          "source": "Target Height",
+          "message": "ターゲットの高さ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X2hlaWdodA.short_desc": {
+          "source": "Target height in pixels",
+          "message": "ターゲットの高さ（ピクセル単位）"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X3dpZHRo.desc": {
+          "source": "Target image width in pixels",
+          "message": "ターゲット画像の幅（ピクセル単位）"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X3dpZHRo.display_name": {
+          "source": "Target Width",
+          "message": "ターゲットの幅"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.option.dGFyZ2V0X3dpZHRo.short_desc": {
+          "source": "Target width in pixels",
+          "message": "ターゲットの幅（ピクセル単位）"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtcmVzaXpl.short_desc": {
+          "source": "Resize a PNG image",
+          "message": "PNG画像をリサイズ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.desc": {
+          "source": "Convert a PNG image to Encapsulated PostScript (EPS) format. The page dimensions match the image pixel dimensions (in points).",
+          "message": "PNG画像をEncapsulated PostScript（EPS）形式に変換します。ページ寸法は画像のピクセル寸法（ポイント単位）と一致します。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.display_name": {
+          "source": "Image to EPS",
+          "message": "画像をEPSに変換"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力のバイナリデータ。`input_path`、`data`、`location` のいずれか1つを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "バイナリ入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力を読み取るファイルパス。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "入力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "入力ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true`および`output_path`が指定されていない場合、入力ファイルは上書きされます（`input_path`が使用されている場合のみ適用可能）。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "上書き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "入力ファイルを上書き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html)モジュールでサポートされるファイルロケーション文字列（例: `file:///path/to/input.png`、`https://example.com/image.png`）。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "入力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "入力ファイルのロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tZXBz.short_desc": {
+          "source": "Convert PNG to EPS",
+          "message": "PNGをEPSに変換"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.desc": {
+          "source": "Convert a PNG image to SVG format by embedding the raster data in an SVG surface.",
+          "message": "ラスターデータをSVGサーフェスに埋め込むことで、PNG画像をSVG形式に変換します。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.display_name": {
+          "source": "Image to SVG",
+          "message": "画像をSVGに変換"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力のバイナリデータ。`input_path`、`data`、`location` のいずれか1つを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "バイナリ入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力を読み取るファイルパス。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "入力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "入力ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true`および`output_path`が指定されていない場合、入力ファイルは上書きされます（`input_path`が使用されている場合のみ適用可能）。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "上書き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "入力ファイルを上書き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html)モジュールでサポートされるファイルロケーション文字列（例: `file:///path/to/input.png`、`https://example.com/image.png`）。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "入力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "入力ファイルのロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tc3Zn.short_desc": {
+          "source": "Convert PNG to SVG",
+          "message": "PNGをSVGに変換"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.desc": {
+          "source": "Convert a PNG image to a single-page PDF document. The page dimensions match the image pixel dimensions (in points).",
+          "message": "PNG画像を単一ページのPDFドキュメントに変換します。ページ寸法は画像のピクセル寸法（ポイント単位）と一致します。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.display_name": {
+          "source": "Image to PDF",
+          "message": "画像をPDFに変換"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力のバイナリデータ。`input_path`、`data`、`location` のいずれか1つを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "バイナリ入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力を読み取るファイルパス。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "入力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "入力ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true`および`output_path`が指定されていない場合、入力ファイルは上書きされます（`input_path`が使用されている場合のみ適用可能）。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "上書き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "入力ファイルを上書き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html)モジュールでサポートされるファイルロケーション文字列（例: `file:///path/to/input.png`、`https://example.com/image.png`）。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "入力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "入力ファイルのロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcGRm.short_desc": {
+          "source": "Convert PNG to PDF",
+          "message": "PNGをPDFに変換"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.desc": {
+          "source": "Convert a PNG image to PostScript format. The page dimensions match the image pixel dimensions (in points).",
+          "message": "PNG画像をPostScript形式に変換します。ページ寸法は画像のピクセル寸法（ポイント単位）と一致します。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.display_name": {
+          "source": "Image to PostScript",
+          "message": "画像をPostScriptに変換"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力のバイナリデータ。`input_path`、`data`、`location` のいずれか1つを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "バイナリ入力データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力を読み取るファイルパス。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "入力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "入力ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true`および`output_path`が指定されていない場合、入力ファイルは上書きされます（`input_path`が使用されている場合のみ適用可能）。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "上書き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "入力ファイルを上書き"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html)モジュールでサポートされるファイルロケーション文字列（例: `file:///path/to/input.png`、`https://example.com/image.png`）。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "入力ロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "入力ファイルのロケーション"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.aW1hZ2UtdG8tcHM.short_desc": {
+          "source": "Convert PNG to PostScript",
+          "message": "PNGをPostScriptに変換"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.desc": {
+          "source": "Reads an SVG, makes the canvas square (using the larger of width/height), and centers the content on both axes. By default the output overwrites the input file. Requires librsvg.",
+          "message": "SVGを読み取り、キャンバスを正方形（幅/高さの大きい方を使用）にして、コンテンツを両軸で中央に配置します。デフォルトでは出力によって入力ファイルが上書きされます。librsvgが必要です。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.display_name": {
+          "source": "Center SVG",
+          "message": "SVGを中央揃え"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力のバイナリデータ。`input_path`、`data`、`location` のいずれか1つを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "入力データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "バイナリ入力データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力を読み取るファイルパス。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "入力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "入力ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true`および`output_path`が指定されていない場合、入力ファイルは上書きされます（`input_path`が使用されている場合のみ適用可能）。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "上書き"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "入力ファイルを上書き"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html)モジュールでサポートされるファイルロケーション文字列（例: `file:///path/to/input.png`、`https://example.com/image.png`）。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "入力ロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "入力ファイルのロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNlbnRlcg.short_desc": {
+          "source": "Center SVG content on a square canvas",
+          "message": "正方形のキャンバス上でSVGコンテンツを中央揃え"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.desc": {
+          "source": "Create an SVG vector image from declarative draw commands specifying shapes, text, colors, and transformations",
+          "message": "形状、テキスト、色、変形を指定する宣言的な描画コマンドからSVGベクター画像を作成します"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.display_name": {
+          "source": "Create SVG",
+          "message": "SVGを作成"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "描画コマンドハッシュのリスト。各コマンドには操作と操作固有のパラメータを指定する `op` キーがあります。\n\n**座標系**: 寸法はポイント単位です（1ポイント = 1/72インチ）。US Letter = 612 x 792 ポイント、A4 = 595 x 842 ポイント。\n\n**色とスタイル**:\n- `set_source_rgb` (r, g, b) — 色の値は 0.0-1.0 の浮動小数点数（例: r=1.0 は純赤）\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**パス**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — 角度はラジアン（0 = 3時位置、pi/2 = 6時位置）\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**描画**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**テキスト**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**変換**:\n- `translate` (x, y), `rotate` (angle — ラジアン), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**グラデーション**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: `offset` (0.0-1.0)、`r`、`g`、`b`、およびオプションの `a` を持つハッシュのリスト\n- Extend: `none` (透明)、`repeat` (タイル)、`reflect` (ミラー)、`pad` (端の色を拡張)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**その他**:\n- `image` (path/data/location, x, y, width, height) — PNGファイルのみ\n- `mask_surface` (path/data/location, x, y) — PNGサーフェスのアルファチャネルでマスクされた現在のソースカラーを使用\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "描画コマンド"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "描画コマンドのリスト"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.aGVpZ2h0.desc": {
+          "source": "Height of the SVG surface in points (72 points = 1 inch)",
+          "message": "SVGサーフェスの高さ（ポイント単位、72ポイント＝1インチ）"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "高さ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.aGVpZ2h0.short_desc": {
+          "source": "SVG height in points",
+          "message": "SVGの高さ（ポイント単位）"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.d2lkdGg.desc": {
+          "source": "Width of the SVG surface in points (72 points = 1 inch)",
+          "message": "SVGサーフェスの幅（ポイント単位、72ポイント＝1インチ）"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "幅"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.option.d2lkdGg.short_desc": {
+          "source": "SVG width in points",
+          "message": "SVGの幅（ポイント単位）"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWNyZWF0ZQ.short_desc": {
+          "source": "Create SVG from draw commands",
+          "message": "描画コマンドからSVGを作成"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.desc": {
+          "source": "Read SVG `width`, `height`, and metadata without modifying the file. Requires librsvg.",
+          "message": "ファイルを変更せずに、SVG `width`、`height`、およびメタデータを読み取ります。librsvgが必要です。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.display_name": {
+          "source": "Get SVG Info",
+          "message": "SVG情報を取得"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力のバイナリデータ。`input_path`、`data`、`location` のいずれか1つを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "入力データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "バイナリ入力データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力を読み取るファイルパス。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "入力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "入力ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html)モジュールでサポートされるファイルロケーション文字列（例: `file:///path/to/input.png`、`https://example.com/image.png`）。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "入力ロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "入力ファイルのロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLWdldC1pbmZv.short_desc": {
+          "source": "Get SVG dimensions and metadata",
+          "message": "SVGの寸法とメタデータを取得"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.desc": {
+          "source": "Convert an SVG file to Encapsulated PostScript (EPS) format. Specify `width` and `height` in points to control the output page size. Requires librsvg.",
+          "message": "SVGファイルをEncapsulated PostScript（EPS）形式に変換します。出力ページサイズを制御するには、`width`および`height`をポイント単位で指定します。librsvgが必要です。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.display_name": {
+          "source": "SVG to EPS",
+          "message": "SVGからEPS"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力のバイナリデータ。`input_path`、`data`、`location` のいずれか1つを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "入力データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "バイナリ入力データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aGVpZ2h0.desc": {
+          "source": "Output page height in points (72 points = 1 inch). Default: use SVG intrinsic height.",
+          "message": "ポイント単位での出力ページ高（72ポイント = 1インチ）。デフォルト: SVG固有の高さを使用。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "高さ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aGVpZ2h0.short_desc": {
+          "source": "Output height in points",
+          "message": "ポイント単位での出力高"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力を読み取るファイルパス。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "入力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "入力ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true`および`output_path`が指定されていない場合、入力ファイルは上書きされます（`input_path`が使用されている場合のみ適用可能）。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "上書き"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "入力ファイルを上書き"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html)モジュールでサポートされるファイルロケーション文字列（例: `file:///path/to/input.png`、`https://example.com/image.png`）。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "入力ロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "入力ファイルのロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.d2lkdGg.desc": {
+          "source": "Output page width in points (72 points = 1 inch). Default: use SVG intrinsic width.",
+          "message": "ポイント単位での出力ページ幅（72ポイント = 1インチ）。デフォルト: SVG固有の幅を使用。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "幅"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.option.d2lkdGg.short_desc": {
+          "source": "Output width in points",
+          "message": "ポイント単位での出力幅"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLWVwcw.short_desc": {
+          "source": "Convert SVG to EPS",
+          "message": "SVGをEPSに変換"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.desc": {
+          "source": "Convert an SVG file to PDF format. Specify `width` and `height` in points to control the output page size. Requires librsvg and PDF surface support.",
+          "message": "SVGファイルをPDF形式に変換します。出力ページサイズを制御するには、`width`と`height`をポイント単位で指定します。librsvgおよびPDFサーフェスのサポートが必要です。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.display_name": {
+          "source": "SVG to PDF",
+          "message": "SVGからPDF"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力のバイナリデータ。`input_path`、`data`、`location` のいずれか1つを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "入力データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "バイナリ入力データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aGVpZ2h0.desc": {
+          "source": "Output page height in points (1 point = 1/72 inch; US Letter = 792). Default: use SVG intrinsic height.",
+          "message": "ポイント単位での出力ページ高（1ポイント = 1/72インチ、US Letter = 792）。デフォルト: SVG固有の高さを使用。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "高さ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aGVpZ2h0.short_desc": {
+          "source": "Output height in points",
+          "message": "ポイント単位での出力高"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力を読み取るファイルパス。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "入力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "入力ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true`および`output_path`が指定されていない場合、入力ファイルは上書きされます（`input_path`が使用されている場合のみ適用可能）。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "上書き"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "入力ファイルを上書き"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html)モジュールでサポートされるファイルロケーション文字列（例: `file:///path/to/input.png`、`https://example.com/image.png`）。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "入力ロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "入力ファイルのロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.d2lkdGg.desc": {
+          "source": "Output page width in points (1 point = 1/72 inch; US Letter = 612). Default: use SVG intrinsic width.",
+          "message": "ポイント単位での出力ページ幅（1ポイント = 1/72インチ、US Letter = 612）。デフォルト: SVG固有の幅を使用。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "幅"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.option.d2lkdGg.short_desc": {
+          "source": "Output width in points",
+          "message": "ポイント単位での出力幅"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBkZg.short_desc": {
+          "source": "Convert SVG to PDF",
+          "message": "SVGをPDFに変換"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.desc": {
+          "source": "Render an SVG file to a PNG raster image with optional resizing. Specify `width` and `height` to scale the output. Requires librsvg.",
+          "message": "SVGファイルをオプションのリサイズ機能を用いてPNGラスタ画像にレンダリングします。出力をスケーリングするには`width`と`height`を指定します。librsvgが必要です。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.display_name": {
+          "source": "SVG to PNG",
+          "message": "SVGからPNG"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力のバイナリデータ。`input_path`、`data`、`location` のいずれか1つを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "入力データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "バイナリ入力データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aGVpZ2h0.desc": {
+          "source": "Output image height in pixels. Default: use SVG intrinsic height.",
+          "message": "ピクセル単位での出力画像高。デフォルト: SVG固有の高さを使用。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "高さ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aGVpZ2h0.short_desc": {
+          "source": "Output height in pixels",
+          "message": "ピクセル単位での出力高"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力を読み取るファイルパス。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "入力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "入力ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true`および`output_path`が指定されていない場合、入力ファイルは上書きされます（`input_path`が使用されている場合のみ適用可能）。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "上書き"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "入力ファイルを上書き"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html)モジュールでサポートされるファイルロケーション文字列（例: `file:///path/to/input.png`、`https://example.com/image.png`）。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "入力ロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "入力ファイルのロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.d2lkdGg.desc": {
+          "source": "Output image width in pixels. Default: use SVG intrinsic width.",
+          "message": "ピクセル単位での出力画像幅。デフォルト: SVG固有の幅を使用。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "幅"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.option.d2lkdGg.short_desc": {
+          "source": "Output width in pixels",
+          "message": "ピクセル単位での出力幅"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBuZw.short_desc": {
+          "source": "Convert SVG to PNG",
+          "message": "SVGをPNGに変換"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.desc": {
+          "source": "Convert an SVG file to PostScript format. Specify `width` and `height` in points to control the output page size. Requires librsvg.",
+          "message": "SVGファイルをPostScript形式に変換します。出力ページサイズを制御するには、`width`と`height`をポイント単位で指定します。librsvgが必要です。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.display_name": {
+          "source": "SVG to PostScript",
+          "message": "SVGからPostScript"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.ZGF0YQ.desc": {
+          "source": "Binary data of the input. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力のバイナリデータ。`input_path`、`data`、`location` のいずれか1つを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.ZGF0YQ.display_name": {
+          "source": "Input Data",
+          "message": "入力データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.ZGF0YQ.short_desc": {
+          "source": "Binary input data",
+          "message": "バイナリ入力データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aGVpZ2h0.desc": {
+          "source": "Output page height in points (72 points = 1 inch). Default: use SVG intrinsic height.",
+          "message": "ポイント単位での出力ページ高（72ポイント = 1インチ）。デフォルト: SVG固有の高さを使用。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "高さ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aGVpZ2h0.short_desc": {
+          "source": "Output height in points",
+          "message": "ポイント単位での出力高"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aW5wdXRfcGF0aA.desc": {
+          "source": "File path to read input from. One of `input_path`, `data`, or `location` must be provided.",
+          "message": "入力を読み取るファイルパス。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aW5wdXRfcGF0aA.display_name": {
+          "source": "Input File Path",
+          "message": "入力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.aW5wdXRfcGF0aA.short_desc": {
+          "source": "Path to input file",
+          "message": "入力ファイルへのパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3ZlcndyaXRl.desc": {
+          "source": "If `true` and `output_path` is not specified, the input file will be overwritten (only applicable when `input_path` is used).",
+          "message": "`true`および`output_path`が指定されていない場合、入力ファイルは上書きされます（`input_path`が使用されている場合のみ適用可能）。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3ZlcndyaXRl.display_name": {
+          "source": "Overwrite",
+          "message": "上書き"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.b3ZlcndyaXRl.short_desc": {
+          "source": "Overwrite the input file",
+          "message": "入力ファイルを上書き"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.bG9jYXRpb24.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/input.png`, `https://example.com/image.png`). One of `input_path`, `data`, or `location` must be provided.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html)モジュールでサポートされるファイルロケーション文字列（例: `file:///path/to/input.png`、`https://example.com/image.png`）。`input_path`、`data`、または`location`のいずれかを指定する必要があります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.bG9jYXRpb24.display_name": {
+          "source": "Input Location",
+          "message": "入力ロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.bG9jYXRpb24.short_desc": {
+          "source": "Location of input file",
+          "message": "入力ファイルのロケーション"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.d2lkdGg.desc": {
+          "source": "Output page width in points (72 points = 1 inch). Default: use SVG intrinsic width.",
+          "message": "ポイント単位での出力ページ幅（72ポイント = 1インチ）。デフォルト: SVG固有の幅を使用。"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "幅"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.option.d2lkdGg.short_desc": {
+          "source": "Output width in points",
+          "message": "ポイント単位での出力幅"
+        },
+        "app.Q2Fpcm8.action.c3ZnLXRvLXBz.short_desc": {
+          "source": "Convert SVG to PostScript",
+          "message": "SVGをPostScriptに変換"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.desc": {
+          "source": "Create a PostScript or Encapsulated PostScript (EPS) document from declarative draw commands. Set `eps` to `True` for EPS output.",
+          "message": "宣言型描画コマンドからPostScriptまたはEncapsulated PostScript（EPS）ドキュメントを作成します。EPS出力の場合は`eps`を`True`に設定します。"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.display_name": {
+          "source": "Create PostScript",
+          "message": "PostScriptを作成"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "描画コマンドハッシュのリスト。各コマンドには操作と操作固有のパラメータを指定する `op` キーがあります。\n\n**座標系**: 寸法はポイント単位です（1ポイント = 1/72インチ）。US Letter = 612 x 792 ポイント、A4 = 595 x 842 ポイント。\n\n**色とスタイル**:\n- `set_source_rgb` (r, g, b) — 色の値は 0.0-1.0 の浮動小数点数（例: r=1.0 は純赤）\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**パス**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — 角度はラジアン（0 = 3時位置、pi/2 = 6時位置）\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**描画**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**テキスト**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**変換**:\n- `translate` (x, y), `rotate` (angle — ラジアン), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**グラデーション**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: `offset` (0.0-1.0)、`r`、`g`、`b`、およびオプションの `a` を持つハッシュのリスト\n- Extend: `none` (透明)、`repeat` (タイル)、`reflect` (ミラー)、`pad` (端の色を拡張)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**その他**:\n- `image` (path/data/location, x, y, width, height) — PNGファイルのみ\n- `mask_surface` (path/data/location, x, y) — PNGサーフェスのアルファチャネルでマスクされた現在のソースカラーを使用\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "描画コマンド"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "描画コマンドのリスト"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.ZXBz.desc": {
+          "source": "If `True`, create Encapsulated PostScript (EPS) output",
+          "message": "`True`の場合、Encapsulated PostScript（EPS）出力を作成"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.ZXBz.display_name": {
+          "source": "EPS Mode",
+          "message": "EPSモード"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.ZXBz.short_desc": {
+          "source": "Enable EPS mode",
+          "message": "EPSモードを有効化"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.aGVpZ2h0.desc": {
+          "source": "Height of the PostScript page in points (72 points = 1 inch)",
+          "message": "PostScriptページの高さ（ポイント単位、72ポイント = 1インチ）"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "高さ"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.aGVpZ2h0.short_desc": {
+          "source": "Page height in points",
+          "message": "ポイント単位でのページ高"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.d2lkdGg.desc": {
+          "source": "Width of the PostScript page in points (72 points = 1 inch)",
+          "message": "PostScriptページの幅（ポイント単位、72ポイント = 1インチ）"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "幅"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.option.d2lkdGg.short_desc": {
+          "source": "Page width in points",
+          "message": "ポイント単位でのページ幅"
+        },
+        "app.Q2Fpcm8.action.cG9zdHNjcmlwdC1jcmVhdGU.short_desc": {
+          "source": "Create PS or EPS from draw commands",
+          "message": "描画コマンドからPSまたはEPSを作成"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.desc": {
+          "source": "Create a PDF document from declarative draw commands. Dimensions are in points (72 points = 1 inch).",
+          "message": "宣言型描画コマンドからPDFドキュメントを作成します。寸法はポイント単位です（72ポイント = 1インチ）。"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.display_name": {
+          "source": "Create PDF",
+          "message": "PDFを作成"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.Y29tbWFuZHM.desc": {
+          "source": "List of draw command hashes. Each command has an `op` key specifying the operation and operation-specific parameters.\n\n**Coordinate system**: dimensions are in points (1 point = 1/72 inch). US Letter = 612 x 792 points; A4 = 595 x 842 points.\n\n**Color and Style**:\n- `set_source_rgb` (r, g, b) — color values are floats 0.0-1.0 (e.g. r=1.0 is full red)\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**Paths**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — angles in radians (0 = 3 o'clock, pi/2 = 6 o'clock)\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**Drawing**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**Text**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**Transforms**:\n- `translate` (x, y), `rotate` (angle — radians), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**Gradients**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: list of hashes with `offset` (0.0-1.0), `r`, `g`, `b`, and optional `a`\n- Extend: `none` (transparent), `repeat` (tile), `reflect` (mirror), `pad` (extend edge color)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**Other**:\n- `image` (path/data/location, x, y, width, height) — PNG files only\n- `mask_surface` (path/data/location, x, y) — uses current source color masked by a PNG surface's alpha channel\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`",
+          "message": "描画コマンドハッシュのリスト。各コマンドには操作と操作固有のパラメータを指定する `op` キーがあります。\n\n**座標系**: 寸法はポイント単位です（1ポイント = 1/72インチ）。US Letter = 612 x 792 ポイント、A4 = 595 x 842 ポイント。\n\n**色とスタイル**:\n- `set_source_rgb` (r, g, b) — 色の値は 0.0-1.0 の浮動小数点数（例: r=1.0 は純赤）\n- `set_source_rgba` (r, g, b, a)\n- `set_line_width` (width)\n- `set_line_cap` (cap: `butt`, `round`, `square`)\n- `set_line_join` (join: `miter`, `round`, `bevel`)\n- `set_dash` (dashes, offset), `set_miter_limit` (limit), `set_tolerance` (tolerance)\n- `set_fill_rule` (rule: `winding`, `even-odd`)\n- `set_operator` (op_name)\n- `set_antialias` (aa: `default`, `none`, `gray`, `subpixel`)\n\n**パス**:\n- `move_to` (x, y), `line_to` (x, y)\n- `curve_to` (x1, y1, x2, y2, x3, y3)\n- `rel_move_to` (dx, dy), `rel_line_to` (dx, dy)\n- `rel_curve_to` (dx1, dy1, dx2, dy2, dx3, dy3)\n- `arc` (x, y, radius, angle1, angle2), `arc_negative` (...) — 角度はラジアン（0 = 3時位置、pi/2 = 6時位置）\n- `rectangle` (x, y, width, height)\n- `close_path`, `new_path`, `new_sub_path`\n\n**描画**:\n- `stroke`, `fill`, `paint` (alpha)\n- `stroke_preserve`, `fill_preserve`\n- `clip`, `clip_preserve`, `reset_clip`\n- `text_path` (text)\n\n**テキスト**:\n- `text` (text, x, y, family, size, slant, weight)\n- `set_font` (family, size, slant, weight), `set_font_size` (size)\n\n**変換**:\n- `translate` (x, y), `rotate` (angle — ラジアン), `scale` (x, y)\n- `identity_matrix`\n- `set_matrix` (xx, yx, xy, yy, x0, y0), `transform` (...)\n\n**グラデーション**:\n- `linear_gradient` (x0, y0, x1, y1, stops, extend, filter)\n- `radial_gradient` (cx0, cy0, r0, cx1, cy1, r1, stops, extend, filter)\n- Stops: `offset` (0.0-1.0)、`r`、`g`、`b`、およびオプションの `a` を持つハッシュのリスト\n- Extend: `none` (透明)、`repeat` (タイル)、`reflect` (ミラー)、`pad` (端の色を拡張)\n- Filter: `fast`, `good`, `best`, `nearest`, `bilinear`\n\n**その他**:\n- `image` (path/data/location, x, y, width, height) — PNGファイルのみ\n- `mask_surface` (path/data/location, x, y) — PNGサーフェスのアルファチャネルでマスクされた現在のソースカラーを使用\n- `save`, `restore`, `push_group`, `pop_group_to_source`, `show_page`, `copy_page`"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.Y29tbWFuZHM.display_name": {
+          "source": "Draw Commands",
+          "message": "描画コマンド"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.Y29tbWFuZHM.short_desc": {
+          "source": "List of draw commands",
+          "message": "描画コマンドのリスト"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.aGVpZ2h0.desc": {
+          "source": "Height of the PDF page in points (72 points = 1 inch)",
+          "message": "PDFページの高さ（ポイント単位、72ポイント = 1インチ）"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.aGVpZ2h0.display_name": {
+          "source": "Height",
+          "message": "高さ"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.aGVpZ2h0.short_desc": {
+          "source": "Page height in points",
+          "message": "ポイント単位でのページ高"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.d2lkdGg.desc": {
+          "source": "Width of the PDF page in points (72 points = 1 inch)",
+          "message": "PDFページの幅（ポイント単位、72ポイント = 1インチ）"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.d2lkdGg.display_name": {
+          "source": "Width",
+          "message": "幅"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.option.d2lkdGg.short_desc": {
+          "source": "Page width in points",
+          "message": "ポイント単位でのページ幅"
+        },
+        "app.Q2Fpcm8.action.cGRmLWNyZWF0ZQ.short_desc": {
+          "source": "Create PDF from draw commands",
+          "message": "描画コマンドからPDFを作成"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.desc": {
+          "source": "Get font metrics (`ascent`, `descent`, `height`, `max_x_advance`, `max_y_advance`) for a given font configuration.",
+          "message": "指定されたフォント構成のフォントメトリクス（`ascent`、`descent`、`height`、`max_x_advance`、`max_y_advance`）を取得します。"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.display_name": {
+          "source": "Get Font Metrics",
+          "message": "フォントメトリクスの取得"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.ZmFtaWx5.desc": {
+          "source": "Font family name (e.g., `sans-serif`, `Helvetica`). Default: `sans-serif`",
+          "message": "フォントファミリー名（例: `sans-serif`、`Helvetica`）。デフォルト: `sans-serif`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.ZmFtaWx5.display_name": {
+          "source": "Font Family",
+          "message": "フォントファミリー"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.ZmFtaWx5.short_desc": {
+          "source": "Font family name",
+          "message": "フォントファミリー名"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2l6ZQ.desc": {
+          "source": "Font size in user-space units. Default: `12.0`",
+          "message": "ユーザースペース単位でのフォントサイズ。デフォルト: `12.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2l6ZQ.display_name": {
+          "source": "Font Size",
+          "message": "フォントサイズ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2l6ZQ.short_desc": {
+          "source": "Font size",
+          "message": "フォントサイズ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal (upright) style",
+          "message": "標準（直立）スタイル"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "標準"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.desc": {
+          "source": "Oblique style",
+          "message": "斜体（Oblique）スタイル"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.display_name": {
+          "source": "Oblique",
+          "message": "斜体（Oblique）"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.desc": {
+          "source": "Italic style",
+          "message": "イタリックスタイル"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.display_name": {
+          "source": "Italic",
+          "message": "イタリック"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.desc": {
+          "source": "Font slant style. Default: `normal`",
+          "message": "フォントの傾斜スタイル。デフォルト: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.display_name": {
+          "source": "Font Slant",
+          "message": "フォントの傾斜"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.c2xhbnQ.short_desc": {
+          "source": "Font slant style",
+          "message": "フォントの傾斜スタイル"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal weight",
+          "message": "標準の太さ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "標準"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.desc": {
+          "source": "Bold weight",
+          "message": "太字の太さ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.display_name": {
+          "source": "Bold",
+          "message": "太字"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.desc": {
+          "source": "Font weight style. Default: `normal`",
+          "message": "フォントの太さスタイル。デフォルト: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.display_name": {
+          "source": "Font Weight",
+          "message": "フォントの太さ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.option.d2VpZ2h0.short_desc": {
+          "source": "Font weight",
+          "message": "フォントの太さ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1nZXQtZm9udC1tZXRyaWNz.short_desc": {
+          "source": "Get font ascent, descent, and height",
+          "message": "フォントのアセント、ディセント、高さを取得"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.desc": {
+          "source": "Calculate the `width`, `height`, bearing, and advance of a text string for a given font `family`, `size`, `slant`, and `weight`.",
+          "message": "指定されたフォント`family`、`size`、`slant`、および`weight`におけるテキスト文字列の`width`、`height`、ベアリング、およびアドバンスを計算します。"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.display_name": {
+          "source": "Measure Text",
+          "message": "テキストの計測"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.ZmFtaWx5.desc": {
+          "source": "Font family name (e.g., `sans-serif`, `Helvetica`). Default: `sans-serif`",
+          "message": "フォントファミリー名（例: `sans-serif`、`Helvetica`）。デフォルト: `sans-serif`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.ZmFtaWx5.display_name": {
+          "source": "Font Family",
+          "message": "フォントファミリー"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.ZmFtaWx5.short_desc": {
+          "source": "Font family name",
+          "message": "フォントファミリー名"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2l6ZQ.desc": {
+          "source": "Font size in user-space units. Default: `12.0`",
+          "message": "ユーザースペース単位でのフォントサイズ。デフォルト: `12.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2l6ZQ.display_name": {
+          "source": "Font Size",
+          "message": "フォントサイズ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2l6ZQ.short_desc": {
+          "source": "Font size",
+          "message": "フォントサイズ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal (upright) style",
+          "message": "標準（直立）スタイル"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "標準"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.desc": {
+          "source": "Oblique style",
+          "message": "斜体（Oblique）スタイル"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.display_name": {
+          "source": "Oblique",
+          "message": "斜体（Oblique）"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.desc": {
+          "source": "Italic style",
+          "message": "イタリックスタイル"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.display_name": {
+          "source": "Italic",
+          "message": "イタリック"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.desc": {
+          "source": "Font slant style. Default: `normal`",
+          "message": "フォントの傾斜スタイル。デフォルト: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.display_name": {
+          "source": "Font Slant",
+          "message": "フォントの傾斜"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.c2xhbnQ.short_desc": {
+          "source": "Font slant style",
+          "message": "フォントの傾斜スタイル"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal weight",
+          "message": "標準の太さ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "標準"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.desc": {
+          "source": "Bold weight",
+          "message": "太字の太さ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.display_name": {
+          "source": "Bold",
+          "message": "太字"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.desc": {
+          "source": "Font weight style. Default: `normal`",
+          "message": "フォントの太さスタイル。デフォルト: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.display_name": {
+          "source": "Font Weight",
+          "message": "フォントの太さ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.d2VpZ2h0.short_desc": {
+          "source": "Font weight",
+          "message": "フォントの太さ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.dGV4dA.desc": {
+          "source": "The text string to measure dimensions for",
+          "message": "寸法を計測するテキスト文字列"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.dGV4dA.display_name": {
+          "source": "Text",
+          "message": "テキスト"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.option.dGV4dA.short_desc": {
+          "source": "Text to measure",
+          "message": "計測するテキスト"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1tZWFzdXJl.short_desc": {
+          "source": "Measure text dimensions",
+          "message": "テキストの寸法を測定"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.desc": {
+          "source": "Render text to a PNG image with specified font, color, and optional background. The image is automatically sized to fit the text.",
+          "message": "指定されたフォント、色、オプションの背景でテキストをPNG画像に描画します。画像はテキストに合わせて自動的にサイズ変更されます。"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.display_name": {
+          "source": "Render Text",
+          "message": "テキストを描画"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YQ.desc": {
+          "source": "Text color alpha (`0.0` = transparent, `1.0` = opaque). Default: `1.0`",
+          "message": "テキスト色のアルファ値（`0.0` = 透明、`1.0` = 不透明）。デフォルト: `1.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YQ.display_name": {
+          "source": "Text Alpha",
+          "message": "テキストのアルファ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YQ.short_desc": {
+          "source": "Text color alpha",
+          "message": "テキスト色のアルファ値"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Yg.desc": {
+          "source": "Text color blue component (`0.0`-`1.0`). Default: `0.0`",
+          "message": "テキスト色の青成分（`0.0`〜`1.0`）。デフォルト: `0.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Yg.display_name": {
+          "source": "Text Blue",
+          "message": "テキストの青"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Yg.short_desc": {
+          "source": "Text color blue component",
+          "message": "テキスト色の青成分"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYQ.desc": {
+          "source": "Background color alpha (`0.0` = transparent, `1.0` = opaque). Default: `0.0` (transparent)",
+          "message": "背景色のアルファ値（`0.0` = 透明、`1.0` = 不透明）。デフォルト: `0.0`（透明）"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYQ.display_name": {
+          "source": "Background Alpha",
+          "message": "背景のアルファ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYQ.short_desc": {
+          "source": "Background color alpha",
+          "message": "背景色のアルファ値"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYg.desc": {
+          "source": "Background color blue component (`0.0`-`1.0`). Default: `1.0`",
+          "message": "背景色の青成分（`0.0`〜`1.0`）。デフォルト: `1.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYg.display_name": {
+          "source": "Background Blue",
+          "message": "背景の青"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfYg.short_desc": {
+          "source": "Background color blue component",
+          "message": "背景色の青成分"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfZw.desc": {
+          "source": "Background color green component (`0.0`-`1.0`). Default: `1.0`",
+          "message": "背景色の緑成分（`0.0`〜`1.0`）。デフォルト: `1.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfZw.display_name": {
+          "source": "Background Green",
+          "message": "背景の緑"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.YmdfZw.short_desc": {
+          "source": "Background color green component",
+          "message": "背景色の緑成分"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Ymdfcg.desc": {
+          "source": "Background color red component (`0.0`-`1.0`). Default: `1.0` (white)",
+          "message": "背景色の赤成分（`0.0`〜`1.0`）。デフォルト: `1.0`（白）"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Ymdfcg.display_name": {
+          "source": "Background Red",
+          "message": "背景の赤"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Ymdfcg.short_desc": {
+          "source": "Background color red component",
+          "message": "背景色の赤成分"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.ZmFtaWx5.desc": {
+          "source": "Font family name (e.g., `sans-serif`, `Helvetica`). Default: `sans-serif`",
+          "message": "フォントファミリー名（例: `sans-serif`、`Helvetica`）。デフォルト: `sans-serif`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.ZmFtaWx5.display_name": {
+          "source": "Font Family",
+          "message": "フォントファミリー"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.ZmFtaWx5.short_desc": {
+          "source": "Font family name",
+          "message": "フォントファミリー名"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Zw.desc": {
+          "source": "Text color green component (`0.0`-`1.0`). Default: `0.0`",
+          "message": "テキスト色の緑成分（`0.0`〜`1.0`）。デフォルト: `0.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Zw.display_name": {
+          "source": "Text Green",
+          "message": "テキストの緑"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.Zw.short_desc": {
+          "source": "Text color green component",
+          "message": "テキスト色の緑成分"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X2xvY2F0aW9u.desc": {
+          "source": "A file location string as supported by the [FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) module (e.g. `file:///path/to/output.png`, `sftp://host/path/output.png`). If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "[FileLocationHandler](https://docs.qore.org/current/modules/FileLocationHandler/html/index.html) モジュールでサポートされているファイルロケーション文字列（例: `file:///path/to/output.png`、`sftp://host/path/output.png`）。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X2xvY2F0aW9u.display_name": {
+          "source": "Output Location",
+          "message": "出力ロケーション"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X2xvY2F0aW9u.short_desc": {
+          "source": "Location to write the output to",
+          "message": "出力を書き込むロケーション"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X3BhdGg.desc": {
+          "source": "File path to write the processed output to. If neither `output_path` nor `output_location` is provided, the data is returned in the response only.",
+          "message": "処理済み出力を書き込むファイルパス。`output_path` と `output_location` のいずれも指定されていない場合、データはレスポンスでのみ返されます。"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X3BhdGg.display_name": {
+          "source": "Output File Path",
+          "message": "出力ファイルパス"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.b3V0cHV0X3BhdGg.short_desc": {
+          "source": "Path to write the output to",
+          "message": "出力を書き込むパス"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2l6ZQ.desc": {
+          "source": "Font size in user-space units. Default: `12.0`",
+          "message": "ユーザースペース単位でのフォントサイズ。デフォルト: `12.0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2l6ZQ.display_name": {
+          "source": "Font Size",
+          "message": "フォントサイズ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2l6ZQ.short_desc": {
+          "source": "Font size",
+          "message": "フォントサイズ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal (upright) style",
+          "message": "標準（直立）スタイル"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "標準"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.desc": {
+          "source": "Oblique style",
+          "message": "斜体（Oblique）スタイル"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOm9ibGlxdWU.display_name": {
+          "source": "Oblique",
+          "message": "斜体（Oblique）"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.desc": {
+          "source": "Italic style",
+          "message": "イタリックスタイル"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.allowed-value.c3RyaW5nOml0YWxpYw.display_name": {
+          "source": "Italic",
+          "message": "イタリック"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.desc": {
+          "source": "Font slant style. Default: `normal`",
+          "message": "フォントの傾斜スタイル。デフォルト: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.display_name": {
+          "source": "Font Slant",
+          "message": "フォントの傾斜"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.c2xhbnQ.short_desc": {
+          "source": "Font slant style",
+          "message": "フォントの傾斜スタイル"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cGFkZGluZw.desc": {
+          "source": "Padding in pixels around the rendered text. Default: `0`",
+          "message": "描画されたテキストの周囲のパディング（ピクセル単位）。デフォルト: `0`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cGFkZGluZw.display_name": {
+          "source": "Padding",
+          "message": "パディング"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cGFkZGluZw.short_desc": {
+          "source": "Padding around text in pixels",
+          "message": "テキスト周囲のパディング（ピクセル単位）"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cg.desc": {
+          "source": "Text color red component (`0.0`-`1.0`). Default: `0.0` (black)",
+          "message": "テキスト色の赤成分（`0.0`〜`1.0`）。デフォルト: `0.0`（黒）"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cg.display_name": {
+          "source": "Text Red",
+          "message": "テキストの赤"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cg.short_desc": {
+          "source": "Text color red component",
+          "message": "テキスト色の赤成分"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cmV0dXJuX2RhdGE.desc": {
+          "source": "Whether to include binary data in the response hash. Defaults to `True` when no output path or location is specified, `False` when an output destination is provided.",
+          "message": "レスポンスハッシュにバイナリデータを含めるかどうか。出力パスまたはロケーションが指定されていない場合はデフォルトで `True`、出力先が指定されている場合は `False` になります。"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cmV0dXJuX2RhdGE.display_name": {
+          "source": "Return Data",
+          "message": "返却データ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.cmV0dXJuX2RhdGE.short_desc": {
+          "source": "Whether to include data in the response",
+          "message": "レスポンスにデータを含めるかどうか"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.desc": {
+          "source": "Normal weight",
+          "message": "標準の太さ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.allowed-value.c3RyaW5nOm5vcm1hbA.display_name": {
+          "source": "Normal",
+          "message": "標準"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.desc": {
+          "source": "Bold weight",
+          "message": "太字の太さ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.allowed-value.c3RyaW5nOmJvbGQ.display_name": {
+          "source": "Bold",
+          "message": "太字"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.desc": {
+          "source": "Font weight style. Default: `normal`",
+          "message": "フォントの太さスタイル。デフォルト: `normal`"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.display_name": {
+          "source": "Font Weight",
+          "message": "フォントの太さ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.d2VpZ2h0.short_desc": {
+          "source": "Font weight",
+          "message": "フォントの太さ"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.dGV4dA.desc": {
+          "source": "The text string to render to a PNG image",
+          "message": "PNG画像に描画するテキスト文字列"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.dGV4dA.display_name": {
+          "source": "Text",
+          "message": "テキスト"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.option.dGV4dA.short_desc": {
+          "source": "Text to render",
+          "message": "描画するテキスト"
+        },
+        "app.Q2Fpcm8.action.dGV4dC1yZW5kZXI.short_desc": {
+          "source": "Render text to PNG image",
+          "message": "テキストをPNG画像に描画"
+        },
+        "app.Q2Fpcm8.desc": {
+          "source": "Create and manipulate vector graphics in SVG, PDF, PostScript, and EPS formats",
+          "message": "SVG、PDF、PostScript、およびEPS形式でベクターグラフィックを作成および操作"
+        },
+        "app.Q2Fpcm8.display_name": {
+          "source": "Cairo Vector Graphics",
+          "message": "Cairoベクターグラフィック"
+        },
+        "app.Q2Fpcm8.short_desc": {
+          "source": "SVG, PDF, PostScript, and EPS vector graphics",
+          "message": "SVG、PDF、PostScript、およびEPSベクターグラフィック"
+        }
+      }
+    }
+  }
+}
