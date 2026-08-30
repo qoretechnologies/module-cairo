@@ -65,10 +65,13 @@ else()
     message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++17 support.")
 endif()
 
+# Keep the reader API available without librsvg so user modules can query
+# CairoSvgReader::isAvailable() and disable the dependent providers.
 set(QPP_SRC
     src/QC_CairoSurface.qpp
     src/QC_CairoContext.qpp
     src/QC_CairoPattern.qpp
+    src/QC_CairoSvgReader.qpp
 )
 
 set(CPP_SRC
@@ -76,12 +79,8 @@ set(CPP_SRC
     src/CairoSurface.cpp
     src/CairoContext.cpp
     src/CairoPattern.cpp
+    src/CairoSvgReader.cpp
 )
-
-if (RSVG_FOUND)
-    list(APPEND QPP_SRC src/QC_CairoSvgReader.qpp)
-    list(APPEND CPP_SRC src/CairoSvgReader.cpp)
-endif()
 
 qore_wrap_qpp_value(QPP_SOURCES METALIST QPP_META_SRC ${QPP_SRC})
 

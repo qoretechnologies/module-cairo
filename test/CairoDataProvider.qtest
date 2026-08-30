@@ -2920,6 +2920,10 @@ class CairoDataProviderTest inherits QUnit::Test {
     }
 
     private testSvgCenter() {
+        if (!CairoSvgReader::isAvailable()) {
+            testSkip("librsvg not available");
+        }
+
         auto dp = root.getChildProvider("svg").getChildProvider("center");
         assertTrue(dp.getInfo().supports_request);
 

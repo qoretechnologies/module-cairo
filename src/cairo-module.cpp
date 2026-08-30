@@ -28,10 +28,7 @@
 #include "QC_CairoSurface.h"
 #include "QC_CairoContext.h"
 #include "QC_CairoPattern.h"
-
-#ifdef HAVE_RSVG
 #include "QC_CairoSvgReader.h"
-#endif
 
 #include <cairo.h>
 
@@ -74,10 +71,7 @@ static void cairo_module_init(QoreModuleInitContext& ctx, ExceptionSink& xsink) 
     CairoNs.addSystemClass(initCairoSurfaceClass(CairoNs));
     CairoNs.addSystemClass(initCairoPatternClass(CairoNs));
     CairoNs.addSystemClass(initCairoContextClass(CairoNs));
-
-#ifdef HAVE_RSVG
     CairoNs.addSystemClass(initCairoSvgReaderClass(CairoNs));
-#endif
 }
 
 static void cairo_module_ns_init(QoreNamespace* rns, QoreNamespace* qns, ExceptionSink& xsink) {
