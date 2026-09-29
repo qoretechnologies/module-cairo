@@ -1,0 +1,28 @@
+#!/bin/sh
+# Copyright (C) 2026 David Nichols
+# SPDX-License-Identifier: MIT
+set -eu
+qsvg_binary=${QORE_QSVG_BINARY:-/usr/bin/qsvg}
+work_dir=$(mktemp -d)
+trap 'rm -rf "$work_dir"' EXIT HUP INT TERM
+cd "$work_dir"
+"$qsvg_binary" --help > help.txt
+"$qsvg_binary" info > info.txt
+cat > commands.json <<'EOF'
+[{"op":"set_source_rgb","r":0.2,"g":0.4,"b":0.8},
+ {"op":"rectangle","x":0,"y":0,"width":64,"height":32},
+ {"op":"fill"}]
+EOF
+"$qsvg_binary" svg create -W 64 -H 32 --commands-file commands.json -o 'drawing test.svg'
+cp 'drawing test.svg' original.svg
+"$qsvg_binary" svg to-png 'drawing test.svg' -o output.png -W 64 -H 32
+"$qsvg_binary" svg to-pdf 'drawing test.svg' -o output.pdf
+"$qsvg_binary" text render 'Package test' -o text.png --family 'DejaVu Sans' --size 18
+/usr/bin/qore -l cairo -e 'CairoSurface surface = CairoSurface::createImageFromPng("output.png"); hash<CairoSurfaceInfo> info = surface.getInfo(); if (info.width != 64 || info.height != 32) throw "PACKAGE-TEST-ERROR", "Incorrect CLI PNG dimensions";'
+test -s text.png
+test "$(head -c 5 output.pdf)" = '%PDF-'
+# Conversions preserve the source unless an in-place operation is requested.
+cmp original.svg 'drawing test.svg'
+cp output.png resized.png
+"$qsvg_binary" image resize resized.png --target-width 32 --target-height 16 --overwrite
+/usr/bin/qore -l cairo -e 'hash<CairoSurfaceInfo> info = CairoSurface::createImageFromPng("resized.png").getInfo(); if (info.width != 32 || info.height != 16) throw "PACKAGE-TEST-ERROR", "In-place CLI resize failed";'

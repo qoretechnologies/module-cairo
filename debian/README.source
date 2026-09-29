@@ -1,0 +1,64 @@
+Debian/Ubuntu packaging for the Cairo module
+===========================================
+
+qore-cairo-module ships native Cairo, the CairoDataProvider source/AOT module,
+qsvg and its manual, compiler metadata, provider resources and locale catalogs.
+The doc package contains both API references and example tests. Debhelper
+creates matching native and AOT debug symbols.
+
+Use an isolated native environment with packaged Qore and libqore-dev, then
+install debian/control's Build-Depends. Qualification targets Ubuntu 26.04
+amd64 with Qore 3.0. Other targets need matching SDKs and native tests. Cross
+builds fail explicitly because Qore tools execute during compilation. System
+Cairo/librsvg are used; no bundled libraries or build-time downloads are needed.
+SVG input and PDF output are required and verified in build/installed tests.
+DejaVu fonts provide a default font for the text APIs and CLI without a desktop.
+
+The minimum Qore runtime and libqore SONAME versions come from the installed
+SDK; dh_shlibdeps supplies the other library dependencies. The runtime package
+is not Multi-Arch: same. AOT is enabled, source-tree qmod symlinks are disabled,
+and noopt selects optimization level zero. QCC_JOBS=1 fixes partitioning across
+CPU counts/jobserver loads while independent targets still compile in parallel.
+Qore tools use the build and packaged standard library only. Prefix maps cover
+native/AOT output; timezone and locale are fixed.
+
+The stripping wrapper copied from Qore preserves appended AOT metadata and
+its real-ELF tests run during the build. dwz excludes unsupported LLVM DWARF.
+All provider catalogs and the ownership manifest are packaged; the complete
+standard-locale check runs against the built provider via qore-misc-tools.
+
+Source preparation and qualification
+------------------------------------
+
+Use a fresh version for each changed upload. This snapshot precedes 1.0.0.
+From a clean committed checkout:
+
+    version=1.0.0~git20260928.1
+    mkdir -p ../cairo-package-work
+    git archive --format=tar --prefix="qore-cairo-module-$version/" \
+        HEAD -- . ':!debian' | xz > \
+        "../cairo-package-work/qore-cairo-module_$version.orig.tar.xz"
+    tar -xf "../cairo-package-work/qore-cairo-module_$version.orig.tar.xz" \
+        -C ../cairo-package-work
+    cp -a debian "../cairo-package-work/qore-cairo-module-$version/"
+    cd "../cairo-package-work/qore-cairo-module-$version"
+    dpkg-buildpackage -S -us -uc
+
+Extract the .dsc into a fresh directory and run dpkg-buildpackage -b -us -uc
+unprivileged offline. -B builds runtime/debug only; -A builds documentation.
+nodoc in DEB_BUILD_OPTIONS suppresses HTML, and the nodoc profile also omits
+the doc package. Full qualification runs tests; repeated/profile builds may
+use nocheck.
+
+Run both upstream suites, complete catalogs, AOT helper tests and the CLI
+checks. Installed tests copy only test scripts to a temporary directory and
+preload the installed AOT provider. CLI checks cover SVG creation, PNG/PDF
+conversion, text rendering, paths with spaces and explicit in-place resizing. A
+fresh qcc executable tests named arguments, PNG round trip, optional feature
+availability and provider factory discovery. No external service is needed.
+
+Check Lintian, hardening/debug symbols, AOT trailers, source/resource/catalog
+parity, runtime-only installation without SDK, docs/debug coinstallation,
+dpkg -V, purge/reinstall and byte reproducibility across paths/job counts.
+Retain hashes, dependency inventories and logs. Testing-PPA publication is
+separate from approval for a final general release.

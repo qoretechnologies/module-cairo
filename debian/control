@@ -1,0 +1,44 @@
+Source: qore-cairo-module
+Section: interpreters
+Priority: optional
+Maintainer: David Nichols <david@qore.org>
+Build-Depends: debhelper-compat (= 13),
+               cmake (>= 3.5),
+               pkgconf,
+               libcairo2-dev,
+               librsvg2-dev,
+               fonts-dejavu-core,
+               libqore-dev (>= 3.0.0~),
+               qore (>= 3.0.0~),
+               qore-misc-tools (>= 3.0.0~) <!nocheck>,
+               python3
+Build-Depends-Indep: doxygen <!nodoc>
+Standards-Version: 4.7.4
+Rules-Requires-Root: no
+Homepage: https://qore.org
+Vcs-Git: https://github.com/qoretechnologies/module-cairo.git
+Vcs-Browser: https://github.com/qoretechnologies/module-cairo
+
+Package: qore-cairo-module
+Architecture: any
+Depends: fonts-dejavu-core,
+         ${qore:Depends},
+         ${shlibs:Depends},
+         ${misc:Depends}
+Suggests: qore-cairo-module-doc
+Description: vector graphics, images and rendering providers for Qore
+ This package provides native Cairo bindings, the CairoDataProvider source
+ and compiled module, the qsvg command, compiler metadata, provider resources
+ and translations. It supports SVG, PNG, PDF, PostScript, EPS and text drawing.
+ SVG input is enabled with librsvg; DejaVu fonts provide default text rendering.
+
+Package: qore-cairo-module-doc
+Section: doc
+Architecture: all
+Multi-Arch: foreign
+Build-Profiles: <!nodoc>
+Depends: ${misc:Depends}
+Suggests: qore-cairo-module
+Description: documentation and examples for Qore's Cairo modules
+ This package contains HTML API references and example tests for the cairo
+ native module and CairoDataProvider.

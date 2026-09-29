@@ -1,0 +1,6 @@
+usr/bin/qsvg
+usr/lib/*/qore-modules/*.qmod
+usr/lib/*/qore-modules/CairoDataProvider/
+usr/share/qore-modules/CairoDataProvider/
+usr/share/qore/metadata/cairo/*.meta.json
+usr/share/qore/i18n/

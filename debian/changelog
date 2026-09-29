@@ -1,0 +1,8 @@
+qore-cairo-module (1.0.0~git20260928.1-0qore1~ubuntu26.04) resolute; urgency=medium
+
+  * Package native Cairo, source/AOT providers, metadata and translations.
+  * Include qsvg with a manual, API references, examples and debug symbols.
+  * Require SVG/PDF support and default fonts; add offline package tests.
+  * Add reproducible native build profiles and preserve AOT metadata.
+
+ -- David Nichols <david@qore.org>  Tue, 29 Sep 2026 00:09:26 +0000

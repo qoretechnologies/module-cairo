@@ -14,3 +14,15 @@ compile_commands.json
 __pycache__/
 .DS_Store
 .vscode/
+
+# Debian package build products
+/obj-*/
+/debian/.debhelper/
+/debian/debhelper-build-stamp
+/debian/files
+/debian/*.substvars
+/debian/*.debhelper
+/debian/qore-cairo-module/
+/debian/qore-cairo-module-doc/
+/debian/tmp/
+**/__pycache__/

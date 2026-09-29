@@ -1,0 +1,28 @@
+#!/bin/sh
+# Copyright (C) 2026 David Nichols
+# SPDX-License-Identifier: MIT
+set -eu
+unset QORE_MODULE_DIR QORE_MODULE_DIR_ONLY QORE_INCLUDE_DIR LD_LIBRARY_PATH LD_PRELOAD
+cd "$AUTOPKGTEST_TMP"
+cat > cairo-smoke.q <<'EOF'
+%modern
+%requires cairo
+%requires DataProvider
+%requires CairoDataProvider
+CairoSurface surface = CairoSurface::createImage(width: 32, height: 16);
+CairoContext ctx(surface);
+ctx.setSourceRgb(0.25, 0.5, 0.75);
+ctx.rectangle(0.0, 0.0, 32.0, 16.0);
+ctx.fill();
+CairoSurface decoded = CairoSurface::createImageFromPngData(surface.writeToPngData());
+hash<CairoSurfaceInfo> info = decoded.getInfo();
+if (info.width != 32 || info.height != 16 || !CairoSvgReader::isAvailable()
+        || !CairoSurface::isPdfAvailable()) {
+    throw "PACKAGE-TEST-ERROR", "Installed Cairo image or feature support failed";
+}
+if (DataProvider::getFactory("cairo").getInfo().name != "cairo") {
+    throw "PACKAGE-TEST-ERROR", "Installed Cairo provider factory is unavailable";
+}
+EOF
+/usr/bin/qcc -o cairo-smoke cairo-smoke.q
+./cairo-smoke

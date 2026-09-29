@@ -1,0 +1,89 @@
+." Copyright (C) 2026 David Nichols
+." SPDX-License-Identifier: MIT
+.TH QSVG 1 "September 2026" "Qore Cairo module" "User Commands"
+.SH NAME
+qsvg \- create, convert and manipulate vector graphics and images
+.SH SYNOPSIS
+.B qsvg
+.I category action
+.RI [ options ]
+.RI [ input ]
+.br
+.B qsvg info
+.SH DESCRIPTION
+.B qsvg
+uses Qore's CairoDataProvider to create SVG, PNG, PostScript, EPS and PDF,
+convert SVG and image files, and measure or render text.
+Commands read JSON or YAML drawing instructions from a file or inline option.
+Explicit output paths replace existing files. For commands that support
+in-place processing,
+.B --overwrite
+selects the input path when no output path is given.
+The svg center command modifies its input by default; use -o to select
+another output. SVG input uses librsvg, enabled in the Debian package.
+.SH CATEGORIES
+.TP
+.B svg
+create, center, info, to-png, to-ps, to-eps, to-pdf.
+.TP
+.B image
+create, info, draw, resize, crop, composite, rotate, to-svg, to-ps, to-eps, to-pdf.
+.B img
+is an alias.
+.TP
+.B ps
+Create PostScript with the create action; --eps selects EPS.
+.B postscript
+is an alias.
+.TP
+.B pdf
+Create PDF with the create action.
+.TP
+.B text
+measure, metrics, render.
+.TP
+.B info
+Display module capabilities.
+.SH COMMON OPTIONS
+.TP
+.BR -h ", " --help
+Show general, category or action-specific help.
+.TP
+.BR -V ", " --version
+Display version.
+.TP
+.BR -o ", " --output " " path
+Write output to path.
+.TP
+.B --overwrite
+Use the input file as the output for supported in-place operations.
+.TP
+.BR -W ", " --width " " value
+Set output width; vector formats use points, image formats use pixels.
+.TP
+.BR -H ", " --height " " value
+Set output height.
+.TP
+.BI --commands-file " path"
+Read drawing commands from a JSON or YAML file.
+.TP
+.BI --commands " text"
+Read inline drawing commands.
+.TP
+.BR -C ", " --no-color
+Disable terminal colors.
+.TP
+.BR -v ", " --verbose
+Increase verbosity.
+.SH EXAMPLES
+.nf
+qsvg svg create -W 800 -H 600 --commands-file draw.json -o chart.svg
+qsvg svg to-png chart.svg -W 400 -H 300 -o chart.png
+qsvg svg to-pdf chart.svg -o chart.pdf
+qsvg image resize chart.png --target-width 200 --target-height 150 -o thumb.png
+qsvg text render 'Hello' --family 'DejaVu Sans' --size 18 -o label.png
+.fi
+.SH SEE ALSO
+.BR qore (1)
+.br
+Use qsvg CATEGORY ACTION --help for action-specific arguments.
