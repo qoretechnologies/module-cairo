@@ -193,7 +193,7 @@ if (DOXYGEN_FOUND)
     # Create final-pass Doxyfile from the binary module's Doxyfile with user module tag files
     configure_file(${CMAKE_BINARY_DIR}/Doxyfile ${CMAKE_BINARY_DIR}/Doxyfile.final COPYONLY)
     file(APPEND ${CMAKE_BINARY_DIR}/Doxyfile.final
-        "\n# Final pass: enable user module cross-references and re-enable doc error warnings\nTAGFILES = ${CMAKE_BINARY_DIR}/CairoDataProvider.tag=../../CairoDataProvider/html\nWARN_IF_DOC_ERROR = YES\n")
+        "\n# Final pass: enable user module cross-references and re-enable doc error warnings\nTAGFILES += \"${CMAKE_BINARY_DIR}/CairoDataProvider.tag=../../CairoDataProvider/html\"\nWARN_IF_DOC_ERROR = YES\n")
 
     add_custom_target(docs-module-final
         COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/Doxyfile.final
