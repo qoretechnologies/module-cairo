@@ -546,6 +546,8 @@ module CairoDataProvider {
 
     @section cairodataproviderintro CairoDataProvider Module Introduction
 
+    <img src="cairo-logo.svg" width="96" alt="CairoDataProvider module logo"/>
+
     The CairoDataProvider module exposes Cairo vector graphics operations through
     the Qore DataProvider API.
 
