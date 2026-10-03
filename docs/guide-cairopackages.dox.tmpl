@@ -1,0 +1,39 @@
+/* Copyright (C) 2026 Qore Technologies, s.r.o. */
+
+/** @page cairopackagesguide OS Packages
+
+    @tableofcontents
+
+    @section cairopackages_ubuntu Ubuntu
+
+    @code{.bash}
+sudo apt-get update
+sudo apt-get install -y cmake pkg-config libcairo2-dev
+# Optional: SVG input support
+sudo apt-get install -y librsvg2-dev
+    @endcode
+
+    @section cairopackages_alpine Alpine
+
+    @code{.bash}
+sudo apk add --no-cache cmake pkgconfig cairo-dev
+# Optional: SVG input support
+sudo apk add --no-cache librsvg-dev
+    @endcode
+
+    @section cairopackages_fedora Fedora
+
+    @code{.bash}
+sudo dnf install -y cmake pkgconf-pkg-config cairo-devel
+# Optional: SVG input support
+sudo dnf install -y librsvg2-devel
+    @endcode
+
+    @section cairopackages_macports MacPorts
+
+    @code{.bash}
+sudo port install cmake pkgconfig cairo
+# Optional: SVG input support
+sudo port install librsvg
+    @endcode
+*/

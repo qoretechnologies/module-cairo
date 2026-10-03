@@ -97,6 +97,13 @@ set(QMOD
 
 set(QORE_DOX_TMPL_SRC
   docs/mainpage.dox.tmpl
+    docs/guide-cairoclasses.dox.tmpl
+    docs/guide-cairodataprov.dox.tmpl
+    docs/guide-cairodeps.dox.tmpl
+    docs/guide-cairofeatures.dox.tmpl
+    docs/guide-cairohashdecls.dox.tmpl
+    docs/guide-cairopackages.dox.tmpl
+    docs/guide-cairoreleasenotes.dox.tmpl
 )
 
 add_library(${module_name} MODULE ${CPP_SRC} ${QPP_SOURCES})
@@ -138,7 +145,9 @@ if (RSVG_FOUND)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${RSVG_CFLAGS}")
 endif()
 
-set(MODULE_DOX_INPUT ${CMAKE_BINARY_DIR})
+set(QORE_DOXYGEN_IMAGES
+    "${CMAKE_SOURCE_DIR}/qlib/CairoDataProvider/cairo-logo.svg"
+)
 qore_external_binary_module(${module_name} ${PROJECT_VERSION})
 
 qore_dist(${PROJECT_VERSION})
@@ -181,27 +190,5 @@ if (DOXYGEN_FOUND)
     add_custom_target(QORE_MOD_DOX_FILES DEPENDS ${QORE_DOX_SRC})
     add_dependencies(docs-module QORE_MOD_DOX_FILES)
 
-    # Two-phase doc build: the initial pass (docs-module) generates cairo.tag with empty
-    # TAGFILES. User module docs (docs-CairoDataProvider) are then built using cairo.tag,
-    # generating their own tag files. The final pass (docs-module-final) rebuilds the binary
-    # module docs with user module tag files in TAGFILES, enabling @ref cross-references
-    # from the mainpage into user module symbols.
-
-    # Suppress unresolved cross-reference warnings in the initial pass
-    file(APPEND ${CMAKE_BINARY_DIR}/Doxyfile "\n# Suppress warnings for initial pass (no user module TAGFILES available)\nWARN_IF_DOC_ERROR = NO\n")
-
-    # Create final-pass Doxyfile from the binary module's Doxyfile with user module tag files
-    configure_file(${CMAKE_BINARY_DIR}/Doxyfile ${CMAKE_BINARY_DIR}/Doxyfile.final COPYONLY)
-    file(APPEND ${CMAKE_BINARY_DIR}/Doxyfile.final
-        "\n# Final pass: enable user module cross-references and re-enable doc error warnings\nTAGFILES += \"${CMAKE_BINARY_DIR}/CairoDataProvider.tag=../../CairoDataProvider/html\"\nWARN_IF_DOC_ERROR = YES\n")
-
-    add_custom_target(docs-module-final
-        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/Doxyfile.final
-        COMMAND ${CMAKE_COMMAND} -E env ${QORE_DOCS_ENV} ${QORE_QDX_COMMAND} --post ${CMAKE_BINARY_DIR}/docs/${module_name}/html ${CMAKE_BINARY_DIR}/docs/${module_name}/html/search
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        COMMENT "Generating API documentation with Doxygen (final pass with user module cross-references)"
-        VERBATIM
-    )
-    add_dependencies(docs-module-final docs-CairoDataProvider)
-    add_dependencies(docs docs-module-final)
+    qore_binary_module_two_phase_docs(${module_name} "CairoDataProvider")
 endif()
