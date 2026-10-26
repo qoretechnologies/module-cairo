@@ -37,7 +37,7 @@ QoreCairoSurface::QoreCairoSurface(const std::string& path, double width, double
         xsink->raiseException("CAIRO-ERROR", "surface dimensions must be positive (%.2f x %.2f)", width, height);
         return;
     }
-    QoreSandboxManagerHelper smh;
+    QoreSandboxManagerHelper smh(QoreSandboxManagerHelper::Policy);
     if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_WRITE | QSEC_CREATE, xsink)) {
         return;
     }
@@ -66,7 +66,7 @@ QoreCairoSurface::QoreCairoSurface(const std::string& path, double width, double
         xsink->raiseException("CAIRO-ERROR", "surface dimensions must be positive (%.2f x %.2f)", width, height);
         return;
     }
-    QoreSandboxManagerHelper smh;
+    QoreSandboxManagerHelper smh(QoreSandboxManagerHelper::Policy);
     if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_WRITE | QSEC_CREATE, xsink)) {
         return;
     }
@@ -101,7 +101,7 @@ QoreCairoSurface::QoreCairoSurface(int width, int height, cairo_format_t format,
 
 // Image surface from PNG file
 QoreCairoSurface::QoreCairoSurface(const std::string& path, ExceptionSink* xsink) : type(CST_IMAGE) {
-    QoreSandboxManagerHelper smh;
+    QoreSandboxManagerHelper smh(QoreSandboxManagerHelper::Policy);
     if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_READ, xsink)) {
         return;
     }
@@ -153,7 +153,7 @@ QoreCairoSurface::QoreCairoSurface(const std::string& path, double width, double
         xsink->raiseException("CAIRO-ERROR", "surface dimensions must be positive (%.2f x %.2f)", width, height);
         return;
     }
-    QoreSandboxManagerHelper smh;
+    QoreSandboxManagerHelper smh(QoreSandboxManagerHelper::Policy);
     if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_WRITE | QSEC_CREATE, xsink)) {
         return;
     }
@@ -224,7 +224,7 @@ void QoreCairoSurface::writeToPng(const std::string& path, ExceptionSink* xsink)
         xsink->raiseException("CAIRO-ERROR", "writeToPng is only available for image and recording surfaces");
         return;
     }
-    QoreSandboxManagerHelper smh;
+    QoreSandboxManagerHelper smh(QoreSandboxManagerHelper::Policy);
     if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_WRITE | QSEC_CREATE, xsink)) {
         return;
     }

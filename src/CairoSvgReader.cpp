@@ -31,7 +31,7 @@
 #ifdef HAVE_RSVG
 
 QoreCairoSvgReader::QoreCairoSvgReader(const std::string& path, ExceptionSink* xsink) {
-    QoreSandboxManagerHelper smh;
+    QoreSandboxManagerHelper smh(QoreSandboxManagerHelper::Policy);
     if (smh && !smh->checkFilesystemAccess(path.c_str(), QSEC_READ, xsink)) {
         return;
     }
