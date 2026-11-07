@@ -722,9 +722,9 @@ class CairoDataProviderTest inherits QUnit::Test {
     }
 
     private testInvalidEnumValues() {
-        # Invalid pixel format - caught by DataProvider allowed_values validation
+        # Invalid pixel format - refused by the allowed values of the request type
         auto img_dp = root.getChildProvider("image").getChildProvider("create");
-        assertThrows("RUNTIME-TYPE-ERROR", sub () {
+        assertThrows("TYPE-VALUE-ERROR", "field \"format\" does not accept value \"INVALID\"", sub () {
             img_dp.doRequest({
                 "width": 32,
                 "height": 32,
@@ -1471,9 +1471,9 @@ class CairoDataProviderTest inherits QUnit::Test {
     }
 
     private testNegativeValidation() {
-        # Invalid slant value for text measurement - caught by DataProvider allowed_values
+        # Invalid slant value for text measurement - refused by the allowed values of the request type
         auto text_dp = root.getChildProvider("text").getChildProvider("measure");
-        assertThrows("RUNTIME-TYPE-ERROR", sub () {
+        assertThrows("TYPE-VALUE-ERROR", "field \"slant\" does not accept value \"invalid_slant\"", sub () {
             text_dp.doRequest({
                 "text": "Hello",
                 "slant": "invalid_slant",
@@ -1481,7 +1481,7 @@ class CairoDataProviderTest inherits QUnit::Test {
         });
 
         # Invalid weight value for text measurement
-        assertThrows("RUNTIME-TYPE-ERROR", sub () {
+        assertThrows("TYPE-VALUE-ERROR", "field \"weight\" does not accept value \"invalid_weight\"", sub () {
             text_dp.doRequest({
                 "text": "Hello",
                 "weight": "invalid_weight",
@@ -1490,7 +1490,7 @@ class CairoDataProviderTest inherits QUnit::Test {
 
         # Invalid slant for font metrics
         auto font_dp = root.getChildProvider("text").getChildProvider("get-font-metrics");
-        assertThrows("RUNTIME-TYPE-ERROR", sub () {
+        assertThrows("TYPE-VALUE-ERROR", "field \"slant\" does not accept value \"invalid_slant\"", sub () {
             font_dp.doRequest({
                 "slant": "invalid_slant",
             });
