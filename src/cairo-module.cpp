@@ -36,6 +36,9 @@ static void cairo_module_init(QoreModuleInitContext& ctx, ExceptionSink& xsink);
 static void cairo_module_ns_init(QoreNamespace* rns, QoreNamespace* qns, ExceptionSink& xsink);
 static void cairo_module_delete();
 
+// the module's namespace; purged when the module is deleted (see QoreModuleInfo::ns)
+QoreNamespace CairoNs("Qore::Cairo");
+
 extern "C" DLLEXPORT void cairo_qore_module_desc(QoreModuleInfo& mod_info) {
     mod_info.name = "cairo";
     mod_info.version = "1.0.0";
@@ -47,6 +50,10 @@ extern "C" DLLEXPORT void cairo_qore_module_desc(QoreModuleInfo& mod_info) {
     mod_info.init = cairo_module_init;
     mod_info.ns_init = cairo_module_ns_init;
     mod_info.del = cairo_module_delete;
+#ifdef QORE_HAS_MODULE_NS_PURGE
+    // the namespace is purged when the module is deleted, before the types are freed (see QoreModuleInfo::ns)
+    mod_info.ns = &CairoNs;
+#endif
     mod_info.license = QL_MIT;
     mod_info.license_str = "MIT";
 }
@@ -57,8 +64,6 @@ const TypedHashDecl* hashdeclCairoTextExtents = nullptr;
 const TypedHashDecl* hashdeclCairoFontExtents = nullptr;
 const TypedHashDecl* hashdeclCairoPoint = nullptr;
 const TypedHashDecl* hashdeclCairoPathExtents = nullptr;
-
-QoreNamespace CairoNs("Qore::Cairo");
 
 static void cairo_module_init(QoreModuleInitContext& ctx, ExceptionSink& xsink) {
     hashdeclCairoSurfaceInfo = init_hashdecl_CairoSurfaceInfo(CairoNs);
