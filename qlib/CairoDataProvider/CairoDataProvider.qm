@@ -604,6 +604,14 @@ module CairoDataProvider {
 
     @par Render text to PNG
     @verbatim qdp 'cairo{}/text/render' text="Hello World",size=48,weight=bold,output_path=hello.png @endverbatim
+
+    @subpage cairodataproviderreleasenotes
+*/
+
+/** @page cairodataproviderreleasenotes CairoDataProvider Release Notes
+
+    @section cairodataproviderv10 CairoDataProvider Module Version 1.0
+    - initial release
 */
 
 public namespace CairoDataProvider {
