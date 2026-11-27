@@ -1,0 +1,454 @@
+#!/usr/bin/env qore
+# -*- mode: qore; indent-tabs-mode: nil -*-
+
+/*
+    Qore CairoDataProvider caller file access test
+
+    Copyright (C) 2026 Qore Technologies, s.r.o.
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+*/
+
+%modern
+%prepend-module-path "${SCRIPT_DIR}/../qlib"
+
+%requires QUnit
+%requires Util
+%requires FsUtil
+%requires DataProvider
+%requires cairo
+%requires CairoDataProvider
+
+%exec-class CallerFileAccessTest
+
+#! Tests that the paths that restricted callers give the Cairo actions are refused before they are used (module-cairo#9)
+/** Library code runs with its own Program's options, so the actions refuse a path or location in a request if the
+    calling code is restricted from the file system, also if a host-created provider was lent to that code: a
+    Program with PO_NO_FILESYSTEM is refused with PERMISSION-DENIED, a Program whose sandbox denies the file system by
+    default with FILESYSTEM-ACCESS-DENIED (its file-system policy, when the file is opened), and a location is refused
+    for a Program restricted from a domain of its scheme's handler; nothing is written.  The public helper methods of
+    CairoActionBase refuse restricted callers too.  Requests without paths
+    still work for restricted callers, and unrestricted callers use the paths.
+*/
+class CallerFileAccessTest inherits QUnit::Test {
+    private {
+        const Modes = {"ast": EM_AST, "ir": EM_IR, "jit": EM_JIT, "tiered": EM_TIERED};
+
+        const Source = "%modern
+%requires DataProvider
+%requires cairo
+%requires CairoDataProvider
+
+# runs the given use and returns \"ok\" or the error
+string sub run(code c) {
+    try {
+        c();
+        return \"ok\";
+    } catch (hash<ExceptionInfo> ex) {
+        return ex.err;
+    }
+}
+
+# returns the provider at the given path below the given provider
+AbstractDataProvider sub get_child(AbstractDataProvider dp, string path) {
+    foreach string seg in (path.split(\"/\")) {
+        dp = dp.getChildProviderEx(seg);
+    }
+    return dp;
+}
+
+# makes a request with a provider that this Program creates
+string sub request(string path, hash<auto> req) {
+    return run(sub () { get_child(new CairoDataProvider(), path).doRequest(req); });
+}
+
+# calls a public helper of CairoActionBase with the given path
+string sub helper(string what, string path, binary data) {
+    return run(sub () {
+        switch (what) {
+            case \"write\":
+                CairoActionBase::writeBinaryFile(path, data);
+                break;
+            case \"load\":
+                CairoActionBase::loadBinaryData({\"input_path\": path});
+                break;
+            case \"output\":
+                CairoActionBase::makeOutputResponse(data, {\"output_path\": path});
+                break;
+            case \"output-overwrite\":
+                CairoActionBase::makeOutputResponse(data, {\"input_path\": path, \"overwrite\": True});
+                break;
+            case \"draw\":
+            case \"draw-location\":
+            case \"draw-mask\": {
+                CairoSurface surface = CairoSurface::createImage(4, 4);
+                hash<auto> cmd = what == \"draw-location\"
+                    ? {\"op\": \"image\", \"location\": path}
+                    : {\"op\": (what == \"draw\" ? \"image\" : \"mask_surface\"), \"path\": path};
+                CairoActionBase::executeDrawCommands(new CairoContext(surface), (cmd,));
+                break;
+            }
+            default:
+                throw \"TEST-ERROR\", what;
+        }
+    });
+}
+
+# makes a request with a provider that the host created
+string sub lent_request(AbstractDataProvider dp, hash<auto> req) {
+    return run(sub () { dp.doRequest(req); });
+}
+";
+    }
+
+    private {
+        #! the directory of the test
+        string dir;
+        #! a PNG image
+        string image;
+        #! the image's data
+        binary image_data;
+        #! the output file
+        string out;
+        #! an SVG image
+        string svg;
+        #! the SVG image's data
+        binary svg_data;
+        #! a path that does not exist
+        string missing;
+    }
+
+    constructor() : QUnit::Test("CallerFileAccess", "1.0", \ARGV) {
+        dir = make_tmp_dir("cairo-caller-file-access-");
+        out = dir + "/out.png";
+        image = dir + "/image.png";
+        svg = dir + "/image.svg";
+        missing = dir + "/missing.png";
+        # a relative path is used in the current directory
+        mkdir(dir + "/cwd");
+        chdir(dir + "/cwd");
+        CairoSurface surface = CairoSurface::createImage(4, 4);
+        CairoContext ctx(surface);
+        ctx.setSourceRgb(1.0, 0.0, 0.0);
+        ctx.paint();
+        image_data = surface.writeToPngData();
+        resetImage();
+        svg_data = binary("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"10\" height=\"10\">"
+            "<rect x=\"2\" y=\"2\" width=\"4\" height=\"4\"/></svg>");
+        resetSvg();
+
+        foreach string mode in (keys Modes) {
+            string m = mode;
+            addTestCase("restricted callers, " + m, sub () { testRestricted(m); });
+            addTestCase("lent providers, " + m, sub () { testLent(m); });
+            addTestCase("requests without paths, " + m, sub () { testNoPaths(m); });
+            addTestCase("network locations, " + m, sub () { testNetworkLocations(m); });
+            addTestCase("helper methods, " + m, sub () { testHelpers(m); });
+            addTestCase("location options, " + m, sub () { testLocationOptions(m); });
+        }
+        set_return_value(main());
+    }
+
+    destructor() {
+        if (dir) {
+            remove_tree(dir);
+        }
+    }
+
+    #! returns the requests with paths: action path, description, request
+    /** @param image the image that the requests read; a missing file shows that a request is refused before it is
+        read
+    */
+    private list<list<auto>> getPathRequests(*string img) {
+        string image = img ?? self.image;
+        list<hash<auto>> cmds = ({"op": "paint"},);
+        return (
+            ("image/create", "output_path", {"width": 4, "height": 4, "commands": cmds, "output_path": out}),
+            ("image/create", "output_location", {"width": 4, "height": 4, "commands": cmds,
+                "output_location": "file://" + out}),
+            ("image/create", "image command path", {"width": 4, "height": 4, "commands": ({"op": "image",
+                "path": image},)}),
+            ("image/create", "image command location", {"width": 4, "height": 4, "commands": ({"op": "image",
+                "location": "file://" + image},)}),
+            ("image/create", "mask_surface command path", {"width": 4, "height": 4, "commands": ({"op":
+                "mask_surface", "path": image},)}),
+            ("image/get-info", "input_path", {"input_path": image}),
+            ("image/get-info", "location", {"location": "file://" + image}),
+            ("image/get-info", "plain location", {"location": image}),
+            ("image/draw", "input_path", {"input_path": image, "commands": cmds}),
+            ("image/draw", "command path", {"data": image_data, "commands": ({"op": "image", "path": image},)}),
+            ("image/draw", "overwrite", {"input_path": image, "commands": cmds, "overwrite": True}),
+            ("image/resize", "input_path", {"input_path": image, "target_width": 2, "target_height": 2}),
+            ("image/resize", "output_path", {"data": image_data, "target_width": 2, "target_height": 2,
+                "output_path": out}),
+            ("image/crop", "input_path", {"input_path": image, "x": 0, "y": 0, "crop_width": 2,
+                "crop_height": 2}),
+            ("image/composite", "base_input_path", {"base_input_path": image, "overlay_data": image_data}),
+            ("image/composite", "overlay_input_path", {"base_data": image_data, "overlay_input_path": image}),
+            ("image/composite", "base_location", {"base_location": "file://" + image,
+                "overlay_data": image_data}),
+            ("image/composite", "overlay_location", {"base_data": image_data,
+                "overlay_location": "file://" + image}),
+            ("image/rotate", "input_path", {"input_path": image, "angle": 90}),
+            ("image/to-svg", "input_path", {"input_path": image}),
+            ("image/to-ps", "location", {"location": "file://" + image}),
+            ("image/to-eps", "output_location", {"data": image_data, "output_location": "file://" + out}),
+            ("svg/create", "output_path", {"width": 4.0, "height": 4.0, "commands": cmds, "output_path": out}),
+            ("svg/create", "command path", {"width": 4.0, "height": 4.0, "commands": ({"op": "image",
+                "path": image},)}),
+            ("postscript/create", "output_path", {"width": 4.0, "height": 4.0, "commands": cmds,
+                "output_path": out}),
+            ("text/render", "output_path", {"text": "x", "output_path": out}),
+        ) + (CairoSvgReader::isAvailable()
+            ? (
+                # svg/center overwrites its input by default
+                ("svg/center", "input_path", {"input_path": svg}),
+            )
+            : ()
+        ) + (CairoSurface::isPdfAvailable()
+            ? (
+                ("pdf/create", "output_path", {"width": 4.0, "height": 4.0, "commands": cmds, "output_path": out}),
+            )
+            : ());
+    }
+
+    #! paths given by restricted callers are refused before they are used; unrestricted callers use them
+    private testRestricted(string mode) {
+        # a failed case before this one can leave outputs
+        reset();
+        foreach list<auto> r in (getPathRequests()) {
+            string desc = sprintf("%s %s %s", r[0], r[1], mode);
+            assertEq("PERMISSION-DENIED", getProgram("nofs", mode).callFunction("request", r[0], r[2]),
+                "nofs " + desc);
+            checkUnchanged("nofs " + desc);
+            # the file-system policy of the sandbox refuses the file when it is opened
+            assertEq("FILESYSTEM-ACCESS-DENIED", getProgram("sandbox", mode).callFunction("request", r[0], r[2]),
+                "sandbox " + desc);
+            checkUnchanged("sandbox " + desc);
+            assertEq("ok", getProgram("unrestricted", mode).callFunction("request", r[0], r[2]),
+                "unrestricted " + desc);
+            reset();
+        }
+        # the requests are refused before the file is read: a missing file would raise another error
+        foreach list<auto> r in (getPathRequests(missing)) {
+            string desc = sprintf("%s %s %s", r[0], r[1], mode);
+            assertEq("PERMISSION-DENIED", getProgram("nofs", mode).callFunction("request", r[0], r[2]),
+                "nofs missing " + desc);
+            assertEq("PERMISSION-DENIED", getProgram("nofs", mode).callFunction("lent_request", getLeaf(r[0]), r[2]),
+                "nofs lent missing " + desc);
+        }
+    }
+
+    #! paths given by the restricted code that a host-created provider was lent to are refused
+    /** The host creates the action's provider itself: a provider that a method of a lent provider of another module
+        (DataProvider's AbstractDataProvider::getChildProviderEx()) creates is not lent
+    */
+    private testLent(string mode) {
+        # a failed case before this one can leave outputs
+        reset();
+        foreach list<auto> r in (getPathRequests()) {
+            string desc = sprintf("%s %s %s", r[0], r[1], mode);
+            assertEq("PERMISSION-DENIED", getProgram("nofs", mode).callFunction("lent_request", getLeaf(r[0]), r[2]),
+                "nofs lent " + desc);
+            checkUnchanged("nofs lent " + desc);
+            assertEq("FILESYSTEM-ACCESS-DENIED", getProgram("sandbox", mode).callFunction("lent_request",
+                getLeaf(r[0]), r[2]), "sandbox lent " + desc);
+            checkUnchanged("sandbox lent " + desc);
+            assertEq("ok", getProgram("unrestricted", mode).callFunction("lent_request", getLeaf(r[0]), r[2]),
+                "unrestricted lent " + desc);
+            reset();
+        }
+    }
+
+    #! a location is refused if the calling code is restricted from a functional domain of the handler of its scheme
+    /** For a direct caller, FileLocationHandler refuses such a location itself; the lent cases show the module's check
+    */
+    private testNetworkLocations(string mode) {
+        # the refusal comes before any connection: nothing listens on the port
+        string url = "http://127.0.0.1:1/image.png";
+        foreach list<auto> r in ((
+                ("image/get-info", {"location": url}),
+                ("image/create", {"width": 4, "height": 4, "commands": ({"op": "image", "location": url},)}),
+                ("image/create", {"width": 4, "height": 4, "commands": ({"op": "paint"},), "output_location": url}),
+            )) {
+            string desc = sprintf("%s %s", r[0], mode);
+            assertEq("PERMISSION-DENIED", getProgram("nonet", mode).callFunction("request", r[0], r[1]),
+                "nonet " + desc);
+            assertEq("PERMISSION-DENIED", getProgram("nonet", mode).callFunction("lent_request", getLeaf(r[0]),
+                r[1]), "nonet lent " + desc);
+        }
+    }
+
+    #! the locations that restricted callers may use, the options of locations and the options of conn locations
+    private testLocationOptions(string mode) {
+        # a file location for code restricted only from the network
+        assertEq("ok", getProgram("nonet", mode).callFunction("request", "image/get-info",
+            {"location": "file://" + image}),
+            "nonet file location " + mode);
+        assertEq("ok", getProgram("nonet", mode).callFunction("lent_request", getLeaf("image/get-info"),
+            {"location": "file://" + image}), "nonet lent file location " + mode);
+        # a network location for code restricted only from the file system: refused by the network, not by the module
+        string url = "http://127.0.0.1:1/x";
+        assertNeq("PERMISSION-DENIED", getProgram("nofs", mode).callFunction("request", "image/get-info",
+            {"location": url}),
+            "nofs http location " + mode);
+        assertNeq("PERMISSION-DENIED", getProgram("nofs", mode).callFunction("lent_request", getLeaf("image/get-info"),
+            {"location": url}), "nofs lent http location " + mode);
+        # an option of a network location that names a local file
+        url = "https://127.0.0.1:1/x{ssl_cert_path=/etc/hostname}";
+        assertEq("PERMISSION-DENIED", getProgram("nofs", mode).callFunction("request", "image/get-info",
+            {"location": url}),
+            "nofs https location with a file option " + mode);
+        assertEq("PERMISSION-DENIED", getProgram("nofs", mode).callFunction("lent_request", getLeaf("image/get-info"),
+            {"location": url}), "nofs lent https location with a file option " + mode);
+        # the options of a conn location are given to the handler of its connection, which does not see the code that
+        # a provider was lent to
+        url = "conn://no-such-connection/x{ssl_cert_path=/etc/hostname}";
+        assertEq("PERMISSION-DENIED", getProgram("nofs", mode).callFunction("lent_request", getLeaf("image/get-info"),
+            {"location": url}), "nofs lent conn location with options " + mode);
+        assertNeq("ok", getProgram("nofs", mode).callFunction("request", "image/get-info", {"location": url}),
+            "nofs conn location with options " + mode);
+        # without options, the connection decides
+        assertNeq("PERMISSION-DENIED", getProgram("nofs", mode).callFunction("lent_request", getLeaf("image/get-info"),
+            {"location": "conn://no-such-connection/x"}), "nofs lent conn location " + mode);
+        # the options of other handlers without domains of their own are not given to another handler
+        assertNeq("PERMISSION-DENIED", getProgram("nofs", mode).callFunction("lent_request", getLeaf("image/get-info"),
+            {"location": "data://abc{encoding_errors=strict}"}), "nofs lent data location with options " + mode);
+        # options that cannot be parsed
+        assertEq("LOCATION-ERROR", getProgram("nofs", mode).callFunction("lent_request", getLeaf("image/get-info"),
+            {"location": "file:///x{(1,2)}"}), "nofs lent location with invalid options " + mode);
+    }
+
+    #! the public helper methods of CairoActionBase refuse the paths of restricted callers
+    private testHelpers(string mode) {
+        # a failed case before this one can leave outputs
+        reset();
+        # a path that evaluates to False is a path too
+        foreach list<string> h in (("write", out), ("write", "0"), ("output", out), ("output-overwrite", image),
+                ("load", image), ("draw", image), ("draw-location", "file://" + image), ("draw-mask", image)) {
+            string desc = sprintf("%s %s", h[0], mode);
+            assertEq("PERMISSION-DENIED", getProgram("nofs", mode).callFunction("helper", h[0], h[1], image_data),
+                "nofs helper " + desc);
+            checkUnchanged("nofs helper " + desc);
+            assertEq("ok", getProgram("unrestricted", mode).callFunction("helper", h[0], h[1], image_data),
+                "unrestricted helper " + desc);
+            reset();
+        }
+    }
+
+    #! requests without paths work for restricted callers and with lent providers
+    private testNoPaths(string mode) {
+        # a failed case before this one can leave outputs
+        reset();
+        list<list<auto>> reqs = (
+            ("image/create", {"width": 4, "height": 4, "commands": ({"op": "image", "data": image_data},)}),
+            # the path of a command other than image and mask_surface is not used
+            ("image/create", {"width": 4, "height": 4, "commands": ({"op": "paint", "path": "/etc/hostname"},)}),
+            ("image/get-info", {"data": image_data}),
+            ("image/resize", {"data": image_data, "target_width": 2, "target_height": 2}),
+            ("image/composite", {"base_data": image_data, "overlay_data": image_data}),
+            ("svg/create", {"width": 4.0, "height": 4.0, "commands": ({"op": "paint"},)}),
+            ("text/render", {"text": "x"}),
+            ("text/measure", {"text": "x"}),
+        );
+        foreach list<auto> r in (reqs) {
+            foreach string kind in ("nofs", "sandbox") {
+                string desc = sprintf("%s %s %s", kind, r[0], mode);
+                assertEq("ok", getProgram(kind, mode).callFunction("request", r[0], r[1]), desc);
+                assertEq("ok", getProgram(kind, mode).callFunction("lent_request", getLeaf(r[0]), r[1]),
+                    "lent " + desc);
+            }
+        }
+        checkUnchanged("no paths " + mode);
+    }
+
+    #! returns the action's provider, created by the host: the provider that the host lends to the restricted code
+    private static AbstractDataProvider getLeaf(string path) {
+        AbstractDataProvider dp = new CairoDataProvider();
+        foreach string seg in (path.split("/")) {
+            dp = dp.getChildProviderEx(seg);
+        }
+        return dp;
+    }
+
+    #! checks that nothing was written
+    private checkUnchanged(string desc) {
+        assertFalse(is_file(out), "nothing written: " + desc);
+        assertFalse(exists hstat("0"), "nothing written to a relative path: " + desc);
+        assertEq(image_data, ReadOnlyFile::readBinaryFile(image), "image unchanged: " + desc);
+        assertEq(svg_data, ReadOnlyFile::readBinaryFile(svg), "SVG image unchanged: " + desc);
+        assertFalse(exists hstat(missing), "no missing file created: " + desc);
+    }
+
+    #! removes the outputs and restores the image
+    private reset() {
+        if (is_file(out)) {
+            unlink(out);
+        }
+        if (is_dir("0")) {
+            remove_tree("0");
+        } else if (exists hstat("0")) {
+            unlink("0");
+        }
+        resetImage();
+        resetSvg();
+    }
+
+    #! writes the SVG image
+    private resetSvg() {
+        File f();
+        f.open2(svg, O_CREAT | O_WRONLY | O_TRUNC);
+        f.write(svg_data);
+        f.close();
+    }
+
+    #! writes the image
+    private resetImage() {
+        File f();
+        f.open2(image, O_CREAT | O_WRONLY | O_TRUNC);
+        f.write(image_data);
+        f.close();
+    }
+
+    #! returns a Program of the given kind
+    private Program getProgram(string kind, string mode) {
+        Program p;
+        switch (kind) {
+            case "nofs":
+                p = new Program(PO_NEW_STYLE | PO_NO_FILESYSTEM);
+                break;
+            case "nonet":
+                p = new Program(PO_NEW_STYLE | PO_NO_NETWORK);
+                break;
+            case "sandbox": {
+                SandboxManager sm();
+                sm.setFilesystemDefaultPolicy(False);
+                p = new Program(PO_NEW_STYLE);
+                p.setSandboxManager(sm);
+                break;
+            }
+            default:
+                p = new Program(PO_NEW_STYLE);
+                break;
+        }
+        p.setExecMode(Modes{mode});
+        p.parse(Source, kind);
+        return p;
+    }
+}

@@ -11,6 +11,10 @@
     See the @ref cairodataproviderintro "CairoDataProvider
     module documentation" for complete API reference.
 
+    The paths and locations in a request, also those of the draw commands, are refused with \c PERMISSION-DENIED
+    before they are used if the calling code is restricted from the file system, also when the host created the
+    provider and gave it to that code; see @ref cairodataprovider_caller_paths "Paths Given by Restricted Callers".
+
     @section cairodp_actions Data Provider Actions
 
     <b>SVG actions:</b>

@@ -30,7 +30,14 @@ public namespace CairoDataProvider {
 */
 public class CairoActionBase inherits AbstractDataProvider {
     #! Loads binary data from a request hash (input_path, data, or location)
+    /**
+        @throw PERMISSION-DENIED the calling code (also the code that a host-created provider was lent to) is restricted
+        from the \c FILESYSTEM functional domain, or from a functional domain of the handler of a location; see
+        checkCallerPaths()
+    */
     static binary loadBinaryData(hash<auto> req) {
+        # the path and location are the caller's input (also when this public method is called directly)
+        CairoActionBase::checkCallerPaths(req, ("input_path",), ("location",));
         if (req.data) {
             return req.data;
         }
@@ -54,8 +61,16 @@ public class CairoActionBase inherits AbstractDataProvider {
         @param out_data the output binary data
         @param req the original request hash
         @return response hash with output_path, output_location, data, and size
+
+        @throw PERMISSION-DENIED the calling code (also the code that a host-created provider was lent to) is restricted
+        from the \c FILESYSTEM functional domain, or from a functional domain of the handler of a location; see
+        checkCallerPaths()
     */
     static hash<auto> makeOutputResponse(binary out_data, hash<auto> req) {
+        # the paths and location are the caller's input (also when this public method is called directly); with
+        # overwrite, the input file is written
+        CairoActionBase::checkCallerPaths(req, req.overwrite ? ("output_path", "input_path") : ("output_path",),
+            ("output_location",));
         hash<auto> response = {};
 
         # Write to output_path if specified
@@ -96,8 +111,15 @@ public class CairoActionBase inherits AbstractDataProvider {
     #! Executes a list of draw commands on a CairoContext
     /** @param ctx the Cairo drawing context
         @param commands list of draw command hashes, each with an "op" key
+
+        @throw PERMISSION-DENIED the calling code (also the code that a host-created provider was lent to) is restricted
+        from the \c FILESYSTEM functional domain, or from a functional domain of the handler of a location; see
+        checkCallerPaths()
     */
     static executeDrawCommands(CairoContext ctx, list<hash<auto>> commands) {
+        # the paths and locations of the commands are the caller's input (also when this public method is called
+        # directly): refused before any command is executed
+        CairoActionBase::checkCommandPaths(commands);
         foreach hash<auto> cmd in (commands) {
             if (!cmd.op) {
                 throw "CAIRO-ERROR", "draw command missing 'op' key";
@@ -419,8 +441,160 @@ public class CairoActionBase inherits AbstractDataProvider {
         }
     }
 
+    #! Refuses the filesystem paths and locations of a request if the calling code is restricted from them
+    /** Library code runs with its own %Program's options, so the paths and locations that the calling code gives are
+        refused before anything is read or written if that code is restricted from the \c FILESYSTEM functional
+        domain (for example with \c PO_NO_FILESYSTEM), also when the provider was lent to that code by the host (see
+        @ref Qore::SandboxManager::isLentToRestricted() "SandboxManager::isLentToRestricted()"); a location is refused
+        if that code is restricted from a functional domain that the handler of the location's scheme uses for its
+        caller (see @ref FileLocationHandler::AbstractFileLocationHandler::getCallerDomains()
+        "AbstractFileLocationHandler::getCallerDomains()").
+
+        @param req the request
+        @param paths the fields of the request that are filesystem paths; a field of a nested hash is given with
+        \c "." (ex: \c "commands[0].path" for the field \c "path" of the hash in the field \c "commands[0]"), and
+        \c "[]" after the name of a field that holds a list stands for each of its elements (ex:
+        \c "commands[].path")
+        @param locations the fields of the request that are FileLocationHandler locations, given as \a paths
+
+        @throw LOCATION-ERROR the options of a location cannot be parsed
+        @throw PERMISSION-DENIED the calling code is restricted from the \c FILESYSTEM functional domain or from a
+        functional domain of the handler of a location
+    */
+    static checkCallerPaths(hash<auto> req, list<string> paths, *list<string> locations) {
+        foreach string field in (paths) {
+            foreach auto v in (CairoActionBase::getFieldValues(req, field.split("."))) {
+                if (exists v && SandboxManager::isLentToRestricted(DOM_FILESYSTEM)) {
+                    throw "PERMISSION-DENIED", sprintf("the %y field of the request cannot be used: the calling code "
+                        "is restricted from the FILESYSTEM functional domain", field);
+                }
+            }
+        }
+        foreach string field in (locations) {
+            foreach auto v in (CairoActionBase::getFieldValues(req, field.split("."))) {
+                if (exists v) {
+                    CairoActionBase::checkCallerLocation(field, v);
+                }
+            }
+        }
+    }
+
+    #! Refuses the filesystem paths and locations of draw commands if the calling code is restricted from them
+    /** The \c path and \c location of the \c image and \c mask_surface commands are read for the calling code; see
+        checkCallerPaths()
+
+        @param commands the draw commands
+
+        @throw LOCATION-ERROR the options of a location cannot be parsed
+        @throw PERMISSION-DENIED the calling code is restricted from the \c FILESYSTEM functional domain or from a
+        functional domain of the handler of a location
+    */
+    static checkCommandPaths(auto commands) {
+        if (commands.typeCode() != NT_LIST) {
+            return;
+        }
+        foreach auto cmd in (commands) {
+            if (cmd.typeCode() == NT_HASH && (cmd.op == "image" || cmd.op == "mask_surface")) {
+                string field = sprintf("commands[%d]", $#);
+                CairoActionBase::checkCallerPaths({field: cmd}, (field + ".path",), (field + ".location",));
+            }
+        }
+    }
+
+    #! Returns the values of the given field of a request
+    /** @param v the value to search
+        @param path the components of the field's name; a component that ends in \c "[]" stands for each element of
+        a list
+
+        @return the values found; a value that is not a hash where a hash is expected (or not a list where a list is
+        expected) has no fields
+    */
+    private static list<auto> getFieldValues(auto v, list<string> path) {
+        if (!path) {
+            return (v,);
+        }
+        string key = shift path;
+        bool each = key =~ /\[\]$/;
+        if (each) {
+            splice key, -2;
+        }
+        if (v.typeCode() != NT_HASH) {
+            return ();
+        }
+        auto fv = v{key};
+        if (!each) {
+            return CairoActionBase::getFieldValues(fv, path);
+        }
+        list<auto> rv = ();
+        if (fv.typeCode() == NT_LIST) {
+            foreach auto e in (fv) {
+                rv += CairoActionBase::getFieldValues(e, path);
+            }
+        }
+        return rv;
+    }
+
+    #! Refuses a location given in a request if the calling code is restricted from a functional domain of its handler
+    /** @param field the name of the request field, for the error message
+        @param location the location
+
+        @throw LOCATION-ERROR the options of the location cannot be parsed
+        @throw PERMISSION-DENIED the calling code is restricted from a functional domain of the location's handler
+    */
+    private static checkCallerLocation(string field, string location) {
+        string scheme = (location =~ x/^(\w+):\/\//)[0] ?? "file";
+        AbstractFileLocationHandler handler;
+        try {
+            handler = FileLocationHandler::getHandler(scheme);
+        } catch (hash<ExceptionInfo> ex) {
+            if (ex.err == "SCHEME-ERROR") {
+                # an unknown scheme is refused when the location is used
+                return;
+            }
+            rethrow;
+        }
+        # the options at the end of the location, as FileLocationHandler takes them
+        *hash<auto> opts;
+        *string opt_str = (location =~ x/((?:{).*(?:}))$/)[0];
+        if (opt_str) {
+            auto v = parse_to_qore_value(opt_str);
+            if (v.typeCode() == NT_HASH) {
+                opts = v;
+            } else if (v.strp()) {
+                opts = {v: True};
+            } else {
+                throw "LOCATION-ERROR", sprintf("the options of the location in the %y field of the request cannot be "
+                    "parsed", field);
+            }
+        }
+        int dom = handler.getCallerDomains(scheme, opts);
+        if (dom && SandboxManager::isLentToRestricted(dom)) {
+            throw "PERMISSION-DENIED", sprintf("the %y field of the request cannot be used: the calling code is "
+                "restricted from a functional domain of the handler of %y locations", field, scheme);
+        }
+        # the handler of conn locations has no domains of its own and gives the options that the caller adds to the
+        # handler that it resolves the location to, which judges the calling code as
+        # SandboxManager::isCallerRestricted() does; for the code that a host-created provider was lent to, which that
+        # does not see, the options are refused here if that code is restricted from the file system or the network
+        if (!dom && opts && (scheme == "conn" || scheme == "connection")
+                && ((SandboxManager::isLentToRestricted(DOM_FILESYSTEM)
+                        && !SandboxManager::isCallerRestricted(DOM_FILESYSTEM))
+                    || (SandboxManager::isLentToRestricted(DOM_NETWORK)
+                        && !SandboxManager::isCallerRestricted(DOM_NETWORK)))) {
+            throw "PERMISSION-DENIED", sprintf("the options of the location in the %y field of the request cannot be "
+                "used: the calling code is restricted from the FILESYSTEM or NETWORK functional domain", field);
+        }
+    }
+
     #! Writes binary data to a file
+    /**
+        @throw PERMISSION-DENIED the calling code (also the code that a host-created provider was lent to) is restricted
+        from the \c FILESYSTEM functional domain, or from a functional domain of the handler of a location; see
+        checkCallerPaths()
+    */
     static writeBinaryFile(string path, binary data) {
+        # the path is the caller's input when this public method is called directly
+        CairoActionBase::checkCallerPaths({"path": path}, ("path",));
         File f();
         f.open2(path, O_CREAT | O_WRONLY | O_TRUNC);
         f.write(data);

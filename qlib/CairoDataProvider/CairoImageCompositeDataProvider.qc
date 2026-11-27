@@ -61,6 +61,10 @@ public class CairoImageCompositeDataProvider inherits CairoActionBase {
 
     private auto doRequestImpl(auto req, *hash<auto> request_options) {
         hash<auto> request = req;
+        # the paths and locations in the request are the caller's input, also for the code that a host-created
+        # provider was lent to: refused before anything is read or written if that code is restricted (issue #9)
+        CairoActionBase::checkCallerPaths(request, ("base_input_path", "overlay_input_path", "output_path"),
+            ("base_location", "overlay_location", "output_location"));
         list<string> warnings = ();
 
         float alpha = float(request.alpha ?? 1.0);
