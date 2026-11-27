@@ -62,6 +62,10 @@ public class CairoPostScriptCreateDataProvider inherits CairoActionBase {
 
     private auto doRequestImpl(auto req, *hash<auto> request_options) {
         hash<auto> request = req;
+        # the paths and locations in the request are the caller's input, also for the code that a host-created
+        # provider was lent to: refused before anything is read or written if that code is restricted (issue #9)
+        CairoActionBase::checkCallerPaths(request, ("input_path", "output_path"), ("location", "output_location"));
+        CairoActionBase::checkCommandPaths(request.commands);
 
         float width = float(request.width);
         float height = float(request.height);
